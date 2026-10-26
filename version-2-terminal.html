@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Chartered Repository — Version 2: Bloomberg Terminal Ops</title>
+  
+  <!-- Monospace Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* VERSION SWITCHER */
+    .ui-version-bar {
+      background: #000000;
+      color: #94a3b8;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1e293b;
+      position: relative;
+      z-index: 10000;
+      flex-shrink: 0;
+    }
+    .ui-version-brand { display: flex; align-items: center; gap: 12px; }
+    .ui-version-tag {
+      background: #f59e0b;
+      color: #000000;
+      font-weight: 700;
+      font-size: 10px;
+      padding: 2px 5px;
+    }
+    .ui-version-sub { color: #64748b; }
+    .ui-version-nav { display: flex; align-items: center; gap: 2px; }
+    .ui-version-link {
+      color: #94a3b8;
+      text-decoration: none;
+      padding: 5px 8px;
+      border: 1px solid transparent;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .ui-version-link:hover { color: #f8fafc; border-color: #334155; }
+    .ui-version-link.active {
+      background: #1e293b;
+      color: #38bdf8;
+      border-color: #38bdf8;
+      font-weight: 700;
+    }
+
+    /* PHILOSOPHY 2: BLOOMBERG / FINANCIAL TERMINAL */
+    :root {
+      --term-bg: #07090e;
+      --term-surface: #0c1017;
+      --term-panel: #111722;
+      --term-border: #1e2838;
+      --term-border-glow: #2d3c54;
+      
+      --amber: #f59e0b;
+      --amber-dim: #78350f;
+      --green: #10b981;
+      --green-dim: #064e3b;
+      --cyan: #38bdf8;
+      --cyan-dim: #0c4a6e;
+      --red: #ef4444;
+      
+      --text-bright: #f8fafc;
+      --text-main: #cbd5e1;
+      --text-muted: #64748b;
+      --text-faint: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 !important; /* Zero roundness in terminal */
+    }
+
+    body {
+      background: var(--term-bg);
+      color: var(--text-main);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.4;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Terminal Masthead Bar */
+    .term-masthead {
+      background: #000000;
+      border-bottom: 1px solid var(--term-border);
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .term-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .term-logo {
+      color: var(--amber);
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: -0.5px;
+    }
+    .term-status-pill {
+      color: var(--green);
+      font-size: 10px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--green-dim);
+      padding: 2px 6px;
+    }
+    .term-telemetry {
+      color: var(--text-muted);
+      font-size: 11px;
+      display: flex;
+      gap: 16px;
+    }
+    .term-telemetry span strong {
+      color: var(--cyan);
+    }
+
+    /* Command / Action Bar */
+    .term-cmd-bar {
+      background: var(--term-surface);
+      border-bottom: 1px solid var(--term-border);
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .term-prompt-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 520px;
+    }
+    .term-prompt {
+      color: var(--amber);
+      font-weight: 700;
+    }
+    .term-input {
+      background: #000000;
+      border: 1px solid var(--term-border);
+      color: var(--text-bright);
+      font-family: inherit;
+      font-size: 11px;
+      padding: 5px 8px;
+      width: 100%;
+      outline: none;
+    }
+    .term-input:focus {
+      border-color: var(--amber);
+      box-shadow: 0 0 4px rgba(245, 158, 11, 0.3);
+    }
+    .term-nav-buttons {
+      display: flex;
+      gap: 6px;
+    }
+    .term-btn {
+      background: var(--term-panel);
+      border: 1px solid var(--term-border);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 11px;
+      padding: 4px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .term-btn:hover {
+      border-color: var(--cyan);
+      color: var(--text-bright);
+    }
+    .term-btn.active {
+      background: var(--cyan-dim);
+      border-color: var(--cyan);
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .term-btn.amber {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+    .term-btn.amber:hover {
+      background: var(--amber);
+      color: #000000;
+    }
+
+    /* Terminal Workspace (Split-Pane Ready) */
+    .term-workspace {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Left Pane: Dense Grid */
+    .term-main-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      border-right: 1px solid var(--term-border);
+    }
+
+    /* Right Pane: Live Document Telemetry Viewer */
+    .term-side-viewer {
+      width: 50%;
+      display: none;
+      flex-direction: column;
+      background: #000000;
+      border-left: 1px solid var(--term-border);
+    }
+    .term-side-viewer.open {
+      display: flex;
+    }
+
+    .term-viewer-bar {
+      background: var(--term-surface);
+      border-bottom: 1px solid var(--term-border);
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .term-viewer-title {
+      color: var(--cyan);
+      font-weight: 600;
+      font-size: 11px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .term-viewer-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .term-pdf-frame {
+      flex: 1;
+      width: 100%;
+      border: none;
+      background: #1e2530;
+    }
+
+    /* Matrix Table */
+    .term-matrix-wrap {
+      overflow-x: auto;
+      padding: 12px 16px;
+    }
+    .term-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid var(--term-border);
+      font-size: 11px;
+    }
+    .term-table th {
+      background: var(--term-panel);
+      border: 1px solid var(--term-border);
+      padding: 6px 4px;
+      color: var(--text-muted);
+      text-align: center;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+    .term-table th:first-child {
+      text-align: left;
+      padding-left: 10px;
+      width: 250px;
+      color: var(--amber);
+      font-weight: 700;
+    }
+    .term-table td {
+      border: 1px solid var(--term-border);
+      padding: 4px;
+      text-align: center;
+      vertical-align: middle;
+      background: var(--term-surface);
+    }
+    .term-table td:first-child {
+      text-align: left;
+      padding-left: 10px;
+      background: var(--term-panel);
+    }
+    .term-table tr:hover td {
+      background: #141c2b;
+    }
+    .term-section-header {
+      background: #000000 !important;
+      color: var(--cyan) !important;
+      font-weight: 700;
+      text-align: left !important;
+      padding: 6px 10px !important;
+      letter-spacing: 0.5px;
+      border-top: 2px solid var(--term-border) !important;
+    }
+
+    /* Telemetry Chips */
+    .term-chip-group {
+      display: inline-flex;
+      gap: 2px;
+    }
+    .term-chip {
+      background: #000000;
+      border: 1px solid var(--term-border);
+      color: var(--cyan);
+      font-family: inherit;
+      font-size: 10px;
+      padding: 2px 5px;
+      cursor: pointer;
+    }
+    .term-chip:hover {
+      border-color: var(--cyan);
+      background: var(--cyan-dim);
+      color: #ffffff;
+    }
+    .term-chip.ans {
+      color: var(--green);
+    }
+    .term-chip.ans:hover {
+      border-color: var(--green);
+      background: var(--green-dim);
+      color: #ffffff;
+    }
+    .term-chip:disabled {
+      color: var(--text-faint);
+      border-color: #121822;
+      background: transparent;
+      cursor: not-allowed;
+    }
+
+    /* Manuals Grid */
+    .term-manuals-section {
+      padding: 12px 16px 40px;
+    }
+    .term-manuals-head {
+      color: var(--amber);
+      font-size: 11px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--term-border);
+      padding-bottom: 4px;
+    }
+    .term-manual-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 8px;
+    }
+    .term-manual-card {
+      background: var(--term-surface);
+      border: 1px solid var(--term-border);
+      padding: 8px 12px;
+    }
+    .term-manual-card:hover {
+      border-color: var(--amber);
+    }
+    .term-manual-title {
+      color: var(--text-bright);
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .term-manual-file {
+      display: flex;
+      justify-content: space-between;
+      padding: 3px 0;
+      border-top: 1px dotted var(--term-border);
+      font-size: 10px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .term-manual-file:hover {
+      color: var(--cyan);
+    }
+
+    /* Bottom Hotkey Help Bar */
+    .term-hotkey-bar {
+      background: #000000;
+      border-top: 1px solid var(--term-border);
+      padding: 4px 16px;
+      font-size: 10px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .term-hotkey-bar kbd {
+      color: var(--amber);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Persistent Version Navigation Bar -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI COMPARATOR</span>
+      <span class="ui-version-sub">6 Radical Architectural Directions</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link"><span class="v-num">01</span> Archival Folio</a>
+      <a href="version-2-terminal.html" class="ui-version-link active"><span class="v-num">02</span> Bloomberg Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link"><span class="v-num">03</span> Swiss Grid</a>
+      <a href="version-4-nordic.html" class="ui-version-link"><span class="v-num">04</span> Nordic Reader</a>
+      <a href="version-5-industrial.html" class="ui-version-link"><span class="v-num">05</span> Raw Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link"><span class="v-num">06</span> Financial Times</a>
+    </nav>
+  </header>
+
+  <!-- Masthead Bar -->
+  <div class="term-masthead">
+    <div class="term-brand">
+      <span class="term-logo">ICAB.DESK // TERMINAL-OS</span>
+      <span class="term-status-pill">FEED: LIVE</span>
+    </div>
+    <div class="term-telemetry">
+      <span>RESOURCES: <strong>266 DOCS</strong></span>
+      <span>DIETS: <strong>13 SESSIONS (2022-2026)</strong></span>
+      <span>SYLLABUS: <strong>2025.REV</strong></span>
+      <span>LATENCY: <strong>0.2ms</strong></span>
+    </div>
+  </div>
+
+  <!-- Command Line & Filters -->
+  <div class="term-cmd-bar">
+    <div class="term-prompt-wrap">
+      <span class="term-prompt">CMD&gt;</span>
+      <input type="text" id="termSearchInput" class="term-input" placeholder="filter papers e.g. 'AA', 'FAR', '2025', 'tax'..." autocomplete="off">
+    </div>
+    <div class="term-nav-buttons">
+      <button class="term-btn active" data-filter="ALL">ALL [F1]</button>
+      <button class="term-btn" data-filter="PL">PL TIER (7)</button>
+      <button class="term-btn" data-filter="AL">AL TIER (3)</button>
+      <button class="term-btn" data-filter="MANUALS">TEXTBOOKS (20)</button>
+      <button class="term-btn amber" id="btnTermSyllabus">SYLLABUS.PDF [S]</button>
+    </div>
+  </div>
+
+  <!-- Workspace: Split View with Terminal Matrix on Left and Live PDF on Right -->
+  <div class="term-workspace">
+    <!-- Main Left Pane -->
+    <div class="term-main-pane">
+      <div class="term-matrix-wrap">
+        <table class="term-table" id="termMatrixTable">
+          <!-- Rendered dynamically -->
+        </table>
+      </div>
+
+      <div class="term-manuals-section" id="termManualsSection">
+        <div class="term-manuals-head">
+          <span>// OFFICIAL PRESCRIBED TEXTBOOKS & VOLUMES</span>
+          <span>CURRICULUM SPECIFICATIONS</span>
+        </div>
+        <div class="term-manual-grid" id="termManualsGrid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Side Telemetry Viewer Pane -->
+    <div class="term-side-viewer" id="termSideViewer">
+      <div class="term-viewer-bar">
+        <span class="term-viewer-title" id="termViewerTitle">NO DOCUMENT MOUNTED</span>
+        <div class="term-viewer-tools">
+          <button class="term-btn" id="btnTermPrev">PREV [←]</button>
+          <button class="term-btn" id="btnTermNext">NEXT [→]</button>
+          <button class="term-btn" id="btnTermToggleQA">TOGGLE Q/A [T]</button>
+          <button class="term-btn" id="btnTermExpand" title="Full tab">POP ↗</button>
+          <button class="term-btn amber" id="btnTermCloseViewer">CLOSE [ESC]</button>
+        </div>
+      </div>
+      <iframe class="term-pdf-frame" id="termPdfFrame" src="about:blank"></iframe>
+    </div>
+  </div>
+
+  <!-- Hotkey Help Bar -->
+  <div class="term-hotkey-bar">
+    <span><kbd>[ESC]</kbd> Close Viewer / Reset</span>
+    <span><kbd>[S]</kbd> Official 2025 Syllabus</span>
+    <span><kbd>[T]</kbd> Toggle Question/Solution</span>
+    <span><kbd>[←/→</kbd> Session Stepper</span>
+    <span><kbd>[/]</kbd> Focus Command Prompt</span>
+  </div>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    let currentSessionData = null;
+    let currentDocType = 'question';
+
+    const matrixTable = document.getElementById('termMatrixTable');
+    const manualsGrid = document.getElementById('termManualsGrid');
+    const searchInput = document.getElementById('termSearchInput');
+    const sideViewer = document.getElementById('termSideViewer');
+    const pdfFrame = document.getElementById('termPdfFrame');
+    const viewerTitle = document.getElementById('termViewerTitle');
+    const btnToggleQA = document.getElementById('btnTermToggleQA');
+    const btnPrev = document.getElementById('btnTermPrev');
+    const btnNext = document.getElementById('btnTermNext');
+
+    function mountDocument(title, path, code, sessionData, docType) {
+      currentSessionData = sessionData;
+      currentDocType = docType;
+      viewerTitle.textContent = `[${code}] ${title}`;
+      pdfFrame.src = encodeURI(path);
+      sideViewer.classList.add('open');
+
+      if (sessionData) {
+        btnPrev.disabled = sessionData.sessionIndex >= sessionData.allSessions.length - 1;
+        btnNext.disabled = sessionData.sessionIndex <= 0;
+        btnToggleQA.textContent = docType === 'question' ? 'LOAD SOL [A]' : 'LOAD QUES [Q]';
+      }
+    }
+
+    function unmountViewer() {
+      sideViewer.classList.remove('open');
+      pdfFrame.src = 'about:blank';
+      currentSessionData = null;
+    }
+
+    document.getElementById('btnTermCloseViewer').addEventListener('click', unmountViewer);
+
+    function openSyllabus() {
+      mountDocument(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path, 'SYL', null, 'manual');
+    }
+    document.getElementById('btnTermSyllabus').addEventListener('click', openSyllabus);
+
+    btnToggleQA.addEventListener('click', () => {
+      if (!currentSessionData) return;
+      const targetType = currentDocType === 'question' ? 'answer' : 'question';
+      const file = targetType === 'question' ? currentSessionData.session.question : currentSessionData.session.answer;
+      if (file) {
+        mountDocument(`${currentSessionData.subject} (${currentSessionData.session.session_label}) [${targetType.toUpperCase()}]`, file.rel_path, PAPER_CODES[currentSessionData.subject], currentSessionData, targetType);
+      }
+    });
+
+    btnPrev.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex >= currentSessionData.allSessions.length - 1) return;
+      const target = currentSessionData.allSessions[currentSessionData.sessionIndex + 1];
+      const file = currentDocType === 'question' ? (target.question || target.answer) : (target.answer || target.question);
+      const actualType = file === target.question ? 'question' : 'answer';
+      mountDocument(`${currentSessionData.subject} (${target.session_label})`, file.rel_path, PAPER_CODES[currentSessionData.subject], { ...currentSessionData, session: target, sessionIndex: currentSessionData.sessionIndex + 1 }, actualType);
+    });
+
+    btnNext.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex <= 0) return;
+      const target = currentSessionData.allSessions[currentSessionData.sessionIndex - 1];
+      const file = currentDocType === 'question' ? (target.question || target.answer) : (target.answer || target.question);
+      const actualType = file === target.question ? 'question' : 'answer';
+      mountDocument(`${currentSessionData.subject} (${target.session_label})`, file.rel_path, PAPER_CODES[currentSessionData.subject], { ...currentSessionData, session: target, sessionIndex: currentSessionData.sessionIndex - 1 }, actualType);
+    });
+
+    document.getElementById('btnTermExpand').addEventListener('click', () => {
+      if (pdfFrame.src && pdfFrame.src !== 'about:blank') window.open(pdfFrame.src, '_blank');
+    });
+
+    // Keyboard Hotkeys
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') {
+        if (e.key === 'Escape') {
+          searchInput.value = '';
+          searchInput.blur();
+          renderMatrix();
+          renderManuals();
+        }
+        return;
+      }
+      if (e.key === 'Escape') unmountViewer();
+      if (e.key.toLowerCase() === 's') openSyllabus();
+      if (e.key.toLowerCase() === 't') btnToggleQA.click();
+      if (e.key === '/') { e.preventDefault(); searchInput.focus(); }
+    });
+
+    // Render Matrix
+    function renderMatrix(query = '') {
+      matrixTable.innerHTML = '';
+      const q = query.toLowerCase().trim();
+
+      const thead = document.createElement('thead');
+      const tr = document.createElement('tr');
+      const thSec = document.createElement('th');
+      thSec.textContent = 'SECURITY / TICKER';
+      tr.appendChild(thSec);
+
+      SESSIONS_ORDER.forEach(s => {
+        const th = document.createElement('th');
+        const [season, yr] = s.label.split(' ');
+        th.innerHTML = `${yr}<br><span style="color:var(--cyan);font-size:9px;">${season.slice(0,3).toUpperCase()}</span>`;
+        tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+      matrixTable.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const tiers = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') tiers.push('AL');
+
+      tiers.forEach(lvl => {
+        const sepTr = document.createElement('tr');
+        const sepTd = document.createElement('td');
+        sepTd.className = 'term-section-header';
+        sepTd.colSpan = SESSIONS_ORDER.length + 1;
+        sepTd.textContent = `// TIER: ${lvl === 'PL' ? 'PROFESSIONAL LEVEL [7 CURRICULUMS]' : 'ADVANCED LEVEL [3 CURRICULUMS]'}`;
+        sepTr.appendChild(sepTd);
+        tbody.appendChild(sepTr);
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          if (q && !paper.toLowerCase().includes(q)) return;
+          const code = PAPER_CODES[paper] || 'CA';
+          const sessions = CATALOG[lvl][paper] || [];
+          const map = new Map();
+          sessions.forEach((s, idx) => map.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdPaper = document.createElement('td');
+          tdPaper.innerHTML = `<span style="color:var(--amber);font-weight:700;">${code}</span> <span style="color:var(--text-bright);">${paper}</span>`;
+          row.appendChild(tdPaper);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const item = map.get(col.tag);
+            if (item && (item.s.question || item.s.answer)) {
+              const grp = document.createElement('div');
+              grp.className = 'term-chip-group';
+
+              const bQ = document.createElement('button');
+              bQ.className = 'term-chip';
+              bQ.textContent = 'Q';
+              bQ.disabled = !item.s.question;
+              if (item.s.question) {
+                bQ.addEventListener('click', () => {
+                  mountDocument(`${paper} (${item.s.session_label}) [Q]`, item.s.question.rel_path, code, {
+                    subject: paper,
+                    session: item.s,
+                    sessionIndex: item.idx,
+                    allSessions: sessions
+                  }, 'question');
+                });
+              }
+
+              const bA = document.createElement('button');
+              bA.className = 'term-chip ans';
+              bA.textContent = 'A';
+              bA.disabled = !item.s.answer;
+              if (item.s.answer) {
+                bA.addEventListener('click', () => {
+                  mountDocument(`${paper} (${item.s.session_label}) [A]`, item.s.answer.rel_path, code, {
+                    subject: paper,
+                    session: item.s,
+                    sessionIndex: item.idx,
+                    allSessions: sessions
+                  }, 'answer');
+                });
+              }
+
+              grp.appendChild(bQ);
+              grp.appendChild(bA);
+              td.appendChild(grp);
+            } else {
+              td.innerHTML = '<span style="color:var(--text-faint);">.</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+      matrixTable.appendChild(tbody);
+    }
+
+    // Render Manuals
+    function renderManuals(query = '') {
+      manualsGrid.innerHTML = '';
+      const q = query.toLowerCase().trim();
+
+      ['PL', 'AL'].forEach(lvl => {
+        if (activeFilter === 'PL' && lvl !== 'PL') return;
+        if (activeFilter === 'AL' && lvl !== 'AL') return;
+
+        const subjMap = CATALOG.Manuals[lvl];
+        for (const [subj, files] of Object.entries(subjMap)) {
+          if (q && !subj.toLowerCase().includes(q)) continue;
+          const code = PAPER_CODES[subj] || 'MAN';
+
+          const card = document.createElement('div');
+          card.className = 'term-manual-card';
+          card.innerHTML = `
+            <div class="term-manual-title">
+              <span>[${code}] ${subj}</span>
+              <span style="color:var(--text-muted);font-size:10px;">${lvl}</span>
+            </div>
+            <div class="term-manual-files"></div>
+          `;
+          const fList = card.querySelector('.term-manual-files');
+          files.forEach(f => {
+            const line = document.createElement('div');
+            line.className = 'term-manual-file';
+            line.innerHTML = `<span>${f.title}</span> <span>${f.size_mb}MB</span>`;
+            line.addEventListener('click', () => mountDocument(`${subj} — ${f.title}`, f.rel_path, code, null, 'manual'));
+            fList.appendChild(line);
+          });
+          manualsGrid.appendChild(card);
+        }
+      });
+    }
+
+    // Filters
+    document.querySelectorAll('.term-btn[data-filter]').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.term-btn[data-filter]').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.getAttribute('data-filter');
+
+        if (activeFilter === 'MANUALS') {
+          document.querySelector('.term-matrix-wrap').style.display = 'none';
+          document.getElementById('termManualsSection').style.display = 'block';
+        } else {
+          document.querySelector('.term-matrix-wrap').style.display = 'block';
+          document.getElementById('termManualsSection').style.display = 'block';
+        }
+        renderMatrix(searchInput.value);
+        renderManuals(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      renderMatrix(e.target.value);
+      renderManuals(e.target.value);
+    });
+
+    renderMatrix();
+    renderManuals();
+  </script>
+</body>
+</html>

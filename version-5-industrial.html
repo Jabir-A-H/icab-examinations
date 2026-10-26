@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Chartered Repository — Version 5: Raw Industrial Workshop</title>
+  
+  <!-- Technical Font: Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* VERSION SWITCHER */
+    .ui-version-bar {
+      background: #111827;
+      color: #9ca3af;
+      font-family: 'Space Grotesk', monospace;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 20px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #000000;
+      position: relative;
+      z-index: 10000;
+      flex-shrink: 0;
+    }
+    .ui-version-brand { display: flex; align-items: center; gap: 10px; }
+    .ui-version-tag {
+      background: #ff5722;
+      color: #000000;
+      font-weight: 700;
+      font-size: 10px;
+      padding: 3px 6px;
+    }
+    .ui-version-sub { color: #6b7280; }
+    .ui-version-nav { display: flex; align-items: center; gap: 4px; }
+    .ui-version-link {
+      color: #d1d5db;
+      text-decoration: none;
+      padding: 5px 8px;
+      font-size: 11px;
+      border: 1px solid transparent;
+    }
+    .ui-version-link:hover { color: #ffffff; border-color: #4b5563; }
+    .ui-version-link.active {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 700;
+      border-color: #000000;
+    }
+
+    /* PHILOSOPHY 5: RAW INDUSTRIAL WORKSHOP */
+    :root {
+      --ind-bg: #e5e7eb;
+      --ind-surface: #ffffff;
+      --ind-dark: #111827;
+      --ind-border: #000000;
+      
+      --orange: #ff5722;
+      --orange-light: #ffedd5;
+      --blue: #2563eb;
+      --yellow: #facc15;
+      
+      --font-mech: 'Space Grotesk', -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 !important;
+    }
+
+    body {
+      background: var(--ind-bg);
+      color: var(--ind-dark);
+      font-family: var(--font-mech);
+      font-size: 13px;
+      line-height: 1.4;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Industrial Heavy Masthead */
+    .ind-masthead {
+      background: #ffffff;
+      border-bottom: 3px solid var(--ind-border);
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .ind-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .ind-meta-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--orange);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .ind-h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .ind-sub {
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 500;
+    }
+
+    .ind-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .ind-btn {
+      background: #ffffff;
+      border: 2px solid var(--ind-border);
+      color: var(--ind-dark);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 16px;
+      cursor: pointer;
+      text-transform: uppercase;
+      box-shadow: 3px 3px 0px #000000;
+      transition: all 0.08s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ind-btn:hover {
+      background: #f3f4f6;
+    }
+    .ind-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px #000000;
+    }
+    .ind-btn.orange {
+      background: var(--orange);
+      color: #ffffff;
+    }
+    .ind-btn.orange:hover {
+      background: #ea580c;
+    }
+
+    /* Industrial Control Bar */
+    .ind-control-bar {
+      background: #d1d5db;
+      border-bottom: 2px solid var(--ind-border);
+      padding: 8px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+    .ind-search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 480px;
+    }
+    .ind-search-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .ind-input {
+      background: #ffffff;
+      border: 2px solid var(--ind-border);
+      padding: 6px 10px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ind-dark);
+      outline: none;
+      width: 100%;
+    }
+    .ind-tier-filters {
+      display: flex;
+      gap: 6px;
+    }
+    .ind-filter-btn {
+      background: #ffffff;
+      border: 2px solid var(--ind-border);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 12px;
+      cursor: pointer;
+      box-shadow: 2px 2px 0px #000000;
+      text-transform: uppercase;
+    }
+    .ind-filter-btn:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px #000000;
+    }
+    .ind-filter-btn.active {
+      background: var(--ind-dark);
+      color: #ffffff;
+    }
+
+    /* Main Scroll Body */
+    .ind-main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 32px 60px;
+      position: relative;
+    }
+
+    /* Industrial Matrix Box */
+    .ind-box {
+      background: #ffffff;
+      border: 3px solid var(--ind-border);
+      box-shadow: 4px 4px 0px #000000;
+      margin-bottom: 32px;
+    }
+    .ind-box-header {
+      background: var(--ind-dark);
+      color: #ffffff;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ind-box-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .ind-table-wrap {
+      overflow-x: auto;
+    }
+    .ind-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+    .ind-table th {
+      background: #f3f4f6;
+      border: 1px solid var(--ind-border);
+      padding: 8px 4px;
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .ind-table th:first-child {
+      text-align: left;
+      padding-left: 12px;
+      width: 270px;
+      background: #ffffff;
+      border-right: 2px solid var(--ind-border);
+    }
+    .ind-table td {
+      border: 1px solid var(--ind-border);
+      padding: 6px 4px;
+      text-align: center;
+      vertical-align: middle;
+      background: #ffffff;
+    }
+    .ind-table td:first-child {
+      text-align: left;
+      padding-left: 12px;
+      font-weight: 700;
+      border-right: 2px solid var(--ind-border);
+      background: #fafafa;
+    }
+    .ind-table tr:hover td {
+      background: #fdf2e9;
+    }
+    .ind-tier-row {
+      background: #111827 !important;
+      color: #ffffff !important;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 6px 12px !important;
+      text-align: left !important;
+    }
+
+    /* Mechanical Push Buttons */
+    .ind-push-group {
+      display: inline-flex;
+      gap: 3px;
+    }
+    .ind-push-btn {
+      background: #ffffff;
+      border: 1px solid var(--ind-border);
+      color: var(--ind-dark);
+      font-family: inherit;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 6px;
+      cursor: pointer;
+      box-shadow: 1px 1px 0px #000000;
+      transition: all 0.05s;
+    }
+    .ind-push-btn:hover {
+      background: var(--blue);
+      color: #ffffff;
+    }
+    .ind-push-btn:active {
+      transform: translate(1px, 1px);
+      box-shadow: none;
+    }
+    .ind-push-btn.ans:hover {
+      background: var(--orange);
+      color: #ffffff;
+    }
+    .ind-push-btn:disabled {
+      color: #9ca3af;
+      border-color: #d1d5db;
+      box-shadow: none;
+      cursor: not-allowed;
+      background: #f9fafb;
+    }
+    .ind-push-btn:disabled:hover {
+      background: #f9fafb;
+      color: #9ca3af;
+    }
+
+    /* Manuals Grid */
+    .ind-manuals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      padding: 16px;
+    }
+    .ind-card {
+      border: 2px solid var(--ind-border);
+      box-shadow: 3px 3px 0px #000000;
+      padding: 12px;
+      background: #ffffff;
+    }
+    .ind-card-header {
+      border-bottom: 2px solid var(--ind-border);
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+    }
+    .ind-card-files {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ind-card-row {
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid var(--ind-border);
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #f9fafb;
+    }
+    .ind-card-row:hover {
+      background: var(--ind-dark);
+      color: #ffffff;
+    }
+
+    /* Industrial Viewer */
+    .ind-viewer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #ffffff;
+      display: none;
+      flex-direction: column;
+      z-index: 100;
+      border: 3px solid var(--ind-border);
+    }
+    .ind-viewer-header {
+      background: var(--ind-dark);
+      color: #ffffff;
+      padding: 8px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ind-viewer-title {
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .ind-viewer-tools {
+      display: flex;
+      gap: 8px;
+    }
+    .ind-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #374151;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Persistent Version Navigation Bar -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI COMPARATOR</span>
+      <span class="ui-version-sub">6 Radical Architectural Directions</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link"><span class="v-num">01</span> Archival Folio</a>
+      <a href="version-2-terminal.html" class="ui-version-link"><span class="v-num">02</span> Bloomberg Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link"><span class="v-num">03</span> Swiss Grid</a>
+      <a href="version-4-nordic.html" class="ui-version-link"><span class="v-num">04</span> Nordic Reader</a>
+      <a href="version-5-industrial.html" class="ui-version-link active"><span class="v-num">05</span> Raw Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link"><span class="v-num">06</span> Financial Times</a>
+    </nav>
+  </header>
+
+  <!-- Masthead -->
+  <header class="ind-masthead">
+    <div class="ind-title-wrap">
+      <div class="ind-meta-tag">ICAB SPECIFICATION REGISTER // 2022–2026</div>
+      <h1 class="ind-h1">CHARTERED EXAMINATION CONSOLE</h1>
+      <div class="ind-sub">INSTITUTE OF CHARTERED ACCOUNTANTS OF BANGLADESH • 266 VERIFIED UNITS</div>
+    </div>
+    <div class="ind-actions">
+      <button class="ind-btn orange" id="btnIndSyllabus">2025 SYLLABUS SPEC</button>
+    </div>
+  </header>
+
+  <!-- Control Bar -->
+  <div class="ind-control-bar">
+    <div class="ind-search-box">
+      <span class="ind-search-label">FILTER:</span>
+      <input type="text" id="indSearch" class="ind-input" placeholder="Query code (e.g. AA, FM, 2026, TAX)...">
+    </div>
+
+    <div class="ind-tier-filters">
+      <button class="ind-filter-btn active" data-filter="ALL">ALL [10]</button>
+      <button class="ind-filter-btn" data-filter="PL">PROFESSIONAL [7]</button>
+      <button class="ind-filter-btn" data-filter="AL">ADVANCED [3]</button>
+      <button class="ind-filter-btn" data-filter="MANUALS">TEXTBOOKS [20]</button>
+    </div>
+  </div>
+
+  <!-- Main View -->
+  <main class="ind-main">
+    <!-- Matrix Box -->
+    <div class="ind-box" id="indMatrixBox">
+      <div class="ind-box-header">
+        <div class="ind-box-title">EXAMINATION SESSION MATRIX [QUESTION / ANSWER]</div>
+        <div style="font-size:10px; font-weight:700;">CHRONOLOGICAL 2022-2026</div>
+      </div>
+      <div class="ind-table-wrap">
+        <table class="ind-table" id="indTable">
+          <!-- Rendered dynamically -->
+        </table>
+      </div>
+    </div>
+
+    <!-- Manuals Box -->
+    <div class="ind-box" id="indManualsBox">
+      <div class="ind-box-header">
+        <div class="ind-box-title">PRESCRIBED CURRICULAR DOSSIERS & TEXTBOOKS</div>
+        <div style="font-size:10px; font-weight:700;">SPECIFICATIONS</div>
+      </div>
+      <div class="ind-manuals-grid" id="indManualsGrid">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- Viewer -->
+    <div class="ind-viewer" id="indViewer">
+      <div class="ind-viewer-header">
+        <div class="ind-viewer-title" id="indViewerTitle">DOCUMENT SPEC</div>
+        <div class="ind-viewer-tools">
+          <button class="ind-btn" id="btnIndPrev">← PREV DIET</button>
+          <button class="ind-btn" id="btnIndNext">NEXT DIET →</button>
+          <button class="ind-btn orange" id="btnIndToggleQA">SWITCH Q/A</button>
+          <button class="ind-btn" id="btnIndPop">OPEN ↗</button>
+          <button class="ind-btn" id="btnIndClose" style="background:#000; color:#fff;">CLOSE [ESC]</button>
+        </div>
+      </div>
+      <iframe class="ind-frame" id="indFrame" src="about:blank"></iframe>
+    </div>
+  </main>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    let currentSessionData = null;
+    let currentDocType = 'question';
+
+    const table = document.getElementById('indTable');
+    const manualsGrid = document.getElementById('indManualsGrid');
+    const searchInput = document.getElementById('indSearch');
+    const viewer = document.getElementById('indViewer');
+    const frame = document.getElementById('indFrame');
+    const viewerTitle = document.getElementById('indViewerTitle');
+    const btnToggleQA = document.getElementById('btnIndToggleQA');
+    const btnPrev = document.getElementById('btnIndPrev');
+    const btnNext = document.getElementById('btnIndNext');
+
+    function openDoc(title, path, code, sessionData, docType) {
+      currentSessionData = sessionData;
+      currentDocType = docType;
+      viewerTitle.textContent = `[${code || 'SPEC'}] ${title.toUpperCase()}`;
+      frame.src = encodeURI(path);
+      viewer.style.display = 'flex';
+
+      if (sessionData) {
+        btnPrev.disabled = sessionData.sessionIndex >= sessionData.allSessions.length - 1;
+        btnNext.disabled = sessionData.sessionIndex <= 0;
+        btnToggleQA.textContent = docType === 'question' ? 'LOAD ANSWER [A]' : 'LOAD QUESTION [Q]';
+      }
+    }
+
+    function closeDoc() {
+      viewer.style.display = 'none';
+      frame.src = 'about:blank';
+      currentSessionData = null;
+    }
+
+    document.getElementById('btnIndClose').addEventListener('click', closeDoc);
+    document.getElementById('btnIndSyllabus').addEventListener('click', () => {
+      openDoc(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path, 'SYL', null, 'manual');
+    });
+
+    btnToggleQA.addEventListener('click', () => {
+      if (!currentSessionData) return;
+      const targetType = currentDocType === 'question' ? 'answer' : 'question';
+      const file = targetType === 'question' ? currentSessionData.session.question : currentSessionData.session.answer;
+      if (file) {
+        openDoc(`${currentSessionData.subject} (${currentSessionData.session.session_label}) [${targetType.toUpperCase()}]`, file.rel_path, PAPER_CODES[currentSessionData.subject], currentSessionData, targetType);
+      }
+    });
+
+    btnPrev.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex >= currentSessionData.allSessions.length - 1) return;
+      const target = currentSessionData.allSessions[currentSessionData.sessionIndex + 1];
+      const file = currentDocType === 'question' ? (target.question || target.answer) : (target.answer || target.question);
+      const actualType = file === target.question ? 'question' : 'answer';
+      openDoc(`${currentSessionData.subject} (${target.session_label})`, file.rel_path, PAPER_CODES[currentSessionData.subject], { ...currentSessionData, session: target, sessionIndex: currentSessionData.sessionIndex + 1 }, actualType);
+    });
+
+    btnNext.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex <= 0) return;
+      const target = currentSessionData.allSessions[currentSessionData.sessionIndex - 1];
+      const file = currentDocType === 'question' ? (target.question || target.answer) : (target.answer || target.question);
+      const actualType = file === target.question ? 'question' : 'answer';
+      openDoc(`${currentSessionData.subject} (${target.session_label})`, file.rel_path, PAPER_CODES[currentSessionData.subject], { ...currentSessionData, session: target, sessionIndex: currentSessionData.sessionIndex - 1 }, actualType);
+    });
+
+    document.getElementById('btnIndPop').addEventListener('click', () => {
+      if (frame.src && frame.src !== 'about:blank') window.open(frame.src, '_blank');
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') closeDoc();
+      if (e.key.toLowerCase() === 's') document.getElementById('btnIndSyllabus').click();
+    });
+
+    function renderMatrix(q = '') {
+      table.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      const thead = document.createElement('thead');
+      const tr = document.createElement('tr');
+      const thPaper = document.createElement('th');
+      thPaper.textContent = 'PAPER CODE & TITLE';
+      tr.appendChild(thPaper);
+
+      SESSIONS_ORDER.forEach(s => {
+        const th = document.createElement('th');
+        th.innerHTML = `${s.label.replace(' ', '<br>')}`;
+        tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const tiers = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') tiers.push('AL');
+
+      tiers.forEach(lvl => {
+        const sepTr = document.createElement('tr');
+        const sepTd = document.createElement('td');
+        sepTd.className = 'ind-tier-row';
+        sepTd.colSpan = SESSIONS_ORDER.length + 1;
+        sepTd.textContent = lvl === 'PL' ? '>> PROFESSIONAL LEVEL [7 CURRICULUM MODULES]' : '>> ADVANCED LEVEL [3 CURRICULUM MODULES]';
+        sepTr.appendChild(sepTd);
+        tbody.appendChild(sepTr);
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          if (query && !paper.toLowerCase().includes(query)) return;
+          const code = PAPER_CODES[paper] || 'CA';
+          const sessions = CATALOG[lvl][paper] || [];
+          const map = new Map();
+          sessions.forEach((s, idx) => map.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdPaper = document.createElement('td');
+          tdPaper.innerHTML = `<span style="background:#111827; color:#fff; padding:2px 4px; margin-right:6px; font-size:10px;">${code}</span> ${paper}`;
+          row.appendChild(tdPaper);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const item = map.get(col.tag);
+            if (item && (item.s.question || item.s.answer)) {
+              const grp = document.createElement('div');
+              grp.className = 'ind-push-group';
+
+              const bQ = document.createElement('button');
+              bQ.className = 'ind-push-btn';
+              bQ.textContent = 'Q';
+              bQ.disabled = !item.s.question;
+              if (item.s.question) {
+                bQ.addEventListener('click', () => {
+                  openDoc(`${paper} (${item.s.session_label}) [Q]`, item.s.question.rel_path, code, {
+                    subject: paper,
+                    session: item.s,
+                    sessionIndex: item.idx,
+                    allSessions: sessions
+                  }, 'question');
+                });
+              }
+
+              const bA = document.createElement('button');
+              bA.className = 'ind-push-btn ans';
+              bA.textContent = 'A';
+              bA.disabled = !item.s.answer;
+              if (item.s.answer) {
+                bA.addEventListener('click', () => {
+                  openDoc(`${paper} (${item.s.session_label}) [A]`, item.s.answer.rel_path, code, {
+                    subject: paper,
+                    session: item.s,
+                    sessionIndex: item.idx,
+                    allSessions: sessions
+                  }, 'answer');
+                });
+              }
+
+              grp.appendChild(bQ);
+              grp.appendChild(bA);
+              td.appendChild(grp);
+            } else {
+              td.innerHTML = '<span style="color:#d1d5db;">-</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+      table.appendChild(tbody);
+    }
+
+    function renderManuals(q = '') {
+      manualsGrid.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      ['PL', 'AL'].forEach(lvl => {
+        if (activeFilter === 'PL' && lvl !== 'PL') return;
+        if (activeFilter === 'AL' && lvl !== 'AL') return;
+
+        const subjs = CATALOG.Manuals[lvl];
+        for (const [subj, files] of Object.entries(subjs)) {
+          if (query && !subj.toLowerCase().includes(query)) continue;
+          const code = PAPER_CODES[subj] || 'MAN';
+
+          const card = document.createElement('div');
+          card.className = 'ind-card';
+          card.innerHTML = `
+            <div class="ind-card-header">
+              <span>[${code}] ${subj}</span>
+              <span style="color:#6b7280; font-size:10px;">${lvl}</span>
+            </div>
+            <div class="ind-card-files"></div>
+          `;
+          const fList = card.querySelector('.ind-card-files');
+          files.forEach(f => {
+            const row = document.createElement('div');
+            row.className = 'ind-card-row';
+            row.innerHTML = `<span>${f.title}</span> <span>${f.size_mb} MB ↗</span>`;
+            row.addEventListener('click', () => openDoc(`${subj} — ${f.title}`, f.rel_path, code, null, 'manual'));
+            fList.appendChild(row);
+          });
+          manualsGrid.appendChild(card);
+        }
+      });
+    }
+
+    document.querySelectorAll('.ind-filter-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.ind-filter-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.getAttribute('data-filter');
+
+        if (activeFilter === 'MANUALS') {
+          document.getElementById('indMatrixBox').style.display = 'none';
+          document.getElementById('indManualsBox').style.display = 'block';
+        } else {
+          document.getElementById('indMatrixBox').style.display = 'block';
+          document.getElementById('indManualsBox').style.display = 'block';
+        }
+        renderMatrix(searchInput.value);
+        renderManuals(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      renderMatrix(e.target.value);
+      renderManuals(e.target.value);
+    });
+
+    renderMatrix();
+    renderManuals();
+  </script>
+</body>
+</html>

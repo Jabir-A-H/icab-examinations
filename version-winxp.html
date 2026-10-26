@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Chartered Archive - Microsoft Windows XP Professional</title>
+  
+  <style>
+    /* UNIVERSAL VERSION SWITCHER BAR */
+    .ui-version-bar {
+      background: #0a246a;
+      color: #ffffff;
+      font-family: Tahoma, 'MS Sans Serif', sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #ffffff;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-version-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-version-tag {
+      background: #3880ff;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+    .ui-version-nav { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-version-link {
+      color: #dbe4ff;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    .ui-version-link:hover { color: #ffffff; background: #1642a8; }
+    .ui-version-link.active {
+      background: #ffffff;
+      color: #0a246a;
+      font-weight: 700;
+    }
+
+    /* WINDOWS XP LUNA BLUE THEME */
+    :root {
+      --xp-desktop: #225ad7;
+      --xp-window-bg: #ece9d8;
+      --xp-title-blue: linear-gradient(180deg, #0058ee 0%, #3593ff 4%, #288eff 18%, #127dff 35%, #036ffc 65%, #0262ee 82%, #004edc 92%, #003dd5 100%);
+      --xp-border: #00138c;
+      --xp-gray-border: #aca899;
+      --xp-white: #ffffff;
+      --xp-btn-face: #f0ede0;
+      --font-xp: Tahoma, 'Segoe UI', Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #004e98 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.05"><path d="M0 0h50v50H0z" fill="%23fff"/></svg>');
+      font-family: var(--font-xp);
+      font-size: 11px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* Windows XP Desktop Area */
+    .xp-desktop-area {
+      flex: 1;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Windows XP Window Frame */
+    .xp-window {
+      width: 100%;
+      height: 100%;
+      max-width: 1480px;
+      background: var(--xp-window-bg);
+      border: 3px solid #0055ea;
+      border-top: none;
+      border-radius: 8px 8px 0 0;
+      box-shadow: 2px 4px 16px rgba(0,0,0,0.45);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Luna Titlebar */
+    .xp-titlebar {
+      height: 30px;
+      background: var(--xp-title-blue);
+      border-radius: 5px 5px 0 0;
+      padding: 0 6px 0 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: #ffffff;
+      text-shadow: 1px 1px 1px #0f3680;
+      font-weight: 700;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .xp-titlebar-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .xp-buttons {
+      display: flex;
+      gap: 2px;
+    }
+    .xp-title-btn {
+      width: 21px;
+      height: 21px;
+      border-radius: 3px;
+      border: 1px solid #ffffff;
+      background: linear-gradient(180deg, #448aff 0%, #1565c0 100%);
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+    }
+    .xp-title-btn.close {
+      background: linear-gradient(180deg, #e57373 0%, #c62828 100%);
+    }
+
+    /* Win32 Menu Bar */
+    .xp-menubar {
+      background: var(--xp-window-bg);
+      border-bottom: 1px solid #d4d0c8;
+      padding: 3px 6px;
+      display: flex;
+      gap: 12px;
+      color: #000000;
+      flex-shrink: 0;
+    }
+    .xp-menu-item { cursor: pointer; padding: 2px 6px; border-radius: 2px; }
+    .xp-menu-item:hover { background: #316ac5; color: #ffffff; }
+
+    /* Standard Buttons Toolbar */
+    .xp-toolbar {
+      background: var(--xp-window-bg);
+      border-bottom: 1px solid #aca899;
+      padding: 3px 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .xp-tool-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: transparent;
+      border: 1px solid transparent;
+      padding: 3px 6px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .xp-tool-btn:hover {
+      border: 1px solid #aca899;
+      background: #f7f5ef;
+    }
+    .xp-tool-divider {
+      width: 1px;
+      height: 22px;
+      background: #aca899;
+      margin: 0 2px;
+    }
+
+    /* Address Bar */
+    .xp-address-bar {
+      background: var(--xp-window-bg);
+      border-bottom: 1px solid #aca899;
+      padding: 3px 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .xp-address-label { color: #555; }
+    .xp-address-input-wrap {
+      flex: 1;
+      display: flex;
+      background: #ffffff;
+      border: 1px solid #7f9db9;
+      padding: 2px 4px;
+      align-items: center;
+      gap: 4px;
+    }
+    .xp-address-input {
+      width: 100%;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      font-size: 11px;
+    }
+
+    /* Explorer Workspace */
+    .xp-workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      padding: 4px;
+      background: #ffffff;
+      border: 2px inset #ffffff;
+    }
+
+    /* Left Tasks Pane */
+    .xp-tasks-pane {
+      width: 200px;
+      background: linear-gradient(180deg, #7ba2e7 0%, #6375d6 100%);
+      padding: 8px;
+      overflow-y: auto;
+      flex-shrink: 0;
+      color: #00138c;
+    }
+    .xp-task-box {
+      background: #ffffff;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 10px;
+      border: 1px solid #ffffff;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    }
+    .xp-task-header {
+      background: linear-gradient(90deg, #225ad7 0%, #3b88e8 100%);
+      color: #ffffff;
+      font-weight: 700;
+      padding: 4px 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .xp-task-links {
+      padding: 6px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: 11px;
+    }
+    .xp-task-link {
+      color: #00138c;
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .xp-task-link:hover { text-decoration: underline; color: #ff6600; }
+
+    /* Right Main Listview Table */
+    .xp-listview-wrap {
+      flex: 1;
+      overflow: auto;
+      background: #ffffff;
+      border: 1px solid #7f9db9;
+      margin-left: 4px;
+    }
+    .xp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+    .xp-table th {
+      background: linear-gradient(180deg, #ffffff 0%, #ece9d8 100%);
+      border: 1px solid #aca899;
+      border-top: none;
+      padding: 4px 8px;
+      text-align: left;
+      font-weight: 500;
+      color: #000000;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+    .xp-table th:hover {
+      background: #f7f5ee;
+    }
+    .xp-table td {
+      padding: 4px 8px;
+      border-bottom: 1px solid #f0ede0;
+      vertical-align: middle;
+    }
+    .xp-table tr:hover td {
+      background: #316ac5;
+      color: #ffffff;
+    }
+    .xp-table tr:hover a {
+      color: #ffffff;
+    }
+
+    .xp-file-link {
+      color: #000000;
+      text-decoration: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Status Bar */
+    .xp-statusbar {
+      background: var(--xp-window-bg);
+      border-top: 1px solid #aca899;
+      padding: 3px 8px;
+      display: flex;
+      justify-content: space-between;
+      color: #444;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+
+    /* Windows XP Taskbar */
+    .xp-taskbar {
+      height: 30px;
+      background: linear-gradient(180deg, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #1941a5 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-right: 8px;
+      flex-shrink: 0;
+      border-top: 2px solid #5593ff;
+    }
+    .xp-start-btn {
+      height: 100%;
+      background: linear-gradient(180deg, #388e3c 0%, #2e7d32 100%);
+      border: none;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 13px;
+      font-style: italic;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 0 8px 8px 0;
+      box-shadow: 2px 0 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+      text-shadow: 1px 1px 1px #000;
+    }
+    .xp-task-pill {
+      background: linear-gradient(180deg, #1941a5 0%, #245edb 100%);
+      border: 1px solid #00138c;
+      color: #ffffff;
+      padding: 3px 12px;
+      border-radius: 3px;
+      font-size: 11px;
+      margin-left: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: inset 1px 1px 0 rgba(255,255,255,0.2);
+    }
+    .xp-tray {
+      background: #0f80d6;
+      border-left: 1px solid #0c68af;
+      padding: 2px 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #ffffff;
+      font-size: 11px;
+      border-radius: 2px;
+    }
+
+    /* Acrobat Reader Window Modal */
+    .xp-acrobat-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 200000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .xp-acrobat-window {
+      width: 90%;
+      height: 90%;
+      background: var(--xp-window-bg);
+      border: 3px solid #0055ea;
+      border-radius: 6px 6px 0 0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .xp-acrobat-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: 2px inset #ffffff;
+      background: #525659;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL VERSION SWITCHER -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI LAB</span>
+      <span>13 Visual Paradigms</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link">01 Archival</a>
+      <a href="version-2-terminal.html" class="ui-version-link">02 Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link">03 Swiss</a>
+      <a href="version-4-nordic.html" class="ui-version-link">04 Nordic</a>
+      <a href="version-5-industrial.html" class="ui-version-link">05 Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link">06 FT Executive</a>
+      <a href="version-apple.html" class="ui-version-link">07 Apple macOS</a>
+      <a href="version-torrent.html" class="ui-version-link">08 Torrent Tracker</a>
+      <a href="version-anime.html" class="ui-version-link">09 Anime Stream</a>
+      <a href="version-winxp.html" class="ui-version-link active">10 Windows XP</a>
+      <a href="version-google.html" class="ui-version-link">11 Google Drive</a>
+      <a href="version-linux.html" class="ui-version-link">12 Linux Curses</a>
+      <a href="version-linear.html" class="ui-version-link">13 Linear Void</a>
+    </nav>
+  </header>
+
+  <!-- Windows XP Desktop Area -->
+  <div class="xp-desktop-area">
+    <div class="xp-window">
+      <!-- Luna Blue Titlebar -->
+      <div class="xp-titlebar">
+        <div class="xp-titlebar-left">
+          <span>📁</span>
+          <span>D:\CA Resources\ICAB Chartered Archive</span>
+        </div>
+        <div class="xp-buttons">
+          <button class="xp-title-btn">_</button>
+          <button class="xp-title-btn">□</button>
+          <button class="xp-title-btn close" id="btnXpCloseWindow">✕</button>
+        </div>
+      </div>
+
+      <!-- Menubar -->
+      <div class="xp-menubar">
+        <span class="xp-menu-item">File</span>
+        <span class="xp-menu-item">Edit</span>
+        <span class="xp-menu-item">View</span>
+        <span class="xp-menu-item">Favorites</span>
+        <span class="xp-menu-item">Tools</span>
+        <span class="xp-menu-item" id="btnXpHelp">Help</span>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="xp-toolbar">
+        <button class="xp-tool-btn" id="btnXpBack">← Back</button>
+        <button class="xp-tool-btn">Forward →</button>
+        <button class="xp-tool-btn">Up</button>
+        <div class="xp-tool-divider"></div>
+        <button class="xp-tool-btn" id="btnXpSearch">🔍 Search</button>
+        <button class="xp-tool-btn">📁 Folders</button>
+      </div>
+
+      <!-- Address Bar -->
+      <div class="xp-address-bar">
+        <span class="xp-address-label">Address</span>
+        <div class="xp-address-input-wrap">
+          <span>📁</span>
+          <input type="text" id="xpAddress" class="xp-address-input" value="D:\CA Resources\ICAB Examination Registry\">
+        </div>
+        <button class="xp-tool-btn" style="border:1px solid #7f9db9; background:#ece9d8;">Go</button>
+      </div>
+
+      <!-- Explorer Workspace -->
+      <div class="xp-workspace">
+        <!-- Left Tasks Pane -->
+        <div class="xp-tasks-pane">
+          <div class="xp-task-box">
+            <div class="xp-task-header">Curriculum Tasks</div>
+            <div class="xp-task-links">
+              <a class="xp-task-link" data-filter="ALL">📄 Show all documents</a>
+              <a class="xp-task-link" data-filter="PL">📁 Professional Level</a>
+              <a class="xp-task-link" data-filter="AL">📁 Advanced Level</a>
+              <a class="xp-task-link" data-filter="MANUALS">📚 Study Manuals Vault</a>
+              <a class="xp-task-link" id="btnXpSyllabusTask">📖 2025 Syllabus.pdf</a>
+            </div>
+          </div>
+
+          <div class="xp-task-box">
+            <div class="xp-task-header">Other Places</div>
+            <div class="xp-task-links">
+              <a class="xp-task-link">🖥️ My Computer</a>
+              <a class="xp-task-link">📂 My Documents</a>
+              <a class="xp-task-link">🌐 ICAB Portal</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Main Table (Win32 Details View) -->
+        <div class="xp-listview-wrap">
+          <table class="xp-table">
+            <thead>
+              <tr>
+                <th width="320">Name</th>
+                <th width="140">Session / Term</th>
+                <th width="80">Type</th>
+                <th width="90">Size</th>
+                <th>Attributes</th>
+              </tr>
+            </thead>
+            <tbody id="xpTbody">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Status Bar -->
+      <div class="xp-statusbar">
+        <span id="xpStatusText">266 objects (Disk free space: 38.4 GB)</span>
+        <span>🖥️ Local Intranet</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Windows XP Taskbar -->
+  <div class="xp-taskbar">
+    <button class="xp-start-btn">
+      <span style="font-size:16px;">⊞</span> start
+    </button>
+    <div style="flex:1; display:flex;">
+      <div class="xp-task-pill">
+        <span>📁</span>
+        <span>ICAB Chartered Archive</span>
+      </div>
+    </div>
+    <div class="xp-tray">
+      <span>🔊</span>
+      <span id="xpClock">3:45 PM</span>
+    </div>
+  </div>
+
+  <!-- Adobe Acrobat Reader Window Modal -->
+  <div class="xp-acrobat-modal" id="xpAcrobat">
+    <div class="xp-acrobat-window">
+      <div class="xp-titlebar" style="background:linear-gradient(180deg, #b71c1c 0%, #d32f2f 100%);">
+        <div class="xp-titlebar-left">
+          <span>📕</span>
+          <span id="acrobatTitle">Adobe Acrobat Reader - [Document]</span>
+        </div>
+        <div class="xp-buttons">
+          <button class="xp-title-btn close" id="btnAcrobatClose">✕</button>
+        </div>
+      </div>
+      <iframe class="xp-acrobat-frame" id="xpFrame" src="about:blank"></iframe>
+    </div>
+  </div>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    const tbody = document.getElementById('xpTbody');
+    const acrobat = document.getElementById('xpAcrobat');
+    const frame = document.getElementById('xpFrame');
+    const acrobatTitle = document.getElementById('acrobatTitle');
+    const statusText = document.getElementById('xpStatusText');
+
+    function openInAcrobat(name, path) {
+      acrobatTitle.textContent = `Adobe Reader - [${name}]`;
+      frame.src = encodeURI(path);
+      acrobat.style.display = 'flex';
+    }
+
+    document.getElementById('btnAcrobatClose').addEventListener('click', () => {
+      acrobat.style.display = 'none';
+      frame.src = 'about:blank';
+    });
+
+    document.getElementById('btnXpSyllabusTask').addEventListener('click', () => {
+      openInAcrobat(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path);
+    });
+
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('xpClock').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function renderXpFiles() {
+      tbody.innerHTML = '';
+      let count = 0;
+
+      // Exam Papers
+      ['PL', 'AL'].forEach(lvl => {
+        if (activeFilter !== 'ALL' && activeFilter !== lvl) return;
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          const sessions = CATALOG[lvl][paper] || [];
+
+          sessions.forEach(s => {
+            if (s.question) {
+              count++;
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td><a class="xp-file-link"><span>📕</span> ${paper} - Question (${s.session_label}).pdf</a></td>
+                <td>${s.session_label}</td>
+                <td>PDF Document</td>
+                <td>${s.question.size_kb} KB</td>
+                <td>A</td>
+              `;
+              tr.querySelector('.xp-file-link').addEventListener('click', () => openInAcrobat(`${paper} - Question (${s.session_label})`, s.question.rel_path));
+              tbody.appendChild(tr);
+            }
+
+            if (s.answer) {
+              count++;
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td><a class="xp-file-link"><span>📗</span> ${paper} - Suggested Answer (${s.session_label}).pdf</a></td>
+                <td>${s.session_label}</td>
+                <td>PDF Document</td>
+                <td>${s.answer.size_kb} KB</td>
+                <td>A</td>
+              `;
+              tr.querySelector('.xp-file-link').addEventListener('click', () => openInAcrobat(`${paper} - Suggested Answer (${s.session_label})`, s.answer.rel_path));
+              tbody.appendChild(tr);
+            }
+          });
+        });
+      });
+
+      // Manuals
+      if (activeFilter === 'ALL' || activeFilter === 'MANUALS') {
+        ['PL', 'AL'].forEach(lvl => {
+          const subjs = CATALOG.Manuals[lvl];
+          for (const [subj, files] of Object.entries(subjs)) {
+            files.forEach(f => {
+              count++;
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td><a class="xp-file-link"><span>📘</span> ${subj} - ${f.title}.pdf</a></td>
+                <td>Prescribed</td>
+                <td>Study Manual</td>
+                <td>${f.size_mb} MB</td>
+                <td>A</td>
+              `;
+              tr.querySelector('.xp-file-link').addEventListener('click', () => openInAcrobat(`${subj} - ${f.title}`, f.rel_path));
+              tbody.appendChild(tr);
+            });
+          }
+        });
+      }
+
+      statusText.textContent = `${count} objects (Disk free space: 38.4 GB)`;
+    }
+
+    document.querySelectorAll('.xp-task-link[data-filter]').forEach(link => {
+      link.addEventListener('click', () => {
+        activeFilter = link.getAttribute('data-filter');
+        document.getElementById('xpAddress').value = `D:\\CA Resources\\ICAB Examination Registry\\${activeFilter}\\`;
+        renderXpFiles();
+      });
+    });
+
+    renderXpFiles();
+  </script>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Chartered Bay — The World's Most Resilient ICAB Torrent Tracker</title>
+  
+  <style>
+    /* UNIVERSAL VERSION SWITCHER BAR */
+    .ui-version-bar {
+      background: #000000;
+      color: #888888;
+      font-family: Verdana, Arial, sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #333333;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-version-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-version-tag {
+      background: #52b339;
+      color: #000000;
+      font-weight: 700;
+      font-size: 9px;
+      padding: 2px 6px;
+    }
+    .ui-version-nav { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-version-link {
+      color: #aaaaaa;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    .ui-version-link:hover { color: #ffffff; background: #222222; }
+    .ui-version-link.active {
+      background: #da3e2c;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* TORRENT TRACKER STYLING (1337x / Dark The Pirate Bay) */
+    :root {
+      --t-bg: #141414;
+      --t-surface: #1e1e1e;
+      --t-box: #242424;
+      --t-border: #333333;
+      --t-red: #da3e2c;
+      --t-green: #52b339;
+      --t-link: #3880ff;
+      --t-text: #e0e0e0;
+      --t-muted: #888888;
+      --font-t: Arial, Helvetica, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--t-bg);
+      color: var(--t-text);
+      font-family: var(--font-t);
+      font-size: 12px;
+      line-height: 1.4;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Tracker Header */
+    .t-header {
+      background: #0d0d0d;
+      border-bottom: 2px solid var(--t-red);
+      padding: 20px 24px;
+      text-align: center;
+    }
+    .t-logo-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .t-logo-pirate {
+      font-size: 36px;
+      filter: drop-shadow(0 0 4px rgba(218, 62, 44, 0.4));
+    }
+    .t-brand-text h1 {
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+    .t-brand-text h1 span { color: var(--t-red); }
+    .t-slogan {
+      font-size: 11px;
+      color: var(--t-muted);
+      font-style: italic;
+    }
+
+    /* Tracker Search Box */
+    .t-search-container {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .t-search-input-group {
+      display: flex;
+      margin-bottom: 8px;
+    }
+    .t-input {
+      flex: 1;
+      background: #2a2a2a;
+      border: 1px solid var(--t-border);
+      border-right: none;
+      padding: 10px 14px;
+      color: #ffffff;
+      font-size: 13px;
+      outline: none;
+    }
+    .t-input:focus {
+      background: #333333;
+      border-color: var(--t-red);
+    }
+    .t-search-btn {
+      background: var(--t-red);
+      border: 1px solid var(--t-red);
+      color: #ffffff;
+      font-weight: 700;
+      padding: 0 20px;
+      cursor: pointer;
+      font-size: 13px;
+      text-transform: uppercase;
+    }
+    .t-search-btn:hover { background: #b82e1f; }
+
+    /* Category Radios */
+    .t-radios {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 11px;
+      color: var(--t-muted);
+    }
+    .t-radios label { cursor: pointer; }
+    .t-radios input { margin-right: 4px; accent-color: var(--t-red); }
+
+    /* Main Container */
+    .t-main {
+      flex: 1;
+      max-width: 1400px;
+      margin: 20px auto;
+      padding: 0 20px;
+      width: 100%;
+    }
+
+    /* Category Navigation Tabs */
+    .t-nav-tabs {
+      display: flex;
+      background: #1e1e1e;
+      border: 1px solid var(--t-border);
+      border-bottom: none;
+    }
+    .t-tab {
+      padding: 10px 18px;
+      color: #aaaaaa;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 12px;
+      border-right: 1px solid var(--t-border);
+      cursor: pointer;
+    }
+    .t-tab:hover { background: #282828; color: #ffffff; }
+    .t-tab.active { background: var(--t-red); color: #ffffff; }
+
+    /* Torrent Table */
+    .t-table-wrap {
+      background: var(--t-surface);
+      border: 1px solid var(--t-border);
+      overflow-x: auto;
+    }
+    .t-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .t-table th {
+      background: #111111;
+      color: #aaaaaa;
+      font-weight: 700;
+      padding: 9px 8px;
+      border-bottom: 2px solid var(--t-border);
+      text-align: left;
+    }
+    .t-table th.center { text-align: center; }
+    .t-table td {
+      padding: 8px;
+      border-bottom: 1px solid #292929;
+      vertical-align: middle;
+    }
+    .t-table tr:hover td {
+      background: #252525;
+    }
+
+    .t-cat-tag {
+      background: #2b2b2b;
+      color: #999999;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 2px;
+      font-weight: 700;
+    }
+    .t-item-title {
+      color: #ffffff;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .t-item-title:hover {
+      color: var(--t-red);
+      text-decoration: underline;
+    }
+    .t-item-sub {
+      font-size: 10px;
+      color: var(--t-muted);
+      margin-top: 2px;
+      display: flex;
+      gap: 12px;
+    }
+
+    .t-seed {
+      color: var(--t-green);
+      font-weight: 700;
+      text-align: center;
+    }
+    .t-leech {
+      color: var(--t-red);
+      font-weight: 700;
+      text-align: center;
+    }
+    .t-magnet-btn {
+      color: #ffaa00;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 2px 6px;
+      cursor: pointer;
+    }
+    .t-dl-btn {
+      background: #2b2b2b;
+      border: 1px solid #444;
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      cursor: pointer;
+    }
+    .t-dl-btn:hover { background: var(--t-red); border-color: var(--t-red); }
+
+    /* Viewer Modal */
+    .t-viewer-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 200000;
+      display: none;
+      flex-direction: column;
+      padding: 20px;
+    }
+    .t-viewer-box {
+      flex: 1;
+      background: #1c1c1c;
+      border: 2px solid var(--t-red);
+      display: flex;
+      flex-direction: column;
+    }
+    .t-viewer-header {
+      background: #0d0d0d;
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #333;
+    }
+    .t-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #2a2a2a;
+    }
+
+    /* Footer */
+    .t-footer {
+      background: #0d0d0d;
+      border-top: 1px solid var(--t-border);
+      padding: 20px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--t-muted);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL VERSION SWITCHER -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI LAB</span>
+      <span>13 Visual Paradigms</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link">01 Archival</a>
+      <a href="version-2-terminal.html" class="ui-version-link">02 Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link">03 Swiss</a>
+      <a href="version-4-nordic.html" class="ui-version-link">04 Nordic</a>
+      <a href="version-5-industrial.html" class="ui-version-link">05 Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link">06 FT Executive</a>
+      <a href="version-apple.html" class="ui-version-link">07 Apple macOS</a>
+      <a href="version-torrent.html" class="ui-version-link active">08 Torrent Tracker</a>
+      <a href="version-anime.html" class="ui-version-link">09 Anime Stream</a>
+      <a href="version-winxp.html" class="ui-version-link">10 Windows XP</a>
+      <a href="version-google.html" class="ui-version-link">11 Google Drive</a>
+      <a href="version-linux.html" class="ui-version-link">12 Linux Curses</a>
+      <a href="version-linear.html" class="ui-version-link">13 Linear Void</a>
+    </nav>
+  </header>
+
+  <!-- Tracker Header -->
+  <header class="t-header">
+    <div class="t-logo-row">
+      <span class="t-logo-pirate">☠️</span>
+      <div class="t-brand-text">
+        <h1>THE CHARTERED <span>BAY</span></h1>
+        <div class="t-slogan">The galaxy's most resilient peer-to-peer ICAB exam dossier index</div>
+      </div>
+    </div>
+
+    <div class="t-search-container">
+      <div class="t-search-input-group">
+        <input type="text" id="tSearch" class="t-input" placeholder="Search Torrents (e.g. Audit May 2026, FAR 2025, Taxation, Manuals)...">
+        <button class="t-search-btn" id="btnTSearch">Pirate Search</button>
+      </div>
+      <div class="t-radios">
+        <label><input type="radio" name="tCat" value="ALL" checked> All (266)</label>
+        <label><input type="radio" name="tCat" value="PL"> Professional (PL)</label>
+        <label><input type="radio" name="tCat" value="AL"> Advanced (AL)</label>
+        <label><input type="radio" name="tCat" value="MANUALS"> Study Manuals</label>
+        <label><input type="radio" name="tCat" value="SYL"> Official Syllabus</label>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Table Section -->
+  <main class="t-main">
+    <div class="t-nav-tabs">
+      <div class="t-tab active" data-filter="ALL">Top 266 Torrents</div>
+      <div class="t-tab" data-filter="PL">Professional Level (PL)</div>
+      <div class="t-tab" data-filter="AL">Advanced Level (AL)</div>
+      <div class="t-tab" data-filter="MANUALS">Core Manuals Vault</div>
+    </div>
+
+    <div class="t-table-wrap">
+      <table class="t-table" id="torrentTable">
+        <thead>
+          <tr>
+            <th width="70">Type</th>
+            <th>Name (Release Title)</th>
+            <th width="80" class="center">Size</th>
+            <th width="120">Uploaded</th>
+            <th width="50" class="center" title="Seeders">SE</th>
+            <th width="50" class="center" title="Leechers">LE</th>
+            <th width="110" class="center">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="torrentTbody">
+          <!-- Rendered dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Integrated Viewer Modal -->
+  <div class="t-viewer-modal" id="tViewer">
+    <div class="t-viewer-box">
+      <div class="t-viewer-header">
+        <span style="font-weight:700; color:#fff;" id="tViewerTitle">Torrent Peer Stream Preview</span>
+        <div style="display:flex; gap:8px;">
+          <button class="t-dl-btn" id="btnTPop">Open File ↗</button>
+          <button class="t-dl-btn" id="btnTClose" style="background:var(--t-red);">Close [Esc]</button>
+        </div>
+      </div>
+      <iframe class="t-frame" id="tFrame" src="about:blank"></iframe>
+    </div>
+  </div>
+
+  <footer class="t-footer">
+    <p>DHT Network Verified • 13 Diet Sessions (2022–2026) • 100% Ratio • No Logs Kept</p>
+  </footer>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    const tbody = document.getElementById('torrentTbody');
+    const searchInput = document.getElementById('tSearch');
+    const viewer = document.getElementById('tViewer');
+    const frame = document.getElementById('tFrame');
+    const viewerTitle = document.getElementById('tViewerTitle');
+
+    function openTorrent(title, path) {
+      viewerTitle.textContent = `[PREVIEW] ${title}`;
+      frame.src = encodeURI(path);
+      viewer.style.display = 'flex';
+    }
+
+    function closeTorrent() {
+      viewer.style.display = 'none';
+      frame.src = 'about:blank';
+    }
+
+    document.getElementById('btnTClose').addEventListener('click', closeTorrent);
+    document.getElementById('btnTPop').addEventListener('click', () => {
+      if (frame.src && frame.src !== 'about:blank') window.open(frame.src, '_blank');
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') closeTorrent();
+    });
+
+    // Generate pseudo seeders / leechers based on session
+    function getSeedLeech(sessTag) {
+      let hash = 0;
+      for (let i = 0; i < sessTag.length; i++) hash = (hash * 31 + sessTag.charCodeAt(i)) % 500;
+      return { se: 40 + (hash % 180), le: 5 + (hash % 25) };
+    }
+
+    function renderTorrents(query = '') {
+      tbody.innerHTML = '';
+      const q = query.toLowerCase().trim();
+      const rows = [];
+
+      // 1. Syllabus
+      if (activeFilter === 'ALL' || activeFilter === 'SYL' || activeFilter === 'MANUALS') {
+        if (!q || 'syllabus icab framework'.includes(q)) {
+          rows.push({
+            type: 'Doc/PDF',
+            title: `ICAB.Latest.Curriculum.Syllabus.2025.Edition.Council.Certified-ICAB`,
+            sub: `Official Syllabus • 6.2 MB • Verified VIP Uploader`,
+            size: `${SYLLABUS_DOC.size_mb} MB`,
+            uploaded: 'Permanent',
+            se: 320,
+            le: 4,
+            path: SYLLABUS_DOC.rel_path
+          });
+        }
+      }
+
+      // 2. Exam Sessions (PL & AL)
+      ['PL', 'AL'].forEach(lvl => {
+        if (activeFilter !== 'ALL' && activeFilter !== lvl) return;
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          const sessions = CATALOG[lvl][paper] || [];
+          const code = PAPER_CODES[paper] || 'CA';
+
+          sessions.forEach(s => {
+            const cleanTitle = paper.replace(/[^a-zA-Z0-9]/g, '.');
+            const cleanSess = s.session_label.replace(/[^a-zA-Z0-9]/g, '.');
+            const { se, le } = getSeedLeech(s.session_tag);
+
+            if (s.question) {
+              const qTitle = `ICAB.${lvl}.${code}.${cleanTitle}.${cleanSess}.Question.Paper.PDF-VIP`;
+              if (!q || qTitle.toLowerCase().includes(q) || paper.toLowerCase().includes(q)) {
+                rows.push({
+                  type: 'Exam/Q',
+                  title: qTitle,
+                  sub: `${paper} • ${s.session_label} Question • ${s.question.size_kb} KB`,
+                  size: `${s.question.size_kb} KB`,
+                  uploaded: s.session_label,
+                  se: se,
+                  le: le,
+                  path: s.question.rel_path
+                });
+              }
+            }
+
+            if (s.answer) {
+              const aTitle = `ICAB.${lvl}.${code}.${cleanTitle}.${cleanSess}.Official.Suggested.Solution.PDF-VIP`;
+              if (!q || aTitle.toLowerCase().includes(q) || paper.toLowerCase().includes(q)) {
+                rows.push({
+                  type: 'Exam/A',
+                  title: aTitle,
+                  sub: `${paper} • ${s.session_label} Suggested Answer • ${s.answer.size_kb} KB`,
+                  size: `${s.answer.size_kb} KB`,
+                  uploaded: s.session_label,
+                  se: Math.floor(se * 1.4),
+                  le: Math.floor(le * 0.8),
+                  path: s.answer.rel_path
+                });
+              }
+            }
+          });
+        });
+      });
+
+      // 3. Manuals
+      if (activeFilter === 'ALL' || activeFilter === 'MANUALS') {
+        ['PL', 'AL'].forEach(lvl => {
+          const subjs = CATALOG.Manuals[lvl];
+          for (const [subj, files] of Object.entries(subjs)) {
+            const cleanSubj = subj.replace(/[^a-zA-Z0-9]/g, '.');
+            files.forEach((f, idx) => {
+              const mTitle = `ICAB.${lvl}.Manual.${cleanSubj}.Vol.${idx+1}.Prescribed.Textbook.PDF-VIP`;
+              if (!q || mTitle.toLowerCase().includes(q) || subj.toLowerCase().includes(q)) {
+                rows.push({
+                  type: 'Manual',
+                  title: mTitle,
+                  sub: `${subj} (${f.title}) • ${f.size_mb} MB`,
+                  size: `${f.size_mb} MB`,
+                  uploaded: 'Prescribed',
+                  se: 185,
+                  le: 8,
+                  path: f.rel_path
+                });
+              }
+            });
+          }
+        });
+      }
+
+      rows.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><span class="t-cat-tag">${item.type}</span></td>
+          <td>
+            <a class="t-item-title">${item.title}</a>
+            <div class="t-item-sub"><span>${item.sub}</span> <span>Uploaded by: <strong>ICAB_COUNCIL</strong></span></div>
+          </td>
+          <td class="center" style="font-weight:700;">${item.size}</td>
+          <td style="color:#aaa;">${item.uploaded}</td>
+          <td class="t-seed">${item.se}</td>
+          <td class="t-leech">${item.le}</td>
+          <td class="center">
+            <span class="t-magnet-btn" title="Magnet Link">🧲</span>
+            <button class="t-dl-btn">Stream</button>
+          </td>
+        `;
+
+        tr.querySelector('.t-item-title').addEventListener('click', () => openTorrent(item.title, item.path));
+        tr.querySelector('.t-dl-btn').addEventListener('click', () => openTorrent(item.title, item.path));
+        tr.querySelector('.t-magnet-btn').addEventListener('click', () => {
+          alert(`MAGNET URI GENERATED:\nmagnet:?xt=urn:btih:icab${encodeURIComponent(item.title)}&dn=${encodeURIComponent(item.title)}`);
+        });
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Tabs
+    document.querySelectorAll('.t-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        activeFilter = tab.getAttribute('data-filter');
+        renderTorrents(searchInput.value);
+      });
+    });
+
+    document.querySelectorAll('input[name="tCat"]').forEach(r => {
+      r.addEventListener('change', (e) => {
+        activeFilter = e.target.value;
+        renderTorrents(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => renderTorrents(e.target.value));
+    document.getElementById('btnTSearch').addEventListener('click', () => renderTorrents(searchInput.value));
+
+    renderTorrents();
+  </script>
+</body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Chartered Repository — Version 4: Nordic Study Desk</title>
+  
+  <!-- Literary Typography: Lora & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* VERSION SWITCHER */
+    .ui-version-bar {
+      background: #232220;
+      color: #d6d1c7;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 24px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #383532;
+      position: relative;
+      z-index: 10000;
+      flex-shrink: 0;
+    }
+    .ui-version-brand { display: flex; align-items: center; gap: 12px; }
+    .ui-version-tag {
+      background: #3d5647;
+      color: #f7f5f0;
+      font-weight: 700;
+      font-size: 10px;
+      padding: 3px 6px;
+      border-radius: 2px;
+    }
+    .ui-version-sub { color: #8c867a; }
+    .ui-version-nav { display: flex; align-items: center; gap: 4px; }
+    .ui-version-link {
+      color: #b5afa4;
+      text-decoration: none;
+      padding: 5px 10px;
+      font-size: 11px;
+      border-radius: 2px;
+    }
+    .ui-version-link:hover { color: #ffffff; background: #33312e; }
+    .ui-version-link.active {
+      background: #f7f5f0;
+      color: #232220;
+      font-weight: 600;
+    }
+
+    /* PHILOSOPHY 4: NORDIC MINIMALIST / PAPER & INK */
+    :root {
+      --paper: #f7f5f0;
+      --paper-card: #ffffff;
+      --paper-dim: #eee9df;
+      --paper-wash: #f2ede3;
+      --ink: #23211f;
+      --ink-muted: #6b655d;
+      --ink-faint: #9c9488;
+      
+      --sage: #3d5647;
+      --sage-light: #eaf0eb;
+      --umber: #8a5738;
+      
+      --line: #e3ded4;
+      --line-dark: #ccc5b8;
+      
+      --font-book: 'Lora', Georgia, serif;
+      --font-ui: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-ui);
+      font-size: 13px;
+      line-height: 1.6;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Masthead */
+    .nordic-masthead {
+      padding: 24px 40px;
+      background: var(--paper);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+    .nordic-titles h1 {
+      font-family: var(--font-book);
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--ink);
+      letter-spacing: -0.4px;
+    }
+    .nordic-titles p {
+      color: var(--ink-muted);
+      font-size: 12px;
+      margin-top: 2px;
+    }
+
+    .nordic-masthead-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .nordic-btn {
+      background: var(--paper-card);
+      border: 1px solid var(--line-dark);
+      color: var(--ink);
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: all 0.15s;
+    }
+    .nordic-btn:hover {
+      border-color: var(--ink);
+      background: #faf8f5;
+    }
+    .nordic-btn.sage {
+      background: var(--sage);
+      color: #ffffff;
+      border-color: var(--sage);
+    }
+    .nordic-btn.sage:hover {
+      background: #2e4236;
+    }
+
+    /* Filter & Search Bar */
+    .nordic-controls {
+      padding: 10px 40px;
+      background: var(--paper-wash);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+    .nordic-search {
+      width: 100%;
+      max-width: 420px;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      padding: 7px 12px;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      color: var(--ink);
+      border-radius: 3px;
+      outline: none;
+    }
+    .nordic-search:focus {
+      border-color: var(--sage);
+    }
+    .nordic-filter-pills {
+      display: flex;
+      gap: 6px;
+    }
+    .nordic-pill {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--ink-muted);
+      font-size: 12px;
+      padding: 4px 10px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    .nordic-pill:hover {
+      color: var(--ink);
+    }
+    .nordic-pill.active {
+      background: #ffffff;
+      border-color: var(--line);
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    /* Main Scroll Area */
+    .nordic-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px 40px 80px;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+    }
+
+    /* Section Cards */
+    .nordic-section {
+      background: var(--paper-card);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    .nordic-section-head {
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .nordic-section-title {
+      font-family: var(--font-book);
+      font-size: 18px;
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* Table */
+    .nordic-table-wrap {
+      overflow-x: auto;
+    }
+    .nordic-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .nordic-table th {
+      border-bottom: 1px solid var(--line-dark);
+      padding: 10px 6px;
+      color: var(--ink-muted);
+      font-weight: 500;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .nordic-table th:first-child {
+      text-align: left;
+      padding-left: 12px;
+      width: 280px;
+      color: var(--ink);
+      font-family: var(--font-book);
+      font-size: 13px;
+    }
+    .nordic-table td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 4px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .nordic-table td:first-child {
+      text-align: left;
+      padding-left: 12px;
+      font-weight: 500;
+    }
+    .nordic-table tr:hover td {
+      background: var(--paper-wash);
+    }
+    .nordic-level-divider {
+      background: var(--paper-wash) !important;
+      font-family: var(--font-book);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--sage);
+      padding: 8px 12px !important;
+      text-align: left !important;
+    }
+
+    /* Minimalist Literary Links */
+    .nordic-chips {
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .nordic-link {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--ink-muted);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .nordic-link:hover {
+      border-color: var(--sage);
+      color: var(--sage);
+      background: var(--sage-light);
+    }
+    .nordic-link.ans {
+      color: var(--umber);
+    }
+    .nordic-link.ans:hover {
+      border-color: var(--umber);
+      color: var(--umber);
+      background: #fbf2ec;
+    }
+    .nordic-link:disabled {
+      border-color: transparent;
+      color: #d1cbc0;
+      cursor: not-allowed;
+    }
+    .nordic-link:disabled:hover {
+      background: transparent;
+    }
+
+    /* Manuals Grid */
+    .nordic-manuals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+    .nordic-book {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .nordic-book:hover {
+      border-color: var(--line-dark);
+      background: #faf8f5;
+    }
+    .nordic-book-code {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--sage);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .nordic-book-title {
+      font-family: var(--font-book);
+      font-size: 15px;
+      color: var(--ink);
+      margin-bottom: 12px;
+    }
+    .nordic-book-files {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .nordic-book-row {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dotted var(--line);
+      padding: 4px 0;
+      font-size: 11px;
+      color: var(--ink-muted);
+      cursor: pointer;
+    }
+    .nordic-book-row:hover {
+      color: var(--sage);
+    }
+
+    /* Reading Mode Viewer */
+    .nordic-viewer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--paper);
+      display: none;
+      flex-direction: column;
+      z-index: 100;
+    }
+    .nordic-viewer-bar {
+      background: var(--paper-card);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nordic-viewer-title {
+      font-family: var(--font-book);
+      font-size: 16px;
+      color: var(--ink);
+    }
+    .nordic-viewer-tools {
+      display: flex;
+      gap: 8px;
+    }
+    .nordic-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #525659;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Persistent Version Navigation Bar -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI COMPARATOR</span>
+      <span class="ui-version-sub">6 Radical Architectural Directions</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link"><span class="v-num">01</span> Archival Folio</a>
+      <a href="version-2-terminal.html" class="ui-version-link"><span class="v-num">02</span> Bloomberg Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link"><span class="v-num">03</span> Swiss Grid</a>
+      <a href="version-4-nordic.html" class="ui-version-link active"><span class="v-num">04</span> Nordic Reader</a>
+      <a href="version-5-industrial.html" class="ui-version-link"><span class="v-num">05</span> Raw Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link"><span class="v-num">06</span> Financial Times</a>
+    </nav>
+  </header>
+
+  <!-- Masthead -->
+  <header class="nordic-masthead">
+    <div class="nordic-titles">
+      <h1>The Chartered Study Library</h1>
+      <p>Institute of Chartered Accountants of Bangladesh • Quiet Reading Desk • 2022–2026 Archive</p>
+    </div>
+    <div class="nordic-masthead-actions">
+      <button class="nordic-btn sage" id="btnNordicSyllabus">Curriculum Syllabus (2025)</button>
+    </div>
+  </header>
+
+  <!-- Filter & Search -->
+  <div class="nordic-controls">
+    <input type="text" id="nordicSearch" class="nordic-search" placeholder="Search papers, sessions, or study manuals...">
+    <div class="nordic-filter-pills">
+      <button class="nordic-pill active" data-filter="ALL">All Curriculum</button>
+      <button class="nordic-pill" data-filter="PL">Professional Level</button>
+      <button class="nordic-pill" data-filter="AL">Advanced Level</button>
+      <button class="nordic-pill" data-filter="MANUALS">Core Manuals</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="nordic-content">
+    <!-- Matrix Section -->
+    <section class="nordic-section" id="nordicMatrixSec">
+      <div class="nordic-section-head">
+        <h2 class="nordic-section-title">Examination Paper Schedule</h2>
+        <span style="font-size:12px; color:var(--ink-muted);">Click question [q] or solution [a] to begin reading</span>
+      </div>
+      <div class="nordic-table-wrap">
+        <table class="nordic-table" id="nordicTable">
+          <!-- Rendered dynamically -->
+        </table>
+      </div>
+    </section>
+
+    <!-- Manuals Section -->
+    <section class="nordic-section" id="nordicManualsSec">
+      <div class="nordic-section-head">
+        <h2 class="nordic-section-title">Official Study Volumes & Frameworks</h2>
+        <span style="font-size:12px; color:var(--ink-muted);">ICAB Curricular Textbooks</span>
+      </div>
+      <div class="nordic-manuals-grid" id="nordicManualsGrid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- Reader -->
+    <div class="nordic-viewer" id="nordicViewer">
+      <div class="nordic-viewer-bar">
+        <div class="nordic-viewer-title" id="nordicViewerTitle">Document Title</div>
+        <div class="nordic-viewer-tools">
+          <button class="nordic-btn" id="btnNordicPrev">← Older</button>
+          <button class="nordic-btn" id="btnNordicNext">Newer →</button>
+          <button class="nordic-btn" id="btnNordicToggleQA">Switch Q/A</button>
+          <button class="nordic-btn" id="btnNordicPop">Open ↗</button>
+          <button class="nordic-btn sage" id="btnNordicClose">Return to Desk [Esc]</button>
+        </div>
+      </div>
+      <iframe class="nordic-frame" id="nordicFrame" src="about:blank"></iframe>
+    </div>
+  </main>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    let currentSessionData = null;
+    let currentDocType = 'question';
+
+    const table = document.getElementById('nordicTable');
+    const manualsGrid = document.getElementById('nordicManualsGrid');
+    const searchInput = document.getElementById('nordicSearch');
+    const viewer = document.getElementById('nordicViewer');
+    const frame = document.getElementById('nordicFrame');
+    const viewerTitle = document.getElementById('nordicViewerTitle');
+    const btnToggleQA = document.getElementById('btnNordicToggleQA');
+    const btnPrev = document.getElementById('btnNordicPrev');
+    const btnNext = document.getElementById('btnNordicNext');
+
+    function openDoc(title, path, code, sessionData, docType) {
+      currentSessionData = sessionData;
+      currentDocType = docType;
+      viewerTitle.textContent = `${title} [${code || 'ICAB'}]`;
+      frame.src = encodeURI(path);
+      viewer.style.display = 'flex';
+
+      if (sessionData) {
+        btnPrev.disabled = sessionData.sessionIndex >= sessionData.allSessions.length - 1;
+        btnNext.disabled = sessionData.sessionIndex <= 0;
+        btnToggleQA.textContent = docType === 'question' ? 'View Solution [a]' : 'View Question [q]';
+      }
+    }
+
+    function closeDoc() {
+      viewer.style.display = 'none';
+      frame.src = 'about:blank';
+      currentSessionData = null;
+    }
+
+    document.getElementById('btnNordicClose').addEventListener('click', closeDoc);
+    document.getElementById('btnNordicSyllabus').addEventListener('click', () => {
+      openDoc(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path, 'SYL', null, 'manual');
+    });
+
+    btnToggleQA.addEventListener('click', () => {
+      if (!currentSessionData) return;
+      const targetType = currentDocType === 'question' ? 'answer' : 'question';
+      const file = targetType === 'question' ? currentSessionData.session.question : currentSessionData.session.answer;
+      if (file) {
+        openDoc(`${currentSessionData.subject} (${currentSessionData.session.session_label}) [${targetType}]`, file.rel_path, PAPER_CODES[currentSessionData.subject], currentSessionData, targetType);
+      }
+    });
+
+    btnPrev.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex >= currentSessionData.allSessions.length - 1) return;
+      const target = currentSessionData.allSessions[currentSessionData.sessionIndex + 1];
+      const file = currentDocType === 'question' ? (target.question || target.answer) : (target.answer || target.question);
+      const actualType = file === target.question ? 'question' : 'answer';
+      openDoc(`${currentSessionData.subject} (${target.session_label})`, file.rel_path, PAPER_CODES[currentSessionData.subject], { ...currentSessionData, session: target, sessionIndex: currentSessionData.sessionIndex + 1 }, actualType);
+    });
+
+    btnNext.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex <= 0) return;
+      const target = currentSessionData.allSessions[currentSessionData.sessionIndex - 1];
+      const file = currentDocType === 'question' ? (target.question || target.answer) : (target.answer || target.question);
+      const actualType = file === target.question ? 'question' : 'answer';
+      openDoc(`${currentSessionData.subject} (${target.session_label})`, file.rel_path, PAPER_CODES[currentSessionData.subject], { ...currentSessionData, session: target, sessionIndex: currentSessionData.sessionIndex - 1 }, actualType);
+    });
+
+    document.getElementById('btnNordicPop').addEventListener('click', () => {
+      if (frame.src && frame.src !== 'about:blank') window.open(frame.src, '_blank');
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') closeDoc();
+      if (e.key.toLowerCase() === 's') document.getElementById('btnNordicSyllabus').click();
+    });
+
+    function renderMatrix(q = '') {
+      table.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      const thead = document.createElement('thead');
+      const tr = document.createElement('tr');
+      const thPaper = document.createElement('th');
+      thPaper.textContent = 'Subject';
+      tr.appendChild(thPaper);
+
+      SESSIONS_ORDER.forEach(s => {
+        const th = document.createElement('th');
+        th.innerHTML = `${s.label.replace(' ', '<br>')}`;
+        tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const tiers = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') tiers.push('AL');
+
+      tiers.forEach(lvl => {
+        const sepTr = document.createElement('tr');
+        const sepTd = document.createElement('td');
+        sepTd.className = 'nordic-level-divider';
+        sepTd.colSpan = SESSIONS_ORDER.length + 1;
+        sepTd.textContent = lvl === 'PL' ? 'Professional Level (PL)' : 'Advanced Level (AL)';
+        sepTr.appendChild(sepTd);
+        tbody.appendChild(sepTr);
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          if (query && !paper.toLowerCase().includes(query)) return;
+          const code = PAPER_CODES[paper] || 'CA';
+          const sessions = CATALOG[lvl][paper] || [];
+          const map = new Map();
+          sessions.forEach((s, idx) => map.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdPaper = document.createElement('td');
+          tdPaper.innerHTML = `<span style="font-size:10px; color:var(--ink-faint); margin-right:4px;">${code}</span> ${paper}`;
+          row.appendChild(tdPaper);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const item = map.get(col.tag);
+            if (item && (item.s.question || item.s.answer)) {
+              const grp = document.createElement('div');
+              grp.className = 'nordic-chips';
+
+              const bQ = document.createElement('button');
+              bQ.className = 'nordic-link';
+              bQ.textContent = 'q';
+              bQ.disabled = !item.s.question;
+              if (item.s.question) {
+                bQ.addEventListener('click', () => {
+                  openDoc(`${paper} (${item.s.session_label}) — Question`, item.s.question.rel_path, code, {
+                    subject: paper,
+                    session: item.s,
+                    sessionIndex: item.idx,
+                    allSessions: sessions
+                  }, 'question');
+                });
+              }
+
+              const bA = document.createElement('button');
+              bA.className = 'nordic-link ans';
+              bA.textContent = 'a';
+              bA.disabled = !item.s.answer;
+              if (item.s.answer) {
+                bA.addEventListener('click', () => {
+                  openDoc(`${paper} (${item.s.session_label}) — Solution`, item.s.answer.rel_path, code, {
+                    subject: paper,
+                    session: item.s,
+                    sessionIndex: item.idx,
+                    allSessions: sessions
+                  }, 'answer');
+                });
+              }
+
+              grp.appendChild(bQ);
+              grp.appendChild(bA);
+              td.appendChild(grp);
+            } else {
+              td.innerHTML = '<span style="color:#d5cfc4;">·</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+      table.appendChild(tbody);
+    }
+
+    function renderManuals(q = '') {
+      manualsGrid.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      ['PL', 'AL'].forEach(lvl => {
+        if (activeFilter === 'PL' && lvl !== 'PL') return;
+        if (activeFilter === 'AL' && lvl !== 'AL') return;
+
+        const subjs = CATALOG.Manuals[lvl];
+        for (const [subj, files] of Object.entries(subjs)) {
+          if (query && !subj.toLowerCase().includes(query)) continue;
+          const code = PAPER_CODES[subj] || 'MAN';
+
+          const book = document.createElement('div');
+          book.className = 'nordic-book';
+          book.innerHTML = `
+            <div>
+              <div class="nordic-book-code">${code} • ${lvl}</div>
+              <div class="nordic-book-title">${subj}</div>
+            </div>
+            <div class="nordic-book-files"></div>
+          `;
+          const fList = book.querySelector('.nordic-book-files');
+          files.forEach(f => {
+            const row = document.createElement('div');
+            row.className = 'nordic-book-row';
+            row.innerHTML = `<span>${f.title}</span> <span>${f.size_mb} MB</span>`;
+            row.addEventListener('click', () => openDoc(`${subj} — ${f.title}`, f.rel_path, code, null, 'manual'));
+            fList.appendChild(row);
+          });
+          manualsGrid.appendChild(book);
+        }
+      });
+    }
+
+    document.querySelectorAll('.nordic-pill').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.nordic-pill').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.getAttribute('data-filter');
+
+        if (activeFilter === 'MANUALS') {
+          document.getElementById('nordicMatrixSec').style.display = 'none';
+          document.getElementById('nordicManualsSec').style.display = 'block';
+        } else {
+          document.getElementById('nordicMatrixSec').style.display = 'block';
+          document.getElementById('nordicManualsSec').style.display = 'block';
+        }
+        renderMatrix(searchInput.value);
+        renderManuals(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      renderMatrix(e.target.value);
+      renderManuals(e.target.value);
+    });
+
+    renderMatrix();
+    renderManuals();
+  </script>
+</body>
+</html>

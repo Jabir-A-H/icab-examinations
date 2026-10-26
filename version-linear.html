@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Chartered Repository — Linear Minimalist Void</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* UNIVERSAL VERSION SWITCHER BAR */
+    .ui-version-bar {
+      background: #000000;
+      color: #71717a;
+      font-family: 'Geist', -apple-system, sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #18181b;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-version-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-version-tag {
+      background: #27272a;
+      color: #f4f4f5;
+      font-weight: 600;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #3f3f46;
+    }
+    .ui-version-nav { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-version-link {
+      color: #71717a;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .ui-version-link:hover { color: #f4f4f5; background: #18181b; }
+    .ui-version-link.active {
+      background: #f4f4f5;
+      color: #09090b;
+      font-weight: 600;
+    }
+
+    /* LINEAR / VERCEL MINIMALIST STYLING */
+    :root {
+      --l-bg: #000000;
+      --l-surface: #09090b;
+      --l-card: #121215;
+      --l-hover: #18181b;
+      --l-border: #27272a;
+      --l-border-subtle: #18181b;
+      
+      --l-accent: #5e6ad2;
+      --l-accent-hover: #6875e5;
+      --l-green: #10b981;
+      --l-emerald: #059669;
+      
+      --l-text: #f4f4f5;
+      --l-muted: #a1a1aa;
+      --l-faint: #52525b;
+      
+      --font-linear: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--l-bg);
+      color: var(--l-text);
+      font-family: var(--font-linear);
+      font-size: 13px;
+      line-height: 1.5;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Linear Command Bar Header */
+    .l-header {
+      height: 54px;
+      border-bottom: 1px solid var(--l-border-subtle);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .l-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .l-logo-mark {
+      width: 18px;
+      height: 18px;
+      background: var(--l-accent);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 10px;
+      color: #ffffff;
+    }
+    .l-brand-title {
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: -0.2px;
+    }
+    .l-breadcrumb {
+      color: var(--l-faint);
+      font-size: 12px;
+    }
+
+    /* Raycast / Command Palette Bar */
+    .l-command-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--l-surface);
+      border: 1px solid var(--l-border-subtle);
+      border-radius: 6px;
+      padding: 4px 12px;
+      gap: 8px;
+      width: 380px;
+      transition: border-color 0.15s;
+    }
+    .l-command-wrap:focus-within {
+      border-color: var(--l-border);
+      background: #111114;
+    }
+    .l-command-input {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 12px;
+      outline: none;
+      width: 100%;
+    }
+    .l-kbd {
+      background: #18181b;
+      border: 1px solid var(--l-border);
+      color: var(--l-muted);
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    /* Workspace */
+    .l-workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Linear Left Sidebar */
+    .l-sidebar {
+      width: 240px;
+      border-right: 1px solid var(--l-border-subtle);
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      background: #050507;
+    }
+    .l-nav-group {
+      margin-bottom: 24px;
+    }
+    .l-nav-heading {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--l-faint);
+      padding: 4px 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .l-nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 8px;
+      border-radius: 6px;
+      color: var(--l-muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.1s;
+    }
+    .l-nav-item:hover { background: var(--l-hover); color: #ffffff; }
+    .l-nav-item.active { background: #1c1c22; color: #ffffff; font-weight: 600; }
+    .l-nav-item.active::before {
+      content: '';
+      width: 3px;
+      height: 14px;
+      background: var(--l-accent);
+      border-radius: 2px;
+      margin-right: 8px;
+    }
+
+    /* Linear Main List Area */
+    .l-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--l-bg);
+    }
+    .l-subbar {
+      height: 40px;
+      border-bottom: 1px solid var(--l-border-subtle);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--l-muted);
+      flex-shrink: 0;
+    }
+
+    /* Issue List View */
+    .l-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+    }
+    .l-list-group-header {
+      padding: 10px 24px 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--l-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: #050507;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+    .l-row {
+      display: flex;
+      align-items: center;
+      padding: 8px 24px;
+      border-bottom: 1px solid rgba(39, 39, 42, 0.4);
+      gap: 16px;
+      transition: background 0.1s;
+    }
+    .l-row:hover { background: var(--l-card); }
+    .l-row-identifier {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--l-muted);
+      width: 60px;
+      font-variant-numeric: tabular-nums;
+    }
+    .l-row-title {
+      flex: 1;
+      font-weight: 500;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .l-row-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .l-btn {
+      background: #18181b;
+      border: 1px solid var(--l-border);
+      color: var(--l-text);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .l-btn:hover {
+      background: #27272a;
+      border-color: #3f3f46;
+      color: #ffffff;
+    }
+    .l-btn.green {
+      color: #34d399;
+      border-color: rgba(52, 211, 153, 0.3);
+    }
+    .l-btn.green:hover {
+      background: rgba(52, 211, 153, 0.15);
+      border-color: #34d399;
+    }
+    .l-btn:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+      border-color: transparent;
+      background: transparent;
+    }
+
+    /* Slide-Over Drawer Viewer */
+    .l-drawer-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      justify-content: flex-end;
+    }
+    .l-drawer {
+      width: 75%;
+      max-width: 1100px;
+      height: 100%;
+      background: var(--l-surface);
+      border-left: 1px solid var(--l-border);
+      display: flex;
+      flex-direction: column;
+      box-shadow: -20px 0 60px rgba(0,0,0,0.8);
+    }
+    .l-drawer-bar {
+      height: 52px;
+      border-bottom: 1px solid var(--l-border);
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .l-drawer-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #121215;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL VERSION SWITCHER -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI LAB</span>
+      <span>13 Visual Paradigms</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link">01 Archival</a>
+      <a href="version-2-terminal.html" class="ui-version-link">02 Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link">03 Swiss</a>
+      <a href="version-4-nordic.html" class="ui-version-link">04 Nordic</a>
+      <a href="version-5-industrial.html" class="ui-version-link">05 Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link">06 FT Executive</a>
+      <a href="version-apple.html" class="ui-version-link">07 Apple macOS</a>
+      <a href="version-torrent.html" class="ui-version-link">08 Torrent Tracker</a>
+      <a href="version-anime.html" class="ui-version-link">09 Anime Stream</a>
+      <a href="version-winxp.html" class="ui-version-link">10 Windows XP</a>
+      <a href="version-google.html" class="ui-version-link">11 Google Drive</a>
+      <a href="version-linux.html" class="ui-version-link">12 Linux Curses</a>
+      <a href="version-linear.html" class="ui-version-link active">13 Linear Void</a>
+    </nav>
+  </header>
+
+  <!-- Linear Header -->
+  <header class="l-header">
+    <div class="l-logo-wrap">
+      <div class="l-logo-mark">IC</div>
+      <div class="l-brand-title">ICAB Chartered Registry</div>
+      <span class="l-breadcrumb">/ 2022–2026 Archive</span>
+    </div>
+
+    <div class="l-command-wrap">
+      <input type="text" id="lSearch" class="l-command-input" placeholder="Jump to paper, session, or manual...">
+      <span class="l-kbd">⌘K</span>
+    </div>
+  </header>
+
+  <!-- Workspace -->
+  <div class="l-workspace">
+    <!-- Sidebar -->
+    <aside class="l-sidebar">
+      <div class="l-nav-group">
+        <div class="l-nav-heading">Curriculum Tiers</div>
+        <div class="l-nav-item active" data-filter="ALL">
+          <span>All Papers</span>
+          <span style="font-size:10px; color:var(--l-faint);">10</span>
+        </div>
+        <div class="l-nav-item" data-filter="PL">
+          <span>Professional Level</span>
+          <span style="font-size:10px; color:var(--l-faint);">7</span>
+        </div>
+        <div class="l-nav-item" data-filter="AL">
+          <span>Advanced Level</span>
+          <span style="font-size:10px; color:var(--l-faint);">3</span>
+        </div>
+        <div class="l-nav-item" data-filter="MANUALS">
+          <span>Study Manuals</span>
+          <span style="font-size:10px; color:var(--l-faint);">20</span>
+        </div>
+      </div>
+
+      <div class="l-nav-group">
+        <div class="l-nav-heading">Frameworks</div>
+        <div class="l-nav-item" id="btnLinearSyllabus">
+          <span>2025 Syllabus</span>
+          <span class="l-kbd">6.2 MB</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Issue / Diet List -->
+    <main class="l-content">
+      <div class="l-subbar">
+        <span id="lCount">Showing 13 examination sessions</span>
+        <span>Keyboard: <kbd class="l-kbd">Esc</kbd> Close</span>
+      </div>
+
+      <div class="l-scroll" id="lScroll">
+        <!-- Rendered dynamically -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Slide-Over Drawer Viewer -->
+  <div class="l-drawer-overlay" id="lDrawer">
+    <div class="l-drawer">
+      <div class="l-drawer-bar">
+        <div style="font-weight:600; font-size:13px;" id="drawerTitle">Document</div>
+        <div style="display:flex; gap:8px;">
+          <button class="l-btn green" id="btnDrawerToggle">Switch Q/A</button>
+          <button class="l-btn" id="btnDrawerClose">Done [Esc]</button>
+        </div>
+      </div>
+      <iframe class="l-drawer-frame" id="lFrame" src="about:blank"></iframe>
+    </div>
+  </div>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    let currentSessionData = null;
+    let currentDocType = 'question';
+
+    const scrollArea = document.getElementById('lScroll');
+    const searchInput = document.getElementById('lSearch');
+    const drawer = document.getElementById('lDrawer');
+    const frame = document.getElementById('lFrame');
+    const drawerTitle = document.getElementById('drawerTitle');
+    const btnToggle = document.getElementById('btnDrawerToggle');
+
+    function openDrawer(title, path, sessionData, docType) {
+      currentSessionData = sessionData;
+      currentDocType = docType;
+      drawerTitle.textContent = title;
+      frame.src = encodeURI(path);
+      drawer.style.display = 'flex';
+
+      btnToggle.style.display = sessionData ? 'inline-block' : 'none';
+      if (sessionData) {
+        btnToggle.textContent = docType === 'question' ? 'Switch to Solution [A]' : 'Switch to Question [Q]';
+      }
+    }
+
+    function closeDrawer() {
+      drawer.style.display = 'none';
+      frame.src = 'about:blank';
+      currentSessionData = null;
+    }
+
+    document.getElementById('btnDrawerClose').addEventListener('click', closeDrawer);
+    document.getElementById('btnLinearSyllabus').addEventListener('click', () => {
+      openDrawer(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path, null, 'manual');
+    });
+
+    btnToggle.addEventListener('click', () => {
+      if (!currentSessionData) return;
+      const targetType = currentDocType === 'question' ? 'answer' : 'question';
+      const file = targetType === 'question' ? currentSessionData.session.question : currentSessionData.session.answer;
+      if (file) {
+        openDrawer(`${currentSessionData.subject} (${currentSessionData.session.session_label}) [${targetType.toUpperCase()}]`, file.rel_path, currentSessionData, targetType);
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') closeDrawer();
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        searchInput.focus();
+      }
+    });
+
+    function renderLinearList(query = '') {
+      scrollArea.innerHTML = '';
+      const q = query.toLowerCase().trim();
+
+      if (activeFilter === 'ALL' || activeFilter === 'PL' || activeFilter === 'AL') {
+        const tiers = (activeFilter === 'ALL') ? ['PL', 'AL'] : [activeFilter];
+
+        tiers.forEach(lvl => {
+          const groupHeader = document.createElement('div');
+          groupHeader.className = 'l-list-group-header';
+          groupHeader.textContent = lvl === 'PL' ? 'Professional Level (7 Papers)' : 'Advanced Level (3 Papers)';
+          scrollArea.appendChild(groupHeader);
+
+          SUBJECT_ORDER[lvl].forEach(paper => {
+            if (q && !paper.toLowerCase().includes(q)) return;
+            const sessions = CATALOG[lvl][paper] || [];
+            const code = PAPER_CODES[paper] || 'CA';
+
+            sessions.forEach((s, idx) => {
+              const row = document.createElement('div');
+              row.className = 'l-row';
+              row.innerHTML = `
+                <div class="l-row-identifier">${code}-${s.session_tag.slice(2, 7)}</div>
+                <div class="l-row-title">
+                  <span>${paper}</span>
+                  <span style="color:var(--l-faint);">·</span>
+                  <span style="color:var(--l-muted); font-size:12px;">${s.session_label}</span>
+                </div>
+                <div class="l-row-actions">
+                  <button class="l-btn btn-q" ${s.question ? '' : 'disabled'}>Question</button>
+                  <button class="l-btn green btn-a" ${s.answer ? '' : 'disabled'}>Solution</button>
+                </div>
+              `;
+
+              if (s.question) {
+                row.querySelector('.btn-q').addEventListener('click', () => {
+                  openDrawer(`${paper} (${s.session_label}) — Question`, s.question.rel_path, {
+                    subject: paper, session: s, sessionIndex: idx, allSessions: sessions
+                  }, 'question');
+                });
+              }
+
+              if (s.answer) {
+                row.querySelector('.btn-a').addEventListener('click', () => {
+                  openDrawer(`${paper} (${s.session_label}) — Suggested Answer`, s.answer.rel_path, {
+                    subject: paper, session: s, sessionIndex: idx, allSessions: sessions
+                  }, 'answer');
+                });
+              }
+
+              scrollArea.appendChild(row);
+            });
+          });
+        });
+      }
+
+      if (activeFilter === 'ALL' || activeFilter === 'MANUALS') {
+        const groupHeader = document.createElement('div');
+        groupHeader.className = 'l-list-group-header';
+        groupHeader.textContent = 'Curricular Study Manuals Vault';
+        scrollArea.appendChild(groupHeader);
+
+        ['PL', 'AL'].forEach(lvl => {
+          const subjs = CATALOG.Manuals[lvl];
+          for (const [subj, files] of Object.entries(subjs)) {
+            if (q && !subj.toLowerCase().includes(q)) continue;
+            const code = PAPER_CODES[subj] || 'MAN';
+
+            files.forEach((f, idx) => {
+              const row = document.createElement('div');
+              row.className = 'l-row';
+              row.innerHTML = `
+                <div class="l-row-identifier" style="color:var(--l-accent);">${code}-VOL${idx+1}</div>
+                <div class="l-row-title">
+                  <span>${subj} — ${f.title}</span>
+                  <span style="color:var(--l-faint);">·</span>
+                  <span style="color:var(--l-muted); font-size:12px;">${f.size_mb} MB</span>
+                </div>
+                <div class="l-row-actions">
+                  <button class="l-btn" style="border-color:var(--l-accent); color:var(--l-accent);">Read Textbook</button>
+                </div>
+              `;
+              row.querySelector('button').addEventListener('click', () => openDrawer(`${subj} — ${f.title}`, f.rel_path, null, 'manual'));
+              scrollArea.appendChild(row);
+            });
+          }
+        });
+      }
+    }
+
+    document.querySelectorAll('.l-nav-item[data-filter]').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.l-nav-item').forEach(x => x.classList.remove('active'));
+        item.classList.add('active');
+        activeFilter = item.getAttribute('data-filter');
+        renderLinearList(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => renderLinearList(e.target.value));
+
+    renderLinearList();
+  </script>
+</body>
+</html>

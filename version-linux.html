@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GNU/Linux Midnight Commander - ICAB Archive TUI</title>
+  
+  <!-- Monospace Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* UNIVERSAL VERSION SWITCHER BAR */
+    .ui-version-bar {
+      background: #000000;
+      color: #00ff00;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #00aa00;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-version-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-version-tag {
+      background: #00aa00;
+      color: #000000;
+      font-weight: 700;
+      font-size: 9px;
+      padding: 2px 6px;
+    }
+    .ui-version-nav { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-version-link {
+      color: #00aa00;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+    .ui-version-link:hover { color: #ffffff; background: #003300; }
+    .ui-version-link.active {
+      background: #00ff00;
+      color: #000000;
+      font-weight: 700;
+    }
+
+    /* LINUX MIDNIGHT COMMANDER / CURSES THEME */
+    :root {
+      --mc-blue: #0000a8;
+      --mc-cyan: #00aaaa;
+      --mc-white: #ffffff;
+      --mc-yellow: #ffff55;
+      --mc-green: #55ff55;
+      --mc-black: #000000;
+      --mc-gray: #aaaaaa;
+      --font-tui: 'JetBrains Mono', Courier, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0 !important; }
+
+    body {
+      background: #000000;
+      color: var(--mc-white);
+      font-family: var(--font-tui);
+      font-size: 12px;
+      line-height: 1.25;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* MC Top Menu Bar */
+    .mc-menubar {
+      background: var(--mc-cyan);
+      color: #000000;
+      padding: 2px 12px;
+      display: flex;
+      gap: 16px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .mc-menu-key { text-decoration: underline; }
+
+    /* MC Dual Pane Container */
+    .mc-panes {
+      flex: 1;
+      display: flex;
+      background: var(--mc-blue);
+      padding: 4px;
+      gap: 4px;
+      overflow: hidden;
+    }
+
+    /* Pane Box */
+    .mc-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--mc-white);
+      background: var(--mc-blue);
+      overflow: hidden;
+    }
+    .mc-pane-title {
+      background: var(--mc-cyan);
+      color: #000000;
+      text-align: center;
+      font-weight: 700;
+      padding: 2px 8px;
+    }
+
+    .mc-pane-table-wrap {
+      flex: 1;
+      overflow-y: auto;
+    }
+    .mc-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+    .mc-table th {
+      color: var(--mc-yellow);
+      border-bottom: 1px solid var(--mc-cyan);
+      padding: 2px 6px;
+      text-align: left;
+      font-weight: 700;
+      position: sticky;
+      top: 0;
+      background: var(--mc-blue);
+    }
+    .mc-table td {
+      padding: 2px 6px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .mc-table tr:hover td {
+      background: var(--mc-cyan);
+      color: #000000;
+    }
+    .mc-table tr.active td {
+      background: var(--mc-cyan);
+      color: #000000;
+      font-weight: 700;
+    }
+
+    .mc-file-q { color: var(--mc-white); }
+    .mc-file-a { color: var(--mc-green); }
+    .mc-file-man { color: var(--mc-yellow); }
+
+    /* CLI Prompt Area */
+    .mc-cli-area {
+      background: #000000;
+      padding: 6px 12px;
+      color: var(--mc-white);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      border-top: 1px solid #333333;
+    }
+    .mc-prompt { color: var(--mc-green); font-weight: 700; }
+    .mc-input {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 12px;
+      outline: none;
+      flex: 1;
+    }
+
+    /* Bottom Function Keys Bar */
+    .mc-fkeys-bar {
+      background: #000000;
+      display: flex;
+      flex-shrink: 0;
+      border-top: 1px solid #333333;
+    }
+    .mc-fkey {
+      flex: 1;
+      background: var(--mc-blue);
+      color: var(--mc-white);
+      font-size: 11px;
+      padding: 3px 0;
+      text-align: center;
+      cursor: pointer;
+      border-right: 1px solid #000000;
+    }
+    .mc-fkey span { color: #000000; background: var(--mc-white); padding: 0 4px; font-weight: 700; margin-right: 2px; }
+    .mc-fkey:hover { background: var(--mc-cyan); color: #000000; }
+
+    /* Document Viewer Terminal Window */
+    .mc-viewer-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 200000;
+      display: none;
+      flex-direction: column;
+      padding: 16px;
+    }
+    .mc-viewer-window {
+      flex: 1;
+      border: 2px solid var(--mc-cyan);
+      background: var(--mc-blue);
+      display: flex;
+      flex-direction: column;
+    }
+    .mc-viewer-header {
+      background: var(--mc-cyan);
+      color: #000000;
+      padding: 4px 12px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+    }
+    .mc-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #111111;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL VERSION SWITCHER -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI LAB</span>
+      <span>13 Visual Paradigms</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link">01 Archival</a>
+      <a href="version-2-terminal.html" class="ui-version-link">02 Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link">03 Swiss</a>
+      <a href="version-4-nordic.html" class="ui-version-link">04 Nordic</a>
+      <a href="version-5-industrial.html" class="ui-version-link">05 Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link">06 FT Executive</a>
+      <a href="version-apple.html" class="ui-version-link">07 Apple macOS</a>
+      <a href="version-torrent.html" class="ui-version-link">08 Torrent Tracker</a>
+      <a href="version-anime.html" class="ui-version-link">09 Anime Stream</a>
+      <a href="version-winxp.html" class="ui-version-link">10 Windows XP</a>
+      <a href="version-google.html" class="ui-version-link">11 Google Drive</a>
+      <a href="version-linux.html" class="ui-version-link active">12 Linux Curses</a>
+      <a href="version-linear.html" class="ui-version-link">13 Linear Void</a>
+    </nav>
+  </header>
+
+  <!-- MC Menubar -->
+  <div class="mc-menubar">
+    <span><span class="mc-menu-key">L</span>eft</span>
+    <span><span class="mc-menu-key">F</span>ile</span>
+    <span><span class="mc-menu-key">C</span>ommand</span>
+    <span><span class="mc-menu-key">O</span>ptions</span>
+    <span><span class="mc-menu-key">R</span>ight</span>
+  </div>
+
+  <!-- Dual Panes -->
+  <div class="mc-panes">
+    <!-- Left Pane: Exam Papers (Question & Answer) -->
+    <div class="mc-pane">
+      <div class="mc-pane-title">/var/icab/examination_dockets (Question & Answer)</div>
+      <div class="mc-pane-table-wrap">
+        <table class="mc-table">
+          <thead>
+            <tr>
+              <th>.Name</th>
+              <th width="80">Size</th>
+              <th width="110">Diet</th>
+            </tr>
+          </thead>
+          <tbody id="mcLeftTbody">
+            <!-- Rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Right Pane: Study Manuals Vault & Syllabus -->
+    <div class="mc-pane">
+      <div class="mc-pane-title">/usr/share/icab/manuals_and_syllabi</div>
+      <div class="mc-pane-table-wrap">
+        <table class="mc-table">
+          <thead>
+            <tr>
+              <th>.Name</th>
+              <th width="80">Size</th>
+              <th width="90">Tier</th>
+            </tr>
+          </thead>
+          <tbody id="mcRightTbody">
+            <!-- Rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLI Command Line -->
+  <div class="mc-cli-area">
+    <span class="mc-prompt">icab@archlinux:~$</span>
+    <input type="text" id="mcCliInput" class="mc-input" placeholder="filter papers or type 'cat syllabus', 'clear'...">
+  </div>
+
+  <!-- Bottom Function Keys -->
+  <div class="mc-fkeys-bar">
+    <div class="mc-fkey" id="fkey1"><span>1</span>Help</div>
+    <div class="mc-fkey" id="fkey2"><span>2</span>Menu</div>
+    <div class="mc-fkey" id="fkey3"><span>3</span>View</div>
+    <div class="mc-fkey" id="fkey4"><span>4</span>PL-Only</div>
+    <div class="mc-fkey" id="fkey5"><span>5</span>AL-Only</div>
+    <div class="mc-fkey" id="fkey6"><span>6</span>Syllabus</div>
+    <div class="mc-fkey" id="fkey7"><span>7</span>Search</div>
+    <div class="mc-fkey" id="fkey8"><span>8</span>Reset</div>
+    <div class="mc-fkey" id="fkey9"><span>9</span>PullDn</div>
+    <div class="mc-fkey" id="fkey10"><span>10</span>Quit</div>
+  </div>
+
+  <!-- Viewer Window Modal -->
+  <div class="mc-viewer-modal" id="mcViewer">
+    <div class="mc-viewer-window">
+      <div class="mc-viewer-header">
+        <span id="mcViewerTitle">VIEWER: /var/icab/doc</span>
+        <button style="background:var(--mc-blue); color:#fff; border:1px solid #fff; padding:1px 8px; cursor:pointer;" id="btnMcClose">ESC: Close</button>
+      </div>
+      <iframe class="mc-frame" id="mcFrame" src="about:blank"></iframe>
+    </div>
+  </div>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeTier = 'ALL';
+    let selectedFile = null;
+
+    const leftTbody = document.getElementById('mcLeftTbody');
+    const rightTbody = document.getElementById('mcRightTbody');
+    const cliInput = document.getElementById('mcCliInput');
+    const viewer = document.getElementById('mcViewer');
+    const frame = document.getElementById('mcFrame');
+    const viewerTitle = document.getElementById('mcViewerTitle');
+
+    function openViewer(name, path) {
+      viewerTitle.textContent = `VIEWER: ${name}`;
+      frame.src = encodeURI(path);
+      viewer.style.display = 'flex';
+    }
+
+    function closeViewer() {
+      viewer.style.display = 'none';
+      frame.src = 'about:blank';
+    }
+
+    document.getElementById('btnMcClose').addEventListener('click', closeViewer);
+    document.getElementById('fkey3').addEventListener('click', () => {
+      if (selectedFile) openViewer(selectedFile.name, selectedFile.path);
+    });
+    document.getElementById('fkey6').addEventListener('click', () => {
+      openViewer(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path);
+    });
+    document.getElementById('fkey4').addEventListener('click', () => { activeTier = 'PL'; renderLeftPane(); });
+    document.getElementById('fkey5').addEventListener('click', () => { activeTier = 'AL'; renderLeftPane(); });
+    document.getElementById('fkey8').addEventListener('click', () => { activeTier = 'ALL'; cliInput.value = ''; renderLeftPane(); renderRightPane(); });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') {
+        if (e.key === 'Escape') { cliInput.value = ''; cliInput.blur(); renderLeftPane(); renderRightPane(); }
+        return;
+      }
+      if (e.key === 'Escape') closeViewer();
+      if (e.key === 'F3') { e.preventDefault(); if (selectedFile) openViewer(selectedFile.name, selectedFile.path); }
+    });
+
+    function renderLeftPane(query = '') {
+      leftTbody.innerHTML = '';
+      const q = query.toLowerCase().trim();
+      const tiers = (activeTier === 'ALL') ? ['PL', 'AL'] : [activeTier];
+
+      tiers.forEach(lvl => {
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          const sessions = CATALOG[lvl][paper] || [];
+          const code = PAPER_CODES[paper] || 'CA';
+
+          sessions.forEach(s => {
+            if (s.question) {
+              const name = `${code}_${s.session_tag}_Q.pdf`;
+              if (!q || name.toLowerCase().includes(q) || paper.toLowerCase().includes(q)) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                  <td class="mc-file-q">${name}</td>
+                  <td>${s.question.size_kb}K</td>
+                  <td>${s.session_label}</td>
+                `;
+                tr.addEventListener('click', () => {
+                  selectedFile = { name: `${paper} (${s.session_label}) [Q]`, path: s.question.rel_path };
+                  document.querySelectorAll('.mc-table tr').forEach(x => x.classList.remove('active'));
+                  tr.classList.add('active');
+                });
+                tr.addEventListener('dblclick', () => openViewer(`${paper} (${s.session_label}) [Q]`, s.question.rel_path));
+                leftTbody.appendChild(tr);
+              }
+            }
+
+            if (s.answer) {
+              const name = `${code}_${s.session_tag}_A.pdf`;
+              if (!q || name.toLowerCase().includes(q) || paper.toLowerCase().includes(q)) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                  <td class="mc-file-a">${name}</td>
+                  <td>${s.answer.size_kb}K</td>
+                  <td>${s.session_label}</td>
+                `;
+                tr.addEventListener('click', () => {
+                  selectedFile = { name: `${paper} (${s.session_label}) [A]`, path: s.answer.rel_path };
+                  document.querySelectorAll('.mc-table tr').forEach(x => x.classList.remove('active'));
+                  tr.classList.add('active');
+                });
+                tr.addEventListener('dblclick', () => openViewer(`${paper} (${s.session_label}) [A]`, s.answer.rel_path));
+                leftTbody.appendChild(tr);
+              }
+            }
+          });
+        });
+      });
+    }
+
+    function renderRightPane(query = '') {
+      rightTbody.innerHTML = '';
+      const q = query.toLowerCase().trim();
+
+      // Syllabus
+      const sylTr = document.createElement('tr');
+      sylTr.innerHTML = `
+        <td class="mc-file-man">ICAB_Latest_Syllabus_2025.pdf</td>
+        <td>${SYLLABUS_DOC.size_mb}M</td>
+        <td>OFFICIAL</td>
+      `;
+      sylTr.addEventListener('click', () => {
+        selectedFile = { name: SYLLABUS_DOC.title, path: SYLLABUS_DOC.rel_path };
+        document.querySelectorAll('.mc-table tr').forEach(x => x.classList.remove('active'));
+        sylTr.classList.add('active');
+      });
+      sylTr.addEventListener('dblclick', () => openViewer(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path));
+      rightTbody.appendChild(sylTr);
+
+      ['PL', 'AL'].forEach(lvl => {
+        const subjs = CATALOG.Manuals[lvl];
+        for (const [subj, files] of Object.entries(subjs)) {
+          files.forEach(f => {
+            const name = `${subj.replace(/ /g, '_')}_${f.title.replace(/ /g, '_')}.pdf`;
+            if (!q || name.toLowerCase().includes(q) || subj.toLowerCase().includes(q)) {
+              const tr = document.createElement('tr');
+              tr.innerHTML = `
+                <td class="mc-file-man">${name}</td>
+                <td>${f.size_mb}M</td>
+                <td>${lvl}</td>
+              `;
+              tr.addEventListener('click', () => {
+                selectedFile = { name: `${subj} - ${f.title}`, path: f.rel_path };
+                document.querySelectorAll('.mc-table tr').forEach(x => x.classList.remove('active'));
+                tr.classList.add('active');
+              });
+              tr.addEventListener('dblclick', () => openViewer(`${subj} - ${f.title}`, f.rel_path));
+              rightTbody.appendChild(tr);
+            }
+          });
+        }
+      });
+    }
+
+    cliInput.addEventListener('input', (e) => {
+      renderLeftPane(e.target.value);
+      renderRightPane(e.target.value);
+    });
+
+    renderLeftPane();
+    renderRightPane();
+  </script>
+</body>
+</html>

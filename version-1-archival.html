@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Chartered Repository — Version 1: Archival Folio</title>
+  
+  <!-- Typography: Newsreader & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       VERSION SWITCHER BAR (Persistent across all 6 architectural directions)
+       ========================================================================== */
+    .ui-version-bar {
+      background: #111418;
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 12px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #232936;
+      position: relative;
+      z-index: 10000;
+      flex-shrink: 0;
+    }
+    .ui-version-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .ui-version-tag {
+      background: #e2b340;
+      color: #0b0f14;
+      font-weight: 800;
+      font-size: 10px;
+      letter-spacing: 0.8px;
+      padding: 3px 6px;
+      text-transform: uppercase;
+    }
+    .ui-version-sub {
+      color: #94a3b8;
+      font-size: 11px;
+    }
+    .ui-version-nav {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .ui-version-link {
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 6px 10px;
+      border: 1px solid transparent;
+      font-size: 11px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .ui-version-link:hover {
+      background: #1e2533;
+      color: #ffffff;
+      border-color: #334155;
+    }
+    .ui-version-link.active {
+      background: #ffffff;
+      color: #0b0f14;
+      font-weight: 700;
+      border-color: #ffffff;
+    }
+    .ui-version-link .v-num {
+      opacity: 0.6;
+      font-size: 10px;
+    }
+
+    /* ==========================================================================
+       PHILOSOPHY 1: THE ARCHIVAL FOLIO
+       Oxford Law Library, Parliamentary Records, High-Court Legal Register
+       ========================================================================== */
+    :root {
+      --vellum: #fbf9f4;
+      --vellum-sheet: #ffffff;
+      --vellum-dim: #f3eee3;
+      --vellum-card: #f8f5ee;
+      --ink: #181614;
+      --ink-muted: #565049;
+      --ink-faint: #8c8275;
+      
+      --seal-navy: #0e243a;
+      --seal-crimson: #7c1a22;
+      --seal-gold: #8c6320;
+      
+      --rule-ink: #ded6c8;
+      --rule-dark: #b5a995;
+      
+      --font-folio: "Newsreader", "Charter", Georgia, serif;
+      --font-clean: "Plus Jakarta Sans", -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--vellum);
+      color: var(--ink);
+      font-family: var(--font-clean);
+      font-size: 13px;
+      line-height: 1.5;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Masthead */
+    .folio-masthead {
+      background: var(--vellum-sheet);
+      border-bottom: 2px solid var(--seal-navy);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .folio-titles {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .folio-institution {
+      font-family: var(--font-folio);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--seal-crimson);
+    }
+    .folio-heading {
+      font-family: var(--font-folio);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--seal-navy);
+      line-height: 1.1;
+    }
+    .folio-provenance {
+      font-size: 11px;
+      color: var(--ink-muted);
+      margin-top: 2px;
+    }
+
+    .folio-masthead-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .folio-action-btn {
+      background: var(--vellum-dim);
+      border: 1px solid var(--rule-dark);
+      color: var(--ink);
+      font-family: var(--font-folio);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 0;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .folio-action-btn:hover {
+      background: #eae3d5;
+      border-color: var(--ink);
+    }
+    .folio-action-btn.primary {
+      background: var(--seal-navy);
+      color: #ffffff;
+      border-color: var(--seal-navy);
+    }
+    .folio-action-btn.primary:hover {
+      background: #173859;
+    }
+
+    /* Sub-bar / Search & Scope */
+    .folio-scope-bar {
+      background: var(--vellum-card);
+      border-bottom: 1px solid var(--rule-ink);
+      padding: 8px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+    .folio-search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      max-width: 460px;
+    }
+    .folio-search-label {
+      font-family: var(--font-folio);
+      font-size: 11px;
+      font-style: italic;
+      color: var(--ink-muted);
+      white-space: nowrap;
+    }
+    .folio-search-input {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--rule-dark);
+      padding: 6px 12px;
+      font-family: var(--font-clean);
+      font-size: 12px;
+      color: var(--ink);
+      outline: none;
+      border-radius: 0;
+    }
+    .folio-search-input:focus {
+      border-color: var(--seal-navy);
+      box-shadow: 0 0 0 1px var(--seal-navy);
+    }
+    .folio-level-toggles {
+      display: flex;
+      border: 1px solid var(--rule-dark);
+      background: #ffffff;
+    }
+    .folio-toggle-btn {
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--rule-ink);
+      padding: 6px 14px;
+      font-family: var(--font-folio);
+      font-size: 12px;
+      color: var(--ink-muted);
+      cursor: pointer;
+      border-radius: 0;
+    }
+    .folio-toggle-btn:last-child {
+      border-right: none;
+    }
+    .folio-toggle-btn:hover {
+      background: var(--vellum-dim);
+      color: var(--ink);
+    }
+    .folio-toggle-btn.active {
+      background: var(--seal-navy);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Workspace Body */
+    .folio-workspace {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Left Register / Sidebar */
+    .folio-docket-sidebar {
+      width: 320px;
+      background: var(--vellum-sheet);
+      border-right: 1px solid var(--rule-ink);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .folio-sidebar-head {
+      padding: 12px 18px;
+      background: var(--vellum-dim);
+      border-bottom: 1px solid var(--rule-ink);
+      font-family: var(--font-folio);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--seal-navy);
+      display: flex;
+      justify-content: space-between;
+    }
+    .folio-sidebar-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 0;
+    }
+    .folio-subject-section {
+      margin-bottom: 16px;
+    }
+    .folio-subject-label {
+      padding: 4px 18px;
+      font-family: var(--font-folio);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--seal-crimson);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--rule-ink);
+      margin-bottom: 4px;
+    }
+    .folio-subject-row {
+      padding: 8px 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      border-left: 3px solid transparent;
+      transition: background 0.1s;
+    }
+    .folio-subject-row:hover {
+      background: var(--vellum-card);
+    }
+    .folio-subject-row.active {
+      background: var(--vellum-dim);
+      border-left-color: var(--seal-navy);
+      font-weight: 600;
+    }
+    .folio-subject-code {
+      font-family: var(--font-clean);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ink-muted);
+      margin-right: 8px;
+    }
+    .folio-subject-name {
+      font-size: 13px;
+      color: var(--ink);
+      flex: 1;
+    }
+    .folio-subject-count {
+      font-size: 10px;
+      color: var(--ink-faint);
+    }
+
+    /* Main Docket View */
+    .folio-main-view {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--vellum);
+      padding: 24px 32px 60px;
+      position: relative;
+    }
+
+    /* Docket Banner */
+    .folio-docket-banner {
+      background: var(--vellum-sheet);
+      border: 1px solid var(--rule-dark);
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .folio-banner-content h2 {
+      font-family: var(--font-folio);
+      font-size: 20px;
+      color: var(--seal-navy);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .folio-banner-content p {
+      font-size: 12px;
+      color: var(--ink-muted);
+      max-width: 720px;
+    }
+
+    /* Matrix Table Layout */
+    .folio-matrix-section {
+      background: var(--vellum-sheet);
+      border: 1px solid var(--rule-dark);
+      margin-bottom: 32px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .folio-matrix-head {
+      padding: 14px 20px;
+      background: var(--vellum-dim);
+      border-bottom: 2px solid var(--seal-navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .folio-matrix-title {
+      font-family: var(--font-folio);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--seal-navy);
+    }
+    .folio-matrix-desc {
+      font-size: 11px;
+      color: var(--ink-muted);
+      font-style: italic;
+    }
+
+    .folio-table-container {
+      overflow-x: auto;
+    }
+    .folio-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+    .folio-table th {
+      background: var(--vellum-card);
+      border-bottom: 1px solid var(--rule-dark);
+      border-right: 1px solid var(--rule-ink);
+      padding: 10px 8px;
+      font-family: var(--font-folio);
+      font-weight: 600;
+      color: var(--seal-navy);
+      font-size: 11px;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .folio-table th:first-child {
+      text-align: left;
+      padding-left: 16px;
+      width: 260px;
+    }
+    .folio-table td {
+      border-bottom: 1px solid var(--rule-ink);
+      border-right: 1px solid var(--rule-ink);
+      padding: 8px 6px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .folio-table td:first-child {
+      text-align: left;
+      padding-left: 16px;
+    }
+    .folio-table tr:hover td {
+      background: #fbf8f0;
+    }
+    .folio-tier-separator {
+      background: var(--vellum-dim) !important;
+      font-family: var(--font-folio);
+      font-weight: 700;
+      font-size: 11px;
+      color: var(--seal-crimson);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 6px 16px !important;
+      text-align: left !important;
+      border-top: 1px solid var(--rule-dark);
+      border-bottom: 1px solid var(--rule-dark);
+    }
+
+    /* Stamp Buttons (No cute rounded pills!) */
+    .folio-stamp-pair {
+      display: inline-flex;
+      gap: 3px;
+    }
+    .folio-stamp {
+      background: var(--vellum-sheet);
+      border: 1px solid var(--rule-dark);
+      color: var(--seal-navy);
+      font-family: var(--font-folio);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      cursor: pointer;
+      border-radius: 0;
+      transition: all 0.1s;
+    }
+    .folio-stamp:hover {
+      background: var(--seal-navy);
+      color: #ffffff;
+      border-color: var(--seal-navy);
+    }
+    .folio-stamp.answer {
+      color: var(--seal-crimson);
+    }
+    .folio-stamp.answer:hover {
+      background: var(--seal-crimson);
+      color: #ffffff;
+      border-color: var(--seal-crimson);
+    }
+    .folio-stamp:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+      border-color: var(--rule-ink);
+      color: var(--ink-faint);
+    }
+    .folio-stamp:disabled:hover {
+      background: transparent;
+      color: var(--ink-faint);
+      border-color: var(--rule-ink);
+    }
+
+    /* Manuals Grid */
+    .folio-manuals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      padding: 20px;
+    }
+    .folio-book-card {
+      background: var(--vellum-sheet);
+      border: 1px solid var(--rule-dark);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .folio-book-header {
+      border-bottom: 1px solid var(--rule-ink);
+      padding-bottom: 8px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .folio-book-code {
+      font-family: var(--font-clean);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--seal-gold);
+    }
+    .folio-book-title {
+      font-family: var(--font-folio);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--seal-navy);
+      margin-bottom: 6px;
+    }
+    .folio-book-files {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .folio-book-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--vellum-card);
+      border: 1px solid var(--rule-ink);
+      padding: 6px 10px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .folio-book-item:hover {
+      background: #eae2d2;
+      border-color: var(--rule-dark);
+    }
+
+    /* Document Reader Mode (Split Docket & Stepper) */
+    .folio-reader-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--vellum);
+      display: none;
+      flex-direction: column;
+      z-index: 50;
+    }
+    .folio-reader-toolbar {
+      background: var(--vellum-sheet);
+      border-bottom: 2px solid var(--seal-navy);
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .folio-reader-docinfo {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .folio-reader-tag {
+      font-family: var(--font-clean);
+      font-weight: 700;
+      font-size: 11px;
+      color: var(--seal-crimson);
+      text-transform: uppercase;
+    }
+    .folio-reader-name {
+      font-family: var(--font-folio);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--seal-navy);
+    }
+    .folio-reader-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .folio-reader-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #525659;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Persistent Version Navigation Bar -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI COMPARATOR</span>
+      <span class="ui-version-sub">6 Radical Architectural Directions</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link active"><span class="v-num">01</span> Archival Folio</a>
+      <a href="version-2-terminal.html" class="ui-version-link"><span class="v-num">02</span> Bloomberg Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link"><span class="v-num">03</span> Swiss Grid</a>
+      <a href="version-4-nordic.html" class="ui-version-link"><span class="v-num">04</span> Nordic Reader</a>
+      <a href="version-5-industrial.html" class="ui-version-link"><span class="v-num">05</span> Raw Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link"><span class="v-num">06</span> Financial Times</a>
+    </nav>
+  </header>
+
+  <!-- Masthead -->
+  <header class="folio-masthead">
+    <div class="folio-titles">
+      <div class="folio-institution">The Institute of Chartered Accountants of Bangladesh</div>
+      <h1 class="folio-heading">The Chartered Curricular Repository</h1>
+      <div class="folio-provenance">Permanent Examination Register • 13 Diet Sessions (2022–2026) • 266 Verified Documents</div>
+    </div>
+    <div class="folio-masthead-actions">
+      <button class="folio-action-btn" id="btnFolioSyllabus">
+        <span>Curriculum Syllabus (2025)</span>
+      </button>
+      <button class="folio-action-btn primary" id="btnFolioHome">
+        <span>Docket Registry</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Scope & Filter Bar -->
+  <div class="folio-scope-bar">
+    <div class="folio-search-wrap">
+      <span class="folio-search-label">Docket Search:</span>
+      <input type="text" id="folioSearchInput" class="folio-search-input" placeholder="Filter paper, session, or manual (e.g. Audit, 2025, FAR)...">
+    </div>
+
+    <div class="folio-level-toggles">
+      <button class="folio-toggle-btn active" data-filter="ALL">Complete Register</button>
+      <button class="folio-toggle-btn" data-filter="PL">Professional Level (7)</button>
+      <button class="folio-toggle-btn" data-filter="AL">Advanced Level (3)</button>
+      <button class="folio-toggle-btn" data-filter="MANUALS">Core Manuals (20)</button>
+    </div>
+  </div>
+
+  <!-- Workspace -->
+  <div class="folio-workspace">
+    <!-- Sidebar: Subject Index -->
+    <aside class="folio-docket-sidebar">
+      <div class="folio-sidebar-head">
+        <span>Curricular Papers</span>
+        <span>Sessions</span>
+      </div>
+      <div class="folio-sidebar-scroll" id="folioSidebarScroll">
+        <!-- Rendered dynamically -->
+      </div>
+    </aside>
+
+    <!-- Main View: The Examination Matrix & Manuals -->
+    <main class="folio-main-view" id="folioMainView">
+      
+      <!-- Docket Banner -->
+      <section class="folio-docket-banner">
+        <div class="folio-banner-content">
+          <h2>Official Examination Matrix & Suggested Solutions</h2>
+          <p>Click any <strong>[Q]</strong> stamp to inspect the original Examination Question Paper, or <strong>[A]</strong> for the Official ICAB Suggested Answers. Papers maintain strict legal formatting under Council standards.</p>
+        </div>
+        <button class="folio-action-btn" id="btnBannerSyllabus">Read 2025 Framework</button>
+      </section>
+
+      <!-- Examination Matrix Section -->
+      <section class="folio-matrix-section" id="folioMatrixSection">
+        <div class="folio-matrix-head">
+          <div class="folio-matrix-title">Curriculum Examination Matrix (2022–2026)</div>
+          <div class="folio-matrix-desc">Chronological Session Schedule • Question [Q] & Solution [A]</div>
+        </div>
+        <div class="folio-table-container">
+          <table class="folio-table" id="folioMatrixTable">
+            <!-- Rendered dynamically -->
+          </table>
+        </div>
+      </section>
+
+      <!-- Manuals Vault Section -->
+      <section class="folio-matrix-section" id="folioManualsSection">
+        <div class="folio-matrix-head">
+          <div class="folio-matrix-title">Curricular Manuals & Volumes in Folio</div>
+          <div class="folio-matrix-desc">Official ICAB Courseware & Prescribed Texts</div>
+        </div>
+        <div class="folio-manuals-grid" id="folioManualsGrid">
+          <!-- Rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- Document Reader Overlay -->
+      <div class="folio-reader-container" id="folioReader">
+        <div class="folio-reader-toolbar">
+          <div class="folio-reader-docinfo">
+            <span class="folio-reader-tag" id="readerDocCode">PL // AA</span>
+            <span class="folio-reader-name" id="readerDocTitle">Document Name</span>
+          </div>
+          <div class="folio-reader-controls">
+            <button class="folio-action-btn" id="btnReaderPrev">← Older Diet</button>
+            <button class="folio-action-btn" id="btnReaderNext">Newer Diet →</button>
+            <button class="folio-action-btn" id="btnReaderToggleQA">Switch to Answer [A]</button>
+            <button class="folio-action-btn" id="btnReaderExternal" title="Open PDF in browser tab">Open File ↗</button>
+            <button class="folio-action-btn primary" id="btnReaderClose">Return to Docket [Esc]</button>
+          </div>
+        </div>
+        <iframe class="folio-reader-frame" id="folioPdfFrame" src="about:blank"></iframe>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Shared Data Catalog -->
+  <script src="catalog.js"></script>
+
+  <script>
+    // State
+    let activeFilter = 'ALL';
+    let currentSessionData = null;
+    let currentDocType = 'question';
+
+    const matrixTable = document.getElementById('folioMatrixTable');
+    const manualsGrid = document.getElementById('folioManualsGrid');
+    const sidebarScroll = document.getElementById('folioSidebarScroll');
+    const searchInput = document.getElementById('folioSearchInput');
+    const reader = document.getElementById('folioReader');
+    const pdfFrame = document.getElementById('folioPdfFrame');
+    const readerDocCode = document.getElementById('readerDocCode');
+    const readerDocTitle = document.getElementById('readerDocTitle');
+    const btnReaderToggleQA = document.getElementById('btnReaderToggleQA');
+    const btnReaderPrev = document.getElementById('btnReaderPrev');
+    const btnReaderNext = document.getElementById('btnReaderNext');
+
+    // Reader Open/Close
+    function openDocument(title, path, code, sessionData, docType) {
+      currentSessionData = sessionData;
+      currentDocType = docType;
+      readerDocCode.textContent = code || 'ICAB';
+      readerDocTitle.textContent = title;
+      pdfFrame.src = encodeURI(path);
+      reader.style.display = 'flex';
+
+      if (sessionData) {
+        btnReaderPrev.style.display = 'inline-flex';
+        btnReaderNext.style.display = 'inline-flex';
+        btnReaderToggleQA.style.display = 'inline-flex';
+        btnReaderToggleQA.textContent = docType === 'question' ? 'Switch to Answer [A]' : 'Switch to Question [Q]';
+        
+        btnReaderPrev.disabled = sessionData.sessionIndex >= sessionData.allSessions.length - 1;
+        btnReaderNext.disabled = sessionData.sessionIndex <= 0;
+      } else {
+        btnReaderPrev.style.display = 'none';
+        btnReaderNext.style.display = 'none';
+        btnReaderToggleQA.style.display = 'none';
+      }
+    }
+
+    function closeReader() {
+      reader.style.display = 'none';
+      pdfFrame.src = 'about:blank';
+      currentSessionData = null;
+    }
+
+    document.getElementById('btnReaderClose').addEventListener('click', closeReader);
+    document.getElementById('btnFolioHome').addEventListener('click', closeReader);
+
+    function openSyllabus() {
+      openDocument(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path, 'SYLLABUS', null, 'manual');
+    }
+
+    document.getElementById('btnFolioSyllabus').addEventListener('click', openSyllabus);
+    document.getElementById('btnBannerSyllabus').addEventListener('click', openSyllabus);
+
+    // Toggle QA
+    btnReaderToggleQA.addEventListener('click', () => {
+      if (!currentSessionData) return;
+      const targetType = currentDocType === 'question' ? 'answer' : 'question';
+      const targetFile = targetType === 'question' ? currentSessionData.session.question : currentSessionData.session.answer;
+      if (targetFile) {
+        openDocument(`${currentSessionData.subject} (${currentSessionData.session.session_label}) — ${targetType === 'question' ? 'Question' : 'Suggested Answer'}`, targetFile.rel_path, PAPER_CODES[currentSessionData.subject], currentSessionData, targetType);
+      }
+    });
+
+    // Steppers
+    btnReaderPrev.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex >= currentSessionData.allSessions.length - 1) return;
+      const targetSession = currentSessionData.allSessions[currentSessionData.sessionIndex + 1];
+      const targetType = currentDocType;
+      const targetFile = targetType === 'question' ? (targetSession.question || targetSession.answer) : (targetSession.answer || targetSession.question);
+      const actualType = targetFile === targetSession.question ? 'question' : 'answer';
+      openDocument(`${currentSessionData.subject} (${targetSession.session_label}) — ${actualType === 'question' ? 'Question' : 'Suggested Answer'}`, targetFile.rel_path, PAPER_CODES[currentSessionData.subject], { ...currentSessionData, session: targetSession, sessionIndex: currentSessionData.sessionIndex + 1 }, actualType);
+    });
+
+    btnReaderNext.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex <= 0) return;
+      const targetSession = currentSessionData.allSessions[currentSessionData.sessionIndex - 1];
+      const targetType = currentDocType;
+      const targetFile = targetType === 'question' ? (targetSession.question || targetSession.answer) : (targetSession.answer || targetSession.question);
+      const actualType = targetFile === targetSession.question ? 'question' : 'answer';
+      openDocument(`${currentSessionData.subject} (${targetSession.session_label}) — ${actualType === 'question' ? 'Question' : 'Suggested Answer'}`, targetFile.rel_path, PAPER_CODES[currentSessionData.subject], { ...currentSessionData, session: targetSession, sessionIndex: currentSessionData.sessionIndex - 1 }, actualType);
+    });
+
+    document.getElementById('btnReaderExternal').addEventListener('click', () => {
+      if (pdfFrame.src && pdfFrame.src !== 'about:blank') {
+        window.open(pdfFrame.src, '_blank');
+      }
+    });
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') closeReader();
+      if (e.key.toLowerCase() === 's') openSyllabus();
+      if (e.key.toLowerCase() === 'q' && reader.style.display === 'flex' && currentDocType !== 'question') btnReaderToggleQA.click();
+      if (e.key.toLowerCase() === 'a' && reader.style.display === 'flex' && currentDocType !== 'answer') btnReaderToggleQA.click();
+    });
+
+    // Render Matrix
+    function renderMatrix(filterQuery = '') {
+      matrixTable.innerHTML = '';
+      const query = filterQuery.toLowerCase().trim();
+
+      // Thead
+      const thead = document.createElement('thead');
+      const tr = document.createElement('tr');
+      const thPaper = document.createElement('th');
+      thPaper.textContent = 'Curriculum Paper';
+      tr.appendChild(thPaper);
+
+      SESSIONS_ORDER.forEach(sess => {
+        const th = document.createElement('th');
+        th.innerHTML = `${sess.label.replace(' ', '<br>')}`;
+        tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+      matrixTable.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+
+      const levelsToInclude = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') levelsToInclude.push('AL');
+
+      levelsToInclude.forEach(lvl => {
+        const sepTr = document.createElement('tr');
+        const sepTd = document.createElement('td');
+        sepTd.className = 'folio-tier-separator';
+        sepTd.colSpan = SESSIONS_ORDER.length + 1;
+        sepTd.textContent = lvl === 'PL' ? 'Professional Level (PL) — 7 Curriculum Papers' : 'Advanced Level (AL) — 3 Curriculum Papers';
+        sepTr.appendChild(sepTd);
+        tbody.appendChild(sepTr);
+
+        const papers = SUBJECT_ORDER[lvl];
+        papers.forEach(paperName => {
+          if (query && !paperName.toLowerCase().includes(query)) return;
+
+          const sessions = CATALOG[lvl][paperName] || [];
+          const sessMap = new Map();
+          sessions.forEach((s, idx) => sessMap.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdName = document.createElement('td');
+          const code = PAPER_CODES[paperName] || 'CA';
+          tdName.innerHTML = `<span class="folio-subject-code">[${code}]</span> <strong>${paperName}</strong>`;
+          row.appendChild(tdName);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const data = sessMap.get(col.tag);
+
+            if (data && (data.s.question || data.s.answer)) {
+              const pair = document.createElement('div');
+              pair.className = 'folio-stamp-pair';
+
+              const btnQ = document.createElement('button');
+              btnQ.className = 'folio-stamp';
+              btnQ.textContent = 'Q';
+              btnQ.disabled = !data.s.question;
+              if (data.s.question) {
+                btnQ.title = `${data.s.question.filename} (${data.s.question.size_kb} KB)`;
+                btnQ.addEventListener('click', () => {
+                  openDocument(`${paperName} (${data.s.session_label}) — Question`, data.s.question.rel_path, code, {
+                    subject: paperName,
+                    session: data.s,
+                    sessionIndex: data.idx,
+                    allSessions: sessions
+                  }, 'question');
+                });
+              }
+
+              const btnA = document.createElement('button');
+              btnA.className = 'folio-stamp answer';
+              btnA.textContent = 'A';
+              btnA.disabled = !data.s.answer;
+              if (data.s.answer) {
+                btnA.title = `${data.s.answer.filename} (${data.s.answer.size_kb} KB)`;
+                btnA.addEventListener('click', () => {
+                  openDocument(`${paperName} (${data.s.session_label}) — Suggested Answer`, data.s.answer.rel_path, code, {
+                    subject: paperName,
+                    session: data.s,
+                    sessionIndex: data.idx,
+                    allSessions: sessions
+                  }, 'answer');
+                });
+              }
+
+              pair.appendChild(btnQ);
+              pair.appendChild(btnA);
+              td.appendChild(pair);
+            } else {
+              td.innerHTML = '<span style="color:var(--ink-faint);">—</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+
+      matrixTable.appendChild(tbody);
+    }
+
+    // Render Manuals
+    function renderManuals(filterQuery = '') {
+      manualsGrid.innerHTML = '';
+      const query = filterQuery.toLowerCase().trim();
+
+      ['PL', 'AL'].forEach(lvl => {
+        if (activeFilter === 'PL' && lvl !== 'PL') return;
+        if (activeFilter === 'AL' && lvl !== 'AL') return;
+
+        const subjects = CATALOG.Manuals[lvl];
+        for (const [subj, files] of Object.entries(subjects)) {
+          if (query && !subj.toLowerCase().includes(query)) continue;
+
+          const card = document.createElement('div');
+          card.className = 'folio-book-card';
+          const code = PAPER_CODES[subj] || 'MAN';
+
+          card.innerHTML = `
+            <div>
+              <div class="folio-book-header">
+                <span class="folio-book-code">[${code}] ${lvl}</span>
+                <span style="font-size:10px; color:var(--ink-faint);">${files.length} Vol</span>
+              </div>
+              <div class="folio-book-title">${subj}</div>
+            </div>
+            <div class="folio-book-files"></div>
+          `;
+
+          const fileList = card.querySelector('.folio-book-files');
+          files.forEach((f, idx) => {
+            const item = document.createElement('div');
+            item.className = 'folio-book-item';
+            item.innerHTML = `
+              <span>${f.title}</span>
+              <span style="color:var(--ink-muted); font-size:10px;">${f.size_mb} MB ↗</span>
+            `;
+            item.addEventListener('click', () => {
+              openDocument(`${subj} — ${f.title}`, f.rel_path, code, null, 'manual');
+            });
+            fileList.appendChild(item);
+          });
+
+          manualsGrid.appendChild(card);
+        }
+      });
+    }
+
+    // Render Sidebar
+    function renderSidebar() {
+      sidebarScroll.innerHTML = '';
+      ['PL', 'AL'].forEach(lvl => {
+        const sec = document.createElement('div');
+        sec.className = 'folio-subject-section';
+        sec.innerHTML = `<div class="folio-subject-label">${lvl === 'PL' ? 'Professional Level' : 'Advanced Level'}</div>`;
+
+        SUBJECT_ORDER[lvl].forEach(subj => {
+          const row = document.createElement('div');
+          row.className = 'folio-subject-row';
+          const count = (CATALOG[lvl][subj] || []).length;
+          const code = PAPER_CODES[subj] || 'CA';
+          row.innerHTML = `
+            <div style="display:flex; align-items:baseline;">
+              <span class="folio-subject-code">${code}</span>
+              <span class="folio-subject-name">${subj}</span>
+            </div>
+            <span class="folio-subject-count">${count}</span>
+          `;
+          row.addEventListener('click', () => {
+            searchInput.value = subj;
+            renderMatrix(subj);
+            renderManuals(subj);
+          });
+          sec.appendChild(row);
+        });
+
+        sidebarScroll.appendChild(sec);
+      });
+    }
+
+    // Filter Buttons
+    document.querySelectorAll('.folio-toggle-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.folio-toggle-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.getAttribute('data-filter');
+
+        if (activeFilter === 'MANUALS') {
+          document.getElementById('folioMatrixSection').style.display = 'none';
+          document.getElementById('folioManualsSection').style.display = 'block';
+        } else {
+          document.getElementById('folioMatrixSection').style.display = 'block';
+          document.getElementById('folioManualsSection').style.display = 'block';
+        }
+
+        renderMatrix(searchInput.value);
+        renderManuals(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      renderMatrix(e.target.value);
+      renderManuals(e.target.value);
+    });
+
+    // Init
+    renderSidebar();
+    renderMatrix();
+    renderManuals();
+  </script>
+</body>
+</html>

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AniCharter — Watch ICAB Exam Arcs & Read Official Manga Manuals</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* UNIVERSAL VERSION SWITCHER BAR */
+    .ui-version-bar {
+      background: #09070f;
+      color: #9490a6;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1c182d;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-version-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-version-tag {
+      background: #ff6400;
+      color: #ffffff;
+      font-weight: 800;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .ui-version-nav { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-version-link {
+      color: #9490a6;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .ui-version-link:hover { color: #ffffff; background: #1c182d; }
+    .ui-version-link.active {
+      background: #ff6400;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* ANIME STREAMING CATALOG STYLING (Crunchyroll / Aniwatch / AniList) */
+    :root {
+      --ani-bg: #0c0914;
+      --ani-surface: #141021;
+      --ani-card: #1c172e;
+      --ani-card-hover: #26203d;
+      --ani-border: #292242;
+      
+      --orange: #ff6400;
+      --orange-glow: rgba(255, 100, 0, 0.4);
+      --cyan: #00d2ff;
+      --purple: #9d4edd;
+      --pink: #ff2a85;
+      
+      --text-white: #f7f6fb;
+      --text-muted: #8d87a5;
+      
+      --font-display: 'Outfit', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--ani-bg);
+      color: var(--text-white);
+      font-family: var(--font-body);
+      font-size: 13px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Anime Masthead */
+    .ani-navbar {
+      background: rgba(14, 11, 24, 0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--ani-border);
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+    .ani-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+    }
+    .ani-logo span { color: var(--orange); }
+
+    .ani-search-wrap {
+      display: flex;
+      align-items: center;
+      background: var(--ani-surface);
+      border: 1px solid var(--ani-border);
+      border-radius: 24px;
+      padding: 4px 14px;
+      width: 380px;
+    }
+    .ani-search-input {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 12px;
+      outline: none;
+      width: 100%;
+      padding: 4px;
+    }
+
+    .ani-nav-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .ani-btn {
+      background: var(--ani-card);
+      border: 1px solid var(--ani-border);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .ani-btn:hover { border-color: var(--orange); }
+    .ani-btn.primary {
+      background: var(--orange);
+      border-color: var(--orange);
+      box-shadow: 0 4px 16px var(--orange-glow);
+    }
+    .ani-btn.primary:hover { background: #e05800; }
+
+    /* Spotlight Anime Hero Banner */
+    .ani-hero {
+      position: relative;
+      background: linear-gradient(135deg, #241442 0%, #120924 60%, #0c0914 100%);
+      padding: 40px 48px;
+      border-bottom: 1px solid var(--ani-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      overflow: hidden;
+    }
+    .ani-hero-info {
+      max-width: 640px;
+      position: relative;
+      z-index: 2;
+    }
+    .ani-season-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 100, 0, 0.2);
+      border: 1px solid var(--orange);
+      color: var(--orange);
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+    .ani-hero-title {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      background: linear-gradient(to right, #ffffff, #cfc9e8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .ani-hero-desc {
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    .ani-hero-stats {
+      display: flex;
+      gap: 20px;
+      font-size: 12px;
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .ani-hero-stats span strong { color: var(--cyan); }
+
+    /* Main Container */
+    .ani-content {
+      flex: 1;
+      max-width: 1500px;
+      margin: 0 auto;
+      padding: 32px 32px 60px;
+      width: 100%;
+    }
+
+    /* Category Filter Strip */
+    .ani-filter-strip {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .ani-section-heading {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .ani-section-heading::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: var(--orange);
+      border-radius: 2px;
+    }
+
+    .ani-tabs {
+      display: flex;
+      gap: 8px;
+      background: var(--ani-surface);
+      padding: 4px;
+      border-radius: 20px;
+      border: 1px solid var(--ani-border);
+    }
+    .ani-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 16px;
+      cursor: pointer;
+    }
+    .ani-tab.active {
+      background: var(--orange);
+      color: #ffffff;
+    }
+
+    /* Anime Series Cards Grid */
+    .ani-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .ani-card {
+      background: var(--ani-card);
+      border: 1px solid var(--ani-border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .ani-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255, 100, 0, 0.5);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+    .ani-card-top {
+      padding: 18px 20px 14px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+      border-bottom: 1px solid var(--ani-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .ani-card-code {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--cyan);
+    }
+    .ani-card-badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: rgba(157, 78, 221, 0.2);
+      color: #d8b4fe;
+      border: 1px solid rgba(157, 78, 221, 0.4);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .ani-card-body {
+      padding: 16px 20px;
+      flex: 1;
+    }
+    .ani-card-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+    .ani-card-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Episode Selector (Exam Sessions) */
+    .ani-episodes-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-height: 220px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .ani-ep-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 11px;
+    }
+    .ani-ep-row:hover {
+      background: rgba(255, 100, 0, 0.08);
+      border-color: rgba(255, 100, 0, 0.3);
+    }
+    .ani-ep-name {
+      font-weight: 600;
+      color: #e5e5f0;
+    }
+    .ani-ep-buttons {
+      display: flex;
+      gap: 4px;
+    }
+    .ani-stream-btn {
+      background: var(--ani-surface);
+      border: 1px solid var(--ani-border);
+      color: #ffffff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .ani-stream-btn:hover {
+      background: var(--orange);
+      border-color: var(--orange);
+    }
+    .ani-stream-btn.dub {
+      color: var(--cyan);
+    }
+    .ani-stream-btn.dub:hover {
+      background: var(--cyan);
+      color: #000000;
+      border-color: var(--cyan);
+    }
+    .ani-stream-btn:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+    }
+
+    /* Video Player Modal */
+    .ani-player-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(8, 6, 15, 0.92);
+      backdrop-filter: blur(16px);
+      z-index: 200000;
+      display: none;
+      flex-direction: column;
+      padding: 24px;
+    }
+    .ani-player-box {
+      flex: 1;
+      background: #000000;
+      border: 1px solid var(--ani-border);
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.6);
+    }
+    .ani-player-bar {
+      background: var(--ani-surface);
+      border-bottom: 1px solid var(--ani-border);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ani-player-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .ani-player-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #110e1c;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL VERSION SWITCHER -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI LAB</span>
+      <span>13 Visual Paradigms</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link">01 Archival</a>
+      <a href="version-2-terminal.html" class="ui-version-link">02 Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link">03 Swiss</a>
+      <a href="version-4-nordic.html" class="ui-version-link">04 Nordic</a>
+      <a href="version-5-industrial.html" class="ui-version-link">05 Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link">06 FT Executive</a>
+      <a href="version-apple.html" class="ui-version-link">07 Apple macOS</a>
+      <a href="version-torrent.html" class="ui-version-link">08 Torrent Tracker</a>
+      <a href="version-anime.html" class="ui-version-link active">09 Anime Stream</a>
+      <a href="version-winxp.html" class="ui-version-link">10 Windows XP</a>
+      <a href="version-google.html" class="ui-version-link">11 Google Drive</a>
+      <a href="version-linux.html" class="ui-version-link">12 Linux Curses</a>
+      <a href="version-linear.html" class="ui-version-link">13 Linear Void</a>
+    </nav>
+  </header>
+
+  <!-- Navbar -->
+  <nav class="ani-navbar">
+    <div class="ani-logo">
+      <span>▶</span> AniCharter
+    </div>
+
+    <div class="ani-search-wrap">
+      <input type="text" id="aniSearch" class="ani-search-input" placeholder="Search anime series, exam arcs, manuals...">
+    </div>
+
+    <div class="ani-nav-actions">
+      <button class="ani-btn primary" id="btnAniSyllabus">Curriculum 2025 Framework</button>
+    </div>
+  </nav>
+
+  <!-- Hero Spotlight -->
+  <header class="ani-hero">
+    <div class="ani-hero-info">
+      <div class="ani-season-tag">★ Featured Season: May 2026 Examination Arc</div>
+      <h1 class="ani-hero-title">ICAB Chartered Accountancy: Final Examination Series</h1>
+      <p class="ani-hero-desc">Follow the intense journey through Professional and Advanced Levels. Stream all 13 seasons (2022–2026), featuring official Question papers [SUB] and Suggested Answer walkthroughs [DUB].</p>
+      <div class="ani-hero-stats">
+        <span>Episodes: <strong>266 Verified</strong></span>
+        <span>Rating: <strong>★ 9.9/10</strong></span>
+        <span>Studio: <strong>Council of ICAB</strong></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="ani-content">
+    <div class="ani-filter-strip">
+      <h2 class="ani-section-heading">Browse Curricular Series</h2>
+      <div class="ani-tabs">
+        <button class="ani-tab active" data-filter="ALL">All Series</button>
+        <button class="ani-tab" data-filter="PL">Professional Level (7)</button>
+        <button class="ani-tab" data-filter="AL">Advanced Level (3)</button>
+        <button class="ani-tab" data-filter="MANUALS">Manga Manuals (20)</button>
+      </div>
+    </div>
+
+    <div class="ani-grid" id="aniGrid">
+      <!-- Rendered dynamically -->
+    </div>
+  </main>
+
+  <!-- Stream Player Modal -->
+  <div class="ani-player-modal" id="aniPlayer">
+    <div class="ani-player-box">
+      <div class="ani-player-bar">
+        <div class="ani-player-title" id="aniPlayerTitle">Episode Title</div>
+        <div style="display:flex; gap:8px;">
+          <button class="ani-btn" id="btnAniToggleTrack">Switch SUB/DUB</button>
+          <button class="ani-btn primary" id="btnAniClosePlayer">Close Player [Esc]</button>
+        </div>
+      </div>
+      <iframe class="ani-player-frame" id="aniFrame" src="about:blank"></iframe>
+    </div>
+  </div>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    let currentSessionData = null;
+    let currentDocType = 'question';
+
+    const grid = document.getElementById('aniGrid');
+    const searchInput = document.getElementById('aniSearch');
+    const player = document.getElementById('aniPlayer');
+    const frame = document.getElementById('aniFrame');
+    const playerTitle = document.getElementById('aniPlayerTitle');
+    const btnToggle = document.getElementById('btnAniToggleTrack');
+
+    function openStream(title, path, sessionData, docType) {
+      currentSessionData = sessionData;
+      currentDocType = docType;
+      playerTitle.textContent = `▶ NOW STREAMING: ${title}`;
+      frame.src = encodeURI(path);
+      player.style.display = 'flex';
+
+      btnToggle.style.display = sessionData ? 'inline-block' : 'none';
+      if (sessionData) {
+        btnToggle.textContent = docType === 'question' ? 'Switch to Solution [DUB]' : 'Switch to Question [SUB]';
+      }
+    }
+
+    function closeStream() {
+      player.style.display = 'none';
+      frame.src = 'about:blank';
+      currentSessionData = null;
+    }
+
+    document.getElementById('btnAniClosePlayer').addEventListener('click', closeStream);
+    document.getElementById('btnAniSyllabus').addEventListener('click', () => {
+      openStream(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path, null, 'manual');
+    });
+
+    btnToggle.addEventListener('click', () => {
+      if (!currentSessionData) return;
+      const targetType = currentDocType === 'question' ? 'answer' : 'question';
+      const file = targetType === 'question' ? currentSessionData.session.question : currentSessionData.session.answer;
+      if (file) {
+        openStream(`${currentSessionData.subject} (${currentSessionData.session.session_label}) [${targetType === 'question' ? 'SUB' : 'DUB'}]`, file.rel_path, currentSessionData, targetType);
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') closeStream();
+    });
+
+    function renderAnimeGrid(query = '') {
+      grid.innerHTML = '';
+      const q = query.toLowerCase().trim();
+
+      // Render Series (PL & AL)
+      if (activeFilter === 'ALL' || activeFilter === 'PL' || activeFilter === 'AL') {
+        const tiers = activeFilter === 'ALL' ? ['PL', 'AL'] : [activeFilter];
+
+        tiers.forEach(lvl => {
+          SUBJECT_ORDER[lvl].forEach(paper => {
+            if (q && !paper.toLowerCase().includes(q)) return;
+            const code = PAPER_CODES[paper] || 'CA';
+            const sessions = CATALOG[lvl][paper] || [];
+
+            const card = document.createElement('div');
+            card.className = 'ani-card';
+            card.innerHTML = `
+              <div class="ani-card-top">
+                <span class="ani-card-code">[${code}]</span>
+                <span class="ani-card-badge">${lvl === 'PL' ? 'Professional Arc' : 'Advanced Final'}</span>
+              </div>
+              <div class="ani-card-body">
+                <h3 class="ani-card-title">${paper}</h3>
+                <div class="ani-card-meta">
+                  <span>${sessions.length} Exam Episodes</span>
+                  <span>★ 9.8</span>
+                </div>
+                <div class="ani-episodes-list"></div>
+              </div>
+            `;
+
+            const epList = card.querySelector('.ani-episodes-list');
+            sessions.forEach((s, idx) => {
+              const row = document.createElement('div');
+              row.className = 'ani-ep-row';
+              row.innerHTML = `
+                <span class="ani-ep-name">Ep ${sessions.length - idx}: ${s.session_label}</span>
+                <div class="ani-ep-buttons">
+                  <button class="ani-stream-btn btn-sub" ${s.question ? '' : 'disabled'}>SUB</button>
+                  <button class="ani-stream-btn dub btn-dub" ${s.answer ? '' : 'disabled'}>DUB</button>
+                </div>
+              `;
+
+              if (s.question) {
+                row.querySelector('.btn-sub').addEventListener('click', () => {
+                  openStream(`${paper} — Ep ${sessions.length - idx} (${s.session_label}) [SUB Question]`, s.question.rel_path, {
+                    subject: paper, session: s, sessionIndex: idx, allSessions: sessions
+                  }, 'question');
+                });
+              }
+
+              if (s.answer) {
+                row.querySelector('.btn-dub').addEventListener('click', () => {
+                  openStream(`${paper} — Ep ${sessions.length - idx} (${s.session_label}) [DUB Answer]`, s.answer.rel_path, {
+                    subject: paper, session: s, sessionIndex: idx, allSessions: sessions
+                  }, 'answer');
+                });
+              }
+
+              epList.appendChild(row);
+            });
+
+            grid.appendChild(card);
+          });
+        });
+      }
+
+      // Render Manuals
+      if (activeFilter === 'ALL' || activeFilter === 'MANUALS') {
+        ['PL', 'AL'].forEach(lvl => {
+          const subjs = CATALOG.Manuals[lvl];
+          for (const [subj, files] of Object.entries(subjs)) {
+            if (q && !subj.toLowerCase().includes(q)) continue;
+            const code = PAPER_CODES[subj] || 'MAN';
+
+            const card = document.createElement('div');
+            card.className = 'ani-card';
+            card.innerHTML = `
+              <div class="ani-card-top">
+                <span class="ani-card-code" style="color:var(--orange);">[${code}]</span>
+                <span class="ani-card-badge" style="background:rgba(255,100,0,0.2); color:#ffaa77; border-color:var(--orange);">Manga Manual</span>
+              </div>
+              <div class="ani-card-body">
+                <h3 class="ani-card-title">${subj}</h3>
+                <div class="ani-card-meta"><span>${files.length} Official Volumes</span></div>
+                <div class="ani-episodes-list"></div>
+              </div>
+            `;
+            const epList = card.querySelector('.ani-episodes-list');
+            files.forEach((f, idx) => {
+              const row = document.createElement('div');
+              row.className = 'ani-ep-row';
+              row.innerHTML = `
+                <span class="ani-ep-name">Vol ${idx+1}: ${f.title} (${f.size_mb} MB)</span>
+                <button class="ani-stream-btn" style="background:var(--orange); border-color:var(--orange);">READ</button>
+              `;
+              row.querySelector('button').addEventListener('click', () => {
+                openStream(`${subj} — ${f.title}`, f.rel_path, null, 'manual');
+              });
+              epList.appendChild(row);
+            });
+            grid.appendChild(card);
+          }
+        });
+      }
+    }
+
+    document.querySelectorAll('.ani-tab').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.ani-tab').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+        activeFilter = t.getAttribute('data-filter');
+        renderAnimeGrid(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => renderAnimeGrid(e.target.value));
+
+    renderAnimeGrid();
+  </script>
+</body>
+</html>

@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Chartered Repository — Version 6: Financial Times Executive</title>
+  
+  <!-- Financial Editorial Fonts: Playfair Display & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* VERSION SWITCHER */
+    .ui-version-bar {
+      background: #0f1d2d;
+      color: #cbd5e1;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 24px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #233446;
+      position: relative;
+      z-index: 10000;
+      flex-shrink: 0;
+    }
+    .ui-version-brand { display: flex; align-items: center; gap: 12px; }
+    .ui-version-tag {
+      background: #a67c1e;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 10px;
+      padding: 3px 6px;
+    }
+    .ui-version-sub { color: #94a3b8; }
+    .ui-version-nav { display: flex; align-items: center; gap: 4px; }
+    .ui-version-link {
+      color: #cbd5e1;
+      text-decoration: none;
+      padding: 5px 10px;
+      font-size: 11px;
+    }
+    .ui-version-link:hover { color: #ffffff; background: #1a2a3c; }
+    .ui-version-link.active {
+      background: #fff1e5;
+      color: #0d2238;
+      font-weight: 700;
+    }
+
+    /* PHILOSOPHY 6: FINANCIAL TIMES / EXECUTIVE DESK */
+    :root {
+      --ft-salmon: #fff1e5;
+      --ft-salmon-card: #fcf6f0;
+      --ft-salmon-dim: #f3e6d8;
+      --ft-navy: #0d2238;
+      --ft-navy-light: #163656;
+      --ft-green: #00472f;
+      --ft-gold: #9e7228;
+      --ft-border: #d9c8b8;
+      --ft-border-dark: #998370;
+      --ft-ink: #111111;
+      --ft-muted: #5e5852;
+      
+      --font-ft-serif: 'Playfair Display', Georgia, serif;
+      --font-ft-sans: 'Inter', -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 !important;
+    }
+
+    body {
+      background-color: var(--ft-salmon);
+      color: var(--ft-ink);
+      font-family: var(--font-ft-sans);
+      font-size: 13px;
+      line-height: 1.5;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* FT Executive Masthead */
+    .ft-masthead {
+      background: var(--ft-salmon);
+      border-bottom: 2px solid var(--ft-navy);
+      padding: 20px 40px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+    .ft-title-area {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .ft-kicker {
+      font-family: var(--font-ft-serif);
+      font-size: 11px;
+      font-style: italic;
+      color: var(--ft-gold);
+      letter-spacing: 0.5px;
+    }
+    .ft-h1 {
+      font-family: var(--font-ft-serif);
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: var(--ft-navy);
+      line-height: 1.1;
+    }
+    .ft-strap {
+      font-size: 12px;
+      color: var(--ft-muted);
+      margin-top: 4px;
+    }
+
+    .ft-masthead-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .ft-btn {
+      background: transparent;
+      border: 1px solid var(--ft-navy);
+      color: var(--ft-navy);
+      font-family: var(--font-ft-sans);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 16px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s;
+    }
+    .ft-btn:hover {
+      background: var(--ft-salmon-dim);
+    }
+    .ft-btn.navy {
+      background: var(--ft-navy);
+      color: #ffffff;
+      border-color: var(--ft-navy);
+    }
+    .ft-btn.navy:hover {
+      background: var(--ft-navy-light);
+    }
+
+    /* Financial Indicators Ticker Ribbon */
+    .ft-ticker-ribbon {
+      background: var(--ft-salmon-dim);
+      border-bottom: 1px solid var(--ft-border);
+      padding: 6px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      font-size: 11px;
+      flex-shrink: 0;
+    }
+    .ft-metrics {
+      display: flex;
+      gap: 24px;
+      color: var(--ft-muted);
+    }
+    .ft-metrics strong {
+      color: var(--ft-navy);
+      font-weight: 700;
+    }
+
+    /* Search & Filter Strip */
+    .ft-filter-strip {
+      background: var(--ft-salmon);
+      border-bottom: 1px solid var(--ft-border);
+      padding: 8px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+    .ft-search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      max-width: 480px;
+    }
+    .ft-search-input {
+      background: #ffffff;
+      border: 1px solid var(--ft-border-dark);
+      padding: 6px 12px;
+      font-family: inherit;
+      font-size: 12px;
+      color: var(--ft-ink);
+      width: 100%;
+      outline: none;
+    }
+    .ft-search-input:focus {
+      border-color: var(--ft-navy);
+    }
+    .ft-tier-pills {
+      display: flex;
+      border: 1px solid var(--ft-navy);
+      background: #ffffff;
+    }
+    .ft-pill-btn {
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--ft-border);
+      padding: 6px 14px;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ft-muted);
+      cursor: pointer;
+    }
+    .ft-pill-btn:last-child { border-right: none; }
+    .ft-pill-btn:hover { color: var(--ft-navy); background: var(--ft-salmon-dim); }
+    .ft-pill-btn.active {
+      background: var(--ft-navy);
+      color: #ffffff;
+    }
+
+    /* Main Content */
+    .ft-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 40px 60px;
+      position: relative;
+    }
+
+    /* Financial Tables */
+    .ft-table-card {
+      background: #ffffff;
+      border: 1px solid var(--ft-border-dark);
+      margin-bottom: 32px;
+    }
+    .ft-card-top {
+      padding: 12px 18px;
+      background: var(--ft-salmon-dim);
+      border-bottom: 2px solid var(--ft-navy);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .ft-card-title {
+      font-family: var(--font-ft-serif);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ft-navy);
+    }
+
+    .ft-overflow {
+      overflow-x: auto;
+    }
+    .ft-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .ft-table th {
+      background: var(--ft-salmon-card);
+      border-bottom: 1px solid var(--ft-navy);
+      border-right: 1px solid var(--ft-border);
+      padding: 8px 6px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 11px;
+      color: var(--ft-navy);
+      white-space: nowrap;
+    }
+    .ft-table th:first-child {
+      text-align: left;
+      padding-left: 14px;
+      width: 270px;
+      border-right: 2px solid var(--ft-border-dark);
+    }
+    .ft-table td {
+      border-bottom: 1px solid var(--ft-border);
+      border-right: 1px solid var(--ft-border);
+      padding: 8px 4px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .ft-table td:first-child {
+      text-align: left;
+      padding-left: 14px;
+      border-right: 2px solid var(--ft-border-dark);
+      font-weight: 500;
+    }
+    .ft-table tr:hover td {
+      background: var(--ft-salmon);
+    }
+    .ft-tier-banner {
+      background: var(--ft-navy) !important;
+      color: #ffffff !important;
+      font-family: var(--font-ft-serif);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      padding: 6px 14px !important;
+      text-align: left !important;
+    }
+
+    /* Financial Link Pairs */
+    .ft-chip-pair {
+      display: inline-flex;
+      gap: 2px;
+    }
+    .ft-link-btn {
+      background: var(--ft-salmon-card);
+      border: 1px solid var(--ft-border);
+      color: var(--ft-navy);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .ft-link-btn:hover {
+      background: var(--ft-navy);
+      color: #ffffff;
+      border-color: var(--ft-navy);
+    }
+    .ft-link-btn.ans {
+      color: var(--ft-green);
+    }
+    .ft-link-btn.ans:hover {
+      background: var(--ft-green);
+      color: #ffffff;
+      border-color: var(--ft-green);
+    }
+    .ft-link-btn:disabled {
+      color: #c7b9ab;
+      border-color: transparent;
+      background: transparent;
+      cursor: not-allowed;
+    }
+
+    /* Manuals Grid */
+    .ft-manuals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      padding: 20px;
+    }
+    .ft-manual-card {
+      border: 1px solid var(--ft-border-dark);
+      background: var(--ft-salmon-card);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .ft-manual-header {
+      border-bottom: 1px solid var(--ft-border);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .ft-manual-code {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--ft-gold);
+    }
+    .ft-manual-title {
+      font-family: var(--font-ft-serif);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ft-navy);
+      margin-bottom: 10px;
+    }
+    .ft-manual-files {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ft-manual-row {
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid var(--ft-border);
+      padding: 5px 8px;
+      font-size: 11px;
+      background: #ffffff;
+      cursor: pointer;
+    }
+    .ft-manual-row:hover {
+      background: var(--ft-navy);
+      color: #ffffff;
+    }
+
+    /* Modal Viewer */
+    .ft-viewer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--ft-salmon);
+      display: none;
+      flex-direction: column;
+      z-index: 100;
+    }
+    .ft-viewer-bar {
+      background: #ffffff;
+      border-bottom: 2px solid var(--ft-navy);
+      padding: 10px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ft-viewer-title {
+      font-family: var(--font-ft-serif);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ft-navy);
+    }
+    .ft-viewer-tools {
+      display: flex;
+      gap: 8px;
+    }
+    .ft-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #374151;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Persistent Version Navigation Bar -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI COMPARATOR</span>
+      <span class="ui-version-sub">6 Radical Architectural Directions</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link"><span class="v-num">01</span> Archival Folio</a>
+      <a href="version-2-terminal.html" class="ui-version-link"><span class="v-num">02</span> Bloomberg Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link"><span class="v-num">03</span> Swiss Grid</a>
+      <a href="version-4-nordic.html" class="ui-version-link"><span class="v-num">04</span> Nordic Reader</a>
+      <a href="version-5-industrial.html" class="ui-version-link"><span class="v-num">05</span> Raw Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link active"><span class="v-num">06</span> Financial Times</a>
+    </nav>
+  </header>
+
+  <!-- Masthead -->
+  <header class="ft-masthead">
+    <div class="ft-title-area">
+      <div class="ft-kicker">Statutory Examination Docket & Corporate Governance Records</div>
+      <h1 class="ft-h1">The Financial Curriculum Intelligence</h1>
+      <div class="ft-strap">The Institute of Chartered Accountants of Bangladesh • Council Examination Series (2022–2026)</div>
+    </div>
+    <div class="ft-masthead-actions">
+      <button class="ft-btn navy" id="btnFtSyllabus">Curriculum Syllabus (2025)</button>
+    </div>
+  </header>
+
+  <!-- Ticker Ribbon -->
+  <div class="ft-ticker-ribbon">
+    <div class="ft-metrics">
+      <span>STATUTORY PAPERS: <strong>10</strong></span>
+      <span>EXAM SESSIONS: <strong>13 (2022–2026)</strong></span>
+      <span>VERIFIED DOSSIERS: <strong>266</strong></span>
+      <span>CORE TEXTS: <strong>20 VOLUMES</strong></span>
+    </div>
+    <div style="color:var(--ft-gold); font-weight:600;">COUNCIL APPROVED</div>
+  </div>
+
+  <!-- Search & Filters -->
+  <div class="ft-filter-strip">
+    <div class="ft-search-wrap">
+      <span style="font-weight:700; font-size:11px; text-transform:uppercase;">Search Docket:</span>
+      <input type="text" id="ftSearch" class="ft-search-input" placeholder="Query corporate paper, term, or session...">
+    </div>
+
+    <div class="ft-tier-pills">
+      <button class="ft-pill-btn active" data-filter="ALL">Complete Portfolio</button>
+      <button class="ft-pill-btn" data-filter="PL">Professional Level</button>
+      <button class="ft-pill-btn" data-filter="AL">Advanced Level</button>
+      <button class="ft-pill-btn" data-filter="MANUALS">Core Manuals</button>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <main class="ft-body">
+    <!-- Matrix Card -->
+    <div class="ft-table-card" id="ftMatrixCard">
+      <div class="ft-card-top">
+        <div class="ft-card-title">Curriculum Examination Matrix (2022–2026)</div>
+        <div style="font-size:11px; color:var(--ft-muted); font-style:italic;">Questions [Q] and Solutions [A]</div>
+      </div>
+      <div class="ft-overflow">
+        <table class="ft-table" id="ftTable">
+          <!-- Rendered dynamically -->
+        </table>
+      </div>
+    </div>
+
+    <!-- Manuals Card -->
+    <div class="ft-table-card" id="ftManualsCard">
+      <div class="ft-card-top">
+        <div class="ft-card-title">Prescribed Study Manuals & Textbooks</div>
+        <div style="font-size:11px; color:var(--ft-muted);">Official Courseware Editions</div>
+      </div>
+      <div class="ft-manuals-grid" id="ftManualsGrid">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+
+    <!-- Viewer -->
+    <div class="ft-viewer" id="ftViewer">
+      <div class="ft-viewer-bar">
+        <div class="ft-viewer-title" id="ftViewerTitle">Document Title</div>
+        <div class="ft-viewer-tools">
+          <button class="ft-btn" id="btnFtPrev">← Prior Diet</button>
+          <button class="ft-btn" id="btnFtNext">Next Diet →</button>
+          <button class="ft-btn" id="btnFtToggleQA">Toggle Question / Answer</button>
+          <button class="ft-btn" id="btnFtPop">Open External ↗</button>
+          <button class="ft-btn navy" id="btnFtClose">Close Document [Esc]</button>
+        </div>
+      </div>
+      <iframe class="ft-frame" id="ftFrame" src="about:blank"></iframe>
+    </div>
+  </main>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    let currentSessionData = null;
+    let currentDocType = 'question';
+
+    const table = document.getElementById('ftTable');
+    const manualsGrid = document.getElementById('ftManualsGrid');
+    const searchInput = document.getElementById('ftSearch');
+    const viewer = document.getElementById('ftViewer');
+    const frame = document.getElementById('ftFrame');
+    const viewerTitle = document.getElementById('ftViewerTitle');
+    const btnToggleQA = document.getElementById('btnFtToggleQA');
+    const btnPrev = document.getElementById('btnFtPrev');
+    const btnNext = document.getElementById('btnFtNext');
+
+    function openDoc(title, path, code, sessionData, docType) {
+      currentSessionData = sessionData;
+      currentDocType = docType;
+      viewerTitle.textContent = `[${code || 'ICAB'}] ${title}`;
+      frame.src = encodeURI(path);
+      viewer.style.display = 'flex';
+
+      if (sessionData) {
+        btnPrev.disabled = sessionData.sessionIndex >= sessionData.allSessions.length - 1;
+        btnNext.disabled = sessionData.sessionIndex <= 0;
+        btnToggleQA.textContent = docType === 'question' ? 'Switch to Solution [A]' : 'Switch to Question [Q]';
+      }
+    }
+
+    function closeDoc() {
+      viewer.style.display = 'none';
+      frame.src = 'about:blank';
+      currentSessionData = null;
+    }
+
+    document.getElementById('btnFtClose').addEventListener('click', closeDoc);
+    document.getElementById('btnFtSyllabus').addEventListener('click', () => {
+      openDoc(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path, 'SYL', null, 'manual');
+    });
+
+    btnToggleQA.addEventListener('click', () => {
+      if (!currentSessionData) return;
+      const targetType = currentDocType === 'question' ? 'answer' : 'question';
+      const file = targetType === 'question' ? currentSessionData.session.question : currentSessionData.session.answer;
+      if (file) {
+        openDoc(`${currentSessionData.subject} (${currentSessionData.session.session_label}) [${targetType.toUpperCase()}]`, file.rel_path, PAPER_CODES[currentSessionData.subject], currentSessionData, targetType);
+      }
+    });
+
+    btnPrev.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex >= currentSessionData.allSessions.length - 1) return;
+      const target = currentSessionData.allSessions[currentSessionData.sessionIndex + 1];
+      const file = currentDocType === 'question' ? (target.question || target.answer) : (target.answer || target.question);
+      const actualType = file === target.question ? 'question' : 'answer';
+      openDoc(`${currentSessionData.subject} (${target.session_label})`, file.rel_path, PAPER_CODES[currentSessionData.subject], { ...currentSessionData, session: target, sessionIndex: currentSessionData.sessionIndex + 1 }, actualType);
+    });
+
+    btnNext.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex <= 0) return;
+      const target = currentSessionData.allSessions[currentSessionData.sessionIndex - 1];
+      const file = currentDocType === 'question' ? (target.question || target.answer) : (target.answer || target.question);
+      const actualType = file === target.question ? 'question' : 'answer';
+      openDoc(`${currentSessionData.subject} (${target.session_label})`, file.rel_path, PAPER_CODES[currentSessionData.subject], { ...currentSessionData, session: target, sessionIndex: currentSessionData.sessionIndex - 1 }, actualType);
+    });
+
+    document.getElementById('btnFtPop').addEventListener('click', () => {
+      if (frame.src && frame.src !== 'about:blank') window.open(frame.src, '_blank');
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') closeDoc();
+      if (e.key.toLowerCase() === 's') document.getElementById('btnFtSyllabus').click();
+    });
+
+    function renderMatrix(q = '') {
+      table.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      const thead = document.createElement('thead');
+      const tr = document.createElement('tr');
+      const thPaper = document.createElement('th');
+      thPaper.textContent = 'Curricular Module';
+      tr.appendChild(thPaper);
+
+      SESSIONS_ORDER.forEach(s => {
+        const th = document.createElement('th');
+        th.innerHTML = `${s.label.replace(' ', '<br>')}`;
+        tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const tiers = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') tiers.push('AL');
+
+      tiers.forEach(lvl => {
+        const sepTr = document.createElement('tr');
+        const sepTd = document.createElement('td');
+        sepTd.className = 'ft-tier-banner';
+        sepTd.colSpan = SESSIONS_ORDER.length + 1;
+        sepTd.textContent = lvl === 'PL' ? 'Professional Level (7 Papers)' : 'Advanced Level (3 Papers)';
+        sepTr.appendChild(sepTd);
+        tbody.appendChild(sepTr);
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          if (query && !paper.toLowerCase().includes(query)) return;
+          const code = PAPER_CODES[paper] || 'CA';
+          const sessions = CATALOG[lvl][paper] || [];
+          const map = new Map();
+          sessions.forEach((s, idx) => map.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdPaper = document.createElement('td');
+          tdPaper.innerHTML = `<span style="color:var(--ft-gold); font-weight:700; margin-right:6px;">[${code}]</span> ${paper}`;
+          row.appendChild(tdPaper);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const item = map.get(col.tag);
+            if (item && (item.s.question || item.s.answer)) {
+              const grp = document.createElement('div');
+              grp.className = 'ft-chip-pair';
+
+              const bQ = document.createElement('button');
+              bQ.className = 'ft-link-btn';
+              bQ.textContent = 'Q';
+              bQ.disabled = !item.s.question;
+              if (item.s.question) {
+                bQ.addEventListener('click', () => {
+                  openDoc(`${paper} (${item.s.session_label}) Question`, item.s.question.rel_path, code, {
+                    subject: paper,
+                    session: item.s,
+                    sessionIndex: item.idx,
+                    allSessions: sessions
+                  }, 'question');
+                });
+              }
+
+              const bA = document.createElement('button');
+              bA.className = 'ft-link-btn ans';
+              bA.textContent = 'A';
+              bA.disabled = !item.s.answer;
+              if (item.s.answer) {
+                bA.addEventListener('click', () => {
+                  openDoc(`${paper} (${item.s.session_label}) Answer`, item.s.answer.rel_path, code, {
+                    subject: paper,
+                    session: item.s,
+                    sessionIndex: item.idx,
+                    allSessions: sessions
+                  }, 'answer');
+                });
+              }
+
+              grp.appendChild(bQ);
+              grp.appendChild(bA);
+              td.appendChild(grp);
+            } else {
+              td.innerHTML = '<span style="color:#d9c8b8;">—</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+      table.appendChild(tbody);
+    }
+
+    function renderManuals(q = '') {
+      manualsGrid.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      ['PL', 'AL'].forEach(lvl => {
+        if (activeFilter === 'PL' && lvl !== 'PL') return;
+        if (activeFilter === 'AL' && lvl !== 'AL') return;
+
+        const subjs = CATALOG.Manuals[lvl];
+        for (const [subj, files] of Object.entries(subjs)) {
+          if (query && !subj.toLowerCase().includes(query)) continue;
+          const code = PAPER_CODES[subj] || 'MAN';
+
+          const card = document.createElement('div');
+          card.className = 'ft-manual-card';
+          card.innerHTML = `
+            <div class="ft-manual-header">
+              <span class="ft-manual-code">[${code}] ${lvl}</span>
+              <span style="font-size:10px; color:var(--ft-muted);">${files.length} Vol</span>
+            </div>
+            <div class="ft-manual-title">${subj}</div>
+            <div class="ft-manual-files"></div>
+          `;
+          const fList = card.querySelector('.ft-manual-files');
+          files.forEach(f => {
+            const row = document.createElement('div');
+            row.className = 'ft-manual-row';
+            row.innerHTML = `<span>${f.title}</span> <span style="color:var(--ft-muted);">${f.size_mb} MB ↗</span>`;
+            row.addEventListener('click', () => openDoc(`${subj} — ${f.title}`, f.rel_path, code, null, 'manual'));
+            fList.appendChild(row);
+          });
+          manualsGrid.appendChild(card);
+        }
+      });
+    }
+
+    document.querySelectorAll('.ft-pill-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.ft-pill-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.getAttribute('data-filter');
+
+        if (activeFilter === 'MANUALS') {
+          document.getElementById('ftMatrixCard').style.display = 'none';
+          document.getElementById('ftManualsCard').style.display = 'block';
+        } else {
+          document.getElementById('ftMatrixCard').style.display = 'block';
+          document.getElementById('ftManualsCard').style.display = 'block';
+        }
+        renderMatrix(searchInput.value);
+        renderManuals(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      renderMatrix(e.target.value);
+      renderManuals(e.target.value);
+    });
+
+    renderMatrix();
+    renderManuals();
+  </script>
+</body>
+</html>

@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Chartered Repository — Version 3: Swiss International Style</title>
+  
+  <!-- Inter Display & Grotesque -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* VERSION SWITCHER */
+    .ui-version-bar {
+      background: #000000;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 20px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid #000000;
+      position: relative;
+      z-index: 10000;
+      flex-shrink: 0;
+    }
+    .ui-version-brand { display: flex; align-items: center; gap: 12px; }
+    .ui-version-tag {
+      background: #e11d48;
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 10px;
+      padding: 3px 6px;
+      letter-spacing: 0.5px;
+    }
+    .ui-version-sub { color: #888888; }
+    .ui-version-nav { display: flex; align-items: center; gap: 2px; }
+    .ui-version-link {
+      color: #cccccc;
+      text-decoration: none;
+      padding: 6px 10px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .ui-version-link:hover { color: #ffffff; }
+    .ui-version-link.active {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 800;
+    }
+
+    /* PHILOSOPHY 3: SWISS INTERNATIONAL TYPOGRAPHIC STYLE */
+    :root {
+      --swiss-bg: #ffffff;
+      --swiss-concrete: #f4f4f4;
+      --swiss-border: #000000;
+      --swiss-rule: #d4d4d4;
+      --swiss-ink: #000000;
+      --swiss-muted: #555555;
+      --swiss-red: #e11d48;
+      
+      --font-swiss: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      border-radius: 0 !important;
+    }
+
+    body {
+      background: var(--swiss-bg);
+      color: var(--swiss-ink);
+      font-family: var(--font-swiss);
+      font-size: 13px;
+      line-height: 1.4;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Swiss Asymmetric Poster Masthead */
+    .swiss-header {
+      border-bottom: 3px solid var(--swiss-border);
+      padding: 24px 32px 18px;
+      background: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+    .swiss-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .swiss-sup {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--swiss-red);
+    }
+    .swiss-h1 {
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: -1.2px;
+      line-height: 0.95;
+      text-transform: uppercase;
+    }
+    .swiss-manifest {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--swiss-muted);
+      margin-top: 6px;
+    }
+
+    .swiss-nav-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .swiss-btn {
+      background: transparent;
+      border: 2px solid var(--swiss-border);
+      color: var(--swiss-ink);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 8px 16px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.1s;
+    }
+    .swiss-btn:hover {
+      background: var(--swiss-border);
+      color: #ffffff;
+    }
+    .swiss-btn.red {
+      background: var(--swiss-red);
+      border-color: var(--swiss-red);
+      color: #ffffff;
+    }
+    .swiss-btn.red:hover {
+      background: #000000;
+      border-color: #000000;
+    }
+
+    /* Timetable Filter Strip */
+    .swiss-filter-strip {
+      border-bottom: 1px solid var(--swiss-border);
+      background: var(--swiss-concrete);
+      padding: 8px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+    .swiss-search-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      max-width: 480px;
+    }
+    .swiss-search-label {
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .swiss-input {
+      background: #ffffff;
+      border: 1px solid var(--swiss-border);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 12px;
+      width: 100%;
+      outline: none;
+    }
+    .swiss-input:focus {
+      border-width: 2px;
+    }
+    .swiss-tier-selector {
+      display: flex;
+      border: 2px solid var(--swiss-border);
+      background: #ffffff;
+    }
+    .swiss-tier-btn {
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--swiss-border);
+      padding: 6px 14px;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--swiss-muted);
+      cursor: pointer;
+    }
+    .swiss-tier-btn:last-child { border-right: none; }
+    .swiss-tier-btn:hover { color: #000000; background: var(--swiss-concrete); }
+    .swiss-tier-btn.active {
+      background: var(--swiss-border);
+      color: #ffffff;
+    }
+
+    /* Main Container */
+    .swiss-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 32px 60px;
+      position: relative;
+    }
+
+    /* Swiss Timetable Matrix */
+    .swiss-matrix-wrap {
+      margin-bottom: 40px;
+      border: 2px solid var(--swiss-border);
+    }
+    .swiss-matrix-header {
+      background: var(--swiss-border);
+      color: #ffffff;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .swiss-matrix-title {
+      font-size: 14px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .swiss-table-overflow {
+      overflow-x: auto;
+      background: #ffffff;
+    }
+    .swiss-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .swiss-table th {
+      background: var(--swiss-concrete);
+      border-bottom: 2px solid var(--swiss-border);
+      border-right: 1px solid var(--swiss-rule);
+      padding: 10px 6px;
+      text-align: center;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .swiss-table th:first-child {
+      text-align: left;
+      padding-left: 16px;
+      width: 280px;
+      background: #ffffff;
+      border-right: 2px solid var(--swiss-border);
+    }
+    .swiss-table td {
+      border-bottom: 1px solid var(--swiss-rule);
+      border-right: 1px solid var(--swiss-rule);
+      padding: 8px 4px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .swiss-table td:first-child {
+      text-align: left;
+      padding-left: 16px;
+      font-weight: 700;
+      border-right: 2px solid var(--swiss-border);
+    }
+    .swiss-table tr:hover td {
+      background: #fafafa;
+    }
+    .swiss-tier-divider {
+      background: var(--swiss-border) !important;
+      color: #ffffff !important;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 11px;
+      padding: 6px 16px !important;
+      text-align: left !important;
+    }
+
+    /* Swiss Toggle Buttons */
+    .swiss-cell-toggles {
+      display: inline-flex;
+      border: 1px solid var(--swiss-border);
+    }
+    .swiss-toggle-q, .swiss-toggle-a {
+      background: #ffffff;
+      border: none;
+      color: #000000;
+      font-family: inherit;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 3px 6px;
+      cursor: pointer;
+    }
+    .swiss-toggle-q {
+      border-right: 1px solid var(--swiss-border);
+    }
+    .swiss-toggle-q:hover {
+      background: #000000;
+      color: #ffffff;
+    }
+    .swiss-toggle-a:hover {
+      background: var(--swiss-red);
+      color: #ffffff;
+    }
+    .swiss-toggle-q:disabled, .swiss-toggle-a:disabled {
+      color: #cccccc;
+      background: #ffffff;
+      cursor: not-allowed;
+    }
+    .swiss-toggle-q:disabled:hover, .swiss-toggle-a:disabled:hover {
+      background: #ffffff;
+      color: #cccccc;
+    }
+
+    /* Swiss Manuals Catalog */
+    .swiss-manuals-section {
+      border: 2px solid var(--swiss-border);
+      margin-bottom: 40px;
+    }
+    .swiss-catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0;
+      border-top: 1px solid var(--swiss-border);
+    }
+    .swiss-catalog-item {
+      border-right: 1px solid var(--swiss-border);
+      border-bottom: 1px solid var(--swiss-border);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .swiss-catalog-item:hover {
+      background: #fafafa;
+    }
+    .swiss-item-code {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .swiss-item-title {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .swiss-item-links {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .swiss-item-file {
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid var(--swiss-border);
+      padding: 5px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .swiss-item-file:hover {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    /* Swiss Document Viewer Modal */
+    .swiss-viewer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #ffffff;
+      display: none;
+      flex-direction: column;
+      z-index: 100;
+    }
+    .swiss-viewer-header {
+      background: #000000;
+      color: #ffffff;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .swiss-viewer-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .swiss-viewer-controls {
+      display: flex;
+      gap: 8px;
+    }
+    .swiss-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #333333;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Persistent Version Navigation Bar -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI COMPARATOR</span>
+      <span class="ui-version-sub">6 Radical Architectural Directions</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link"><span class="v-num">01</span> Archival Folio</a>
+      <a href="version-2-terminal.html" class="ui-version-link"><span class="v-num">02</span> Bloomberg Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link active"><span class="v-num">03</span> Swiss Grid</a>
+      <a href="version-4-nordic.html" class="ui-version-link"><span class="v-num">04</span> Nordic Reader</a>
+      <a href="version-5-industrial.html" class="ui-version-link"><span class="v-num">05</span> Raw Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link"><span class="v-num">06</span> Financial Times</a>
+    </nav>
+  </header>
+
+  <!-- Swiss Poster Masthead -->
+  <header class="swiss-header">
+    <div class="swiss-title-block">
+      <div class="swiss-sup">INSTITUTE OF CHARTERED ACCOUNTANTS OF BANGLADESH</div>
+      <h1 class="swiss-h1">CURRICULAR ARCHIVE 2022–2026</h1>
+      <div class="swiss-manifest">OFFICIAL STATUTORY TIMETABLE • 10 PAPERS • 13 DIETS • 266 DOCUMENTS</div>
+    </div>
+    <div class="swiss-nav-actions">
+      <button class="swiss-btn red" id="btnSwissSyllabus">SYLLABUS 2025</button>
+    </div>
+  </header>
+
+  <!-- Filter Strip -->
+  <div class="swiss-filter-strip">
+    <div class="swiss-search-wrap">
+      <span class="swiss-search-label">SEARCH:</span>
+      <input type="text" id="swissSearch" class="swiss-input" placeholder="Type paper code or title (e.g. Audit, BST, 2026)...">
+    </div>
+
+    <div class="swiss-tier-selector">
+      <button class="swiss-tier-btn active" data-filter="ALL">ALL PAPERS</button>
+      <button class="swiss-tier-btn" data-filter="PL">PROFESSIONAL (7)</button>
+      <button class="swiss-tier-btn" data-filter="AL">ADVANCED (3)</button>
+      <button class="swiss-tier-btn" data-filter="MANUALS">TEXTBOOKS (20)</button>
+    </div>
+  </div>
+
+  <!-- Main Body -->
+  <main class="swiss-body">
+    <!-- Timetable Matrix -->
+    <section class="swiss-matrix-wrap" id="swissMatrixSection">
+      <div class="swiss-matrix-header">
+        <div class="swiss-matrix-title">SESSION TIMETABLE MATRIX (QUESTION & ANSWER)</div>
+        <div style="font-size:11px; font-weight:700;">CHRONOLOGICAL 2022 TO 2026</div>
+      </div>
+      <div class="swiss-table-overflow">
+        <table class="swiss-table" id="swissMatrixTable">
+          <!-- Rendered dynamically -->
+        </table>
+      </div>
+    </section>
+
+    <!-- Manuals Section -->
+    <section class="swiss-manuals-section" id="swissManualsSection">
+      <div class="swiss-matrix-header">
+        <div class="swiss-matrix-title">OFFICIAL TEXTBOOKS & SYLLABUS VOLUMES</div>
+        <div style="font-size:11px; font-weight:700;">PRESCRIBED EDITIONS</div>
+      </div>
+      <div class="swiss-catalog-grid" id="swissManualsGrid">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- Document Viewer -->
+    <div class="swiss-viewer" id="swissViewer">
+      <div class="swiss-viewer-header">
+        <div class="swiss-viewer-title" id="swissViewerTitle">DOCUMENT</div>
+        <div class="swiss-viewer-controls">
+          <button class="swiss-btn" id="btnSwissPrev" style="background:#fff; color:#000;">← PREV</button>
+          <button class="swiss-btn" id="btnSwissNext" style="background:#fff; color:#000;">NEXT →</button>
+          <button class="swiss-btn red" id="btnSwissToggleQA">TOGGLE Q/A</button>
+          <button class="swiss-btn" id="btnSwissPop" style="background:#fff; color:#000;">POP OUT ↗</button>
+          <button class="swiss-btn red" id="btnSwissClose">CLOSE [ESC]</button>
+        </div>
+      </div>
+      <iframe class="swiss-frame" id="swissFrame" src="about:blank"></iframe>
+    </div>
+  </main>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    let currentSessionData = null;
+    let currentDocType = 'question';
+
+    const matrixTable = document.getElementById('swissMatrixTable');
+    const manualsGrid = document.getElementById('swissManualsGrid');
+    const searchInput = document.getElementById('swissSearch');
+    const viewer = document.getElementById('swissViewer');
+    const frame = document.getElementById('swissFrame');
+    const viewerTitle = document.getElementById('swissViewerTitle');
+    const btnToggleQA = document.getElementById('btnSwissToggleQA');
+    const btnPrev = document.getElementById('btnSwissPrev');
+    const btnNext = document.getElementById('btnSwissNext');
+
+    function openDoc(title, path, code, sessionData, docType) {
+      currentSessionData = sessionData;
+      currentDocType = docType;
+      viewerTitle.textContent = `[${code || 'ICAB'}] ${title}`;
+      frame.src = encodeURI(path);
+      viewer.style.display = 'flex';
+
+      if (sessionData) {
+        btnPrev.disabled = sessionData.sessionIndex >= sessionData.allSessions.length - 1;
+        btnNext.disabled = sessionData.sessionIndex <= 0;
+        btnToggleQA.textContent = docType === 'question' ? 'LOAD ANSWER [A]' : 'LOAD QUESTION [Q]';
+      }
+    }
+
+    function closeDoc() {
+      viewer.style.display = 'none';
+      frame.src = 'about:blank';
+      currentSessionData = null;
+    }
+
+    document.getElementById('btnSwissClose').addEventListener('click', closeDoc);
+    document.getElementById('btnSwissSyllabus').addEventListener('click', () => {
+      openDoc(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path, 'SYL', null, 'manual');
+    });
+
+    btnToggleQA.addEventListener('click', () => {
+      if (!currentSessionData) return;
+      const targetType = currentDocType === 'question' ? 'answer' : 'question';
+      const file = targetType === 'question' ? currentSessionData.session.question : currentSessionData.session.answer;
+      if (file) {
+        openDoc(`${currentSessionData.subject} (${currentSessionData.session.session_label}) [${targetType.toUpperCase()}]`, file.rel_path, PAPER_CODES[currentSessionData.subject], currentSessionData, targetType);
+      }
+    });
+
+    btnPrev.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex >= currentSessionData.allSessions.length - 1) return;
+      const target = currentSessionData.allSessions[currentSessionData.sessionIndex + 1];
+      const file = currentDocType === 'question' ? (target.question || target.answer) : (target.answer || target.question);
+      const actualType = file === target.question ? 'question' : 'answer';
+      openDoc(`${currentSessionData.subject} (${target.session_label})`, file.rel_path, PAPER_CODES[currentSessionData.subject], { ...currentSessionData, session: target, sessionIndex: currentSessionData.sessionIndex + 1 }, actualType);
+    });
+
+    btnNext.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex <= 0) return;
+      const target = currentSessionData.allSessions[currentSessionData.sessionIndex - 1];
+      const file = currentDocType === 'question' ? (target.question || target.answer) : (target.answer || target.question);
+      const actualType = file === target.question ? 'question' : 'answer';
+      openDoc(`${currentSessionData.subject} (${target.session_label})`, file.rel_path, PAPER_CODES[currentSessionData.subject], { ...currentSessionData, session: target, sessionIndex: currentSessionData.sessionIndex - 1 }, actualType);
+    });
+
+    document.getElementById('btnSwissPop').addEventListener('click', () => {
+      if (frame.src && frame.src !== 'about:blank') window.open(frame.src, '_blank');
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') closeDoc();
+      if (e.key.toLowerCase() === 's') document.getElementById('btnSwissSyllabus').click();
+    });
+
+    function renderMatrix(q = '') {
+      matrixTable.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      const thead = document.createElement('thead');
+      const tr = document.createElement('tr');
+      const thPaper = document.createElement('th');
+      thPaper.textContent = 'CURRICULUM PAPER';
+      tr.appendChild(thPaper);
+
+      SESSIONS_ORDER.forEach(s => {
+        const th = document.createElement('th');
+        th.innerHTML = `${s.label.replace(' ', '<br>')}`;
+        tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+      matrixTable.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const tiers = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') tiers.push('AL');
+
+      tiers.forEach(lvl => {
+        const sepTr = document.createElement('tr');
+        const sepTd = document.createElement('td');
+        sepTd.className = 'swiss-tier-divider';
+        sepTd.colSpan = SESSIONS_ORDER.length + 1;
+        sepTd.textContent = lvl === 'PL' ? '01 / PROFESSIONAL LEVEL (7 PAPERS)' : '02 / ADVANCED LEVEL (3 PAPERS)';
+        sepTr.appendChild(sepTd);
+        tbody.appendChild(sepTr);
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          if (query && !paper.toLowerCase().includes(query)) return;
+          const code = PAPER_CODES[paper] || 'CA';
+          const sessions = CATALOG[lvl][paper] || [];
+          const map = new Map();
+          sessions.forEach((s, idx) => map.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdPaper = document.createElement('td');
+          tdPaper.innerHTML = `<span style="color:var(--swiss-red);margin-right:6px;">[${code}]</span> ${paper.toUpperCase()}`;
+          row.appendChild(tdPaper);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const item = map.get(col.tag);
+            if (item && (item.s.question || item.s.answer)) {
+              const toggles = document.createElement('div');
+              toggles.className = 'swiss-cell-toggles';
+
+              const bQ = document.createElement('button');
+              bQ.className = 'swiss-toggle-q';
+              bQ.textContent = 'Q';
+              bQ.disabled = !item.s.question;
+              if (item.s.question) {
+                bQ.addEventListener('click', () => {
+                  openDoc(`${paper} (${item.s.session_label}) Question`, item.s.question.rel_path, code, {
+                    subject: paper,
+                    session: item.s,
+                    sessionIndex: item.idx,
+                    allSessions: sessions
+                  }, 'question');
+                });
+              }
+
+              const bA = document.createElement('button');
+              bA.className = 'swiss-toggle-a';
+              bA.textContent = 'A';
+              bA.disabled = !item.s.answer;
+              if (item.s.answer) {
+                bA.addEventListener('click', () => {
+                  openDoc(`${paper} (${item.s.session_label}) Answer`, item.s.answer.rel_path, code, {
+                    subject: paper,
+                    session: item.s,
+                    sessionIndex: item.idx,
+                    allSessions: sessions
+                  }, 'answer');
+                });
+              }
+
+              toggles.appendChild(bQ);
+              toggles.appendChild(bA);
+              td.appendChild(toggles);
+            } else {
+              td.innerHTML = '<span style="color:#bbb;">—</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+      matrixTable.appendChild(tbody);
+    }
+
+    function renderManuals(q = '') {
+      manualsGrid.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      ['PL', 'AL'].forEach(lvl => {
+        if (activeFilter === 'PL' && lvl !== 'PL') return;
+        if (activeFilter === 'AL' && lvl !== 'AL') return;
+
+        const subjs = CATALOG.Manuals[lvl];
+        for (const [subj, files] of Object.entries(subjs)) {
+          if (query && !subj.toLowerCase().includes(query)) continue;
+          const code = PAPER_CODES[subj] || 'MAN';
+
+          const item = document.createElement('div');
+          item.className = 'swiss-catalog-item';
+          item.innerHTML = `
+            <div>
+              <div class="swiss-item-code">${code}</div>
+              <div class="swiss-item-title">${subj.toUpperCase()}</div>
+            </div>
+            <div class="swiss-item-links"></div>
+          `;
+          const lWrap = item.querySelector('.swiss-item-links');
+          files.forEach(f => {
+            const row = document.createElement('div');
+            row.className = 'swiss-item-file';
+            row.innerHTML = `<span>${f.title}</span> <span>${f.size_mb} MB ↗</span>`;
+            row.addEventListener('click', () => openDoc(`${subj} — ${f.title}`, f.rel_path, code, null, 'manual'));
+            lWrap.appendChild(row);
+          });
+          manualsGrid.appendChild(item);
+        }
+      });
+    }
+
+    document.querySelectorAll('.swiss-tier-btn').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.swiss-tier-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.getAttribute('data-filter');
+
+        if (activeFilter === 'MANUALS') {
+          document.getElementById('swissMatrixSection').style.display = 'none';
+          document.getElementById('swissManualsSection').style.display = 'block';
+        } else {
+          document.getElementById('swissMatrixSection').style.display = 'block';
+          document.getElementById('swissManualsSection').style.display = 'block';
+        }
+        renderMatrix(searchInput.value);
+        renderManuals(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      renderMatrix(e.target.value);
+      renderManuals(e.target.value);
+    });
+
+    renderMatrix();
+    renderManuals();
+  </script>
+</body>
+</html>

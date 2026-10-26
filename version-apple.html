@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Chartered Repository — Apple macOS Finder & Preview</title>
+  
+  <style>
+    /* UNIVERSAL VERSION SWITCHER BAR */
+    .ui-version-bar {
+      background: #1c1c1e;
+      color: #aeaeb2;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #2c2c2e;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-version-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-version-tag {
+      background: #007aff;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .ui-version-nav { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-version-link {
+      color: #aeaeb2;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .ui-version-link:hover { color: #ffffff; background: #2c2c2e; }
+    .ui-version-link.active {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 600;
+    }
+
+    /* APPLE MACOS STYLING */
+    :root {
+      --mac-bg: #e8e8ed;
+      --mac-window-bg: #ffffff;
+      --mac-sidebar-bg: #f5f5f7;
+      --mac-border: #d2d2d7;
+      --mac-border-subtle: #e5e5ea;
+      --mac-accent: #007aff;
+      --mac-accent-hover: #0062cc;
+      --mac-text: #1d1d1f;
+      --mac-text-secondary: #86868b;
+      --mac-row-hover: #f0f0f4;
+      --mac-selected: #e3f2fd;
+      --font-mac: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--mac-bg);
+      color: var(--mac-text);
+      font-family: var(--font-mac);
+      font-size: 13px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* macOS Desktop Workspace Container */
+    .mac-desktop {
+      flex: 1;
+      padding: 18px 24px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* macOS Window Shell */
+    .mac-window {
+      width: 100%;
+      height: 100%;
+      max-width: 1560px;
+      background: var(--mac-window-bg);
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* macOS Window Titlebar */
+    .mac-titlebar {
+      height: 52px;
+      background: #fbfbfd;
+      border-bottom: 1px solid var(--mac-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .mac-titlebar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .mac-traffic-lights {
+      display: flex;
+      gap: 8px;
+    }
+    .mac-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+    }
+    .mac-dot.close { background: #ff5f57; }
+    .mac-dot.min { background: #febc2e; }
+    .mac-dot.zoom { background: #28c840; }
+
+    .mac-window-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--mac-text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* View Switcher Segmented Control */
+    .mac-segmented {
+      display: inline-flex;
+      background: #e3e3e8;
+      border-radius: 6px;
+      padding: 2px;
+    }
+    .mac-segment-btn {
+      background: transparent;
+      border: none;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #636366;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .mac-segment-btn.active {
+      background: #ffffff;
+      color: #1c1c1e;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      font-weight: 600;
+    }
+
+    /* Search Field */
+    .mac-search-input {
+      background: #e3e3e8;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 5px 12px 5px 28px;
+      font-size: 12px;
+      width: 220px;
+      outline: none;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%238e8e93" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>');
+      background-repeat: no-repeat;
+      background-position: 8px center;
+      transition: all 0.2s;
+    }
+    .mac-search-input:focus {
+      background-color: #ffffff;
+      border-color: var(--mac-accent);
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+      width: 280px;
+    }
+
+    /* Window Body: Sidebar + Main Content + Inspector Panel */
+    .mac-window-body {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* macOS Sidebar */
+    .mac-sidebar {
+      width: 220px;
+      background: var(--mac-sidebar-bg);
+      border-right: 1px solid var(--mac-border);
+      padding: 16px 8px;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    .mac-sidebar-group {
+      margin-bottom: 20px;
+    }
+    .mac-sidebar-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--mac-text-secondary);
+      padding: 4px 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .mac-nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: var(--mac-text);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      transition: background 0.1s;
+    }
+    .mac-nav-item:hover {
+      background: #eaeaea;
+    }
+    .mac-nav-item.active {
+      background: var(--mac-accent);
+      color: #ffffff;
+    }
+    .mac-nav-item.active .mac-nav-badge {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
+    .mac-nav-badge {
+      background: #e5e5ea;
+      color: var(--mac-text-secondary);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    /* Central Content Area */
+    .mac-center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    /* Breadcrumb / Path bar */
+    .mac-pathbar {
+      padding: 8px 16px;
+      background: #fafafc;
+      border-bottom: 1px solid var(--mac-border-subtle);
+      font-size: 11px;
+      color: var(--mac-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* Matrix Table (macOS List View Style) */
+    .mac-table-scroll {
+      flex: 1;
+      overflow: auto;
+      padding: 0;
+    }
+    .mac-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      text-align: left;
+    }
+    .mac-table th {
+      background: #f5f5f7;
+      color: var(--mac-text-secondary);
+      font-weight: 600;
+      font-size: 11px;
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--mac-border);
+      border-right: 1px solid var(--mac-border-subtle);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      white-space: nowrap;
+      text-align: center;
+    }
+    .mac-table th:first-child {
+      text-align: left;
+      padding-left: 16px;
+      width: 260px;
+    }
+    .mac-table td {
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--mac-border-subtle);
+      border-right: 1px solid var(--mac-border-subtle);
+      vertical-align: middle;
+      text-align: center;
+    }
+    .mac-table td:first-child {
+      text-align: left;
+      padding-left: 16px;
+      font-weight: 500;
+    }
+    .mac-table tr:hover td {
+      background: var(--mac-row-hover);
+    }
+    .mac-table tr.selected td {
+      background: var(--mac-selected);
+    }
+    .mac-group-header {
+      background: #fbfbfd !important;
+      font-weight: 700;
+      font-size: 11px;
+      color: var(--mac-accent);
+      padding: 6px 16px !important;
+      text-align: left !important;
+    }
+
+    /* Apple Style Pill Buttons */
+    .mac-btn-group {
+      display: inline-flex;
+      gap: 3px;
+    }
+    .mac-pill-btn {
+      background: #f0f0f5;
+      border: 1px solid #dcdce2;
+      border-radius: 12px;
+      color: #1d1d1f;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .mac-pill-btn:hover {
+      background: var(--mac-accent);
+      color: #ffffff;
+      border-color: var(--mac-accent);
+    }
+    .mac-pill-btn.ans {
+      background: #eef7ee;
+      border-color: #c9e6c9;
+      color: #2e7d32;
+    }
+    .mac-pill-btn.ans:hover {
+      background: #2e7d32;
+      color: #ffffff;
+      border-color: #2e7d32;
+    }
+    .mac-pill-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      border-color: transparent;
+      background: transparent;
+    }
+
+    /* Right Preview Inspector Column (macOS QuickLook Style) */
+    .mac-inspector {
+      width: 320px;
+      background: #fbfbfd;
+      border-left: 1px solid var(--mac-border);
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    .mac-doc-icon {
+      width: 72px;
+      height: 90px;
+      background: #ffffff;
+      border: 1px solid var(--mac-border);
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .mac-doc-badge {
+      background: #ff3b30;
+      color: #ffffff;
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 3px;
+      position: absolute;
+      bottom: 8px;
+    }
+    .mac-inspector-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--mac-text);
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+    .mac-inspector-meta {
+      font-size: 11px;
+      color: var(--mac-text-secondary);
+      margin-bottom: 20px;
+    }
+    .mac-action-stack {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mac-blue-btn {
+      background: var(--mac-accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 1px 3px rgba(0, 122, 255, 0.3);
+    }
+    .mac-blue-btn:hover { background: var(--mac-accent-hover); }
+    .mac-gray-btn {
+      background: #e5e5ea;
+      color: #1d1d1f;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+    }
+    .mac-gray-btn:hover { background: #dcdce2; }
+
+    /* Modal QuickLook Preview Viewer (Sheet overlay) */
+    .mac-quicklook-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 24px;
+    }
+    .mac-quicklook-window {
+      width: 90%;
+      height: 92%;
+      max-width: 1200px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .mac-quicklook-header {
+      height: 48px;
+      background: #f8f8fa;
+      border-bottom: 1px solid var(--mac-border);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .mac-quicklook-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL VERSION SWITCHER -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI LAB</span>
+      <span>13 Visual Paradigms</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link">01 Archival</a>
+      <a href="version-2-terminal.html" class="ui-version-link">02 Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link">03 Swiss</a>
+      <a href="version-4-nordic.html" class="ui-version-link">04 Nordic</a>
+      <a href="version-5-industrial.html" class="ui-version-link">05 Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link">06 FT Executive</a>
+      <a href="version-apple.html" class="ui-version-link active">07 Apple macOS</a>
+      <a href="version-torrent.html" class="ui-version-link">08 Torrent Tracker</a>
+      <a href="version-anime.html" class="ui-version-link">09 Anime Stream</a>
+      <a href="version-winxp.html" class="ui-version-link">10 Windows XP</a>
+      <a href="version-google.html" class="ui-version-link">11 Google Drive</a>
+      <a href="version-linux.html" class="ui-version-link">12 Linux Curses</a>
+      <a href="version-linear.html" class="ui-version-link">13 Linear Void</a>
+    </nav>
+  </header>
+
+  <!-- macOS Desktop Workspace -->
+  <div class="mac-desktop">
+    <div class="mac-window">
+      <!-- Window Titlebar -->
+      <div class="mac-titlebar">
+        <div class="mac-titlebar-left">
+          <div class="mac-traffic-lights">
+            <div class="mac-dot close"></div>
+            <div class="mac-dot min"></div>
+            <div class="mac-dot zoom"></div>
+          </div>
+          <div class="mac-window-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+            <span>ICAB Chartered Archive — Finder</span>
+          </div>
+        </div>
+
+        <div class="mac-segmented">
+          <button class="mac-segment-btn active" data-view="matrix">Matrix</button>
+          <button class="mac-segment-btn" data-view="manuals">Manuals</button>
+        </div>
+
+        <div>
+          <input type="text" id="macSearch" class="mac-search-input" placeholder="Search archive...">
+        </div>
+      </div>
+
+      <!-- Window Body -->
+      <div class="mac-window-body">
+        <!-- Sidebar -->
+        <aside class="mac-sidebar">
+          <div class="mac-sidebar-group">
+            <div class="mac-sidebar-label">Favorites</div>
+            <div class="mac-nav-item active" data-filter="ALL">
+              <span>All Documents</span>
+              <span class="mac-nav-badge">266</span>
+            </div>
+            <div class="mac-nav-item" id="navSyllabus">
+              <span>2025 Syllabus</span>
+              <span class="mac-nav-badge">PDF</span>
+            </div>
+          </div>
+
+          <div class="mac-sidebar-group">
+            <div class="mac-sidebar-label">Curriculum</div>
+            <div class="mac-nav-item" data-filter="PL">
+              <span>Professional (PL)</span>
+              <span class="mac-nav-badge">7</span>
+            </div>
+            <div class="mac-nav-item" data-filter="AL">
+              <span>Advanced (AL)</span>
+              <span class="mac-nav-badge">3</span>
+            </div>
+            <div class="mac-nav-item" data-filter="MANUALS">
+              <span>Study Manuals</span>
+              <span class="mac-nav-badge">20</span>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Center Workspace -->
+        <div class="mac-center">
+          <div class="mac-pathbar">
+            <span>Macintosh HD</span>
+            <span>›</span>
+            <span>ICAB Archive</span>
+            <span>›</span>
+            <span id="macPathCurrent" style="color:var(--mac-text); font-weight:600;">All Curriculum Papers (2022–2026)</span>
+          </div>
+
+          <div class="mac-table-scroll">
+            <table class="mac-table" id="macTable">
+              <!-- Rendered dynamically -->
+            </table>
+          </div>
+        </div>
+
+        <!-- Right Preview Inspector -->
+        <aside class="mac-inspector" id="macInspector">
+          <div class="mac-doc-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#86868b" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            <span class="mac-doc-badge">PDF</span>
+          </div>
+          <div class="mac-inspector-title" id="inspectorTitle">Select a Paper</div>
+          <div class="mac-inspector-meta" id="inspectorMeta">Click any Q or A chip to inspect metadata</div>
+
+          <div class="mac-action-stack">
+            <button class="mac-blue-btn" id="btnMacOpenQuickLook">Quick Look Preview</button>
+            <button class="mac-gray-btn" id="btnMacDownload">Open in New Tab ↗</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Look Modal Sheet -->
+  <div class="mac-quicklook-overlay" id="macQuickLook">
+    <div class="mac-quicklook-window">
+      <div class="mac-quicklook-header">
+        <div style="font-weight:600; font-size:13px;" id="quicklookTitle">Preview</div>
+        <div style="display:flex; gap:8px;">
+          <button class="mac-gray-btn" id="btnQuickLookToggle" style="padding:4px 10px; font-size:11px;">Switch Q/A</button>
+          <button class="mac-gray-btn" id="btnQuickLookClose" style="padding:4px 10px; font-size:11px;">Done [Esc]</button>
+        </div>
+      </div>
+      <iframe class="mac-quicklook-frame" id="macFrame" src="about:blank"></iframe>
+    </div>
+  </div>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    let selectedDoc = null;
+    let currentSessionData = null;
+    let currentDocType = 'question';
+
+    const table = document.getElementById('macTable');
+    const searchInput = document.getElementById('macSearch');
+    const inspectorTitle = document.getElementById('inspectorTitle');
+    const inspectorMeta = document.getElementById('inspectorMeta');
+    const quicklook = document.getElementById('macQuickLook');
+    const quicklookTitle = document.getElementById('quicklookTitle');
+    const frame = document.getElementById('macFrame');
+    const btnToggle = document.getElementById('btnQuickLookToggle');
+
+    function selectDocument(title, path, meta, sessionData, docType) {
+      selectedDoc = { title, path, meta, sessionData, docType };
+      inspectorTitle.textContent = title;
+      inspectorMeta.textContent = meta;
+    }
+
+    function openQuickLook() {
+      if (!selectedDoc) {
+        // default to syllabus if nothing selected
+        selectDocument(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path, '6.2 MB • Curriculum Framework', null, 'manual');
+      }
+      quicklookTitle.textContent = selectedDoc.title;
+      frame.src = encodeURI(selectedDoc.path);
+      quicklook.style.display = 'flex';
+      
+      btnToggle.style.display = selectedDoc.sessionData ? 'inline-block' : 'none';
+      if (selectedDoc.sessionData) {
+        btnToggle.textContent = selectedDoc.docType === 'question' ? 'View Solution [A]' : 'View Question [Q]';
+      }
+    }
+
+    function closeQuickLook() {
+      quicklook.style.display = 'none';
+      frame.src = 'about:blank';
+    }
+
+    document.getElementById('btnMacOpenQuickLook').addEventListener('click', openQuickLook);
+    document.getElementById('btnQuickLookClose').addEventListener('click', closeQuickLook);
+    document.getElementById('navSyllabus').addEventListener('click', () => {
+      selectDocument(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path, '6.2 MB • Official Syllabus', null, 'manual');
+      openQuickLook();
+    });
+
+    document.getElementById('btnMacDownload').addEventListener('click', () => {
+      if (selectedDoc && selectedDoc.path) window.open(encodeURI(selectedDoc.path), '_blank');
+    });
+
+    btnToggle.addEventListener('click', () => {
+      if (!selectedDoc || !selectedDoc.sessionData) return;
+      const targetType = selectedDoc.docType === 'question' ? 'answer' : 'question';
+      const file = targetType === 'question' ? selectedDoc.sessionData.session.question : selectedDoc.sessionData.session.answer;
+      if (file) {
+        selectDocument(`${selectedDoc.sessionData.subject} (${selectedDoc.sessionData.session.session_label}) [${targetType.toUpperCase()}]`, file.rel_path, `${file.size_kb} KB • Exam Diet`, selectedDoc.sessionData, targetType);
+        openQuickLook();
+      }
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') closeQuickLook();
+      if (e.key === ' ' && selectedDoc) {
+        e.preventDefault();
+        if (quicklook.style.display === 'flex') closeQuickLook(); else openQuickLook();
+      }
+    });
+
+    function renderMatrix(q = '') {
+      table.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      const thead = document.createElement('thead');
+      const tr = document.createElement('tr');
+      const thPaper = document.createElement('th');
+      thPaper.textContent = 'Name';
+      tr.appendChild(thPaper);
+
+      SESSIONS_ORDER.forEach(s => {
+        const th = document.createElement('th');
+        th.innerHTML = `${s.label.replace(' ', '<br>')}`;
+        tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const tiers = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') tiers.push('AL');
+
+      tiers.forEach(lvl => {
+        const sepTr = document.createElement('tr');
+        const sepTd = document.createElement('td');
+        sepTd.className = 'mac-group-header';
+        sepTd.colSpan = SESSIONS_ORDER.length + 1;
+        sepTd.textContent = lvl === 'PL' ? 'Professional Level (7 Papers)' : 'Advanced Level (3 Papers)';
+        sepTr.appendChild(sepTd);
+        tbody.appendChild(sepTr);
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          if (query && !paper.toLowerCase().includes(query)) return;
+          const code = PAPER_CODES[paper] || 'CA';
+          const sessions = CATALOG[lvl][paper] || [];
+          const map = new Map();
+          sessions.forEach((s, idx) => map.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdPaper = document.createElement('td');
+          tdPaper.innerHTML = `<span style="font-weight:700; color:var(--mac-accent); margin-right:4px;">${code}</span> ${paper}`;
+          row.appendChild(tdPaper);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const item = map.get(col.tag);
+            if (item && (item.s.question || item.s.answer)) {
+              const grp = document.createElement('div');
+              grp.className = 'mac-btn-group';
+
+              const bQ = document.createElement('button');
+              bQ.className = 'mac-pill-btn';
+              bQ.textContent = 'Q';
+              bQ.disabled = !item.s.question;
+              if (item.s.question) {
+                bQ.addEventListener('click', (e) => {
+                  e.stopPropagation();
+                  selectDocument(`${paper} (${item.s.session_label}) Question`, item.s.question.rel_path, `${item.s.question.size_kb} KB • Question Paper`, {
+                    subject: paper,
+                    session: item.s,
+                    sessionIndex: item.idx,
+                    allSessions: sessions
+                  }, 'question');
+                  openQuickLook();
+                });
+              }
+
+              const bA = document.createElement('button');
+              bA.className = 'mac-pill-btn ans';
+              bA.textContent = 'A';
+              bA.disabled = !item.s.answer;
+              if (item.s.answer) {
+                bA.addEventListener('click', (e) => {
+                  e.stopPropagation();
+                  selectDocument(`${paper} (${item.s.session_label}) Solution`, item.s.answer.rel_path, `${item.s.answer.size_kb} KB • Suggested Solution`, {
+                    subject: paper,
+                    session: item.s,
+                    sessionIndex: item.idx,
+                    allSessions: sessions
+                  }, 'answer');
+                  openQuickLook();
+                });
+              }
+
+              grp.appendChild(bQ);
+              grp.appendChild(bA);
+              td.appendChild(grp);
+            } else {
+              td.innerHTML = '<span style="color:#d2d2d7;">—</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+      table.appendChild(tbody);
+    }
+
+    document.querySelectorAll('.mac-nav-item[data-filter]').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.mac-nav-item[data-filter]').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.getAttribute('data-filter');
+        document.getElementById('macPathCurrent').textContent = b.querySelector('span').textContent;
+        renderMatrix(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => renderMatrix(e.target.value));
+
+    renderMatrix();
+  </script>
+</body>
+</html>

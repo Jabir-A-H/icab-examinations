@@ -1,0 +1,4735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Chartered Archive & Study Desk | Professional & Advanced Levels</title>
+  
+  <!-- Fonts: Newsreader (Editorial Serif) & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Archival Stone & Vellum Palette ("The Chartered Archive") */
+      --bg-base: #f6f5f1;
+      --bg-surface: #ffffff;
+      --bg-surface-elevated: #edebe4;
+      --bg-hover: #e5e2d8;
+      --border-color: #e2ded4;
+      --border-subtle: #cfc9bd;
+      --border-strong: #a49c8e;
+      --text-main: #14171a;
+      --text-muted: #57606a;
+      --text-subtle: #8c959f;
+
+      /* ICAB Signature Tones */
+      --icab-navy: #0e2a47;
+      --icab-navy-hover: #163e68;
+      --icab-navy-light: #eaf1f8;
+      --icab-navy-border: #bcd3e6;
+
+      --icab-seal: #8b1e23;
+      --icab-seal-light: #fbebee;
+      --icab-seal-border: #f1c5c8;
+
+      --icab-gold: #926615;
+      --icab-gold-light: #fbf5e8;
+      --icab-gold-border: #e8d7b3;
+
+      --accent: var(--icab-navy);
+      --accent-hover: var(--icab-navy-hover);
+      --accent-light: var(--icab-navy-light);
+      --accent-border: var(--icab-navy-border);
+
+      /* Badges & Chips */
+      --badge-q-bg: #eaf1f8;
+      --badge-q-text: #0e2a47;
+      --badge-q-border: #c4d7e8;
+
+      --badge-a-bg: #edf6f0;
+      --badge-a-text: #1b5e20;
+      --badge-a-border: #c3e6cb;
+
+      --badge-m-bg: #f5edf8;
+      --badge-m-text: #6b21a8;
+      --badge-m-border: #e2cbf1;
+
+      --badge-code-bg: #ede9de;
+      --badge-code-text: #4e402c;
+      --badge-code-border: #d4cbba;
+
+      --header-h: 56px;
+      --toolbar-h: 50px;
+      --sidebar-w: 375px;
+      --radius-xs: 4px;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px 0 rgba(20, 23, 26, 0.05);
+      --shadow-md: 0 4px 12px -2px rgba(20, 23, 26, 0.08);
+
+      --font-serif: "Newsreader", Charter, "Iowan Old Style", "Cambria", Georgia, serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --font-mono: "JetBrains Mono", "SF Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    }
+
+    [data-theme="dark"] {
+      /* Midnight Archival Palette */
+      --bg-base: #0b1017;
+      --bg-surface: #121822;
+      --bg-surface-elevated: #1a2332;
+      --bg-hover: #222e40;
+      --border-color: #1f2a3a;
+      --border-subtle: #2d3d52;
+      --border-strong: #425570;
+      --text-main: #f0f4f8;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+
+      --icab-navy: #589ae8;
+      --icab-navy-hover: #7bb1f0;
+      --icab-navy-light: #16263b;
+      --icab-navy-border: #233e60;
+
+      --icab-seal: #e56d71;
+      --icab-seal-light: #36171a;
+      --icab-seal-border: #5c272c;
+
+      --icab-gold: #e2ba64;
+      --icab-gold-light: #302613;
+      --icab-gold-border: #544321;
+
+      --accent: #589ae8;
+      --accent-hover: #7bb1f0;
+      --accent-light: #16263b;
+      --accent-border: #233e60;
+
+      --badge-q-bg: #15273d;
+      --badge-q-text: #9ec5fe;
+      --badge-q-border: #234166;
+
+      --badge-a-bg: #102d1f;
+      --badge-a-text: #8ce196;
+      --badge-a-border: #1b4b33;
+
+      --badge-m-bg: #2d163d;
+      --badge-m-text: #d8b4fe;
+      --badge-m-border: #4d2368;
+
+      --badge-code-bg: #221c13;
+      --badge-code-text: #edd7a6;
+      --badge-code-border: #473a24;
+
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Common Monospace & Code Badges */
+    .badge-code {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: var(--radius-xs);
+      background: var(--badge-code-bg);
+      color: var(--badge-code-text);
+      border: 1px solid var(--badge-code-border);
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+
+    kbd {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 1px 5px;
+      color: var(--text-main);
+      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.2;
+    }
+
+    /* Layout Shell */
+    .app-header {
+      height: var(--header-h);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      z-index: 20;
+      flex-shrink: 0;
+      gap: 12px;
+    }
+
+    .app-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn-sidebar-toggle-header {
+      width: 32px;
+      height: 32px;
+    }
+
+    .app-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .app-seal {
+      width: 36px;
+      height: 36px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .app-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .app-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-title-row h1 {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .app-badge-archival {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 1px 6px;
+      border-radius: 3px;
+      background: var(--icab-seal-light);
+      color: var(--icab-seal);
+      border: 1px solid var(--icab-seal-border);
+    }
+
+    .app-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Central Global Header Search */
+    .header-search-wrap {
+      flex: 0 1 380px;
+      min-width: 180px;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .header-search-wrap .search-input {
+      width: 100%;
+      height: 34px;
+      padding: 0 54px 0 34px;
+      font-size: 12px;
+      background: var(--bg-base);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      color: var(--text-main);
+      outline: none;
+      transition: all 0.15s ease;
+      font-family: var(--font-sans);
+    }
+
+    .header-search-wrap .search-input:focus {
+      border-color: var(--icab-navy);
+      background: var(--bg-surface);
+      box-shadow: 0 0 0 2px var(--icab-navy-light);
+    }
+
+    [data-theme="dark"] .header-search-wrap .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(88, 154, 232, 0.2);
+    }
+
+    .header-search-wrap .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-subtle);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .header-search-wrap .search-clear-btn {
+      position: absolute;
+      right: 32px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-subtle);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 2px;
+    }
+
+    .header-search-wrap .search-clear-btn:hover {
+      color: var(--text-main);
+    }
+
+    .header-search-wrap .search-shortcut-hint {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      font-size: 10px;
+      padding: 1px 5px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+
+    .app-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-desk-pill {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      height: 32px;
+      padding: 0 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.15s ease;
+    }
+
+    .btn-desk-pill:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-subtle);
+    }
+
+    .btn-desk-pill.active {
+      background: var(--icab-navy);
+      color: #ffffff;
+      border-color: var(--icab-navy);
+    }
+
+    [data-theme="dark"] .btn-desk-pill.active {
+      background: var(--accent);
+      color: #0b1017;
+      border-color: var(--accent);
+    }
+
+    .btn-syllabus-pill {
+      background: var(--icab-seal-light);
+      border: 1px solid var(--icab-seal-border);
+      color: var(--icab-seal);
+      height: 32px;
+      padding: 0 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.15s ease;
+    }
+
+    .btn-syllabus-pill:hover {
+      background: var(--icab-seal);
+      color: #ffffff;
+    }
+
+    [data-theme="dark"] .btn-syllabus-pill {
+      background: rgba(229, 109, 113, 0.15);
+      border-color: rgba(229, 109, 113, 0.35);
+      color: #f19ea1;
+    }
+
+    [data-theme="dark"] .btn-syllabus-pill:hover {
+      background: var(--icab-seal);
+      color: #0b1017;
+    }
+
+    .btn-icon {
+      background: transparent;
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-icon:hover {
+      background: var(--bg-hover);
+      color: var(--text-main);
+      border-color: var(--border-subtle);
+    }
+
+    /* Main Container */
+    .main-container {
+      flex: 1;
+      display: flex;
+      height: calc(100vh - var(--header-h));
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      height: 100%;
+      transition: margin-left 0.22s cubic-bezier(0.2, 0, 0, 1), opacity 0.18s ease;
+      will-change: margin-left;
+      position: relative;
+      z-index: 5;
+    }
+
+    body.sidebar-collapsed .sidebar {
+      margin-left: calc(-1 * var(--sidebar-w));
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .sidebar-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px 6px;
+      gap: 6px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .sidebar-tabs {
+      display: flex;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 7px 8px;
+      font-size: 12px;
+      font-weight: 500;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+
+    .tab-btn.active {
+      background: var(--icab-navy);
+      color: #ffffff;
+      border-color: var(--icab-navy);
+      font-weight: 600;
+    }
+
+    [data-theme="dark"] .tab-btn.active {
+      background: var(--accent);
+      color: #0b1017;
+      border-color: var(--accent);
+    }
+
+    .tab-btn:hover:not(.active) {
+      background: var(--bg-hover);
+      color: var(--text-main);
+    }
+
+    .tab-count {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      opacity: 0.85;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .btn-sidebar-collapse {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-color);
+      color: var(--text-muted);
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-sidebar-collapse:hover {
+      background: var(--bg-hover);
+      color: var(--text-main);
+      border-color: var(--border-subtle);
+    }
+
+    .btn-sidebar-toggle {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+      height: 30px;
+    }
+
+    .btn-sidebar-toggle:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-subtle);
+    }
+
+    .btn-sidebar-toggle kbd, .btn-desk-back kbd {
+      font-size: 10px;
+      padding: 1px 5px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+    }
+
+    .matrix-empty-notice {
+      padding: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+      background: var(--bg-base);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .matrix-empty-notice kbd {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .sidebar-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 12px 24px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-subtle) transparent;
+    }
+
+    .sidebar-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .sidebar-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .sidebar-list::-webkit-scrollbar-thumb {
+      background: var(--border-subtle);
+      border-radius: 3px;
+    }
+
+    /* Subject Card / Accordion in Sidebar */
+    .subject-group {
+      margin-bottom: 8px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: var(--bg-surface);
+      transition: border-color 0.15s ease;
+    }
+
+    .subject-group:hover {
+      border-color: var(--border-strong);
+    }
+
+    .subject-header {
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      background: var(--bg-surface);
+      transition: background 0.15s ease;
+      gap: 10px;
+    }
+
+    .subject-header:hover {
+      background: var(--bg-surface-elevated);
+    }
+
+    .subject-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .subject-title-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subject-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .subject-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+    }
+
+    .subject-chevron {
+      color: var(--text-subtle);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .subject-group.open .subject-chevron {
+      transform: rotate(90deg);
+    }
+
+    .sessions-container {
+      display: none;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-base);
+      padding: 4px;
+    }
+
+    .subject-group.open .sessions-container {
+      display: block;
+    }
+
+    .session-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 2px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      transition: all 0.12s ease;
+    }
+
+    .session-row:hover {
+      border-color: var(--border-subtle);
+      background: var(--bg-surface-elevated);
+    }
+
+    .session-label {
+      font-size: 12px;
+      font-weight: 500;
+      font-family: var(--font-mono);
+      color: var(--text-main);
+    }
+
+    .session-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    /* Micro-chips */
+    .chip-btn {
+      min-width: 24px;
+      min-height: 24px;
+      padding: 3px 7px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.12s ease;
+      border: 1px solid transparent;
+      line-height: 1.2;
+    }
+
+    .chip-q {
+      background: var(--badge-q-bg);
+      color: var(--badge-q-text);
+      border-color: var(--badge-q-border);
+    }
+
+    .chip-q:hover, .chip-q.active {
+      background: #0e2a47;
+      color: #ffffff;
+      border-color: #0e2a47;
+    }
+
+    [data-theme="dark"] .chip-q:hover, [data-theme="dark"] .chip-q.active {
+      background: #589ae8;
+      color: #0b1017;
+      border-color: #589ae8;
+    }
+
+    .chip-a {
+      background: var(--badge-a-bg);
+      color: var(--badge-a-text);
+      border-color: var(--badge-a-border);
+    }
+
+    .chip-a:hover, .chip-a.active {
+      background: #1b5e20;
+      color: #ffffff;
+      border-color: #1b5e20;
+    }
+
+    [data-theme="dark"] .chip-a:hover, [data-theme="dark"] .chip-a.active {
+      background: #8ce196;
+      color: #0b1017;
+      border-color: #8ce196;
+    }
+
+    .chip-disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+      pointer-events: none;
+      border-color: var(--border-color);
+      background: var(--bg-surface-elevated);
+      color: var(--text-subtle);
+    }
+
+    /* Manuals Items in Sidebar */
+    .manual-item {
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-color);
+      cursor: pointer;
+      background: var(--bg-surface);
+      transition: background 0.15s ease;
+      gap: 10px;
+    }
+
+    .manual-item:last-child {
+      border-bottom: none;
+    }
+
+    .manual-item:hover, .manual-item.active {
+      background: var(--accent-light);
+    }
+
+    .manual-item-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-main);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .manual-item-size {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      background: var(--bg-surface-elevated);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    /* Viewer Area */
+    .viewer-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-base);
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Enhanced PDF Reader Toolbar */
+    .viewer-toolbar {
+      height: var(--toolbar-h);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      gap: 12px;
+      z-index: 15;
+      flex-shrink: 0;
+    }
+
+    .viewer-toolbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .btn-desk-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .btn-desk-back:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-subtle);
+    }
+
+    .toolbar-divider {
+      width: 1px;
+      height: 22px;
+      background: var(--border-color);
+      margin: 0 2px;
+      flex-shrink: 0;
+    }
+
+    .doc-curriculum-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-main);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .doc-curriculum-title {
+      font-weight: 600;
+      font-family: var(--font-serif);
+      font-size: 14px;
+      color: var(--text-main);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .viewer-toolbar-center {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    /* Stepper */
+    .session-stepper {
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .stepper-btn {
+      background: transparent;
+      border: none;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.12s ease;
+    }
+
+    .stepper-btn:hover:not(:disabled) {
+      background: var(--bg-surface);
+      color: var(--text-main);
+    }
+
+    .stepper-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .stepper-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-main);
+      padding: 0 8px;
+      white-space: nowrap;
+    }
+
+    .viewer-toolbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    /* Precision QA Switcher */
+    .qa-toggle {
+      display: inline-flex;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .qa-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .qa-toggle-btn.active {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+      font-weight: 600;
+    }
+
+    .qa-toggle-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .qa-toggle-btn kbd {
+      font-size: 10px;
+      padding: 1px 4px;
+    }
+
+    /* Iframe Container */
+    .iframe-container {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      position: relative;
+      background: #474a4d;
+      overflow: hidden;
+    }
+
+    iframe#pdfFrame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* =========================================================
+       EXECUTIVE STUDY MATRIX & SYLLABUS DESK
+       ========================================================= */
+    .study-desk-container {
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: var(--bg-base);
+      padding: 24px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      z-index: 10;
+      min-height: 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-subtle) transparent;
+    }
+
+    .desk-hero,
+    .syllabus-feature-banner,
+    .matrix-card,
+    .manuals-vault-card {
+      flex-shrink: 0;
+      height: auto;
+    }
+
+    .study-desk-container::-webkit-scrollbar {
+      width: 8px;
+    }
+    .study-desk-container::-webkit-scrollbar-thumb {
+      background: var(--border-subtle);
+      border-radius: 4px;
+    }
+
+    /* Institutional Header Bar */
+    .desk-hero {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .desk-hero-main {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .desk-seal-mark {
+      flex-shrink: 0;
+    }
+
+    .desk-hero-title h2 {
+      font-family: var(--font-serif);
+      font-size: 23px;
+      font-weight: 600;
+      color: var(--text-main);
+      letter-spacing: -0.3px;
+      line-height: 1.25;
+    }
+
+    .desk-hero-title p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .census-grid {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .census-pill {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 6px 14px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .census-num {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--icab-navy);
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .census-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* Featured Syllabus Banner */
+    .syllabus-feature-banner {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: var(--shadow-sm);
+      flex-wrap: wrap;
+    }
+
+    .syllabus-feature-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-width: 650px;
+    }
+
+    .syllabus-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .syllabus-badge-seal {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+
+    .syllabus-feature-left h3 {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .syllabus-feature-left p {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .syllabus-feature-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .syllabus-meta-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      padding: 4px 8px;
+      border-radius: var(--radius-xs);
+    }
+
+    .syllabus-open-btn {
+      background: var(--icab-navy);
+      color: #ffffff;
+      border: none;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .syllabus-open-btn:hover {
+      background: var(--icab-navy-hover);
+    }
+
+    [data-theme="dark"] .syllabus-open-btn {
+      background: var(--accent);
+      color: #0b1017;
+    }
+
+    /* Matrix Card */
+    .matrix-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .matrix-header {
+      padding: 12px 18px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .matrix-title-group h3 {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .matrix-title-group p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .matrix-filter-pills {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-surface-elevated);
+      padding: 3px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+    }
+
+    .matrix-filter-btn {
+      background: transparent;
+      border: none;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .matrix-filter-btn.active {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .matrix-table-wrap {
+      overflow-x: auto;
+      max-width: 100%;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-subtle) transparent;
+    }
+
+    .matrix-table-wrap::-webkit-scrollbar {
+      height: 8px;
+    }
+    .matrix-table-wrap::-webkit-scrollbar-thumb {
+      background: var(--border-subtle);
+      border-radius: 4px;
+    }
+
+    .matrix-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      font-size: 12px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .matrix-table th, .matrix-table td {
+      border-bottom: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .matrix-table th:first-child, .matrix-table td:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 2;
+      text-align: left;
+      background: var(--bg-surface);
+      border-right: 2px solid var(--border-color);
+      min-width: 230px;
+      max-width: 270px;
+      padding: 8px 12px;
+    }
+
+    .matrix-table th.th-session-col,
+    .matrix-table td:not(:first-child) {
+      min-width: 76px;
+      max-width: 80px;
+      width: 76px;
+      padding: 6px 4px;
+      text-align: center;
+    }
+
+    .matrix-table thead th {
+      background: var(--bg-surface-elevated);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      padding: 8px 4px;
+    }
+
+    .matrix-table thead th:first-child {
+      z-index: 3;
+    }
+
+    /* Two-Tier Session Header Wrap */
+    .col-head-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      align-items: center;
+    }
+
+    .col-year {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--text-main);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .col-session {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      line-height: 1.1;
+    }
+
+    /* Sticky Section Title */
+    .matrix-section-row td {
+      background: var(--bg-surface-elevated) !important;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 6px 12px;
+      text-align: left !important;
+    }
+
+    .matrix-section-title-sticky {
+      position: sticky;
+      left: 16px;
+      display: inline-block;
+      font-weight: 700;
+    }
+
+    /* Crosshair Row Hover */
+    .matrix-table tbody tr:not(.matrix-section-row):hover td {
+      background-color: var(--bg-hover) !important;
+    }
+    .matrix-table tbody tr:not(.matrix-section-row):hover td:first-child {
+      background-color: var(--bg-hover) !important;
+    }
+
+    .matrix-paper-cell {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .matrix-paper-name {
+      font-weight: 600;
+      color: var(--text-main);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .matrix-cell-chips {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .matrix-cell-empty {
+      color: var(--border-subtle);
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+
+    /* Manuals Vault Shelf */
+    .manuals-vault-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .manuals-vault-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 12px;
+      padding: 16px;
+    }
+
+    .manual-shelf-card {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      background: var(--bg-base);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: all 0.15s ease;
+    }
+
+    .manual-shelf-card:hover {
+      border-color: var(--border-strong);
+      background: var(--bg-surface);
+    }
+
+    .manual-shelf-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .manual-shelf-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--text-main);
+    }
+
+    .manual-shelf-files {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .manual-file-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xs);
+      cursor: pointer;
+      transition: all 0.12s ease;
+      gap: 10px;
+    }
+
+    .manual-file-row:hover {
+      border-color: var(--icab-navy);
+      background: var(--accent-light);
+    }
+
+    .manual-file-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    .manual-file-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-main);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .manual-file-meta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .manual-vol-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--badge-m-bg);
+      color: var(--badge-m-text);
+      border: 1px solid var(--badge-m-border);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    .manual-size-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      background: var(--bg-surface-elevated);
+      padding: 1px 5px;
+      border-radius: 3px;
+      border: 1px solid var(--border-color);
+    }
+
+    .manual-open-action {
+      display: inline-flex;
+      align-items: center;
+      color: var(--icab-navy);
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* Keyboard Shortcuts Footer */
+    .desk-shortcuts-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 12px 18px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .shortcut-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+  </style>
+</head>
+<body data-theme="light">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="app-header-left">
+      <button class="btn-icon btn-sidebar-toggle-header" id="btnHeaderSidebarToggle" title="Toggle Sidebar ([)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="9" y1="3" x2="9" y2="21"></line>
+        </svg>
+      </button>
+
+      <div class="app-brand" id="brandHome" title="Return to Study Desk">
+        <div class="app-seal" id="brandSeal">
+          <!-- ICAB Seal Monogram Mark -->
+          <svg class="icab-seal-svg" width="36" height="36" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="40" height="40" rx="8" fill="#0e2a47" />
+            <circle cx="20" cy="20" r="16.5" stroke="#d4a743" stroke-width="1.2" stroke-dasharray="2 1.5" />
+            <path d="M11 16L20 11.5L29 16L20 20.5L11 16Z" stroke="#d4a743" stroke-width="1.4" stroke-linejoin="round" fill="none" />
+            <path d="M14 18V24C14 26.5 20 28.5 20 28.5C20 28.5 26 26.5 26 24V18" stroke="#d4a743" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M29 16.5V23" stroke="#d4a743" stroke-width="1.4" stroke-linecap="round" />
+            <circle cx="29" cy="23.5" r="1" fill="#d4a743" />
+          </svg>
+        </div>
+        <div class="app-title-group">
+          <div class="app-title-row">
+            <h1>ICAB Chartered Archive</h1>
+            <span class="app-badge-archival">Study Library</span>
+          </div>
+          <p class="app-subtitle">266 Verified Documents • 13 Exam Sessions (2022–2026) • 20 Study Manuals + Syllabus</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Central Global Header Search -->
+    <div class="header-search-wrap">
+      <span class="search-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </span>
+      <input type="text" id="searchInput" name="q" aria-label="Search curriculum papers and examination sessions" class="search-input" placeholder="Search paper, session, code (e.g. May 2026, Tax, FAR)..." autocomplete="off" spellcheck="false">
+      <button class="search-clear-btn" id="searchClearBtn" title="Clear search (Esc)" style="display: none;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <kbd class="search-shortcut-hint">/</kbd>
+    </div>
+
+    <div class="app-controls">
+      <button class="btn-syllabus-pill" id="btnOpenSyllabus" title="Open Official ICAB Latest Syllabus (2025) (S)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        </svg>
+        <span>Official Syllabus (2025)</span>
+      </button>
+
+      <button class="btn-desk-pill" id="btnDeskHeader" title="Open Study Desk (Esc)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"></rect>
+          <rect x="14" y="3" width="7" height="7"></rect>
+          <rect x="14" y="14" width="7" height="7"></rect>
+          <rect x="3" y="14" width="7" height="7"></rect>
+        </svg>
+        <span>Study Desk</span>
+      </button>
+
+      <button class="btn-icon" id="themeToggle" title="Toggle Dark/Light Mode">
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+
+      <button class="btn-icon" id="fullscreenToggle" title="Toggle Fullscreen (F)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="main-container" id="mainContainer">
+    
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top-bar">
+        <div class="sidebar-tabs">
+          <button class="tab-btn active" data-tab="PL">
+            <span>Professional</span>
+            <span class="tab-count">[7]</span>
+          </button>
+          <button class="tab-btn" data-tab="AL">
+            <span>Advanced</span>
+            <span class="tab-count">[3]</span>
+          </button>
+          <button class="tab-btn" data-tab="Manuals">
+            <span>Manuals</span>
+            <span class="tab-count">[21]</span>
+          </button>
+        </div>
+        <button class="btn-sidebar-collapse" id="btnSidebarCollapse" title="Close Sidebar ([)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <div class="sidebar-list" id="sidebarList">
+        <!-- Rendered dynamically -->
+      </div>
+    </aside>
+
+    <!-- Viewer Area -->
+    <main class="viewer-area">
+      
+      <!-- Toolbar -->
+      <div class="viewer-toolbar">
+        <div class="viewer-toolbar-left">
+          <button class="btn-sidebar-toggle" id="btnToolbarSidebarToggle" style="display: none;" title="Toggle Sidebar ([)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="9" y1="3" x2="9" y2="21"></line>
+            </svg>
+            <span>Sidebar</span>
+            <kbd>[</kbd>
+          </button>
+
+          <div class="toolbar-divider" id="toolbarDividerSidebar" style="display: none;"></div>
+
+          <button class="btn-desk-back" id="btnBackToDesk" style="display: none;" title="Return to Study Desk (Esc)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>Study Desk</span>
+            <kbd>Esc</kbd>
+          </button>
+          
+          <div class="toolbar-divider" id="toolbarDivider" style="display: none;"></div>
+
+          <!-- Clean De-duplicated Breadcrumb -->
+          <div class="doc-curriculum-pill" id="docCurriculumPill">
+            <span class="badge-code" id="docCodeBadge" style="display: none;">AA</span>
+            <span class="doc-curriculum-title" id="docSubjectTitle">ICAB Executive Study Desk</span>
+          </div>
+        </div>
+
+        <div class="viewer-toolbar-center" id="viewerCenterControls" style="display: none;">
+          <!-- Session Stepper -->
+          <div class="session-stepper" id="sessionStepper">
+            <button class="stepper-btn" id="btnPrevSession" title="Older Examination Session (←)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+              <span>Older</span>
+            </button>
+            <span class="stepper-label" id="stepperLabel">May 2026</span>
+            <button class="stepper-btn" id="btnNextSession" title="Newer Examination Session (→)">
+              <span>Newer</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="viewer-toolbar-right" id="docActions" style="display: none;">
+          <!-- Precision QA Switcher -->
+          <div class="qa-toggle" id="qaToggle">
+            <button class="qa-toggle-btn active" id="btnToggleQ">
+              <span>Question Paper</span>
+              <kbd>Q</kbd>
+            </button>
+            <button class="qa-toggle-btn" id="btnToggleA">
+              <span>Suggested Answer</span>
+              <kbd>A</kbd>
+            </button>
+          </div>
+
+          <button class="btn-icon" id="btnOpenExternal" title="Open in New Tab / External Reader">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- PDF Container -->
+      <div class="iframe-container">
+        
+        <!-- Executive Study Matrix / Syllabus Desk -->
+        <div class="study-desk-container" id="studyDesk">
+          
+          <!-- Desk Hero & Census -->
+          <div class="desk-hero">
+            <div class="desk-hero-main">
+              <div class="desk-seal-mark">
+                <svg width="44" height="44" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="40" height="40" rx="8" fill="#0e2a47" />
+                  <circle cx="20" cy="20" r="16.5" stroke="#d4a743" stroke-width="1.2" stroke-dasharray="2 1.5" />
+                  <path d="M11 16L20 11.5L29 16L20 20.5L11 16Z" stroke="#d4a743" stroke-width="1.4" stroke-linejoin="round" fill="none" />
+                  <path d="M14 18V24C14 26.5 20 28.5 20 28.5C20 28.5 26 26.5 26 24V18" stroke="#d4a743" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+                  <path d="M29 16.5V23" stroke="#d4a743" stroke-width="1.4" stroke-linecap="round" />
+                  <circle cx="29" cy="23.5" r="1" fill="#d4a743" />
+                </svg>
+              </div>
+              <div class="desk-hero-title">
+                <h2>Executive Study Matrix & Syllabus Desk</h2>
+                <p>The Institute of Chartered Accountants of Bangladesh (ICAB) • Professional & Advanced Level Archive</p>
+              </div>
+            </div>
+
+            <div class="census-grid">
+              <div class="census-pill">
+                <span class="census-num">266</span>
+                <span class="census-label">Verified Documents</span>
+              </div>
+              <div class="census-pill">
+                <span class="census-num">13</span>
+                <span class="census-label">Exam Sessions</span>
+              </div>
+              <div class="census-pill">
+                <span class="census-num">20</span>
+                <span class="census-label">Study Manuals</span>
+              </div>
+              <div class="census-pill">
+                <span class="census-num">10</span>
+                <span class="census-label">Curriculum Papers</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Featured Syllabus Banner (Uniform 1px Hairline Border + Archival Folio Stamp) -->
+          <div class="syllabus-feature-banner">
+            <div class="syllabus-feature-left">
+              <div class="syllabus-badge-row">
+                <span class="badge-code" style="background: var(--icab-seal-light); color: var(--icab-seal); border: 1px solid var(--icab-seal-border); font-size: 10px; font-weight: 700;">ICAB OFFICIAL</span>
+                <span class="syllabus-badge-seal">CURRICULUM SYLLABUS</span>
+              </div>
+              <h3>Curriculum Framework & Syllabi (2025 Edition)</h3>
+              <p>Comprehensive official ICAB regulations, modular paper structures, learning outcomes, and topic weightings for Certificate, Professional, and Advanced Levels.</p>
+            </div>
+            <div class="syllabus-feature-right">
+              <span class="syllabus-meta-pill">PDF • 6.2 MB</span>
+              <button class="syllabus-open-btn" id="btnDeskOpenSyllabus">
+                <span>Read Official Syllabus</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Interactive Session Matrix Card -->
+          <div class="matrix-card" id="matrixCard">
+            <div class="matrix-header">
+              <div class="matrix-title-group">
+                <h3>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="3" width="7" height="7"></rect>
+                    <rect x="14" y="14" width="7" height="7"></rect>
+                    <rect x="3" y="14" width="7" height="7"></rect>
+                  </svg>
+                  <span>Curriculum Examination Matrix (2022–2026)</span>
+                </h3>
+                <p>Click any [Q] chip for Question Paper or [A] chip for Official Suggested Answer</p>
+              </div>
+
+              <div class="matrix-filter-pills">
+                <button class="matrix-filter-btn active" data-matrix-filter="ALL">All Papers</button>
+                <button class="matrix-filter-btn" data-matrix-filter="PL">Professional Level</button>
+                <button class="matrix-filter-btn" data-matrix-filter="AL">Advanced Level</button>
+                <button class="matrix-filter-btn" data-matrix-filter="MANUALS">Manuals Vault</button>
+              </div>
+            </div>
+
+            <div class="matrix-table-wrap">
+              <table class="matrix-table" id="matrixTable">
+                <!-- Dynamically rendered -->
+              </table>
+            </div>
+          </div>
+
+          <!-- Core Study Manuals Vault -->
+          <div class="manuals-vault-card" id="manualsVaultSection">
+            <div class="matrix-header">
+              <div class="matrix-title-group">
+                <h3>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                  </svg>
+                  <span>Core Study Manuals Vault</span>
+                </h3>
+                <p>Official ICAB curricular textbooks, study volumes, and reference manuals</p>
+              </div>
+            </div>
+
+            <div class="manuals-vault-grid" id="manualsVaultGrid">
+              <!-- Dynamically rendered -->
+            </div>
+          </div>
+
+          <!-- Keyboard Shortcuts Bar -->
+          <div class="desk-shortcuts-bar">
+            <div class="shortcut-item">
+              <kbd>Q</kbd>
+              <span>Question Paper</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>A</kbd>
+              <span>Suggested Answer</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>S</kbd>
+              <span>Official Syllabus</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>/</kbd>
+              <span>Quick Search</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>[</kbd>
+              <span>Toggle Sidebar</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>Esc</kbd>
+              <span>Return to Study Desk</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>←</kbd> <kbd>→</kbd>
+              <span>Session Stepper</span>
+            </div>
+            <div class="shortcut-item">
+              <kbd>F</kbd>
+              <span>Fullscreen</span>
+            </div>
+          </div>
+
+        </div>
+
+        <iframe id="pdfFrame" src="about:blank"></iframe>
+      </div>
+    </main>
+
+  </div>
+
+  <script>
+    // ICAB Chartered Archive Shared Catalog & Metadata
+    const CATALOG = {
+  "PL": {
+    "Audit & Assurance": [
+      {
+        "session_tag": "2026-05_May",
+        "session_label": "May 2026",
+        "question": {
+          "filename": "Audit & Assurance - Question (May 2026).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2026-05_May/Audit & Assurance - Question (May 2026).pdf",
+          "size_kb": 311.9
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (May 2026).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2026-05_May/Audit & Assurance - Suggested Answer (May 2026).pdf",
+          "size_kb": 528.4
+        }
+      },
+      {
+        "session_tag": "2025-11_Nov-Dec",
+        "session_label": "Nov-Dec 2025",
+        "question": {
+          "filename": "Audit & Assurance - Question (Nov-Dec 2025).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2025-11_Nov-Dec/Audit & Assurance - Question (Nov-Dec 2025).pdf",
+          "size_kb": 284.1
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (Nov-Dec 2025).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2025-11_Nov-Dec/Audit & Assurance - Suggested Answer (Nov-Dec 2025).pdf",
+          "size_kb": 689.4
+        }
+      },
+      {
+        "session_tag": "2025-07_Jul-Aug",
+        "session_label": "Jul-Aug 2025",
+        "question": {
+          "filename": "Audit & Assurance - Question (Jul-Aug 2025).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2025-07_Jul-Aug/Audit & Assurance - Question (Jul-Aug 2025).pdf",
+          "size_kb": 248.2
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (Jul-Aug 2025).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2025-07_Jul-Aug/Audit & Assurance - Suggested Answer (Jul-Aug 2025).pdf",
+          "size_kb": 789.8
+        }
+      },
+      {
+        "session_tag": "2025-03_Mar-Apr",
+        "session_label": "Mar-Apr 2025",
+        "question": {
+          "filename": "Audit & Assurance - Question (Mar-Apr 2025).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2025-03_Mar-Apr/Audit & Assurance - Question (Mar-Apr 2025).pdf",
+          "size_kb": 179.1
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (Mar-Apr 2025).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2025-03_Mar-Apr/Audit & Assurance - Suggested Answer (Mar-Apr 2025).pdf",
+          "size_kb": 733.3
+        }
+      },
+      {
+        "session_tag": "2024-11_Nov-Dec",
+        "session_label": "Nov-Dec 2024",
+        "question": {
+          "filename": "Audit & Assurance - Question (Nov-Dec 2024).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2024-11_Nov-Dec/Audit & Assurance - Question (Nov-Dec 2024).pdf",
+          "size_kb": 193.7
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (Nov-Dec 2024).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2024-11_Nov-Dec/Audit & Assurance - Suggested Answer (Nov-Dec 2024).pdf",
+          "size_kb": 676.0
+        }
+      },
+      {
+        "session_tag": "2024-07_Jul-Aug",
+        "session_label": "Jul-Aug 2024",
+        "question": {
+          "filename": "Audit & Assurance - Question (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2024-07_Jul-Aug/Audit & Assurance - Question (Jul-Aug 2024).pdf",
+          "size_kb": 193.5
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2024-07_Jul-Aug/Audit & Assurance - Suggested Answer (Jul-Aug 2024).pdf",
+          "size_kb": 799.4
+        }
+      },
+      {
+        "session_tag": "2024-03_Mar-Apr",
+        "session_label": "Mar-Apr 2024",
+        "question": {
+          "filename": "Audit & Assurance - Question (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2024-03_Mar-Apr/Audit & Assurance - Question (Mar-Apr 2024).pdf",
+          "size_kb": 196.1
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2024-03_Mar-Apr/Audit & Assurance - Suggested Answer (Mar-Apr 2024).pdf",
+          "size_kb": 645.3
+        }
+      },
+      {
+        "session_tag": "2023-11_Nov-Dec",
+        "session_label": "Nov-Dec 2023",
+        "question": {
+          "filename": "Audit & Assurance - Question (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2023-11_Nov-Dec/Audit & Assurance - Question (Nov-Dec 2023).pdf",
+          "size_kb": 216.2
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2023-11_Nov-Dec/Audit & Assurance - Suggested Answer (Nov-Dec 2023).pdf",
+          "size_kb": 732.0
+        }
+      },
+      {
+        "session_tag": "2023-07_Jul-Aug",
+        "session_label": "Jul-Aug 2023",
+        "question": {
+          "filename": "Audit & Assurance - Question (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2023-07_Jul-Aug/Audit & Assurance - Question (Jul-Aug 2023).pdf",
+          "size_kb": 229.6
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2023-07_Jul-Aug/Audit & Assurance - Suggested Answer (Jul-Aug 2023).pdf",
+          "size_kb": 657.9
+        }
+      },
+      {
+        "session_tag": "2023-03_Mar-Apr",
+        "session_label": "Mar-Apr 2023",
+        "question": {
+          "filename": "Audit & Assurance - Question (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2023-03_Mar-Apr/Audit & Assurance - Question (Mar-Apr 2023).pdf",
+          "size_kb": 215.2
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2023-03_Mar-Apr/Audit & Assurance - Suggested Answer (Mar-Apr 2023).pdf",
+          "size_kb": 330.1
+        }
+      },
+      {
+        "session_tag": "2022-11_Nov-Dec",
+        "session_label": "Nov-Dec 2022",
+        "question": {
+          "filename": "Audit & Assurance - Question (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2022-11_Nov-Dec/Audit & Assurance - Question (Nov-Dec 2022).pdf",
+          "size_kb": 229.1
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2022-11_Nov-Dec/Audit & Assurance - Suggested Answer (Nov-Dec 2022).pdf",
+          "size_kb": 244.1
+        }
+      },
+      {
+        "session_tag": "2022-07_Jul-Aug",
+        "session_label": "Jul-Aug 2022",
+        "question": {
+          "filename": "Audit & Assurance - Question (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2022-07_Jul-Aug/Audit & Assurance - Question (Jul-Aug 2022).pdf",
+          "size_kb": 189.7
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2022-07_Jul-Aug/Audit & Assurance - Suggested Answer (Jul-Aug 2022).pdf",
+          "size_kb": 236.1
+        }
+      },
+      {
+        "session_tag": "2022-03_Mar-Apr",
+        "session_label": "Mar-Apr 2022",
+        "question": {
+          "filename": "Audit & Assurance - Question (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2022-03_Mar-Apr/Audit & Assurance - Question (Mar-Apr 2022).pdf",
+          "size_kb": 191.2
+        },
+        "answer": {
+          "filename": "Audit & Assurance - Suggested Answer (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/Audit & Assurance/2022-03_Mar-Apr/Audit & Assurance - Suggested Answer (Mar-Apr 2022).pdf",
+          "size_kb": 198.7
+        }
+      }
+    ],
+    "Business Planning Taxation & Compliance": [
+      {
+        "session_tag": "2026-05_May",
+        "session_label": "May 2026",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (May 2026).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2026-05_May/Business Planning Taxation & Compliance - Question (May 2026).pdf",
+          "size_kb": 477.7
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (May 2026).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2026-05_May/Business Planning Taxation & Compliance - Suggested Answer (May 2026).pdf",
+          "size_kb": 502.9
+        }
+      },
+      {
+        "session_tag": "2025-11_Nov-Dec",
+        "session_label": "Nov-Dec 2025",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (Nov-Dec 2025).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2025-11_Nov-Dec/Business Planning Taxation & Compliance - Question (Nov-Dec 2025).pdf",
+          "size_kb": 341.8
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (Nov-Dec 2025).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2025-11_Nov-Dec/Business Planning Taxation & Compliance - Suggested Answer (Nov-Dec 2025).pdf",
+          "size_kb": 672.0
+        }
+      },
+      {
+        "session_tag": "2025-07_Jul-Aug",
+        "session_label": "Jul-Aug 2025",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (Jul-Aug 2025).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2025-07_Jul-Aug/Business Planning Taxation & Compliance - Question (Jul-Aug 2025).pdf",
+          "size_kb": 324.8
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (Jul-Aug 2025).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2025-07_Jul-Aug/Business Planning Taxation & Compliance - Suggested Answer (Jul-Aug 2025).pdf",
+          "size_kb": 644.4
+        }
+      },
+      {
+        "session_tag": "2025-03_Mar-Apr",
+        "session_label": "Mar-Apr 2025",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (Mar-Apr 2025).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2025-03_Mar-Apr/Business Planning Taxation & Compliance - Question (Mar-Apr 2025).pdf",
+          "size_kb": 258.4
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (Mar-Apr 2025).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2025-03_Mar-Apr/Business Planning Taxation & Compliance - Suggested Answer (Mar-Apr 2025).pdf",
+          "size_kb": 756.7
+        }
+      },
+      {
+        "session_tag": "2024-11_Nov-Dec",
+        "session_label": "Nov-Dec 2024",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (Nov-Dec 2024).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2024-11_Nov-Dec/Business Planning Taxation & Compliance - Question (Nov-Dec 2024).pdf",
+          "size_kb": 262.9
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (Nov-Dec 2024).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2024-11_Nov-Dec/Business Planning Taxation & Compliance - Suggested Answer (Nov-Dec 2024).pdf",
+          "size_kb": 879.2
+        }
+      },
+      {
+        "session_tag": "2024-07_Jul-Aug",
+        "session_label": "Jul-Aug 2024",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2024-07_Jul-Aug/Business Planning Taxation & Compliance - Question (Jul-Aug 2024).pdf",
+          "size_kb": 223.4
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2024-07_Jul-Aug/Business Planning Taxation & Compliance - Suggested Answer (Jul-Aug 2024).pdf",
+          "size_kb": 778.8
+        }
+      },
+      {
+        "session_tag": "2024-03_Mar-Apr",
+        "session_label": "Mar-Apr 2024",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2024-03_Mar-Apr/Business Planning Taxation & Compliance - Question (Mar-Apr 2024).pdf",
+          "size_kb": 212.4
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2024-03_Mar-Apr/Business Planning Taxation & Compliance - Suggested Answer (Mar-Apr 2024).pdf",
+          "size_kb": 764.2
+        }
+      },
+      {
+        "session_tag": "2023-11_Nov-Dec",
+        "session_label": "Nov-Dec 2023",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2023-11_Nov-Dec/Business Planning Taxation & Compliance - Question (Nov-Dec 2023).pdf",
+          "size_kb": 248.6
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2023-11_Nov-Dec/Business Planning Taxation & Compliance - Suggested Answer (Nov-Dec 2023).pdf",
+          "size_kb": 888.7
+        }
+      },
+      {
+        "session_tag": "2023-07_Jul-Aug",
+        "session_label": "Jul-Aug 2023",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2023-07_Jul-Aug/Business Planning Taxation & Compliance - Question (Jul-Aug 2023).pdf",
+          "size_kb": 210.7
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2023-07_Jul-Aug/Business Planning Taxation & Compliance - Suggested Answer (Jul-Aug 2023).pdf",
+          "size_kb": 843.2
+        }
+      },
+      {
+        "session_tag": "2023-03_Mar-Apr",
+        "session_label": "Mar-Apr 2023",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2023-03_Mar-Apr/Business Planning Taxation & Compliance - Question (Mar-Apr 2023).pdf",
+          "size_kb": 219.6
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2023-03_Mar-Apr/Business Planning Taxation & Compliance - Suggested Answer (Mar-Apr 2023).pdf",
+          "size_kb": 1085.4
+        }
+      },
+      {
+        "session_tag": "2022-11_Nov-Dec",
+        "session_label": "Nov-Dec 2022",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2022-11_Nov-Dec/Business Planning Taxation & Compliance - Question (Nov-Dec 2022).pdf",
+          "size_kb": 211.1
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2022-11_Nov-Dec/Business Planning Taxation & Compliance - Suggested Answer (Nov-Dec 2022).pdf",
+          "size_kb": 237.5
+        }
+      },
+      {
+        "session_tag": "2022-07_Jul-Aug",
+        "session_label": "Jul-Aug 2022",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2022-07_Jul-Aug/Business Planning Taxation & Compliance - Question (Jul-Aug 2022).pdf",
+          "size_kb": 216.8
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2022-07_Jul-Aug/Business Planning Taxation & Compliance - Suggested Answer (Jul-Aug 2022).pdf",
+          "size_kb": 357.6
+        }
+      },
+      {
+        "session_tag": "2022-03_Mar-Apr",
+        "session_label": "Mar-Apr 2022",
+        "question": {
+          "filename": "Business Planning Taxation & Compliance - Question (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2022-03_Mar-Apr/Business Planning Taxation & Compliance - Question (Mar-Apr 2022).pdf",
+          "size_kb": 196.7
+        },
+        "answer": {
+          "filename": "Business Planning Taxation & Compliance - Suggested Answer (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/Business Planning Taxation & Compliance/2022-03_Mar-Apr/Business Planning Taxation & Compliance - Suggested Answer (Mar-Apr 2022).pdf",
+          "size_kb": 352.0
+        }
+      }
+    ],
+    "Business Strategy & Technology": [
+      {
+        "session_tag": "2026-05_May",
+        "session_label": "May 2026",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (May 2026).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2026-05_May/Business Strategy & Technology - Question (May 2026).pdf",
+          "size_kb": 352.8
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (May 2026).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2026-05_May/Business Strategy & Technology - Suggested Answer (May 2026).pdf",
+          "size_kb": 539.7
+        }
+      },
+      {
+        "session_tag": "2025-11_Nov-Dec",
+        "session_label": "Nov-Dec 2025",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (Nov-Dec 2025).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2025-11_Nov-Dec/Business Strategy & Technology - Question (Nov-Dec 2025).pdf",
+          "size_kb": 320.6
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (Nov-Dec 2025).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2025-11_Nov-Dec/Business Strategy & Technology - Suggested Answer (Nov-Dec 2025).pdf",
+          "size_kb": 700.4
+        }
+      },
+      {
+        "session_tag": "2025-07_Jul-Aug",
+        "session_label": "Jul-Aug 2025",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (Jul-Aug 2025).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2025-07_Jul-Aug/Business Strategy & Technology - Question (Jul-Aug 2025).pdf",
+          "size_kb": 294.6
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (Jul-Aug 2025).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2025-07_Jul-Aug/Business Strategy & Technology - Suggested Answer (Jul-Aug 2025).pdf",
+          "size_kb": 760.4
+        }
+      },
+      {
+        "session_tag": "2025-03_Mar-Apr",
+        "session_label": "Mar-Apr 2025",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (Mar-Apr 2025).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2025-03_Mar-Apr/Business Strategy & Technology - Question (Mar-Apr 2025).pdf",
+          "size_kb": 207.6
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (Mar-Apr 2025).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2025-03_Mar-Apr/Business Strategy & Technology - Suggested Answer (Mar-Apr 2025).pdf",
+          "size_kb": 708.5
+        }
+      },
+      {
+        "session_tag": "2024-11_Nov-Dec",
+        "session_label": "Nov-Dec 2024",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (Nov-Dec 2024).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2024-11_Nov-Dec/Business Strategy & Technology - Question (Nov-Dec 2024).pdf",
+          "size_kb": 215.9
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (Nov-Dec 2024).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2024-11_Nov-Dec/Business Strategy & Technology - Suggested Answer (Nov-Dec 2024).pdf",
+          "size_kb": 661.5
+        }
+      },
+      {
+        "session_tag": "2024-07_Jul-Aug",
+        "session_label": "Jul-Aug 2024",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2024-07_Jul-Aug/Business Strategy & Technology - Question (Jul-Aug 2024).pdf",
+          "size_kb": 191.5
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2024-07_Jul-Aug/Business Strategy & Technology - Suggested Answer (Jul-Aug 2024).pdf",
+          "size_kb": 919.9
+        }
+      },
+      {
+        "session_tag": "2024-03_Mar-Apr",
+        "session_label": "Mar-Apr 2024",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2024-03_Mar-Apr/Business Strategy & Technology - Question (Mar-Apr 2024).pdf",
+          "size_kb": 240.1
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2024-03_Mar-Apr/Business Strategy & Technology - Suggested Answer (Mar-Apr 2024).pdf",
+          "size_kb": 615.7
+        }
+      },
+      {
+        "session_tag": "2023-11_Nov-Dec",
+        "session_label": "Nov-Dec 2023",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2023-11_Nov-Dec/Business Strategy & Technology - Question (Nov-Dec 2023).pdf",
+          "size_kb": 297.1
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2023-11_Nov-Dec/Business Strategy & Technology - Suggested Answer (Nov-Dec 2023).pdf",
+          "size_kb": 812.9
+        }
+      },
+      {
+        "session_tag": "2023-07_Jul-Aug",
+        "session_label": "Jul-Aug 2023",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2023-07_Jul-Aug/Business Strategy & Technology - Question (Jul-Aug 2023).pdf",
+          "size_kb": 264.6
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2023-07_Jul-Aug/Business Strategy & Technology - Suggested Answer (Jul-Aug 2023).pdf",
+          "size_kb": 882.7
+        }
+      },
+      {
+        "session_tag": "2023-03_Mar-Apr",
+        "session_label": "Mar-Apr 2023",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2023-03_Mar-Apr/Business Strategy & Technology - Question (Mar-Apr 2023).pdf",
+          "size_kb": 224.8
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2023-03_Mar-Apr/Business Strategy & Technology - Suggested Answer (Mar-Apr 2023).pdf",
+          "size_kb": 742.2
+        }
+      },
+      {
+        "session_tag": "2022-11_Nov-Dec",
+        "session_label": "Nov-Dec 2022",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2022-11_Nov-Dec/Business Strategy & Technology - Question (Nov-Dec 2022).pdf",
+          "size_kb": 212.0
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2022-11_Nov-Dec/Business Strategy & Technology - Suggested Answer (Nov-Dec 2022).pdf",
+          "size_kb": 285.6
+        }
+      },
+      {
+        "session_tag": "2022-07_Jul-Aug",
+        "session_label": "Jul-Aug 2022",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2022-07_Jul-Aug/Business Strategy & Technology - Question (Jul-Aug 2022).pdf",
+          "size_kb": 204.0
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2022-07_Jul-Aug/Business Strategy & Technology - Suggested Answer (Jul-Aug 2022).pdf",
+          "size_kb": 220.6
+        }
+      },
+      {
+        "session_tag": "2022-03_Mar-Apr",
+        "session_label": "Mar-Apr 2022",
+        "question": {
+          "filename": "Business Strategy & Technology - Question (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2022-03_Mar-Apr/Business Strategy & Technology - Question (Mar-Apr 2022).pdf",
+          "size_kb": 243.8
+        },
+        "answer": {
+          "filename": "Business Strategy & Technology - Suggested Answer (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/Business Strategy & Technology/2022-03_Mar-Apr/Business Strategy & Technology - Suggested Answer (Mar-Apr 2022).pdf",
+          "size_kb": 268.8
+        }
+      }
+    ],
+    "Corporate Laws & Practices": [
+      {
+        "session_tag": "2026-05_May",
+        "session_label": "May 2026",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (May 2026).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2026-05_May/Corporate Laws & Practices - Question (May 2026).pdf",
+          "size_kb": 361.9
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (May 2026).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2026-05_May/Corporate Laws & Practices - Suggested Answer (May 2026).pdf",
+          "size_kb": 648.0
+        }
+      },
+      {
+        "session_tag": "2025-11_Nov-Dec",
+        "session_label": "Nov-Dec 2025",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (Nov-Dec 2025).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2025-11_Nov-Dec/Corporate Laws & Practices - Question (Nov-Dec 2025).pdf",
+          "size_kb": 348.2
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (Nov-Dec 2025).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2025-11_Nov-Dec/Corporate Laws & Practices - Suggested Answer (Nov-Dec 2025).pdf",
+          "size_kb": 616.9
+        }
+      },
+      {
+        "session_tag": "2025-07_Jul-Aug",
+        "session_label": "Jul-Aug 2025",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (Jul-Aug 2025).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2025-07_Jul-Aug/Corporate Laws & Practices - Question (Jul-Aug 2025).pdf",
+          "size_kb": 279.5
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (Jul-Aug 2025).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2025-07_Jul-Aug/Corporate Laws & Practices - Suggested Answer (Jul-Aug 2025).pdf",
+          "size_kb": 748.3
+        }
+      },
+      {
+        "session_tag": "2025-03_Mar-Apr",
+        "session_label": "Mar-Apr 2025",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (Mar-Apr 2025).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2025-03_Mar-Apr/Corporate Laws & Practices - Question (Mar-Apr 2025).pdf",
+          "size_kb": 204.4
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (Mar-Apr 2025).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2025-03_Mar-Apr/Corporate Laws & Practices - Suggested Answer (Mar-Apr 2025).pdf",
+          "size_kb": 288.3
+        }
+      },
+      {
+        "session_tag": "2024-11_Nov-Dec",
+        "session_label": "Nov-Dec 2024",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (Nov-Dec 2024).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2024-11_Nov-Dec/Corporate Laws & Practices - Question (Nov-Dec 2024).pdf",
+          "size_kb": 187.0
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (Nov-Dec 2024).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2024-11_Nov-Dec/Corporate Laws & Practices - Suggested Answer (Nov-Dec 2024).pdf",
+          "size_kb": 691.6
+        }
+      },
+      {
+        "session_tag": "2024-07_Jul-Aug",
+        "session_label": "Jul-Aug 2024",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2024-07_Jul-Aug/Corporate Laws & Practices - Question (Jul-Aug 2024).pdf",
+          "size_kb": 212.4
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2024-07_Jul-Aug/Corporate Laws & Practices - Suggested Answer (Jul-Aug 2024).pdf",
+          "size_kb": 872.9
+        }
+      },
+      {
+        "session_tag": "2024-03_Mar-Apr",
+        "session_label": "Mar-Apr 2024",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2024-03_Mar-Apr/Corporate Laws & Practices - Question (Mar-Apr 2024).pdf",
+          "size_kb": 221.8
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2024-03_Mar-Apr/Corporate Laws & Practices - Suggested Answer (Mar-Apr 2024).pdf",
+          "size_kb": 310.3
+        }
+      },
+      {
+        "session_tag": "2023-11_Nov-Dec",
+        "session_label": "Nov-Dec 2023",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2023-11_Nov-Dec/Corporate Laws & Practices - Question (Nov-Dec 2023).pdf",
+          "size_kb": 252.3
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2023-11_Nov-Dec/Corporate Laws & Practices - Suggested Answer (Nov-Dec 2023).pdf",
+          "size_kb": 599.5
+        }
+      },
+      {
+        "session_tag": "2023-07_Jul-Aug",
+        "session_label": "Jul-Aug 2023",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2023-07_Jul-Aug/Corporate Laws & Practices - Question (Jul-Aug 2023).pdf",
+          "size_kb": 194.9
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2023-07_Jul-Aug/Corporate Laws & Practices - Suggested Answer (Jul-Aug 2023).pdf",
+          "size_kb": 579.2
+        }
+      },
+      {
+        "session_tag": "2023-03_Mar-Apr",
+        "session_label": "Mar-Apr 2023",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2023-03_Mar-Apr/Corporate Laws & Practices - Question (Mar-Apr 2023).pdf",
+          "size_kb": 209.0
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2023-03_Mar-Apr/Corporate Laws & Practices - Suggested Answer (Mar-Apr 2023).pdf",
+          "size_kb": 571.3
+        }
+      },
+      {
+        "session_tag": "2022-11_Nov-Dec",
+        "session_label": "Nov-Dec 2022",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2022-11_Nov-Dec/Corporate Laws & Practices - Question (Nov-Dec 2022).pdf",
+          "size_kb": 185.7
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2022-11_Nov-Dec/Corporate Laws & Practices - Suggested Answer (Nov-Dec 2022).pdf",
+          "size_kb": 192.2
+        }
+      },
+      {
+        "session_tag": "2022-07_Jul-Aug",
+        "session_label": "Jul-Aug 2022",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2022-07_Jul-Aug/Corporate Laws & Practices - Question (Jul-Aug 2022).pdf",
+          "size_kb": 194.8
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2022-07_Jul-Aug/Corporate Laws & Practices - Suggested Answer (Jul-Aug 2022).pdf",
+          "size_kb": 243.0
+        }
+      },
+      {
+        "session_tag": "2022-03_Mar-Apr",
+        "session_label": "Mar-Apr 2022",
+        "question": {
+          "filename": "Corporate Laws & Practices - Question (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2022-03_Mar-Apr/Corporate Laws & Practices - Question (Mar-Apr 2022).pdf",
+          "size_kb": 182.6
+        },
+        "answer": {
+          "filename": "Corporate Laws & Practices - Suggested Answer (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/Corporate Laws & Practices/2022-03_Mar-Apr/Corporate Laws & Practices - Suggested Answer (Mar-Apr 2022).pdf",
+          "size_kb": 170.6
+        }
+      }
+    ],
+    "Financial Accounting & Reporting": [
+      {
+        "session_tag": "2026-05_May",
+        "session_label": "May 2026",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (May 2026).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2026-05_May/Financial Accounting & Reporting - Question (May 2026).pdf",
+          "size_kb": 341.8
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (May 2026).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2026-05_May/Financial Accounting & Reporting - Suggested Answer (May 2026).pdf",
+          "size_kb": 691.1
+        }
+      },
+      {
+        "session_tag": "2025-11_Nov-Dec",
+        "session_label": "Nov-Dec 2025",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (Nov-Dec 2025).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2025-11_Nov-Dec/Financial Accounting & Reporting - Question (Nov-Dec 2025).pdf",
+          "size_kb": 337.6
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (Nov-Dec 2025).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2025-11_Nov-Dec/Financial Accounting & Reporting - Suggested Answer (Nov-Dec 2025).pdf",
+          "size_kb": 652.7
+        }
+      },
+      {
+        "session_tag": "2025-07_Jul-Aug",
+        "session_label": "Jul-Aug 2025",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (Jul-Aug 2025).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2025-07_Jul-Aug/Financial Accounting & Reporting - Question (Jul-Aug 2025).pdf",
+          "size_kb": 272.9
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (Jul-Aug 2025).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2025-07_Jul-Aug/Financial Accounting & Reporting - Suggested Answer (Jul-Aug 2025).pdf",
+          "size_kb": 766.8
+        }
+      },
+      {
+        "session_tag": "2025-03_Mar-Apr",
+        "session_label": "Mar-Apr 2025",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (Mar-Apr 2025).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2025-03_Mar-Apr/Financial Accounting & Reporting - Question (Mar-Apr 2025).pdf",
+          "size_kb": 202.8
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (Mar-Apr 2025).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2025-03_Mar-Apr/Financial Accounting & Reporting - Suggested Answer (Mar-Apr 2025).pdf",
+          "size_kb": 622.3
+        }
+      },
+      {
+        "session_tag": "2024-11_Nov-Dec",
+        "session_label": "Nov-Dec 2024",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (Nov-Dec 2024).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2024-11_Nov-Dec/Financial Accounting & Reporting - Question (Nov-Dec 2024).pdf",
+          "size_kb": 199.3
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (Nov-Dec 2024).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2024-11_Nov-Dec/Financial Accounting & Reporting - Suggested Answer (Nov-Dec 2024).pdf",
+          "size_kb": 571.0
+        }
+      },
+      {
+        "session_tag": "2024-07_Jul-Aug",
+        "session_label": "Jul-Aug 2024",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2024-07_Jul-Aug/Financial Accounting & Reporting - Question (Jul-Aug 2024).pdf",
+          "size_kb": 297.4
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2024-07_Jul-Aug/Financial Accounting & Reporting - Suggested Answer (Jul-Aug 2024).pdf",
+          "size_kb": 858.9
+        }
+      },
+      {
+        "session_tag": "2024-03_Mar-Apr",
+        "session_label": "Mar-Apr 2024",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2024-03_Mar-Apr/Financial Accounting & Reporting - Question (Mar-Apr 2024).pdf",
+          "size_kb": 216.1
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2024-03_Mar-Apr/Financial Accounting & Reporting - Suggested Answer (Mar-Apr 2024).pdf",
+          "size_kb": 331.0
+        }
+      },
+      {
+        "session_tag": "2023-11_Nov-Dec",
+        "session_label": "Nov-Dec 2023",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2023-11_Nov-Dec/Financial Accounting & Reporting - Question (Nov-Dec 2023).pdf",
+          "size_kb": 228.4
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2023-11_Nov-Dec/Financial Accounting & Reporting - Suggested Answer (Nov-Dec 2023).pdf",
+          "size_kb": 824.8
+        }
+      },
+      {
+        "session_tag": "2023-07_Jul-Aug",
+        "session_label": "Jul-Aug 2023",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2023-07_Jul-Aug/Financial Accounting & Reporting - Question (Jul-Aug 2023).pdf",
+          "size_kb": 194.8
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2023-07_Jul-Aug/Financial Accounting & Reporting - Suggested Answer (Jul-Aug 2023).pdf",
+          "size_kb": 859.9
+        }
+      },
+      {
+        "session_tag": "2023-03_Mar-Apr",
+        "session_label": "Mar-Apr 2023",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2023-03_Mar-Apr/Financial Accounting & Reporting - Question (Mar-Apr 2023).pdf",
+          "size_kb": 227.7
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2023-03_Mar-Apr/Financial Accounting & Reporting - Suggested Answer (Mar-Apr 2023).pdf",
+          "size_kb": 827.1
+        }
+      },
+      {
+        "session_tag": "2022-11_Nov-Dec",
+        "session_label": "Nov-Dec 2022",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2022-11_Nov-Dec/Financial Accounting & Reporting - Question (Nov-Dec 2022).pdf",
+          "size_kb": 193.7
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2022-11_Nov-Dec/Financial Accounting & Reporting - Suggested Answer (Nov-Dec 2022).pdf",
+          "size_kb": 358.3
+        }
+      },
+      {
+        "session_tag": "2022-07_Jul-Aug",
+        "session_label": "Jul-Aug 2022",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2022-07_Jul-Aug/Financial Accounting & Reporting - Question (Jul-Aug 2022).pdf",
+          "size_kb": 200.8
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2022-07_Jul-Aug/Financial Accounting & Reporting - Suggested Answer (Jul-Aug 2022).pdf",
+          "size_kb": 219.2
+        }
+      },
+      {
+        "session_tag": "2022-03_Mar-Apr",
+        "session_label": "Mar-Apr 2022",
+        "question": {
+          "filename": "Financial Accounting & Reporting - Question (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2022-03_Mar-Apr/Financial Accounting & Reporting - Question (Mar-Apr 2022).pdf",
+          "size_kb": 203.5
+        },
+        "answer": {
+          "filename": "Financial Accounting & Reporting - Suggested Answer (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/Financial Accounting & Reporting/2022-03_Mar-Apr/Financial Accounting & Reporting - Suggested Answer (Mar-Apr 2022).pdf",
+          "size_kb": 244.4
+        }
+      }
+    ],
+    "Financial Management": [
+      {
+        "session_tag": "2026-05_May",
+        "session_label": "May 2026",
+        "question": {
+          "filename": "Financial Management - Question (May 2026).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2026-05_May/Financial Management - Question (May 2026).pdf",
+          "size_kb": 334.0
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (May 2026).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2026-05_May/Financial Management - Suggested Answer (May 2026).pdf",
+          "size_kb": 352.5
+        }
+      },
+      {
+        "session_tag": "2025-11_Nov-Dec",
+        "session_label": "Nov-Dec 2025",
+        "question": {
+          "filename": "Financial Management - Question (Nov-Dec 2025).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2025-11_Nov-Dec/Financial Management - Question (Nov-Dec 2025).pdf",
+          "size_kb": 296.4
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (Nov-Dec 2025).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2025-11_Nov-Dec/Financial Management - Suggested Answer (Nov-Dec 2025).pdf",
+          "size_kb": 921.7
+        }
+      },
+      {
+        "session_tag": "2025-07_Jul-Aug",
+        "session_label": "Jul-Aug 2025",
+        "question": {
+          "filename": "Financial Management - Question (Jul-Aug 2025).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2025-07_Jul-Aug/Financial Management - Question (Jul-Aug 2025).pdf",
+          "size_kb": 321.9
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (Jul-Aug 2025).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2025-07_Jul-Aug/Financial Management - Suggested Answer (Jul-Aug 2025).pdf",
+          "size_kb": 857.7
+        }
+      },
+      {
+        "session_tag": "2025-03_Mar-Apr",
+        "session_label": "Mar-Apr 2025",
+        "question": {
+          "filename": "Financial Management - Question (Mar-Apr 2025).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2025-03_Mar-Apr/Financial Management - Question (Mar-Apr 2025).pdf",
+          "size_kb": 191.5
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (Mar-Apr 2025).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2025-03_Mar-Apr/Financial Management - Suggested Answer (Mar-Apr 2025).pdf",
+          "size_kb": 1159.0
+        }
+      },
+      {
+        "session_tag": "2024-11_Nov-Dec",
+        "session_label": "Nov-Dec 2024",
+        "question": {
+          "filename": "Financial Management - Question (Nov-Dec 2024).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2024-11_Nov-Dec/Financial Management - Question (Nov-Dec 2024).pdf",
+          "size_kb": 185.3
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (Nov-Dec 2024).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2024-11_Nov-Dec/Financial Management - Suggested Answer (Nov-Dec 2024).pdf",
+          "size_kb": 613.3
+        }
+      },
+      {
+        "session_tag": "2024-07_Jul-Aug",
+        "session_label": "Jul-Aug 2024",
+        "question": {
+          "filename": "Financial Management - Question (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2024-07_Jul-Aug/Financial Management - Question (Jul-Aug 2024).pdf",
+          "size_kb": 210.1
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2024-07_Jul-Aug/Financial Management - Suggested Answer (Jul-Aug 2024).pdf",
+          "size_kb": 1201.3
+        }
+      },
+      {
+        "session_tag": "2024-03_Mar-Apr",
+        "session_label": "Mar-Apr 2024",
+        "question": {
+          "filename": "Financial Management - Question (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2024-03_Mar-Apr/Financial Management - Question (Mar-Apr 2024).pdf",
+          "size_kb": 183.4
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2024-03_Mar-Apr/Financial Management - Suggested Answer (Mar-Apr 2024).pdf",
+          "size_kb": 868.3
+        }
+      },
+      {
+        "session_tag": "2023-11_Nov-Dec",
+        "session_label": "Nov-Dec 2023",
+        "question": {
+          "filename": "Financial Management - Question (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2023-11_Nov-Dec/Financial Management - Question (Nov-Dec 2023).pdf",
+          "size_kb": 228.2
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2023-11_Nov-Dec/Financial Management - Suggested Answer (Nov-Dec 2023).pdf",
+          "size_kb": 1275.3
+        }
+      },
+      {
+        "session_tag": "2023-07_Jul-Aug",
+        "session_label": "Jul-Aug 2023",
+        "question": {
+          "filename": "Financial Management - Question (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2023-07_Jul-Aug/Financial Management - Question (Jul-Aug 2023).pdf",
+          "size_kb": 220.8
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2023-07_Jul-Aug/Financial Management - Suggested Answer (Jul-Aug 2023).pdf",
+          "size_kb": 1180.4
+        }
+      },
+      {
+        "session_tag": "2023-03_Mar-Apr",
+        "session_label": "Mar-Apr 2023",
+        "question": {
+          "filename": "Financial Management - Question (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2023-03_Mar-Apr/Financial Management - Question (Mar-Apr 2023).pdf",
+          "size_kb": 209.2
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2023-03_Mar-Apr/Financial Management - Suggested Answer (Mar-Apr 2023).pdf",
+          "size_kb": 997.2
+        }
+      },
+      {
+        "session_tag": "2022-11_Nov-Dec",
+        "session_label": "Nov-Dec 2022",
+        "question": {
+          "filename": "Financial Management - Question (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2022-11_Nov-Dec/Financial Management - Question (Nov-Dec 2022).pdf",
+          "size_kb": 289.6
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2022-11_Nov-Dec/Financial Management - Suggested Answer (Nov-Dec 2022).pdf",
+          "size_kb": 360.4
+        }
+      },
+      {
+        "session_tag": "2022-07_Jul-Aug",
+        "session_label": "Jul-Aug 2022",
+        "question": {
+          "filename": "Financial Management - Question (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2022-07_Jul-Aug/Financial Management - Question (Jul-Aug 2022).pdf",
+          "size_kb": 295.0
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2022-07_Jul-Aug/Financial Management - Suggested Answer (Jul-Aug 2022).pdf",
+          "size_kb": 317.1
+        }
+      },
+      {
+        "session_tag": "2022-03_Mar-Apr",
+        "session_label": "Mar-Apr 2022",
+        "question": {
+          "filename": "Financial Management - Question (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2022-03_Mar-Apr/Financial Management - Question (Mar-Apr 2022).pdf",
+          "size_kb": 289.1
+        },
+        "answer": {
+          "filename": "Financial Management - Suggested Answer (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/Financial Management/2022-03_Mar-Apr/Financial Management - Suggested Answer (Mar-Apr 2022).pdf",
+          "size_kb": 369.7
+        }
+      }
+    ],
+    "IT Governance": [
+      {
+        "session_tag": "2024-07_Jul-Aug",
+        "session_label": "Jul-Aug 2024",
+        "question": {
+          "filename": "IT Governance - Question (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2024-07_Jul-Aug/IT Governance - Question (Jul-Aug 2024).pdf",
+          "size_kb": 100.3
+        },
+        "answer": {
+          "filename": "IT Governance - Suggested Answer (Jul-Aug 2024).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2024-07_Jul-Aug/IT Governance - Suggested Answer (Jul-Aug 2024).pdf",
+          "size_kb": 312.1
+        }
+      },
+      {
+        "session_tag": "2024-03_Mar-Apr",
+        "session_label": "Mar-Apr 2024",
+        "question": {
+          "filename": "IT Governance - Question (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2024-03_Mar-Apr/IT Governance - Question (Mar-Apr 2024).pdf",
+          "size_kb": 145.2
+        },
+        "answer": {
+          "filename": "IT Governance - Suggested Answer (Mar-Apr 2024).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2024-03_Mar-Apr/IT Governance - Suggested Answer (Mar-Apr 2024).pdf",
+          "size_kb": 336.1
+        }
+      },
+      {
+        "session_tag": "2023-11_Nov-Dec",
+        "session_label": "Nov-Dec 2023",
+        "question": {
+          "filename": "IT Governance - Question (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2023-11_Nov-Dec/IT Governance - Question (Nov-Dec 2023).pdf",
+          "size_kb": 98.9
+        },
+        "answer": {
+          "filename": "IT Governance - Suggested Answer (Nov-Dec 2023).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2023-11_Nov-Dec/IT Governance - Suggested Answer (Nov-Dec 2023).pdf",
+          "size_kb": 267.0
+        }
+      },
+      {
+        "session_tag": "2023-07_Jul-Aug",
+        "session_label": "Jul-Aug 2023",
+        "question": {
+          "filename": "IT Governance - Question (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2023-07_Jul-Aug/IT Governance - Question (Jul-Aug 2023).pdf",
+          "size_kb": 142.1
+        },
+        "answer": {
+          "filename": "IT Governance - Suggested Answer (Jul-Aug 2023).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2023-07_Jul-Aug/IT Governance - Suggested Answer (Jul-Aug 2023).pdf",
+          "size_kb": 443.9
+        }
+      },
+      {
+        "session_tag": "2023-03_Mar-Apr",
+        "session_label": "Mar-Apr 2023",
+        "question": {
+          "filename": "IT Governance - Question (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2023-03_Mar-Apr/IT Governance - Question (Mar-Apr 2023).pdf",
+          "size_kb": 140.6
+        },
+        "answer": {
+          "filename": "IT Governance - Suggested Answer (Mar-Apr 2023).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2023-03_Mar-Apr/IT Governance - Suggested Answer (Mar-Apr 2023).pdf",
+          "size_kb": 550.7
+        }
+      },
+      {
+        "session_tag": "2022-11_Nov-Dec",
+        "session_label": "Nov-Dec 2022",
+        "question": {
+          "filename": "IT Governance - Question (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2022-11_Nov-Dec/IT Governance - Question (Nov-Dec 2022).pdf",
+          "size_kb": 141.4
+        },
+        "answer": {
+          "filename": "IT Governance - Suggested Answer (Nov-Dec 2022).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2022-11_Nov-Dec/IT Governance - Suggested Answer (Nov-Dec 2022).pdf",
+          "size_kb": 186.4
+        }
+      },
+      {
+        "session_tag": "2022-07_Jul-Aug",
+        "session_label": "Jul-Aug 2022",
+        "question": {
+          "filename": "IT Governance - Question (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2022-07_Jul-Aug/IT Governance - Question (Jul-Aug 2022).pdf",
+          "size_kb": 149.0
+        },
+        "answer": {
+          "filename": "IT Governance - Suggested Answer (Jul-Aug 2022).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2022-07_Jul-Aug/IT Governance - Suggested Answer (Jul-Aug 2022).pdf",
+          "size_kb": 339.9
+        }
+      },
+      {
+        "session_tag": "2022-03_Mar-Apr",
+        "session_label": "Mar-Apr 2022",
+        "question": {
+          "filename": "IT Governance - Question (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2022-03_Mar-Apr/IT Governance - Question (Mar-Apr 2022).pdf",
+          "size_kb": 145.9
+        },
+        "answer": {
+          "filename": "IT Governance - Suggested Answer (Mar-Apr 2022).pdf",
+          "rel_path": "Professional Level (PL)/IT Governance/2022-03_Mar-Apr/IT Governance - Suggested Answer (Mar-Apr 2022).pdf",
+          "size_kb": 345.1
+        }
+      }
+    ]
+  },
+  "AL": {
+    "Case Study": [
+      {
+        "session_tag": "2026-05_May",
+        "session_label": "May 2026",
+        "question": {
+          "filename": "Case Study - Question (May 2026).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2026-05_May/Case Study - Question (May 2026).pdf",
+          "size_kb": 582.1
+        },
+        "answer": null
+      },
+      {
+        "session_tag": "2025-11_Nov-Dec",
+        "session_label": "Nov-Dec 2025",
+        "question": {
+          "filename": "Case Study - Question (Nov-Dec 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2025-11_Nov-Dec/Case Study - Question (Nov-Dec 2025).pdf",
+          "size_kb": 535.0
+        },
+        "answer": null
+      },
+      {
+        "session_tag": "2025-07_Jul-Aug",
+        "session_label": "Jul-Aug 2025",
+        "question": {
+          "filename": "Case Study - Question (Jul-Aug 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2025-07_Jul-Aug/Case Study - Question (Jul-Aug 2025).pdf",
+          "size_kb": 531.3
+        },
+        "answer": {
+          "filename": "Case Study - Suggested Answer (Jul-Aug 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2025-07_Jul-Aug/Case Study - Suggested Answer (Jul-Aug 2025).pdf",
+          "size_kb": 1004.4
+        }
+      },
+      {
+        "session_tag": "2025-03_Mar-Apr",
+        "session_label": "Mar-Apr 2025",
+        "question": {
+          "filename": "Case Study - Question (Mar-Apr 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2025-03_Mar-Apr/Case Study - Question (Mar-Apr 2025).pdf",
+          "size_kb": 414.5
+        },
+        "answer": null
+      },
+      {
+        "session_tag": "2024-11_Nov-Dec",
+        "session_label": "Nov-Dec 2024",
+        "question": {
+          "filename": "Case Study - Question (Nov-Dec 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2024-11_Nov-Dec/Case Study - Question (Nov-Dec 2024).pdf",
+          "size_kb": 439.9
+        },
+        "answer": {
+          "filename": "Case Study - Suggested Answer (Nov-Dec 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2024-11_Nov-Dec/Case Study - Suggested Answer (Nov-Dec 2024).pdf",
+          "size_kb": 964.6
+        }
+      },
+      {
+        "session_tag": "2024-07_Jul-Aug",
+        "session_label": "Jul-Aug 2024",
+        "question": {
+          "filename": "Case Study - Question (Jul-Aug 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2024-07_Jul-Aug/Case Study - Question (Jul-Aug 2024).pdf",
+          "size_kb": 466.6
+        },
+        "answer": {
+          "filename": "Case Study - Suggested Answer (Jul-Aug 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2024-07_Jul-Aug/Case Study - Suggested Answer (Jul-Aug 2024).pdf",
+          "size_kb": 1204.9
+        }
+      },
+      {
+        "session_tag": "2024-03_Mar-Apr",
+        "session_label": "Mar-Apr 2024",
+        "question": {
+          "filename": "Case Study - Question (Mar-Apr 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2024-03_Mar-Apr/Case Study - Question (Mar-Apr 2024).pdf",
+          "size_kb": 433.9
+        },
+        "answer": {
+          "filename": "Case Study - Suggested Answer (Mar-Apr 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2024-03_Mar-Apr/Case Study - Suggested Answer (Mar-Apr 2024).pdf",
+          "size_kb": 1201.8
+        }
+      },
+      {
+        "session_tag": "2023-11_Nov-Dec",
+        "session_label": "Nov-Dec 2023",
+        "question": {
+          "filename": "Case Study - Question (Nov-Dec 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2023-11_Nov-Dec/Case Study - Question (Nov-Dec 2023).pdf",
+          "size_kb": 417.5
+        },
+        "answer": null
+      },
+      {
+        "session_tag": "2023-07_Jul-Aug",
+        "session_label": "Jul-Aug 2023",
+        "question": {
+          "filename": "Case Study - Question (Jul-Aug 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2023-07_Jul-Aug/Case Study - Question (Jul-Aug 2023).pdf",
+          "size_kb": 435.7
+        },
+        "answer": {
+          "filename": "Case Study - Suggested Answer (Jul-Aug 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2023-07_Jul-Aug/Case Study - Suggested Answer (Jul-Aug 2023).pdf",
+          "size_kb": 761.5
+        }
+      },
+      {
+        "session_tag": "2023-03_Mar-Apr",
+        "session_label": "Mar-Apr 2023",
+        "question": {
+          "filename": "Case Study - Question (Mar-Apr 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2023-03_Mar-Apr/Case Study - Question (Mar-Apr 2023).pdf",
+          "size_kb": 553.8
+        },
+        "answer": {
+          "filename": "Case Study - Suggested Answer (Mar-Apr 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2023-03_Mar-Apr/Case Study - Suggested Answer (Mar-Apr 2023).pdf",
+          "size_kb": 1104.2
+        }
+      },
+      {
+        "session_tag": "2022-11_Nov-Dec",
+        "session_label": "Nov-Dec 2022",
+        "question": {
+          "filename": "Case Study - Question (Nov-Dec 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2022-11_Nov-Dec/Case Study - Question (Nov-Dec 2022).pdf",
+          "size_kb": 449.5
+        },
+        "answer": {
+          "filename": "Case Study - Suggested Answer (Nov-Dec 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2022-11_Nov-Dec/Case Study - Suggested Answer (Nov-Dec 2022).pdf",
+          "size_kb": 533.4
+        }
+      },
+      {
+        "session_tag": "2022-07_Jul-Aug",
+        "session_label": "Jul-Aug 2022",
+        "question": {
+          "filename": "Case Study - Question (Jul-Aug 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2022-07_Jul-Aug/Case Study - Question (Jul-Aug 2022).pdf",
+          "size_kb": 393.2
+        },
+        "answer": {
+          "filename": "Case Study - Suggested Answer (Jul-Aug 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2022-07_Jul-Aug/Case Study - Suggested Answer (Jul-Aug 2022).pdf",
+          "size_kb": 503.7
+        }
+      },
+      {
+        "session_tag": "2022-03_Mar-Apr",
+        "session_label": "Mar-Apr 2022",
+        "question": {
+          "filename": "Case Study - Question (Mar-Apr 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Case Study/2022-03_Mar-Apr/Case Study - Question (Mar-Apr 2022).pdf",
+          "size_kb": 391.8
+        },
+        "answer": null
+      }
+    ],
+    "Corporate Reporting": [
+      {
+        "session_tag": "2026-05_May",
+        "session_label": "May 2026",
+        "question": {
+          "filename": "Corporate Reporting - Question (May 2026).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2026-05_May/Corporate Reporting - Question (May 2026).pdf",
+          "size_kb": 421.7
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (May 2026).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2026-05_May/Corporate Reporting - Suggested Answer (May 2026).pdf",
+          "size_kb": 1153.4
+        }
+      },
+      {
+        "session_tag": "2025-11_Nov-Dec",
+        "session_label": "Nov-Dec 2025",
+        "question": {
+          "filename": "Corporate Reporting - Question (Nov-Dec 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2025-11_Nov-Dec/Corporate Reporting - Question (Nov-Dec 2025).pdf",
+          "size_kb": 399.7
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (Nov-Dec 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2025-11_Nov-Dec/Corporate Reporting - Suggested Answer (Nov-Dec 2025).pdf",
+          "size_kb": 1176.2
+        }
+      },
+      {
+        "session_tag": "2025-07_Jul-Aug",
+        "session_label": "Jul-Aug 2025",
+        "question": {
+          "filename": "Corporate Reporting - Question (Jul-Aug 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2025-07_Jul-Aug/Corporate Reporting - Question (Jul-Aug 2025).pdf",
+          "size_kb": 357.5
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (Jul-Aug 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2025-07_Jul-Aug/Corporate Reporting - Suggested Answer (Jul-Aug 2025).pdf",
+          "size_kb": 921.6
+        }
+      },
+      {
+        "session_tag": "2025-03_Mar-Apr",
+        "session_label": "Mar-Apr 2025",
+        "question": {
+          "filename": "Corporate Reporting - Question (Mar-Apr 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2025-03_Mar-Apr/Corporate Reporting - Question (Mar-Apr 2025).pdf",
+          "size_kb": 283.6
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (Mar-Apr 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2025-03_Mar-Apr/Corporate Reporting - Suggested Answer (Mar-Apr 2025).pdf",
+          "size_kb": 1036.6
+        }
+      },
+      {
+        "session_tag": "2024-11_Nov-Dec",
+        "session_label": "Nov-Dec 2024",
+        "question": {
+          "filename": "Corporate Reporting - Question (Nov-Dec 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2024-11_Nov-Dec/Corporate Reporting - Question (Nov-Dec 2024).pdf",
+          "size_kb": 322.5
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (Nov-Dec 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2024-11_Nov-Dec/Corporate Reporting - Suggested Answer (Nov-Dec 2024).pdf",
+          "size_kb": 844.8
+        }
+      },
+      {
+        "session_tag": "2024-07_Jul-Aug",
+        "session_label": "Jul-Aug 2024",
+        "question": {
+          "filename": "Corporate Reporting - Question (Jul-Aug 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2024-07_Jul-Aug/Corporate Reporting - Question (Jul-Aug 2024).pdf",
+          "size_kb": 331.3
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (Jul-Aug 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2024-07_Jul-Aug/Corporate Reporting - Suggested Answer (Jul-Aug 2024).pdf",
+          "size_kb": 1081.5
+        }
+      },
+      {
+        "session_tag": "2024-03_Mar-Apr",
+        "session_label": "Mar-Apr 2024",
+        "question": {
+          "filename": "Corporate Reporting - Question (Mar-Apr 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2024-03_Mar-Apr/Corporate Reporting - Question (Mar-Apr 2024).pdf",
+          "size_kb": 316.0
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (Mar-Apr 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2024-03_Mar-Apr/Corporate Reporting - Suggested Answer (Mar-Apr 2024).pdf",
+          "size_kb": 870.2
+        }
+      },
+      {
+        "session_tag": "2023-11_Nov-Dec",
+        "session_label": "Nov-Dec 2023",
+        "question": {
+          "filename": "Corporate Reporting - Question (Nov-Dec 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2023-11_Nov-Dec/Corporate Reporting - Question (Nov-Dec 2023).pdf",
+          "size_kb": 299.8
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (Nov-Dec 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2023-11_Nov-Dec/Corporate Reporting - Suggested Answer (Nov-Dec 2023).pdf",
+          "size_kb": 867.4
+        }
+      },
+      {
+        "session_tag": "2023-07_Jul-Aug",
+        "session_label": "Jul-Aug 2023",
+        "question": {
+          "filename": "Corporate Reporting - Question (Jul-Aug 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2023-07_Jul-Aug/Corporate Reporting - Question (Jul-Aug 2023).pdf",
+          "size_kb": 236.9
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (Jul-Aug 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2023-07_Jul-Aug/Corporate Reporting - Suggested Answer (Jul-Aug 2023).pdf",
+          "size_kb": 865.0
+        }
+      },
+      {
+        "session_tag": "2023-03_Mar-Apr",
+        "session_label": "Mar-Apr 2023",
+        "question": {
+          "filename": "Corporate Reporting - Question (Mar-Apr 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2023-03_Mar-Apr/Corporate Reporting - Question (Mar-Apr 2023).pdf",
+          "size_kb": 249.5
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (Mar-Apr 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2023-03_Mar-Apr/Corporate Reporting - Suggested Answer (Mar-Apr 2023).pdf",
+          "size_kb": 1055.5
+        }
+      },
+      {
+        "session_tag": "2022-11_Nov-Dec",
+        "session_label": "Nov-Dec 2022",
+        "question": {
+          "filename": "Corporate Reporting - Question (Nov-Dec 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2022-11_Nov-Dec/Corporate Reporting - Question (Nov-Dec 2022).pdf",
+          "size_kb": 329.6
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (Nov-Dec 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2022-11_Nov-Dec/Corporate Reporting - Suggested Answer (Nov-Dec 2022).pdf",
+          "size_kb": 382.6
+        }
+      },
+      {
+        "session_tag": "2022-07_Jul-Aug",
+        "session_label": "Jul-Aug 2022",
+        "question": {
+          "filename": "Corporate Reporting - Question (Jul-Aug 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2022-07_Jul-Aug/Corporate Reporting - Question (Jul-Aug 2022).pdf",
+          "size_kb": 229.3
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (Jul-Aug 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2022-07_Jul-Aug/Corporate Reporting - Suggested Answer (Jul-Aug 2022).pdf",
+          "size_kb": 389.5
+        }
+      },
+      {
+        "session_tag": "2022-03_Mar-Apr",
+        "session_label": "Mar-Apr 2022",
+        "question": {
+          "filename": "Corporate Reporting - Question (Mar-Apr 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2022-03_Mar-Apr/Corporate Reporting - Question (Mar-Apr 2022).pdf",
+          "size_kb": 232.6
+        },
+        "answer": {
+          "filename": "Corporate Reporting - Suggested Answer (Mar-Apr 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Corporate Reporting/2022-03_Mar-Apr/Corporate Reporting - Suggested Answer (Mar-Apr 2022).pdf",
+          "size_kb": 358.8
+        }
+      }
+    ],
+    "Strategic Business Management & Leadership": [
+      {
+        "session_tag": "2026-05_May",
+        "session_label": "May 2026",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (May 2026).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2026-05_May/Strategic Business Management & Leadership - Question (May 2026).pdf",
+          "size_kb": 353.3
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (May 2026).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2026-05_May/Strategic Business Management & Leadership - Suggested Answer (May 2026).pdf",
+          "size_kb": 636.5
+        }
+      },
+      {
+        "session_tag": "2025-11_Nov-Dec",
+        "session_label": "Nov-Dec 2025",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (Nov-Dec 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2025-11_Nov-Dec/Strategic Business Management & Leadership - Question (Nov-Dec 2025).pdf",
+          "size_kb": 309.8
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (Nov-Dec 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2025-11_Nov-Dec/Strategic Business Management & Leadership - Suggested Answer (Nov-Dec 2025).pdf",
+          "size_kb": 788.5
+        }
+      },
+      {
+        "session_tag": "2025-07_Jul-Aug",
+        "session_label": "Jul-Aug 2025",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (Jul-Aug 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2025-07_Jul-Aug/Strategic Business Management & Leadership - Question (Jul-Aug 2025).pdf",
+          "size_kb": 296.6
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (Jul-Aug 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2025-07_Jul-Aug/Strategic Business Management & Leadership - Suggested Answer (Jul-Aug 2025).pdf",
+          "size_kb": 729.6
+        }
+      },
+      {
+        "session_tag": "2025-03_Mar-Apr",
+        "session_label": "Mar-Apr 2025",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (Mar-Apr 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2025-03_Mar-Apr/Strategic Business Management & Leadership - Question (Mar-Apr 2025).pdf",
+          "size_kb": 199.6
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (Mar-Apr 2025).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2025-03_Mar-Apr/Strategic Business Management & Leadership - Suggested Answer (Mar-Apr 2025).pdf",
+          "size_kb": 895.7
+        }
+      },
+      {
+        "session_tag": "2024-11_Nov-Dec",
+        "session_label": "Nov-Dec 2024",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (Nov-Dec 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2024-11_Nov-Dec/Strategic Business Management & Leadership - Question (Nov-Dec 2024).pdf",
+          "size_kb": 190.0
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (Nov-Dec 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2024-11_Nov-Dec/Strategic Business Management & Leadership - Suggested Answer (Nov-Dec 2024).pdf",
+          "size_kb": 672.8
+        }
+      },
+      {
+        "session_tag": "2024-07_Jul-Aug",
+        "session_label": "Jul-Aug 2024",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (Jul-Aug 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2024-07_Jul-Aug/Strategic Business Management & Leadership - Question (Jul-Aug 2024).pdf",
+          "size_kb": 213.7
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (Jul-Aug 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2024-07_Jul-Aug/Strategic Business Management & Leadership - Suggested Answer (Jul-Aug 2024).pdf",
+          "size_kb": 850.3
+        }
+      },
+      {
+        "session_tag": "2024-03_Mar-Apr",
+        "session_label": "Mar-Apr 2024",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (Mar-Apr 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2024-03_Mar-Apr/Strategic Business Management & Leadership - Question (Mar-Apr 2024).pdf",
+          "size_kb": 263.2
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (Mar-Apr 2024).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2024-03_Mar-Apr/Strategic Business Management & Leadership - Suggested Answer (Mar-Apr 2024).pdf",
+          "size_kb": 573.0
+        }
+      },
+      {
+        "session_tag": "2023-11_Nov-Dec",
+        "session_label": "Nov-Dec 2023",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (Nov-Dec 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2023-11_Nov-Dec/Strategic Business Management & Leadership - Question (Nov-Dec 2023).pdf",
+          "size_kb": 277.1
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (Nov-Dec 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2023-11_Nov-Dec/Strategic Business Management & Leadership - Suggested Answer (Nov-Dec 2023).pdf",
+          "size_kb": 915.9
+        }
+      },
+      {
+        "session_tag": "2023-07_Jul-Aug",
+        "session_label": "Jul-Aug 2023",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (Jul-Aug 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2023-07_Jul-Aug/Strategic Business Management & Leadership - Question (Jul-Aug 2023).pdf",
+          "size_kb": 302.8
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (Jul-Aug 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2023-07_Jul-Aug/Strategic Business Management & Leadership - Suggested Answer (Jul-Aug 2023).pdf",
+          "size_kb": 844.5
+        }
+      },
+      {
+        "session_tag": "2023-03_Mar-Apr",
+        "session_label": "Mar-Apr 2023",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (Mar-Apr 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2023-03_Mar-Apr/Strategic Business Management & Leadership - Question (Mar-Apr 2023).pdf",
+          "size_kb": 194.6
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (Mar-Apr 2023).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2023-03_Mar-Apr/Strategic Business Management & Leadership - Suggested Answer (Mar-Apr 2023).pdf",
+          "size_kb": 641.6
+        }
+      },
+      {
+        "session_tag": "2022-11_Nov-Dec",
+        "session_label": "Nov-Dec 2022",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (Nov-Dec 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2022-11_Nov-Dec/Strategic Business Management & Leadership - Question (Nov-Dec 2022).pdf",
+          "size_kb": 244.6
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (Nov-Dec 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2022-11_Nov-Dec/Strategic Business Management & Leadership - Suggested Answer (Nov-Dec 2022).pdf",
+          "size_kb": 329.6
+        }
+      },
+      {
+        "session_tag": "2022-07_Jul-Aug",
+        "session_label": "Jul-Aug 2022",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (Jul-Aug 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2022-07_Jul-Aug/Strategic Business Management & Leadership - Question (Jul-Aug 2022).pdf",
+          "size_kb": 182.4
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (Jul-Aug 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2022-07_Jul-Aug/Strategic Business Management & Leadership - Suggested Answer (Jul-Aug 2022).pdf",
+          "size_kb": 313.5
+        }
+      },
+      {
+        "session_tag": "2022-03_Mar-Apr",
+        "session_label": "Mar-Apr 2022",
+        "question": {
+          "filename": "Strategic Business Management & Leadership - Question (Mar-Apr 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2022-03_Mar-Apr/Strategic Business Management & Leadership - Question (Mar-Apr 2022).pdf",
+          "size_kb": 249.7
+        },
+        "answer": {
+          "filename": "Strategic Business Management & Leadership - Suggested Answer (Mar-Apr 2022).pdf",
+          "rel_path": "Advanced Level (AL)/Strategic Business Management & Leadership/2022-03_Mar-Apr/Strategic Business Management & Leadership - Suggested Answer (Mar-Apr 2022).pdf",
+          "size_kb": 290.0
+        }
+      }
+    ]
+  },
+  "Manuals": {
+    "PL": {
+      "Audit & Assurance": [
+        {
+          "title": "Audit & Assurance (2026)",
+          "filename": "Audit & Assurance (2026).pdf",
+          "rel_path": "Study Manuals/Professional Level (PL)/Audit & Assurance/Audit & Assurance (2026).pdf",
+          "size_mb": 6.17
+        }
+      ],
+      "Business Planning Taxation & Compliance": [
+        {
+          "title": "Business Planning Taxation & Compliance Vol 1 (2026)",
+          "filename": "Business Planning Taxation & Compliance Vol 1 (2026).pdf",
+          "rel_path": "Study Manuals/Professional Level (PL)/Business Planning Taxation & Compliance/Business Planning Taxation & Compliance Vol 1 (2026).pdf",
+          "size_mb": 12.71
+        },
+        {
+          "title": "Tax Planning & Compliance Manual - Indirect Tax (Customs Portion) (2025)",
+          "filename": "Tax Planning & Compliance Manual - Indirect Tax (Customs Portion) (2025).pdf",
+          "rel_path": "Study Manuals/Professional Level (PL)/Business Planning Taxation & Compliance/Tax Planning & Compliance Manual - Indirect Tax (Customs Portion) (2025).pdf",
+          "size_mb": 55.76
+        },
+        {
+          "title": "Tax Planning & Compliance Manual - Indirect Tax (VAT Portion) (2025)",
+          "filename": "Tax Planning & Compliance Manual - Indirect Tax (VAT Portion) (2025).pdf",
+          "rel_path": "Study Manuals/Professional Level (PL)/Business Planning Taxation & Compliance/Tax Planning & Compliance Manual - Indirect Tax (VAT Portion) (2025).pdf",
+          "size_mb": 7.0
+        }
+      ],
+      "Business Strategy & Technology": [
+        {
+          "title": "Business Strategy and Technology Vol 1 (2026)",
+          "filename": "Business Strategy and Technology Vol 1 (2026).pdf",
+          "rel_path": "Study Manuals/Professional Level (PL)/Business Strategy & Technology/Business Strategy and Technology Vol 1 (2026).pdf",
+          "size_mb": 9.27
+        },
+        {
+          "title": "Business Strategy and Technology Vol 2 (2026)",
+          "filename": "Business Strategy and Technology Vol 2 (2026).pdf",
+          "rel_path": "Study Manuals/Professional Level (PL)/Business Strategy & Technology/Business Strategy and Technology Vol 2 (2026).pdf",
+          "size_mb": 9.52
+        }
+      ],
+      "Corporate Laws & Practices": [
+        {
+          "title": "Corporate Laws and Practices (2026)",
+          "filename": "Corporate Laws and Practices (2026).pdf",
+          "rel_path": "Study Manuals/Professional Level (PL)/Corporate Laws & Practices/Corporate Laws and Practices (2026).pdf",
+          "size_mb": 2.15
+        }
+      ],
+      "Financial Accounting & Reporting": [
+        {
+          "title": "Financial Accounting and Reporting Vol 1 (2026)",
+          "filename": "Financial Accounting and Reporting Vol 1 (2026).pdf",
+          "rel_path": "Study Manuals/Professional Level (PL)/Financial Accounting & Reporting/Financial Accounting and Reporting Vol 1 (2026).pdf",
+          "size_mb": 28.04
+        },
+        {
+          "title": "Financial Accounting and Reporting Vol 2 (2026)",
+          "filename": "Financial Accounting and Reporting Vol 2 (2026).pdf",
+          "rel_path": "Study Manuals/Professional Level (PL)/Financial Accounting & Reporting/Financial Accounting and Reporting Vol 2 (2026).pdf",
+          "size_mb": 17.35
+        }
+      ],
+      "Financial Management": [
+        {
+          "title": "Financial Management (2026)",
+          "filename": "Financial Management (2026).pdf",
+          "rel_path": "Study Manuals/Professional Level (PL)/Financial Management/Financial Management (2026).pdf",
+          "size_mb": 14.29
+        }
+      ],
+      "IT Governance": [
+        {
+          "title": "IT Governance (2026)",
+          "filename": "IT Governance (2026).pdf",
+          "rel_path": "Study Manuals/Professional Level (PL)/IT Governance/IT Governance (2026).pdf",
+          "size_mb": 10.84
+        }
+      ]
+    },
+    "AL": {
+      "Case Study": [
+        {
+          "title": "Case Study (2026)",
+          "filename": "Case Study (2026).pdf",
+          "rel_path": "Study Manuals/Advanced Level (AL)/Case Study/Case Study (2026).pdf",
+          "size_mb": 2.07
+        }
+      ],
+      "Corporate Reporting": [
+        {
+          "title": "Corporate Reporting Vol 1 (2026)",
+          "filename": "Corporate Reporting Vol 1 (2026).pdf",
+          "rel_path": "Study Manuals/Advanced Level (AL)/Corporate Reporting/Corporate Reporting Vol 1 (2026).pdf",
+          "size_mb": 7.46
+        },
+        {
+          "title": "Corporate Reporting Vol 2 (2026)",
+          "filename": "Corporate Reporting Vol 2 (2026).pdf",
+          "rel_path": "Study Manuals/Advanced Level (AL)/Corporate Reporting/Corporate Reporting Vol 2 (2026).pdf",
+          "size_mb": 7.25
+        },
+        {
+          "title": "Corporate Reporting Vol 3 (2026)",
+          "filename": "Corporate Reporting Vol 3 (2026).pdf",
+          "rel_path": "Study Manuals/Advanced Level (AL)/Corporate Reporting/Corporate Reporting Vol 3 (2026).pdf",
+          "size_mb": 5.96
+        }
+      ],
+      "International Valuation Standards (IVS)": [
+        {
+          "title": "Guide Document On International Valuation Standards",
+          "filename": "Guide Document On International Valuation Standards.pdf",
+          "rel_path": "Study Manuals/Advanced Level (AL)/International Valuation Standards (IVS)/Guide Document On International Valuation Standards.pdf",
+          "size_mb": 0.78
+        },
+        {
+          "title": "Updated IVS (2026)",
+          "filename": "Updated IVS (2026).pdf",
+          "rel_path": "Study Manuals/Advanced Level (AL)/International Valuation Standards (IVS)/Updated IVS (2026).pdf",
+          "size_mb": 0.42
+        }
+      ],
+      "Strategic Business Management & Leadership": [
+        {
+          "title": "Strategic Business Management and Leadership Vol 1 (2026)",
+          "filename": "Strategic Business Management and Leadership Vol 1 (2026).pdf",
+          "rel_path": "Study Manuals/Advanced Level (AL)/Strategic Business Management & Leadership/Strategic Business Management and Leadership Vol 1 (2026).pdf",
+          "size_mb": 13.59
+        },
+        {
+          "title": "Strategic Business Management and Leadership Vol 2 (2026)",
+          "filename": "Strategic Business Management and Leadership Vol 2 (2026).pdf",
+          "rel_path": "Study Manuals/Advanced Level (AL)/Strategic Business Management & Leadership/Strategic Business Management and Leadership Vol 2 (2026).pdf",
+          "size_mb": 9.06
+        },
+        {
+          "title": "Strategic Business Management and Leadership Vol 3 (2026)",
+          "filename": "Strategic Business Management and Leadership Vol 3 (2026).pdf",
+          "rel_path": "Study Manuals/Advanced Level (AL)/Strategic Business Management & Leadership/Strategic Business Management and Leadership Vol 3 (2026).pdf",
+          "size_mb": 7.38
+        }
+      ]
+    }
+  }
+};
+
+    // Add Official Syllabus to catalog
+    const SYLLABUS_DOC = {
+      title: "ICAB Latest Syllabus (2025)",
+      rel_path: "Study Manuals/ICAB Latest Syllabus (2025).pdf",
+      size_mb: 6.2
+    };
+
+    // Authentic ICAB Paper Code Mapping
+    const PAPER_CODES = {
+      'Audit & Assurance': 'AA',
+      'Financial Accounting & Reporting': 'FAR',
+      'Business Strategy & Technology': 'BST',
+      'Financial Management': 'FM',
+      'Business Planning Taxation & Compliance': 'BPTC',
+      'Business Planning: Taxation & Compliance': 'BPTC',
+      'Corporate Laws & Practices': 'CLP',
+      'IT Governance': 'ITG',
+      'Corporate Reporting': 'CR',
+      'Strategic Business Management & Leadership': 'SBML',
+      'Case Study': 'CS',
+      'International Valuation Standards (IVS)': 'IVS',
+      'Curriculum Framework': 'SYL',
+      'ICAB Latest Syllabus (2025)': 'SYL',
+      'Official ICAB Syllabus & Framework (2025)': 'SYL'
+    };
+
+    // Standard 13 Examination Sessions Chronological (Descending)
+    const SESSIONS_ORDER = [
+      { tag: '2026-05_May', label: 'May 2026' },
+      { tag: '2025-11_Nov-Dec', label: 'Nov-Dec 2025' },
+      { tag: '2025-07_Jul-Aug', label: 'Jul-Aug 2025' },
+      { tag: '2025-03_Mar-Apr', label: 'Mar-Apr 2025' },
+      { tag: '2024-11_Nov-Dec', label: 'Nov-Dec 2024' },
+      { tag: '2024-07_Jul-Aug', label: 'Jul-Aug 2024' },
+      { tag: '2024-03_Mar-Apr', label: 'Mar-Apr 2024' },
+      { tag: '2023-11_Nov-Dec', label: 'Nov-Dec 2023' },
+      { tag: '2023-07_Jul-Aug', label: 'Jul-Aug 2023' },
+      { tag: '2023-03_Mar-Apr', label: 'Mar-Apr 2023' },
+      { tag: '2022-11_Nov-Dec', label: 'Nov-Dec 2022' },
+      { tag: '2022-07_Jul-Aug', label: 'Jul-Aug 2022' },
+      { tag: '2022-03_Mar-Apr', label: 'Mar-Apr 2022' }
+    ];
+
+    // Standard ICAB Subject Ordering
+    const SUBJECT_ORDER = {
+      PL: [
+        'Audit & Assurance',
+        'Financial Accounting & Reporting',
+        'Business Strategy & Technology',
+        'Financial Management',
+        'Business Planning Taxation & Compliance',
+        'Corporate Laws & Practices',
+        'IT Governance'
+      ],
+      AL: [
+        'Corporate Reporting',
+        'Strategic Business Management & Leadership',
+        'Case Study'
+      ]
+    };
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { CATALOG, SYLLABUS_DOC, PAPER_CODES, SESSIONS_ORDER, SUBJECT_ORDER };
+}
+
+
+    // Add Official Syllabus to catalog
+    const SYLLABUS_DOC = {
+      title: "ICAB Latest Syllabus (2025)",
+      rel_path: "Study Manuals/ICAB Latest Syllabus (2025).pdf",
+      size_mb: 6.2
+    };
+
+    // Authentic ICAB Paper Code Mapping
+    const PAPER_CODES = {
+      'Audit & Assurance': 'AA',
+      'Financial Accounting & Reporting': 'FAR',
+      'Business Strategy & Technology': 'BST',
+      'Financial Management': 'FM',
+      'Business Planning Taxation & Compliance': 'BPTC',
+      'Business Planning: Taxation & Compliance': 'BPTC',
+      'Corporate Laws & Practices': 'CLP',
+      'IT Governance': 'ITG',
+      'Corporate Reporting': 'CR',
+      'Strategic Business Management & Leadership': 'SBML',
+      'Case Study': 'CS',
+      'International Valuation Standards (IVS)': 'IVS',
+      'Curriculum Framework': 'SYL',
+      'ICAB Latest Syllabus (2025)': 'SYL',
+      'Official ICAB Syllabus & Framework (2025)': 'SYL'
+    };
+
+    // Standard 13 Examination Sessions Chronological (Descending)
+    const SESSIONS_ORDER = [
+      { tag: '2026-05_May', label: 'May 2026' },
+      { tag: '2025-11_Nov-Dec', label: 'Nov-Dec 2025' },
+      { tag: '2025-07_Jul-Aug', label: 'Jul-Aug 2025' },
+      { tag: '2025-03_Mar-Apr', label: 'Mar-Apr 2025' },
+      { tag: '2024-11_Nov-Dec', label: 'Nov-Dec 2024' },
+      { tag: '2024-07_Jul-Aug', label: 'Jul-Aug 2024' },
+      { tag: '2024-03_Mar-Apr', label: 'Mar-Apr 2024' },
+      { tag: '2023-11_Nov-Dec', label: 'Nov-Dec 2023' },
+      { tag: '2023-07_Jul-Aug', label: 'Jul-Aug 2023' },
+      { tag: '2023-03_Mar-Apr', label: 'Mar-Apr 2023' },
+      { tag: '2022-11_Nov-Dec', label: 'Nov-Dec 2022' },
+      { tag: '2022-07_Jul-Aug', label: 'Jul-Aug 2022' },
+      { tag: '2022-03_Mar-Apr', label: 'Mar-Apr 2022' }
+    ];
+
+    // Standard ICAB Subject Ordering
+    const SUBJECT_ORDER = {
+      PL: [
+        'Audit & Assurance',
+        'Financial Accounting & Reporting',
+        'Business Strategy & Technology',
+        'Financial Management',
+        'Business Planning Taxation & Compliance',
+        'Corporate Laws & Practices',
+        'IT Governance'
+      ],
+      AL: [
+        'Corporate Reporting',
+        'Strategic Business Management & Leadership',
+        'Case Study'
+      ]
+    };
+
+    let currentTab = 'PL';
+    let currentSessionData = null;
+    let currentDocType = 'question'; // 'question' | 'answer' | 'manual'
+    let currentDocPath = '';
+    let currentMatrixFilter = 'ALL';
+
+    // DOM Elements
+    const sidebarList = document.getElementById('sidebarList');
+    const pdfFrame = document.getElementById('pdfFrame');
+    const studyDesk = document.getElementById('studyDesk');
+    const docActions = document.getElementById('docActions');
+    const viewerCenterControls = document.getElementById('viewerCenterControls');
+    const qaToggle = document.getElementById('qaToggle');
+    const btnToggleQ = document.getElementById('btnToggleQ');
+    const btnToggleA = document.getElementById('btnToggleA');
+    const btnOpenExternal = document.getElementById('btnOpenExternal');
+    const searchInput = document.getElementById('searchInput');
+    const searchClearBtn = document.getElementById('searchClearBtn');
+    const btnBackToDesk = document.getElementById('btnBackToDesk');
+    const toolbarDivider = document.getElementById('toolbarDivider');
+    const btnDeskHeader = document.getElementById('btnDeskHeader');
+    const brandHome = document.getElementById('brandHome');
+    const btnOpenSyllabus = document.getElementById('btnOpenSyllabus');
+    const btnDeskOpenSyllabus = document.getElementById('btnDeskOpenSyllabus');
+    const docCurriculumPill = document.getElementById('docCurriculumPill');
+    const docCodeBadge = document.getElementById('docCodeBadge');
+    const docSubjectTitle = document.getElementById('docSubjectTitle');
+    const sessionStepper = document.getElementById('sessionStepper');
+    const btnPrevSession = document.getElementById('btnPrevSession');
+    const btnNextSession = document.getElementById('btnNextSession');
+    const stepperLabel = document.getElementById('stepperLabel');
+    const matrixTable = document.getElementById('matrixTable');
+    const manualsVaultGrid = document.getElementById('manualsVaultGrid');
+
+    // Theme Toggle SVGs
+    const themeToggle = document.getElementById('themeToggle');
+    const iconMoon = \`<svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>\`;
+    const iconSun = \`<svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>\`;
+
+    function updateThemeIcon(theme) {
+      themeToggle.innerHTML = theme === 'dark' ? iconSun : iconMoon;
+      themeToggle.setAttribute('title', theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode');
+    }
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.setAttribute('data-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const current = document.body.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.body.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      updateThemeIcon(next);
+    });
+
+    // Fullscreen Toggle
+    document.getElementById('fullscreenToggle').addEventListener('click', () => {
+      toggleFullscreen();
+    });
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+
+    // Return to Desk Actions
+    function returnToDesk() {
+      currentSessionData = null;
+      currentDocPath = '';
+      pdfFrame.src = 'about:blank';
+      studyDesk.style.display = 'flex';
+      btnBackToDesk.style.display = 'none';
+      toolbarDivider.style.display = 'none';
+      docActions.style.display = 'none';
+      viewerCenterControls.style.display = 'none';
+
+      docCodeBadge.style.display = 'none';
+      docSubjectTitle.textContent = 'ICAB Executive Study Desk';
+
+      // Clear active states
+      document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.manual-item').forEach(m => m.classList.remove('active'));
+    }
+
+    btnBackToDesk.addEventListener('click', returnToDesk);
+    btnDeskHeader.addEventListener('click', returnToDesk);
+    brandHome.addEventListener('click', returnToDesk);
+
+    // Syllabus Open Handlers
+    function openSyllabus() {
+      loadManualDoc('Curriculum Framework', 'ICAB Latest Syllabus (2025)', SYLLABUS_DOC);
+    }
+    btnOpenSyllabus.addEventListener('click', openSyllabus);
+    btnDeskOpenSyllabus.addEventListener('click', openSyllabus);
+
+    // Tab Switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentTab = btn.getAttribute('data-tab');
+        renderSidebar();
+      });
+    });
+
+    // Search Synchronization across Sidebar & Matrix
+    function filterMatrixTable(filterText) {
+      const q = filterText.toLowerCase().trim();
+      const rows = matrixTable.querySelectorAll('tbody tr');
+      rows.forEach(row => {
+        if (row.classList.contains('matrix-section-row')) return;
+        const paperNameEl = row.querySelector('.matrix-paper-name');
+        const codeEl = row.querySelector('.badge-code');
+        const paperName = paperNameEl ? paperNameEl.textContent.toLowerCase() : '';
+        const code = codeEl ? codeEl.textContent.toLowerCase() : '';
+
+        if (!q || paperName.includes(q) || code.includes(q)) {
+          row.style.opacity = '1';
+          row.style.pointerEvents = 'auto';
+        } else {
+          row.style.opacity = '0.15';
+          row.style.pointerEvents = 'none';
+        }
+      });
+
+      // Synchronize Manuals Vault Shelf Cards
+      const shelfCards = document.querySelectorAll('.manual-shelf-card');
+      shelfCards.forEach(card => {
+        const text = card.textContent.toLowerCase();
+        if (!q || text.includes(q)) {
+          card.style.opacity = '1';
+          card.style.pointerEvents = 'auto';
+        } else {
+          card.style.opacity = '0.2';
+          card.style.pointerEvents = 'none';
+        }
+      });
+    }
+
+    searchInput.addEventListener('input', () => {
+      const val = searchInput.value.trim();
+      searchClearBtn.style.display = val ? 'flex' : 'none';
+      renderSidebar();
+      filterMatrixTable(val);
+    });
+
+    searchClearBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchClearBtn.style.display = 'none';
+      renderSidebar();
+      filterMatrixTable('');
+      searchInput.focus();
+    });
+
+    // Render Sidebar
+    function renderSidebar() {
+      sidebarList.innerHTML = '';
+      const filter = searchInput.value.toLowerCase().trim();
+
+      if (currentTab === 'PL' || currentTab === 'AL') {
+        const subjects = CATALOG[currentTab];
+        const orderedList = SUBJECT_ORDER[currentTab] || Object.keys(subjects);
+
+        orderedList.forEach(subjName => {
+          const sessions = subjects[subjName];
+          if (!sessions) return;
+
+          const code = PAPER_CODES[subjName] || 'CA';
+          const matchesSubj = subjName.toLowerCase().includes(filter) || code.toLowerCase().includes(filter);
+          const matchedSessions = sessions.filter(s => 
+            matchesSubj || s.session_label.toLowerCase().includes(filter) || s.session_tag.toLowerCase().includes(filter)
+          );
+
+          if (filter && matchedSessions.length === 0) return;
+
+          const group = document.createElement('div');
+          group.className = 'subject-group' + (filter ? ' open' : '');
+
+          const header = document.createElement('div');
+          header.className = 'subject-header';
+          header.innerHTML = \`
+            <div class="subject-info">
+              <div class="subject-title-line">
+                <span class="badge-code">\${code}</span>
+                <span class="subject-title" title="\${subjName}">\${subjName}</span>
+              </div>
+              <div class="subject-meta">
+                <span>\${sessions.length} Sessions</span>
+                <span>•</span>
+                <span>2022–2026</span>
+              </div>
+            </div>
+            <div class="subject-chevron">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          \`;
+          header.addEventListener('click', () => {
+            group.classList.toggle('open');
+          });
+
+          const sessContainer = document.createElement('div');
+          sessContainer.className = 'sessions-container';
+
+          const sessionsToRender = filter ? matchedSessions : sessions;
+          sessionsToRender.forEach((s) => {
+            const row = document.createElement('div');
+            row.className = 'session-row';
+
+            const hasQ = !!s.question;
+            const hasA = !!s.answer;
+
+            row.innerHTML = \`
+              <div class="session-label">\${s.session_label}</div>
+              <div class="session-buttons">
+                <button class="chip-btn chip-q \${hasQ ? '' : 'chip-disabled'}" title="\${hasQ ? s.question.filename + ' (' + s.question.size_kb + ' KB)' : 'No Question Paper'}" data-session="\${s.session_tag}" data-type="q">Q</button>
+                <button class="chip-btn chip-a \${hasA ? '' : 'chip-disabled'}" title="\${hasA ? s.answer.filename + ' (' + s.answer.size_kb + ' KB)' : 'No Suggested Answer'}" data-session="\${s.session_tag}" data-type="a">A</button>
+              </div>
+            \`;
+
+            const btnQ = row.querySelector('.chip-q');
+            const btnA = row.querySelector('.chip-a');
+
+            if (hasQ) {
+              btnQ.addEventListener('click', (e) => {
+                e.stopPropagation();
+                loadExamDoc(currentTab, subjName, s, 'question');
+              });
+            }
+
+            if (hasA) {
+              btnA.addEventListener('click', (e) => {
+                e.stopPropagation();
+                loadExamDoc(currentTab, subjName, s, 'answer');
+              });
+            }
+
+            sessContainer.appendChild(row);
+          });
+
+          group.appendChild(header);
+          group.appendChild(sessContainer);
+          sidebarList.appendChild(group);
+        });
+      } else if (currentTab === 'Manuals') {
+        // First Pinned: Official Syllabus
+        const matchesSyllabus = !filter || 'syllabus'.includes(filter) || 'icab latest syllabus'.includes(filter);
+        if (matchesSyllabus) {
+          const sylHeader = document.createElement('div');
+          sylHeader.style.cssText = 'padding: 8px 6px 4px; font-size: 11px; font-weight: 700; color: var(--icab-seal); text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--font-mono);';
+          sylHeader.textContent = 'Curriculum Framework';
+          sidebarList.appendChild(sylHeader);
+
+          const sylGroup = document.createElement('div');
+          sylGroup.className = 'subject-group open';
+          const sylItem = document.createElement('div');
+          sylItem.className = 'manual-item';
+          sylItem.innerHTML = \`
+            <div class="manual-item-title" style="font-weight: 600; color: var(--icab-seal);" title="ICAB Latest Syllabus (2025)">
+              ICAB Latest Syllabus (2025)
+            </div>
+            <div class="manual-item-size">\${SYLLABUS_DOC.size_mb} MB</div>
+          \`;
+          sylItem.addEventListener('click', openSyllabus);
+          sylGroup.appendChild(sylItem);
+          sidebarList.appendChild(sylGroup);
+        }
+
+        // Render Study Manuals for both PL and AL
+        ['PL', 'AL'].forEach(levKey => {
+          const levTitle = levKey === 'PL' ? 'Professional Level (PL)' : 'Advanced Level (AL)';
+          const manuals = CATALOG.Manuals[levKey];
+
+          const headerDivider = document.createElement('div');
+          headerDivider.style.cssText = 'padding: 12px 6px 6px; font-size: 11px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--font-mono);';
+          headerDivider.textContent = levTitle;
+          sidebarList.appendChild(headerDivider);
+
+          for (const [subjName, files] of Object.entries(manuals)) {
+            const code = PAPER_CODES[subjName] || 'MAN';
+            const matchesSubj = subjName.toLowerCase().includes(filter) || code.toLowerCase().includes(filter);
+            const filteredFiles = files.filter(f => matchesSubj || f.title.toLowerCase().includes(filter));
+            if (filter && filteredFiles.length === 0) continue;
+
+            const group = document.createElement('div');
+            group.className = 'subject-group open';
+
+            const header = document.createElement('div');
+            header.className = 'subject-header';
+            header.innerHTML = \`
+              <div class="subject-info">
+                <div class="subject-title-line">
+                  <span class="badge-code">\${code}</span>
+                  <span class="subject-title" title="\${subjName}">\${subjName}</span>
+                </div>
+                <div class="subject-meta"><span>\${files.length} Manual\${files.length > 1 ? 's' : ''}</span></div>
+              </div>
+              <div class="subject-chevron">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            \`;
+            header.addEventListener('click', () => group.classList.toggle('open'));
+
+            const container = document.createElement('div');
+            container.className = 'sessions-container';
+
+            filteredFiles.forEach(f => {
+              const item = document.createElement('div');
+              item.className = 'manual-item';
+              item.innerHTML = \`
+                <div class="manual-item-title" title="\${f.title}">\${f.title}</div>
+                <div class="manual-item-size">\${f.size_mb} MB</div>
+              \`;
+              item.addEventListener('click', () => {
+                loadManualDoc(levTitle, subjName, f);
+              });
+              container.appendChild(item);
+            });
+
+            group.appendChild(header);
+            group.appendChild(container);
+            sidebarList.appendChild(group);
+          }
+        });
+      }
+    }
+
+    // Load Exam Document
+    function loadExamDoc(levelKey, subject, sessionData, type) {
+      const allSessions = CATALOG[levelKey][subject] || [];
+      const sessionIndex = allSessions.findIndex(s => s.session_tag === sessionData.session_tag);
+
+      currentSessionData = {
+        levelKey,
+        levelName: levelKey === 'PL' ? 'Professional Level' : 'Advanced Level',
+        subject,
+        session: sessionData,
+        sessionIndex: sessionIndex >= 0 ? sessionIndex : 0,
+        allSessions
+      };
+      currentDocType = type;
+
+      const doc = type === 'question' ? sessionData.question : sessionData.answer;
+      if (!doc) return;
+
+      currentDocPath = doc.rel_path;
+      pdfFrame.src = encodeURI(doc.rel_path);
+      studyDesk.style.display = 'none';
+      btnBackToDesk.style.display = 'inline-flex';
+      toolbarDivider.style.display = 'block';
+      if (btnToolbarSidebarToggle) btnToolbarSidebarToggle.style.display = 'inline-flex';
+      if (toolbarDividerSidebar) toolbarDividerSidebar.style.display = 'block';
+      docActions.style.display = 'flex';
+      viewerCenterControls.style.display = 'flex';
+      qaToggle.style.display = 'inline-flex';
+      btnDeskHeader.classList.remove('active');
+
+      // Auto-open sidebar for in-document navigation
+      document.body.classList.remove('sidebar-collapsed');
+
+      const code = PAPER_CODES[subject] || 'CA';
+      docCodeBadge.style.display = 'inline-flex';
+      docCodeBadge.textContent = code;
+      docSubjectTitle.textContent = subject;
+
+      btnToggleQ.disabled = !sessionData.question;
+      btnToggleA.disabled = !sessionData.answer;
+
+      if (type === 'question') {
+        btnToggleQ.classList.add('active');
+        btnToggleA.classList.remove('active');
+      } else {
+        btnToggleA.classList.add('active');
+        btnToggleQ.classList.remove('active');
+      }
+
+      // Update Stepper Controls
+      updateSessionStepper();
+
+      // Highlight active chips
+      highlightActiveChips(sessionData.session_tag, type);
+    }
+
+    function updateSessionStepper() {
+      if (!currentSessionData || !currentSessionData.allSessions) return;
+      const { allSessions, sessionIndex } = currentSessionData;
+
+      // In descending array:
+      // index + 1 is older session
+      // index - 1 is newer session
+      btnPrevSession.disabled = sessionIndex >= allSessions.length - 1;
+      btnNextSession.disabled = sessionIndex <= 0;
+      stepperLabel.textContent = currentSessionData.session.session_label;
+    }
+
+    btnPrevSession.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex >= currentSessionData.allSessions.length - 1) return;
+      const targetSession = currentSessionData.allSessions[currentSessionData.sessionIndex + 1];
+      stepToSession(targetSession);
+    });
+
+    btnNextSession.addEventListener('click', () => {
+      if (!currentSessionData || currentSessionData.sessionIndex <= 0) return;
+      const targetSession = currentSessionData.allSessions[currentSessionData.sessionIndex - 1];
+      stepToSession(targetSession);
+    });
+
+    function stepToSession(targetSession) {
+      if (!targetSession) return;
+      let targetType = currentDocType;
+      if (targetType === 'question' && !targetSession.question && targetSession.answer) {
+        targetType = 'answer';
+      } else if (targetType === 'answer' && !targetSession.answer && targetSession.question) {
+        targetType = 'question';
+      }
+      loadExamDoc(currentSessionData.levelKey, currentSessionData.subject, targetSession, targetType);
+    }
+
+    function highlightActiveChips(sessionTag, type) {
+      document.querySelectorAll('.chip-btn').forEach(b => {
+        b.classList.remove('active');
+      });
+      document.querySelectorAll(\`[data-session="\${sessionTag}"][data-type="\${type === 'question' ? 'q' : 'a'}"]\`).forEach(b => {
+        b.classList.add('active');
+      });
+    }
+
+    // Toggle Between Question and Answer
+    btnToggleQ.addEventListener('click', () => {
+      if (currentSessionData && currentSessionData.session.question) {
+        loadExamDoc(currentSessionData.levelKey, currentSessionData.subject, currentSessionData.session, 'question');
+      }
+    });
+
+    btnToggleA.addEventListener('click', () => {
+      if (currentSessionData && currentSessionData.session.answer) {
+        loadExamDoc(currentSessionData.levelKey, currentSessionData.subject, currentSessionData.session, 'answer');
+      }
+    });
+
+    // Open External in new tab
+    btnOpenExternal.addEventListener('click', () => {
+      if (currentDocPath) {
+        window.open(encodeURI(currentDocPath), '_blank');
+      }
+    });
+
+    // Load Manual Document
+    function loadManualDoc(levelName, subject, manualFile) {
+      currentSessionData = null;
+      currentDocType = 'manual';
+      currentDocPath = manualFile.rel_path;
+
+      pdfFrame.src = encodeURI(manualFile.rel_path);
+      studyDesk.style.display = 'none';
+      btnBackToDesk.style.display = 'inline-flex';
+      toolbarDivider.style.display = 'block';
+      if (btnToolbarSidebarToggle) btnToolbarSidebarToggle.style.display = 'inline-flex';
+      if (toolbarDividerSidebar) toolbarDividerSidebar.style.display = 'block';
+      docActions.style.display = 'flex';
+      viewerCenterControls.style.display = 'none';
+      qaToggle.style.display = 'none';
+      btnDeskHeader.classList.remove('active');
+
+      // Auto-open sidebar for in-document navigation
+      document.body.classList.remove('sidebar-collapsed');
+
+      // Highlight active manual items
+      document.querySelectorAll('.manual-item').forEach(m => {
+        m.classList.toggle('active', m.textContent.includes(manualFile.title));
+      });
+      document.querySelectorAll('.manual-file-row').forEach(m => {
+        m.classList.toggle('active', m.textContent.includes(manualFile.title));
+      });
+
+      const code = PAPER_CODES[subject] || 'MAN';
+      docCodeBadge.style.display = 'inline-flex';
+      docCodeBadge.textContent = code;
+      docSubjectTitle.textContent = \`\${subject} — \${manualFile.title}\`;
+    }
+
+    // Build Executive Study Matrix Table (Two-Tier Compact Session Headers + Sticky Headings)
+    function renderStudyMatrix() {
+      matrixTable.innerHTML = '';
+
+      // Thead
+      const thead = document.createElement('thead');
+      const trHead = document.createElement('tr');
+
+      const thSubject = document.createElement('th');
+      thSubject.textContent = 'Curriculum Paper';
+      trHead.appendChild(thSubject);
+
+      SESSIONS_ORDER.forEach(sess => {
+        const th = document.createElement('th');
+        th.className = 'th-session-col';
+        const parts = sess.label.split(' ');
+        const season = parts[0];
+        const year = parts[1];
+        th.innerHTML = \`
+          <div class="col-head-wrap">
+            <span class="col-year">\${year}</span>
+            <span class="col-session">\${season}</span>
+          </div>
+        \`;
+        trHead.appendChild(th);
+      });
+      thead.appendChild(trHead);
+      matrixTable.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+
+      // Sections to display according to currentMatrixFilter
+      const levelsToShow = [];
+      if (currentMatrixFilter === 'ALL' || currentMatrixFilter === 'PL') levelsToShow.push('PL');
+      if (currentMatrixFilter === 'ALL' || currentMatrixFilter === 'AL') levelsToShow.push('AL');
+
+      levelsToShow.forEach(lvl => {
+        const sectionRow = document.createElement('tr');
+        sectionRow.className = 'matrix-section-row';
+        const secTd = document.createElement('td');
+        secTd.colSpan = SESSIONS_ORDER.length + 1;
+        const titleText = lvl === 'PL' ? 'Professional Level (PL) — 7 Curriculum Papers' : 'Advanced Level (AL) — 3 Curriculum Papers';
+        secTd.innerHTML = \`<span class="matrix-section-title-sticky">\${titleText}</span>\`;
+        sectionRow.appendChild(secTd);
+        tbody.appendChild(sectionRow);
+
+        const subjects = CATALOG[lvl];
+        const orderedPapers = SUBJECT_ORDER[lvl] || Object.keys(subjects);
+
+        orderedPapers.forEach(paperName => {
+          const sessions = subjects[paperName] || [];
+          const sessMap = new Map();
+          sessions.forEach(s => sessMap.set(s.session_tag, s));
+
+          const row = document.createElement('tr');
+
+          // Paper cell
+          const tdPaper = document.createElement('td');
+          const code = PAPER_CODES[paperName] || 'CA';
+          tdPaper.innerHTML = \`
+            <div class="matrix-paper-cell">
+              <span class="badge-code">\${code}</span>
+              <span class="matrix-paper-name" title="\${paperName}">\${paperName}</span>
+            </div>
+          \`;
+          row.appendChild(tdPaper);
+
+          // Session cells
+          SESSIONS_ORDER.forEach(sessCol => {
+            const td = document.createElement('td');
+            const sData = sessMap.get(sessCol.tag);
+
+            if (sData && (sData.question || sData.answer)) {
+              const hasQ = !!sData.question;
+              const hasA = !!sData.answer;
+
+              const chipsWrap = document.createElement('div');
+              chipsWrap.className = 'matrix-cell-chips';
+
+              const btnQ = document.createElement('button');
+              btnQ.className = 'chip-btn chip-q ' + (hasQ ? '' : 'chip-disabled');
+              btnQ.textContent = 'Q';
+              btnQ.setAttribute('data-session', sessCol.tag);
+              btnQ.setAttribute('data-type', 'q');
+              btnQ.title = hasQ ? sData.question.filename + ' (' + sData.question.size_kb + ' KB)' : 'No Question Paper';
+              if (hasQ) {
+                btnQ.addEventListener('click', () => {
+                  loadExamDoc(lvl, paperName, sData, 'question');
+                });
+              }
+
+              const btnA = document.createElement('button');
+              btnA.className = 'chip-btn chip-a ' + (hasA ? '' : 'chip-disabled');
+              btnA.textContent = 'A';
+              btnA.setAttribute('data-session', sessCol.tag);
+              btnA.setAttribute('data-type', 'a');
+              btnA.title = hasA ? sData.answer.filename + ' (' + sData.answer.size_kb + ' KB)' : 'No Suggested Answer';
+              if (hasA) {
+                btnA.addEventListener('click', () => {
+                  loadExamDoc(lvl, paperName, sData, 'answer');
+                });
+              }
+
+              chipsWrap.appendChild(btnQ);
+              chipsWrap.appendChild(btnA);
+              td.appendChild(chipsWrap);
+            } else {
+              td.innerHTML = '<span class="matrix-cell-empty">—</span>';
+            }
+
+            row.appendChild(td);
+          });
+
+          tbody.appendChild(row);
+        });
+      });
+
+      matrixTable.appendChild(tbody);
+    }
+
+    // Build Study Manuals Vault Grid (Uniform 1px Hairline Border)
+    function renderManualsVault() {
+      manualsVaultGrid.innerHTML = '';
+
+      // First Featured Card: Official Syllabus
+      const sylCard = document.createElement('div');
+      sylCard.className = 'manual-shelf-card';
+      sylCard.innerHTML = \`
+        <div class="manual-shelf-header">
+          <div class="manual-shelf-title">
+            <span class="badge-code" style="background: var(--icab-seal-light); color: var(--icab-seal); border: 1px solid var(--icab-seal-border);">SYL</span>
+            <span>ICAB Latest Syllabus (2025)</span>
+          </div>
+          <span class="manual-vol-tag" style="background: var(--icab-seal-light); color: var(--icab-seal); border: 1px solid var(--icab-seal-border);">Official</span>
+        </div>
+        <div class="manual-shelf-files">
+          <div class="manual-file-row" id="shelfCardSyllabusRow">
+            <div class="manual-file-info">
+              <span class="manual-vol-tag">Complete</span>
+              <span class="manual-file-name" title="ICAB Latest Syllabus (2025 Edition)">Official Curriculum Framework & Syllabi</span>
+            </div>
+            <div class="manual-file-meta">
+              <span class="manual-size-tag">\${SYLLABUS_DOC.size_mb} MB</span>
+              <span class="manual-open-action">Read ›</span>
+            </div>
+          </div>
+        </div>
+      \`;
+      sylCard.querySelector('#shelfCardSyllabusRow').addEventListener('click', openSyllabus);
+      manualsVaultGrid.appendChild(sylCard);
+
+      ['PL', 'AL'].forEach(levKey => {
+        const levTitle = levKey === 'PL' ? 'Professional Level' : 'Advanced Level';
+        const manuals = CATALOG.Manuals[levKey];
+
+        for (const [subjName, files] of Object.entries(manuals)) {
+          const code = PAPER_CODES[subjName] || 'MAN';
+
+          const card = document.createElement('div');
+          card.className = 'manual-shelf-card';
+
+          const header = document.createElement('div');
+          header.className = 'manual-shelf-header';
+          header.innerHTML = \`
+            <div class="manual-shelf-title">
+              <span class="badge-code">\${code}</span>
+              <span>\${subjName}</span>
+            </div>
+            <span class="manual-vol-tag">\${levKey}</span>
+          \`;
+          card.appendChild(header);
+
+          const fileList = document.createElement('div');
+          fileList.className = 'manual-shelf-files';
+
+          files.forEach((f, idx) => {
+            const volLabel = files.length > 1 ? 'Vol ' + (idx + 1) : 'Complete Manual';
+            const row = document.createElement('div');
+            row.className = 'manual-file-row';
+            row.innerHTML = \`
+              <div class="manual-file-info">
+                <span class="manual-vol-tag">\${volLabel}</span>
+                <span class="manual-file-name" title="\${f.title}">\${f.title}</span>
+              </div>
+              <div class="manual-file-meta">
+                <span class="manual-size-tag">\${f.size_mb} MB</span>
+                <span class="manual-open-action">Read ›</span>
+              </div>
+            \`;
+            row.addEventListener('click', () => {
+              loadManualDoc(levTitle, subjName, f);
+            });
+            fileList.appendChild(row);
+          });
+
+          card.appendChild(fileList);
+          manualsVaultGrid.appendChild(card);
+        }
+      });
+    }
+
+    // Matrix Filter Pills
+    document.querySelectorAll('.matrix-filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.matrix-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentMatrixFilter = btn.getAttribute('data-matrix-filter');
+
+        if (currentMatrixFilter === 'MANUALS') {
+          document.getElementById('manualsVaultSection').scrollIntoView({ behavior: 'smooth' });
+        } else {
+          renderStudyMatrix();
+          document.getElementById('matrixCard').scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') {
+        if (e.key === 'Escape') {
+          searchInput.value = '';
+          searchClearBtn.style.display = 'none';
+          renderSidebar();
+          filterMatrixTable('');
+          searchInput.blur();
+        }
+        return;
+      }
+
+      if (e.key === '[' || (e.ctrlKey && e.key.toLowerCase() === 'b')) {
+        e.preventDefault();
+        toggleSidebar();
+      } else if (e.key === '/' || (e.ctrlKey && e.key === 'k')) {
+        e.preventDefault();
+        searchInput.focus();
+      } else if (e.key === 'Escape') {
+        if (studyDesk.style.display === 'none') {
+          returnToDesk();
+        } else if (searchInput.value) {
+          searchInput.value = '';
+          searchClearBtn.style.display = 'none';
+          renderSidebar();
+          filterMatrixTable('');
+        }
+      } else if (e.key.toLowerCase() === 's') {
+        openSyllabus();
+      } else if (e.key.toLowerCase() === 'q') {
+        if (btnToggleQ && !btnToggleQ.disabled && currentSessionData) {
+          btnToggleQ.click();
+        }
+      } else if (e.key.toLowerCase() === 'a') {
+        if (btnToggleA && !btnToggleA.disabled && currentSessionData) {
+          btnToggleA.click();
+        }
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullscreen();
+      } else if (e.key === 'ArrowLeft') {
+        if (btnPrevSession && !btnPrevSession.disabled && currentSessionData) {
+          btnPrevSession.click();
+        }
+      } else if (e.key === 'ArrowRight') {
+        if (btnNextSession && !btnNextSession.disabled && currentSessionData) {
+          btnNextSession.click();
+        }
+      }
+    });
+
+    // Initial renders
+    renderSidebar();
+    renderStudyMatrix();
+    renderManualsVault();
+    returnToDesk();
+  </script>
+</body>
+</html>

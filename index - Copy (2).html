@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Exam Studio — Apple Human Interface Study Desk</title>
+  
+  <style>
+    /* TOP WORKSPACE SWITCHER BAR */
+    .ui-study-bar {
+      background: #1c1c1e;
+      color: #aeaeb2;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #2c2c2e;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-study-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-study-tag {
+      background: #007aff;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .ui-study-links { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-study-link {
+      color: #aeaeb2;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .ui-study-link:hover { color: #ffffff; background: #2c2c2e; }
+    .ui-study-link.active {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 600;
+    }
+
+    /* APPLE HUMAN INTERFACE STUDY PHILOSOPHY */
+    :root {
+      --apple-bg: #f5f5f7;
+      --apple-surface: #ffffff;
+      --apple-subtle: #fbfbfd;
+      --apple-border: #d2d2d7;
+      --apple-border-subtle: #e5e5ea;
+      --apple-accent: #007aff;
+      --apple-accent-hover: #0062cc;
+      --apple-green: #34c759;
+      --apple-red: #ff3b30;
+      --apple-text: #1d1d1f;
+      --apple-secondary: #86868b;
+      --apple-row-hover: #f0f0f4;
+      --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--apple-bg);
+      color: var(--apple-text);
+      font-family: var(--font-apple);
+      font-size: 13px;
+      line-height: 1.45;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Studio Header */
+    .apple-header {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--apple-border);
+      height: 54px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      z-index: 50;
+    }
+    .apple-brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .apple-badge {
+      background: #e5e5ea;
+      color: var(--apple-secondary);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    /* Segmented View Switcher */
+    .apple-segmented {
+      display: inline-flex;
+      background: #e3e3e8;
+      border-radius: 8px;
+      padding: 2px;
+    }
+    .apple-seg-btn {
+      background: transparent;
+      border: none;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #636366;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .apple-seg-btn.active {
+      background: #ffffff;
+      color: #1c1c1e;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      font-weight: 600;
+    }
+
+    /* Search & Tools */
+    .apple-search-wrap {
+      display: flex;
+      align-items: center;
+      background: #e3e3e8;
+      border-radius: 8px;
+      padding: 6px 12px;
+      gap: 8px;
+      width: 240px;
+      transition: all 0.2s;
+    }
+    .apple-search-wrap:focus-within {
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.25);
+      width: 280px;
+    }
+    .apple-search-input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: inherit;
+      font-size: 12px;
+      width: 100%;
+    }
+
+    /* Main Studio Container */
+    .apple-container {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Left Subject Sidebar */
+    .apple-sidebar {
+      width: 260px;
+      background: var(--apple-subtle);
+      border-right: 1px solid var(--apple-border);
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    .apple-side-section {
+      margin-bottom: 20px;
+    }
+    .apple-side-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--apple-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 8px;
+      margin-bottom: 4px;
+    }
+    .apple-side-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      color: var(--apple-text);
+      font-weight: 500;
+      font-size: 12px;
+      transition: background 0.1s;
+    }
+    .apple-side-item:hover { background: #eaeaea; }
+    .apple-side-item.active {
+      background: var(--apple-accent);
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .apple-side-item.active .apple-badge {
+      background: rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+    }
+
+    /* Right Main Panel */
+    .apple-main-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #ffffff;
+      position: relative;
+    }
+
+    /* Matrix Table View */
+    .apple-matrix-view {
+      flex: 1;
+      overflow: auto;
+      padding: 24px 32px 60px;
+    }
+    .apple-banner {
+      background: linear-gradient(135deg, #007aff 0%, #0051ba 100%);
+      color: #ffffff;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 24px rgba(0, 122, 255, 0.25);
+    }
+    .apple-banner h2 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      margin-bottom: 4px;
+    }
+    .apple-banner p {
+      font-size: 12px;
+      opacity: 0.9;
+      max-width: 640px;
+    }
+    .apple-white-btn {
+      background: #ffffff;
+      color: #007aff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      white-space: nowrap;
+    }
+    .apple-white-btn:hover { background: #f2f2f7; }
+
+    /* Matrix Table */
+    .apple-card {
+      background: #ffffff;
+      border: 1px solid var(--apple-border-subtle);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 32px;
+    }
+    .apple-card-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--apple-border-subtle);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafc;
+    }
+    .apple-card-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .apple-table-wrap {
+      overflow-x: auto;
+    }
+    .apple-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .apple-table th {
+      background: #fafafc;
+      color: var(--apple-secondary);
+      font-weight: 600;
+      font-size: 11px;
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--apple-border-subtle);
+      border-right: 1px solid var(--apple-border-subtle);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .apple-table th:first-child {
+      text-align: left;
+      padding-left: 16px;
+      width: 250px;
+    }
+    .apple-table td {
+      padding: 8px 4px;
+      border-bottom: 1px solid var(--apple-border-subtle);
+      border-right: 1px solid var(--apple-border-subtle);
+      text-align: center;
+      vertical-align: middle;
+    }
+    .apple-table td:first-child {
+      text-align: left;
+      padding-left: 16px;
+      font-weight: 500;
+    }
+    .apple-table tr:hover td {
+      background: var(--apple-row-hover);
+    }
+    .apple-level-header {
+      background: #f2f2f7 !important;
+      font-weight: 700;
+      color: var(--apple-accent);
+      padding: 6px 16px !important;
+      text-align: left !important;
+      font-size: 11px;
+    }
+
+    .apple-btn-pair {
+      display: inline-flex;
+      gap: 3px;
+    }
+    .apple-chip {
+      background: #eef4ff;
+      border: 1px solid #c7dcff;
+      color: #0066cc;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .apple-chip:hover {
+      background: var(--apple-accent);
+      color: #ffffff;
+      border-color: var(--apple-accent);
+    }
+    .apple-chip.ans {
+      background: #edf8ee;
+      border-color: #c0ecc5;
+      color: #1e7e34;
+    }
+    .apple-chip.ans:hover {
+      background: #28a745;
+      color: #ffffff;
+      border-color: #28a745;
+    }
+    .apple-chip:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+      border-color: transparent;
+      background: transparent;
+    }
+
+    /* Manuals Grid */
+    .apple-manuals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      padding: 16px;
+    }
+    .apple-manual-card {
+      background: #fbfbfd;
+      border: 1px solid var(--apple-border-subtle);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .apple-manual-card:hover {
+      border-color: var(--apple-accent);
+      background: #ffffff;
+    }
+    .apple-manual-title {
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+    .apple-manual-row {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--apple-border-subtle);
+      padding: 6px 0;
+      font-size: 11px;
+      color: var(--apple-secondary);
+      cursor: pointer;
+    }
+    .apple-manual-row:hover { color: var(--apple-accent); font-weight: 600; }
+
+    /* DUAL SPLIT-SCREEN STUDY VIEWER */
+    .apple-study-desk {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #ffffff;
+      display: none;
+      flex-direction: column;
+      z-index: 100;
+    }
+
+    /* Desk Top Revision Control Toolbar */
+    .apple-desk-bar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--apple-border);
+      padding: 8px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .apple-desk-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .apple-desk-subject {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .apple-diet-pill {
+      background: #e3e3e8;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* Stepper and Dual View Controls */
+    .apple-desk-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .apple-icon-btn {
+      background: #f0f0f4;
+      border: 1px solid var(--apple-border-subtle);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--apple-text);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .apple-icon-btn:hover { background: #e5e5ea; }
+    .apple-icon-btn.primary {
+      background: var(--apple-accent);
+      color: #ffffff;
+      border-color: var(--apple-accent);
+    }
+    .apple-icon-btn.primary:hover { background: var(--apple-accent-hover); }
+
+    /* Horizontal Diet Timeline Scroller */
+    .apple-timeline-strip {
+      background: #f5f5f7;
+      border-bottom: 1px solid var(--apple-border-subtle);
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+    .apple-timeline-chip {
+      background: #ffffff;
+      border: 1px solid var(--apple-border-subtle);
+      color: var(--apple-secondary);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.1s;
+    }
+    .apple-timeline-chip:hover { color: var(--apple-text); border-color: var(--apple-border); }
+    .apple-timeline-chip.active {
+      background: var(--apple-text);
+      color: #ffffff;
+      border-color: var(--apple-text);
+      font-weight: 600;
+    }
+
+    /* Dual / Split View Viewport Area */
+    .apple-viewports {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      background: #525659;
+    }
+    .apple-pane {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .apple-pane:first-child {
+      border-right: 2px solid #2c2c2e;
+    }
+    .apple-pane-label {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      background: rgba(0, 0, 0, 0.75);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .apple-pdf-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+    <!-- UNIVERSAL STUDY WORKSPACE BAR -->
+  <header class="ui-study-bar">
+    <div class="ui-study-brand">
+      <span class="ui-study-tag">STUDY WORKSPACES</span>
+      <span>7 Brand Philosophies for CA Exam Prep</span>
+    </div>
+    <nav class="ui-study-links">
+      <a href="version-1-apple-study.html" class="ui-study-link active">01 Apple Studio</a>
+      <a href="version-2-google-study.html" class="ui-study-link">02 Google Workspace</a>
+      <a href="version-3-linear-study.html" class="ui-study-link">03 Linear Dark</a>
+      <a href="version-4-ft-study.html" class="ui-study-link">04 FT Executive</a>
+      <a href="version-5-industrial-study.html" class="ui-study-link">05 Industrial Console</a>
+      <a href="version-6-nordic-study.html" class="ui-study-link">06 Nordic Library</a>
+      <a href="version-7-apple-braun-study.html" class="ui-study-link">07 Apple × Braun</a>
+    </nav>
+  </header>
+
+  <!-- Apple Studio Header -->
+  <header class="apple-header">
+    <div class="apple-brand-title">
+      <span>ICAB Chartered Study Studio</span>
+      <span class="apple-badge">266 Exam Papers</span>
+    </div>
+
+    <div class="apple-segmented">
+      <button class="apple-seg-btn active" id="tabMatrix">Exam Schedule Matrix</button>
+      <button class="apple-seg-btn" id="tabManuals">Textbooks Vault</button>
+    </div>
+
+    <div style="display:flex; gap:10px; align-items:center;">
+      <div class="apple-search-wrap">
+        <input type="text" id="appleSearch" class="apple-search-input" placeholder="Search papers, diets, codes...">
+      </div>
+      <button class="apple-icon-btn primary" id="btnAppleSyllabus">📖 2025 Framework</button>
+    </div>
+  </header>
+
+  <!-- Workspace Container -->
+  <div class="apple-container">
+    <!-- Sidebar -->
+    <aside class="apple-sidebar">
+      <div class="apple-side-section">
+        <div class="apple-side-label">Scope</div>
+        <div class="apple-side-item active" data-filter="ALL">
+          <span>Complete Curriculum</span>
+          <span class="apple-badge">10 Papers</span>
+        </div>
+        <div class="apple-side-item" data-filter="PL">
+          <span>Professional Level</span>
+          <span class="apple-badge">7</span>
+        </div>
+        <div class="apple-side-item" data-filter="AL">
+          <span>Advanced Level</span>
+          <span class="apple-badge">3</span>
+        </div>
+      </div>
+
+      <div class="apple-side-section">
+        <div class="apple-side-label">Curriculum Papers</div>
+        <div id="appleSidebarPapers"></div>
+      </div>
+    </aside>
+
+    <!-- Main Panel -->
+    <main class="apple-main-panel">
+      <!-- Matrix View -->
+      <div class="apple-matrix-view" id="appleMatrixView">
+        <div class="apple-banner">
+          <div>
+            <h2>Chartered Exam Revision Matrix (2022–2026)</h2>
+            <p>Select any examination diet to enter the <strong>Dual Split-Screen Study Desk</strong>. Compare question requirements side-by-side with official suggested workings and statutory references.</p>
+          </div>
+          <button class="apple-white-btn" id="btnBannerFramework">Curriculum Framework</button>
+        </div>
+
+        <div class="apple-card" id="cardMatrix">
+          <div class="apple-card-header">
+            <span class="apple-card-title">13 Examination Diets Schedule</span>
+            <span style="font-size:11px; color:var(--apple-secondary);">[Q] Question Paper • [A] Suggested Solution</span>
+          </div>
+          <div class="apple-table-wrap">
+            <table class="apple-table" id="appleMatrixTable"></table>
+          </div>
+        </div>
+
+        <div class="apple-card" id="cardManuals" style="display:none;">
+          <div class="apple-card-header">
+            <span class="apple-card-title">Official Study Textbooks & Manuals</span>
+            <span style="font-size:11px; color:var(--apple-secondary);">20 Comprehensive Volumes</span>
+          </div>
+          <div class="apple-manuals-grid" id="appleManualsGrid"></div>
+        </div>
+      </div>
+
+      <!-- DUAL SPLIT-SCREEN STUDY DESK -->
+      <div class="apple-study-desk" id="appleStudyDesk">
+        <!-- Desk Toolbar -->
+        <div class="apple-desk-bar">
+          <div class="apple-desk-meta">
+            <span class="apple-desk-subject" id="deskSubjectTitle">Audit & Assurance</span>
+            <span class="apple-diet-pill" id="deskDietLabel">May 2026 Diet</span>
+          </div>
+
+          <div class="apple-desk-tools">
+            <button class="apple-icon-btn" id="btnDeskPrev">◀ Older Diet</button>
+            <button class="apple-icon-btn" id="btnDeskNext">Newer Diet ▶</button>
+            <div style="width:1px; height:20px; background:#d2d2d7; margin:0 4px;"></div>
+            <button class="apple-icon-btn active" id="btnToggleDual">Dual Split View</button>
+            <button class="apple-icon-btn" id="btnToggleSingleQA">Switch Q / A</button>
+            <div style="width:1px; height:20px; background:#d2d2d7; margin:0 4px;"></div>
+            <button class="apple-icon-btn" id="btnDeskPop">Open File ↗</button>
+            <button class="apple-icon-btn primary" id="btnDeskClose">Return to Matrix [Esc]</button>
+          </div>
+        </div>
+
+        <!-- 13 Diet Timeline Strip -->
+        <div class="apple-timeline-strip" id="deskTimelineStrip"></div>
+
+        <!-- Viewports Area (Dual Split Screen) -->
+        <div class="apple-viewports" id="appleViewports">
+          <!-- Left Pane (Question) -->
+          <div class="apple-pane" id="paneQuestion">
+            <div class="apple-pane-label" id="labelLeft">Question Paper</div>
+            <iframe class="apple-pdf-frame" id="frameQuestion" src="about:blank"></iframe>
+          </div>
+          <!-- Right Pane (Solution) -->
+          <div class="apple-pane" id="paneAnswer">
+            <div class="apple-pane-label" id="labelRight">Official Suggested Answer</div>
+            <iframe class="apple-pdf-frame" id="frameAnswer" src="about:blank"></iframe>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    let currentSubject = 'Audit & Assurance';
+    let currentLvl = 'PL';
+    let currentSessionIndex = 0;
+    let isDualMode = true;
+    let singleModeType = 'question'; // 'question' or 'answer'
+
+    const matrixTable = document.getElementById('appleMatrixTable');
+    const manualsGrid = document.getElementById('appleManualsGrid');
+    const searchInput = document.getElementById('appleSearch');
+    const desk = document.getElementById('appleStudyDesk');
+    const deskSubjectTitle = document.getElementById('deskSubjectTitle');
+    const deskDietLabel = document.getElementById('deskDietLabel');
+    const frameQuestion = document.getElementById('frameQuestion');
+    const frameAnswer = document.getElementById('frameAnswer');
+    const paneQuestion = document.getElementById('paneQuestion');
+    const paneAnswer = document.getElementById('paneAnswer');
+    const timelineStrip = document.getElementById('deskTimelineStrip');
+    const btnToggleDual = document.getElementById('btnToggleDual');
+    const btnToggleSingleQA = document.getElementById('btnToggleSingleQA');
+
+    // Launch Study Session for a Paper & Diet
+    function openStudySession(level, subject, sessionIdx) {
+      currentLvl = level;
+      currentSubject = subject;
+      currentSessionIndex = sessionIdx;
+
+      const sessions = CATALOG[level][subject] || [];
+      const sess = sessions[sessionIdx];
+      if (!sess) return;
+
+      deskSubjectTitle.textContent = `${subject} (${PAPER_CODES[subject] || 'CA'})`;
+      deskDietLabel.textContent = sess.session_label;
+
+      // Load PDFs
+      const qPath = sess.question ? sess.question.rel_path : 'about:blank';
+      const aPath = sess.answer ? sess.answer.rel_path : 'about:blank';
+      
+      frameQuestion.src = encodeURI(qPath);
+      frameAnswer.src = encodeURI(aPath);
+
+      renderTimeline(sessions);
+      updateViewMode();
+
+      desk.style.display = 'flex';
+    }
+
+    function closeStudySession() {
+      desk.style.display = 'none';
+      frameQuestion.src = 'about:blank';
+      frameAnswer.src = 'about:blank';
+    }
+
+    function openManualDoc(title, path) {
+      deskSubjectTitle.textContent = title;
+      deskDietLabel.textContent = 'Curricular Manual';
+      frameQuestion.src = encodeURI(path);
+      paneQuestion.style.display = 'flex';
+      paneAnswer.style.display = 'none';
+      timelineStrip.style.display = 'none';
+      btnToggleDual.style.display = 'none';
+      btnToggleSingleQA.style.display = 'none';
+      desk.style.display = 'flex';
+    }
+
+    document.getElementById('btnDeskClose').addEventListener('click', closeStudySession);
+    document.getElementById('btnAppleSyllabus').addEventListener('click', () => openManualDoc(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path));
+    document.getElementById('btnBannerFramework').addEventListener('click', () => openManualDoc(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path));
+
+    // Dual vs Single View Mode
+    function updateViewMode() {
+      timelineStrip.style.display = 'flex';
+      btnToggleDual.style.display = 'inline-flex';
+      btnToggleSingleQA.style.display = isDualMode ? 'none' : 'inline-flex';
+
+      if (isDualMode) {
+        paneQuestion.style.display = 'flex';
+        paneAnswer.style.display = 'flex';
+        btnToggleDual.textContent = 'Split: Dual (Active)';
+        btnToggleDual.classList.add('primary');
+      } else {
+        btnToggleDual.textContent = 'Switch to Dual Split';
+        btnToggleDual.classList.remove('primary');
+        if (singleModeType === 'question') {
+          paneQuestion.style.display = 'flex';
+          paneAnswer.style.display = 'none';
+          btnToggleSingleQA.textContent = 'Show Answer';
+        } else {
+          paneQuestion.style.display = 'none';
+          paneAnswer.style.display = 'flex';
+          btnToggleSingleQA.textContent = 'Show Question';
+        }
+      }
+    }
+
+    btnToggleDual.addEventListener('click', () => {
+      isDualMode = !isDualMode;
+      updateViewMode();
+    });
+
+    btnToggleSingleQA.addEventListener('click', () => {
+      singleModeType = singleModeType === 'question' ? 'answer' : 'question';
+      updateViewMode();
+    });
+
+    // Diet Stepper Controls
+    document.getElementById('btnDeskPrev').addEventListener('click', () => {
+      const sessions = CATALOG[currentLvl][currentSubject] || [];
+      if (currentSessionIndex < sessions.length - 1) {
+        openStudySession(currentLvl, currentSubject, currentSessionIndex + 1);
+      }
+    });
+
+    document.getElementById('btnDeskNext').addEventListener('click', () => {
+      if (currentSessionIndex > 0) {
+        openStudySession(currentLvl, currentSubject, currentSessionIndex - 1);
+      }
+    });
+
+    document.getElementById('btnDeskPop').addEventListener('click', () => {
+      if (frameQuestion.src && frameQuestion.src !== 'about:blank') window.open(frameQuestion.src, '_blank');
+    });
+
+    // Render Timeline Strip
+    function renderTimeline(sessions) {
+      timelineStrip.innerHTML = '';
+      sessions.forEach((s, idx) => {
+        const chip = document.createElement('div');
+        chip.className = 'apple-timeline-chip' + (idx === currentSessionIndex ? ' active' : '');
+        chip.textContent = s.session_label;
+        chip.addEventListener('click', () => openStudySession(currentLvl, currentSubject, idx));
+        timelineStrip.appendChild(chip);
+      });
+    }
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') closeStudySession();
+      if (e.key.toLowerCase() === 'd' && desk.style.display === 'flex') btnToggleDual.click();
+      if (e.key === 'ArrowLeft' && desk.style.display === 'flex') document.getElementById('btnDeskPrev').click();
+      if (e.key === 'ArrowRight' && desk.style.display === 'flex') document.getElementById('btnDeskNext').click();
+    });
+
+    // Render Matrix Table
+    function renderMatrix(q = '') {
+      matrixTable.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      const thead = document.createElement('thead');
+      const tr = document.createElement('tr');
+      const thPaper = document.createElement('th');
+      thPaper.textContent = 'Curriculum Paper';
+      tr.appendChild(thPaper);
+
+      SESSIONS_ORDER.forEach(s => {
+        const th = document.createElement('th');
+        th.innerHTML = `${s.label.replace(' ', '<br>')}`;
+        tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+      matrixTable.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const tiers = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') tiers.push('AL');
+
+      tiers.forEach(lvl => {
+        const sepTr = document.createElement('tr');
+        const sepTd = document.createElement('td');
+        sepTd.className = 'apple-level-header';
+        sepTd.colSpan = SESSIONS_ORDER.length + 1;
+        sepTd.textContent = lvl === 'PL' ? 'Professional Level (7 Papers)' : 'Advanced Level (3 Papers)';
+        sepTr.appendChild(sepTd);
+        tbody.appendChild(sepTr);
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          if (query && !paper.toLowerCase().includes(query)) return;
+          const code = PAPER_CODES[paper] || 'CA';
+          const sessions = CATALOG[lvl][paper] || [];
+          const map = new Map();
+          sessions.forEach((s, idx) => map.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdPaper = document.createElement('td');
+          tdPaper.innerHTML = `<span style="color:var(--apple-accent); font-weight:700; margin-right:4px;">${code}</span> ${paper}`;
+          row.appendChild(tdPaper);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const item = map.get(col.tag);
+            if (item && (item.s.question || item.s.answer)) {
+              const pair = document.createElement('div');
+              pair.className = 'apple-btn-pair';
+
+              const bQ = document.createElement('button');
+              bQ.className = 'apple-chip';
+              bQ.textContent = 'Q';
+              bQ.disabled = !item.s.question;
+              if (item.s.question) {
+                bQ.addEventListener('click', () => {
+                  isDualMode = false;
+                  singleModeType = 'question';
+                  openStudySession(lvl, paper, item.idx);
+                });
+              }
+
+              const bA = document.createElement('button');
+              bA.className = 'apple-chip ans';
+              bA.textContent = 'A';
+              bA.disabled = !item.s.answer;
+              if (item.s.answer) {
+                bA.addEventListener('click', () => {
+                  isDualMode = false;
+                  singleModeType = 'answer';
+                  openStudySession(lvl, paper, item.idx);
+                });
+              }
+
+              pair.appendChild(bQ);
+              pair.appendChild(bA);
+              td.appendChild(pair);
+            } else {
+              td.innerHTML = '<span style="color:#d2d2d7;">—</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+      matrixTable.appendChild(tbody);
+    }
+
+    // Render Manuals Grid
+    function renderManuals() {
+      manualsGrid.innerHTML = '';
+      ['PL', 'AL'].forEach(lvl => {
+        const subjs = CATALOG.Manuals[lvl];
+        for (const [subj, files] of Object.entries(subjs)) {
+          const card = document.createElement('div');
+          card.className = 'apple-manual-card';
+          card.innerHTML = `
+            <div class="apple-manual-title">${subj}</div>
+            <div class="apple-manual-files"></div>
+          `;
+          const fList = card.querySelector('.apple-manual-files');
+          files.forEach(f => {
+            const r = document.createElement('div');
+            r.className = 'apple-manual-row';
+            r.innerHTML = `<span>${f.title}</span> <span>${f.size_mb} MB ↗</span>`;
+            r.addEventListener('click', () => openManualDoc(`${subj} — ${f.title}`, f.rel_path));
+            fList.appendChild(r);
+          });
+          manualsGrid.appendChild(card);
+        }
+      });
+    }
+
+    // Render Sidebar Paper list
+    function renderSidebarList() {
+      const el = document.getElementById('appleSidebarPapers');
+      el.innerHTML = '';
+      ['PL', 'AL'].forEach(lvl => {
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          const item = document.createElement('div');
+          item.className = 'apple-side-item';
+          item.innerHTML = `<span>${paper}</span> <span class="apple-badge">${PAPER_CODES[paper] || 'CA'}</span>`;
+          item.addEventListener('click', () => {
+            document.querySelectorAll('.apple-side-item').forEach(x => x.classList.remove('active'));
+            item.classList.add('active');
+            openStudySession(lvl, paper, 0); // Open latest diet for this paper!
+          });
+          el.appendChild(item);
+        });
+      });
+    }
+
+    // Tabs
+    document.getElementById('tabMatrix').addEventListener('click', () => {
+      document.getElementById('tabMatrix').classList.add('active');
+      document.getElementById('tabManuals').classList.remove('active');
+      document.getElementById('cardMatrix').style.display = 'block';
+      document.getElementById('cardManuals').style.display = 'none';
+    });
+
+    document.getElementById('tabManuals').addEventListener('click', () => {
+      document.getElementById('tabManuals').classList.add('active');
+      document.getElementById('tabMatrix').classList.remove('active');
+      document.getElementById('cardMatrix').style.display = 'none';
+      document.getElementById('cardManuals').style.display = 'block';
+    });
+
+    document.querySelectorAll('.apple-side-item[data-filter]').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.apple-side-item[data-filter]').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.getAttribute('data-filter');
+        renderMatrix(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => renderMatrix(e.target.value));
+
+    renderSidebarList();
+    renderMatrix();
+    renderManuals();
+  </script>
+</body>
+</html>

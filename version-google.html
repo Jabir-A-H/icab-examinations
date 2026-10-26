@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Drive – ICAB Chartered Study Archive</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* UNIVERSAL VERSION SWITCHER BAR */
+    .ui-version-bar {
+      background: #202124;
+      color: #9aa0a6;
+      font-family: 'Roboto', sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #3c4043;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-version-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-version-tag {
+      background: #1a73e8;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .ui-version-nav { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-version-link {
+      color: #9aa0a6;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .ui-version-link:hover { color: #ffffff; background: #303134; }
+    .ui-version-link.active {
+      background: #ffffff;
+      color: #202124;
+      font-weight: 700;
+    }
+
+    /* GOOGLE WORKSPACE / DRIVE STYLING */
+    :root {
+      --g-bg: #f8fafd;
+      --g-surface: #ffffff;
+      --g-hover: #f1f3f4;
+      --g-selected: #e8f0fe;
+      --g-border: #e0e0e0;
+      --g-blue: #1a73e8;
+      --g-red: #ea4335;
+      --g-yellow: #fbbc04;
+      --g-green: #34a853;
+      --g-text: #202124;
+      --g-muted: #5f6368;
+      --font-google: 'Google Sans', 'Roboto', Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--g-bg);
+      color: var(--g-text);
+      font-family: var(--font-google);
+      font-size: 13px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Google Header */
+    .g-header {
+      background: var(--g-surface);
+      height: 64px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--g-border);
+      flex-shrink: 0;
+    }
+    .g-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 240px;
+    }
+    .g-drive-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      color: #5f6368;
+      font-weight: 500;
+    }
+
+    /* Search Bar */
+    .g-search-wrap {
+      flex: 1;
+      max-width: 720px;
+      background: #e9eef6;
+      border-radius: 28px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      transition: background 0.15s, box-shadow 0.15s;
+    }
+    .g-search-wrap:focus-within {
+      background: #ffffff;
+      box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+    }
+    .g-search-input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--g-text);
+    }
+
+    .g-header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .g-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--g-blue);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Workspace */
+    .g-body {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Left Sidebar */
+    .g-sidebar {
+      width: 256px;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .g-new-btn {
+      background: #ffffff;
+      border: 1px solid var(--g-border);
+      border-radius: 16px;
+      padding: 14px 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #3c4043;
+      cursor: pointer;
+      box-shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+      margin-bottom: 20px;
+      width: fit-content;
+      transition: box-shadow 0.15s;
+    }
+    .g-new-btn:hover {
+      box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+      background: #fafafa;
+    }
+
+    .g-nav-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+    }
+    .g-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 500;
+      color: var(--g-muted);
+      cursor: pointer;
+    }
+    .g-nav-item:hover { background: var(--g-hover); color: var(--g-text); }
+    .g-nav-item.active { background: #c2e7ff; color: #001d35; font-weight: 600; }
+
+    .g-storage-info {
+      padding: 16px 8px;
+      font-size: 12px;
+      color: var(--g-muted);
+      border-top: 1px solid var(--g-border);
+    }
+    .g-storage-bar {
+      height: 4px;
+      background: #e0e0e0;
+      border-radius: 2px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    .g-storage-progress {
+      width: 25%;
+      height: 100%;
+      background: var(--g-blue);
+    }
+
+    /* Main Drive Content View */
+    .g-content {
+      flex: 1;
+      background: #ffffff;
+      border-radius: 16px;
+      margin: 8px 16px 16px 0;
+      border: 1px solid var(--g-border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .g-path-bar {
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--g-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .g-breadcrumbs {
+      font-size: 16px;
+      font-weight: 500;
+      color: #1f1f1f;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Table View (Google Drive List View) */
+    .g-table-wrap {
+      flex: 1;
+      overflow: auto;
+    }
+    .g-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .g-table th {
+      text-align: left;
+      padding: 10px 16px;
+      color: var(--g-muted);
+      font-weight: 500;
+      font-size: 12px;
+      border-bottom: 1px solid var(--g-border);
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      z-index: 5;
+    }
+    .g-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid #f1f3f4;
+      vertical-align: middle;
+      color: #3c4043;
+    }
+    .g-table tr:hover td {
+      background: #f8fafd;
+    }
+    .g-file-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+      color: #1f1f1f;
+      cursor: pointer;
+    }
+    .g-pdf-icon {
+      color: #ea4335;
+      font-size: 16px;
+    }
+
+    /* Drive Preview Modal (Google Docs Viewer) */
+    .g-preview-modal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(32, 33, 36, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 200000;
+      display: none;
+      flex-direction: column;
+    }
+    .g-preview-header {
+      background: #202124;
+      color: #ffffff;
+      height: 56px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .g-preview-title {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .g-preview-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #525659;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL VERSION SWITCHER -->
+  <header class="ui-version-bar">
+    <div class="ui-version-brand">
+      <span class="ui-version-tag">UI LAB</span>
+      <span>13 Visual Paradigms</span>
+    </div>
+    <nav class="ui-version-nav">
+      <a href="version-1-archival.html" class="ui-version-link">01 Archival</a>
+      <a href="version-2-terminal.html" class="ui-version-link">02 Terminal</a>
+      <a href="version-3-swiss.html" class="ui-version-link">03 Swiss</a>
+      <a href="version-4-nordic.html" class="ui-version-link">04 Nordic</a>
+      <a href="version-5-industrial.html" class="ui-version-link">05 Industrial</a>
+      <a href="version-6-ft.html" class="ui-version-link">06 FT Executive</a>
+      <a href="version-apple.html" class="ui-version-link">07 Apple macOS</a>
+      <a href="version-torrent.html" class="ui-version-link">08 Torrent Tracker</a>
+      <a href="version-anime.html" class="ui-version-link">09 Anime Stream</a>
+      <a href="version-winxp.html" class="ui-version-link">10 Windows XP</a>
+      <a href="version-google.html" class="ui-version-link active">11 Google Drive</a>
+      <a href="version-linux.html" class="ui-version-link">12 Linux Curses</a>
+      <a href="version-linear.html" class="ui-version-link">13 Linear Void</a>
+    </nav>
+  </header>
+
+  <!-- Google Workspace Header -->
+  <header class="g-header">
+    <div class="g-logo-wrap">
+      <div class="g-drive-logo">
+        <svg width="24" height="24" viewBox="0 0 87.3 78" fill="none"><path d="m6.6 66.85 3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3l13.75-23.8H0c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="m43.65 25-13.75-23.8c-1.35.8-2.5 1.9-3.3 3.3l-25.4 44c-.8 1.4-1.2 2.95-1.2 4.5h27.5z" fill="#00ac47"/><path d="m73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75 7.65-13.25c.8-1.4 1.2-2.95 1.2-4.5h-27.5l5.85 10.15z" fill="#ea4335"/><path d="m43.65 25 13.75-23.8c-1.35-.8-2.9-1.2-4.5-1.2h-18.5c-1.6 0-3.15.45-4.5 1.2z" fill="#00832d"/><path d="m59.8 53h-32.3l-13.75 23.8c1.35.8 2.9 1.2 4.5 1.2h50.8c1.6 0 3.15-.45 4.5-1.2z" fill="#2684fc"/><path d="m73.4 26.5-12.7-22c-.8-1.4-1.95-2.5-3.3-3.3l-13.75 23.8 16.15 28h27.45c0-1.55-.4-3.1-1.2-4.5z" fill="#ffba00"/></svg>
+        <span>Drive</span>
+      </div>
+    </div>
+
+    <div class="g-search-wrap">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5f6368" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="gSearch" class="g-search-input" placeholder="Search in Drive (e.g. Audit, 2026, Tax, FAR)...">
+    </div>
+
+    <div class="g-header-right">
+      <div class="g-avatar">C</div>
+    </div>
+  </header>
+
+  <!-- Google Workspace Body -->
+  <div class="g-body">
+    <!-- Left Sidebar -->
+    <aside class="g-sidebar">
+      <button class="g-new-btn" id="btnGSyllabus">
+        <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        <span>2025 Syllabus</span>
+      </button>
+
+      <div class="g-nav-menu">
+        <div class="g-nav-item active" data-filter="ALL">
+          <span>📁</span>
+          <span>My Drive (All Files)</span>
+        </div>
+        <div class="g-nav-item" data-filter="PL">
+          <span>📂</span>
+          <span>Professional Level</span>
+        </div>
+        <div class="g-nav-item" data-filter="AL">
+          <span>📂</span>
+          <span>Advanced Level</span>
+        </div>
+        <div class="g-nav-item" data-filter="MANUALS">
+          <span>📚</span>
+          <span>Study Manuals Vault</span>
+        </div>
+      </div>
+
+      <div class="g-storage-info">
+        <div>Storage: 345 MB of 15 GB used</div>
+        <div class="g-storage-bar"><div class="g-storage-progress"></div></div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="g-content">
+      <div class="g-path-bar">
+        <div class="g-breadcrumbs">
+          <span>My Drive</span>
+          <span>›</span>
+          <span style="color:#5f6368;" id="gCurrentFolder">ICAB Chartered Archive</span>
+        </div>
+      </div>
+
+      <div class="g-table-wrap">
+        <table class="g-table">
+          <thead>
+            <tr>
+              <th width="420">Name</th>
+              <th width="150">Owner</th>
+              <th width="160">Exam Session</th>
+              <th>File Size</th>
+            </tr>
+          </thead>
+          <tbody id="gTbody">
+            <!-- Rendered dynamically -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- Google Docs Viewer Modal -->
+  <div class="g-preview-modal" id="gPreview">
+    <div class="g-preview-header">
+      <div class="g-preview-title" id="gPreviewTitle">Document Preview</div>
+      <div style="display:flex; gap:8px;">
+        <button style="background:var(--g-blue); color:#fff; border:none; padding:6px 14px; border-radius:4px; font-weight:500; cursor:pointer;" id="btnGPop">Open in New Tab ↗</button>
+        <button style="background:transparent; color:#fff; border:1px solid #5f6368; padding:6px 14px; border-radius:4px; font-weight:500; cursor:pointer;" id="btnGClose">Close [Esc]</button>
+      </div>
+    </div>
+    <iframe class="g-preview-frame" id="gFrame" src="about:blank"></iframe>
+  </div>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    const tbody = document.getElementById('gTbody');
+    const searchInput = document.getElementById('gSearch');
+    const preview = document.getElementById('gPreview');
+    const frame = document.getElementById('gFrame');
+    const previewTitle = document.getElementById('gPreviewTitle');
+
+    function openGoogleDoc(title, path) {
+      previewTitle.textContent = title;
+      frame.src = encodeURI(path);
+      preview.style.display = 'flex';
+    }
+
+    function closeGoogleDoc() {
+      preview.style.display = 'none';
+      frame.src = 'about:blank';
+    }
+
+    document.getElementById('btnGClose').addEventListener('click', closeGoogleDoc);
+    document.getElementById('btnGPop').addEventListener('click', () => {
+      if (frame.src && frame.src !== 'about:blank') window.open(frame.src, '_blank');
+    });
+
+    document.getElementById('btnGSyllabus').addEventListener('click', () => {
+      openGoogleDoc(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path);
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') closeGoogleDoc();
+    });
+
+    function renderDriveFiles(query = '') {
+      tbody.innerHTML = '';
+      const q = query.toLowerCase().trim();
+
+      // Exam papers
+      ['PL', 'AL'].forEach(lvl => {
+        if (activeFilter !== 'ALL' && activeFilter !== lvl) return;
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          const sessions = CATALOG[lvl][paper] || [];
+
+          sessions.forEach(s => {
+            if (s.question) {
+              const name = `${paper} - Question (${s.session_label}).pdf`;
+              if (!q || name.toLowerCase().includes(q)) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                  <td><div class="g-file-name"><span class="g-pdf-icon">📄</span> <span>${name}</span></div></td>
+                  <td>ICAB Council</td>
+                  <td>${s.session_label}</td>
+                  <td>${s.question.size_kb} KB</td>
+                `;
+                tr.querySelector('.g-file-name').addEventListener('click', () => openGoogleDoc(name, s.question.rel_path));
+                tbody.appendChild(tr);
+              }
+            }
+
+            if (s.answer) {
+              const name = `${paper} - Suggested Answer (${s.session_label}).pdf`;
+              if (!q || name.toLowerCase().includes(q)) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                  <td><div class="g-file-name"><span class="g-pdf-icon" style="color:#0f9d58;">📄</span> <span>${name}</span></div></td>
+                  <td>ICAB Council</td>
+                  <td>${s.session_label}</td>
+                  <td>${s.answer.size_kb} KB</td>
+                `;
+                tr.querySelector('.g-file-name').addEventListener('click', () => openGoogleDoc(name, s.answer.rel_path));
+                tbody.appendChild(tr);
+              }
+            }
+          });
+        });
+      });
+
+      // Manuals
+      if (activeFilter === 'ALL' || activeFilter === 'MANUALS') {
+        ['PL', 'AL'].forEach(lvl => {
+          const subjs = CATALOG.Manuals[lvl];
+          for (const [subj, files] of Object.entries(subjs)) {
+            files.forEach(f => {
+              const name = `[Manual] ${subj} - ${f.title}.pdf`;
+              if (!q || name.toLowerCase().includes(q)) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                  <td><div class="g-file-name"><span class="g-pdf-icon" style="color:#4285f4;">📘</span> <span>${name}</span></div></td>
+                  <td>Education & Training</td>
+                  <td>Prescribed</td>
+                  <td>${f.size_mb} MB</td>
+                `;
+                tr.querySelector('.g-file-name').addEventListener('click', () => openGoogleDoc(name, f.rel_path));
+                tbody.appendChild(tr);
+              }
+            });
+          }
+        });
+      }
+    }
+
+    document.querySelectorAll('.g-nav-item[data-filter]').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.g-nav-item').forEach(x => x.classList.remove('active'));
+        item.classList.add('active');
+        activeFilter = item.getAttribute('data-filter');
+        document.getElementById('gCurrentFolder').textContent = item.querySelector('span:last-child').textContent;
+        renderDriveFiles(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => renderDriveFiles(e.target.value));
+
+    renderDriveFiles();
+  </script>
+</body>
+</html>
