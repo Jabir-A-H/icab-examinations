@@ -16,3 +16,7 @@ $RECYCLE.BIN/
 # Temporary & Log files
 *.tmp
 *.log
+
+# Quarantine & Discard Protocol
+.discard/
+_discarded/
