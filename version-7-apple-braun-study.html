@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Exam Desk — Apple × Braun Precision Studio</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* TOP WORKSPACE SWITCHER BAR */
+    .ui-study-bar {
+      background: #181a1f;
+      color: #9aa0a6;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #282c34;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-study-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-study-tag {
+      background: linear-gradient(135deg, #0071e3 0%, #ff5500 100%);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 9px;
+      padding: 2px 7px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .ui-study-links { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-study-link {
+      color: #9aa0a6;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    .ui-study-link:hover { color: #ffffff; background: #282c34; }
+    .ui-study-link.active {
+      background: #ffffff;
+      color: #000000;
+      font-weight: 700;
+    }
+
+    /* APPLE × BRAUN PRECISION UNIBODY PALETTE */
+    :root {
+      --ab-bg: #eceef2;
+      --ab-surface: #f7f8fa;
+      --ab-card: #ffffff;
+      --ab-aluminum: #e2e5eb;
+      --ab-aluminum-dark: #d0d4dd;
+      --ab-aluminum-deep: #252830;
+      --ab-border: #cbd0d8;
+      --ab-border-subtle: #e1e4ea;
+      --ab-ink: #111317;
+      --ab-ink-muted: #5e6573;
+      --ab-ink-faint: #8e95a2;
+      --ab-orange: #ff5500;
+      --ab-orange-hover: #ff6a1a;
+      --ab-green-led: #10b981;
+      --ab-apple-blue: #0071e3;
+      --font-ui: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Text', sans-serif;
+      --font-display: 'Space Grotesk', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--ab-bg);
+      color: var(--ab-ink);
+      font-family: var(--font-ui);
+      font-size: 13px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Precision Unibody Header */
+    .ab-header {
+      background: linear-gradient(180deg, #ffffff 0%, #f4f5f8 100%);
+      border-bottom: 1px solid var(--ab-border);
+      padding: 10px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+    .ab-brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .ab-badge-chassis {
+      background: #111317;
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    .ab-led-pulse {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ab-green-led);
+      box-shadow: 0 0 6px var(--ab-green-led);
+    }
+    .ab-title-box {
+      display: flex;
+      flex-direction: column;
+    }
+    .ab-main-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.2px;
+      line-height: 1.1;
+      color: var(--ab-ink);
+    }
+    .ab-sub-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ab-ink-muted);
+      margin-top: 1px;
+    }
+
+    /* Milled Controls & Search Bar */
+    .ab-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .ab-search-wrap {
+      background: #ffffff;
+      border: 1px solid var(--ab-border);
+      border-radius: 8px;
+      padding: 4px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+      transition: all 0.2s;
+    }
+    .ab-search-wrap:focus-within {
+      border-color: var(--ab-apple-blue);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.15);
+    }
+    .ab-search-icon {
+      color: var(--ab-ink-faint);
+      font-size: 12px;
+    }
+    .ab-search-input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      color: var(--ab-ink);
+      width: 200px;
+    }
+
+    /* Tactile Milled Action Buttons */
+    .ab-btn {
+      background: linear-gradient(180deg, #ffffff 0%, #ebeef3 100%);
+      border: 1px solid var(--ab-border);
+      border-bottom: 2px solid #b8bec9;
+      color: var(--ab-ink);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+      transition: all 0.05s ease;
+    }
+    .ab-btn:hover {
+      background: #ffffff;
+      border-color: #b0b6c2;
+    }
+    .ab-btn:active {
+      transform: translateY(1.5px);
+      border-bottom-width: 1px;
+      box-shadow: none;
+    }
+    .ab-btn-orange {
+      background: linear-gradient(180deg, #ff661a 0%, #e64a00 100%);
+      color: #ffffff;
+      border-color: #b33900;
+      border-bottom: 2px solid #802800;
+      box-shadow: 0 1px 3px rgba(255, 85, 0, 0.3);
+    }
+    .ab-btn-orange:hover {
+      background: linear-gradient(180deg, #ff752e 0%, #f05000 100%);
+    }
+
+    /* Workspace Body */
+    .ab-body {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Left Milled Hardware Rack */
+    .ab-sidebar {
+      width: 260px;
+      background: #f1f3f6;
+      border-right: 1px solid var(--ab-border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 18px 14px;
+      flex-shrink: 0;
+    }
+    .ab-rack-header {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ab-ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 4px 6px;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .ab-tier-pill {
+      background: #ffffff;
+      border: 1px solid var(--ab-border);
+      border-bottom: 2px solid #c2c7d0;
+      border-radius: 6px;
+      padding: 7px 10px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ab-ink);
+      transition: all 0.05s ease;
+    }
+    .ab-tier-pill:hover {
+      background: #ffffff;
+      border-color: var(--ab-apple-blue);
+    }
+    .ab-tier-pill:active {
+      transform: translateY(1px);
+      border-bottom-width: 1px;
+    }
+    .ab-tier-pill.active {
+      background: #111317;
+      color: #ffffff;
+      border-color: #111317;
+      border-bottom-width: 1px;
+    }
+    .ab-tier-pill.active .ab-pill-code {
+      color: var(--ab-orange);
+    }
+    .ab-pill-code {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--ab-ink-muted);
+      font-weight: 600;
+    }
+
+    /* Main Milled Aluminum Workbench */
+    .ab-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 22px 32px 60px;
+    }
+
+    /* Telemetry Glassmorphism Banner */
+    .ab-telemetry-banner {
+      background: linear-gradient(135deg, #ffffff 0%, #f4f6fa 100%);
+      border: 1px solid var(--ab-border);
+      border-radius: 12px;
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .ab-banner-left {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ab-banner-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--ab-ink);
+    }
+    .ab-banner-text {
+      font-size: 12px;
+      color: var(--ab-ink-muted);
+      max-width: 660px;
+      line-height: 1.4;
+    }
+    .ab-telemetry-stats {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      background: #ffffff;
+      border: 1px solid var(--ab-border);
+      padding: 8px 16px;
+      border-radius: 8px;
+    }
+    .ab-stat-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .ab-stat-lbl {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--ab-ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .ab-stat-val {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ab-ink);
+    }
+
+    /* Precision Matrix Chassis */
+    .ab-chassis-card {
+      background: #ffffff;
+      border: 1px solid var(--ab-border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      margin-bottom: 28px;
+    }
+    .ab-chassis-head {
+      background: #f7f8fa;
+      border-bottom: 1px solid var(--ab-border);
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ab-chassis-title {
+      font-family: var(--font-display);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      color: var(--ab-ink);
+    }
+    .ab-table-wrap {
+      overflow-x: auto;
+    }
+    .ab-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .ab-table th {
+      background: #fafbfe;
+      border-bottom: 1px solid var(--ab-border);
+      border-right: 1px solid var(--ab-border-subtle);
+      padding: 9px 6px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--ab-ink-muted);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .ab-table th:first-child {
+      text-align: left;
+      padding-left: 18px;
+      width: 260px;
+      font-family: var(--font-ui);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ab-ink);
+    }
+    .ab-table td {
+      border-bottom: 1px solid var(--ab-border-subtle);
+      border-right: 1px solid var(--ab-border-subtle);
+      padding: 6px 4px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .ab-table td:first-child {
+      text-align: left;
+      padding-left: 18px;
+      font-weight: 600;
+    }
+    .ab-table tr:hover td {
+      background: #f4f6fa;
+    }
+    .ab-section-tr {
+      background: #eceef2 !important;
+      color: var(--ab-ink) !important;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 7px 18px !important;
+      text-align: left !important;
+      border-top: 1px solid var(--ab-border);
+    }
+
+    /* Milled Tactile Push Buttons in Table */
+    .ab-key-pair {
+      display: inline-flex;
+      gap: 3px;
+    }
+    .ab-milled-btn {
+      background: linear-gradient(180deg, #ffffff 0%, #ebeef3 100%);
+      border: 1px solid var(--ab-border);
+      border-bottom: 2px solid #b8bec9;
+      color: var(--ab-ink);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.05s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .ab-milled-btn:hover {
+      background: #ffffff;
+      border-color: #a8afbe;
+    }
+    .ab-milled-btn:active {
+      transform: translateY(1px);
+      border-bottom-width: 1px;
+    }
+    .ab-milled-btn.ans {
+      border-color: #c9d8cb;
+      border-bottom-color: #9ab49d;
+      color: #1b6330;
+      background: linear-gradient(180deg, #ffffff 0%, #eaf4ec 100%);
+    }
+    .ab-milled-btn.ans:hover {
+      background: #f1f9f2;
+    }
+
+    /* Courseware Compendium Shelf */
+    .ab-manuals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      padding: 18px;
+    }
+    .ab-manual-card {
+      background: #fbfcfd;
+      border: 1px solid var(--ab-border);
+      border-radius: 8px;
+      padding: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .ab-manual-head {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .ab-manual-row {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--ab-border-subtle);
+      padding: 6px 0;
+      font-size: 11px;
+      color: var(--ab-ink-muted);
+      cursor: pointer;
+    }
+    .ab-manual-row:hover {
+      color: var(--ab-apple-blue);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       DEDICATED DUAL SPLIT-SCREEN REVISION WORKBENCH (FULL OVERLAY)
+       ========================================================================== */
+    .ab-desk-overlay {
+      position: absolute;
+      top: 36px; left: 0; right: 0; bottom: 0;
+      background: #ffffff;
+      display: none;
+      flex-direction: column;
+      z-index: 200;
+    }
+
+    /* Anodized Aluminum Top Revision Command Bar */
+    .ab-desk-bar {
+      background: rgba(244, 245, 248, 0.96);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--ab-border);
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .ab-desk-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .ab-desk-code {
+      background: #111317;
+      color: var(--ab-orange);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .ab-desk-subject {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ab-ink);
+    }
+    .ab-desk-diet {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: #ffffff;
+      border: 1px solid var(--ab-border);
+      padding: 3px 10px;
+      border-radius: 12px;
+      color: var(--ab-ink);
+      font-weight: 600;
+    }
+
+    /* Rotary / Rocker Mode Selector */
+    .ab-rocker-group {
+      display: inline-flex;
+      background: #e2e5eb;
+      border: 1px solid var(--ab-border);
+      border-radius: 6px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .ab-rocker-btn {
+      background: transparent;
+      border: none;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ab-ink-muted);
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .ab-rocker-btn.active {
+      background: #ffffff;
+      color: var(--ab-ink);
+      font-weight: 700;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    /* Desk Actions */
+    .ab-desk-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* 13-Diet Tactile Timeline Scroller */
+    .ab-timeline-strip {
+      background: #eef1f5;
+      border-bottom: 1px solid var(--ab-border);
+      padding: 6px 24px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+    .ab-timeline-lbl {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ab-ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      margin-right: 4px;
+    }
+    .ab-diet-key {
+      background: #ffffff;
+      border: 1px solid var(--ab-border);
+      border-bottom: 2px solid #c2c7d0;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ab-ink);
+      padding: 3px 9px;
+      border-radius: 4px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.05s ease;
+    }
+    .ab-diet-key:hover {
+      border-color: var(--ab-apple-blue);
+    }
+    .ab-diet-key:active {
+      transform: translateY(1px);
+      border-bottom-width: 1px;
+    }
+    .ab-diet-key.active {
+      background: #111317;
+      color: #ffffff;
+      border-color: #111317;
+      border-bottom-width: 1px;
+    }
+
+    /* Dual CRT / High-DPI Split Viewports */
+    .ab-viewports {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      background: #2b2e36;
+      gap: 2px;
+    }
+    .ab-pane {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      position: relative;
+    }
+    .ab-pane-strip {
+      background: #181a1f;
+      color: #ffffff;
+      padding: 6px 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #282c34;
+      flex-shrink: 0;
+    }
+    .ab-pane-strip.ans-strip {
+      border-bottom-color: var(--ab-orange);
+    }
+    .ab-pane-strip.ans-strip span:first-child {
+      color: var(--ab-orange);
+    }
+    .ab-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+    <!-- UNIVERSAL STUDY WORKSPACE BAR -->
+  <header class="ui-study-bar">
+    <div class="ui-study-brand">
+      <span class="ui-study-tag">STUDY WORKSPACES</span>
+      <span>7 Brand Philosophies for CA Exam Prep</span>
+    </div>
+    <nav class="ui-study-links">
+      <a href="version-1-apple-study.html" class="ui-study-link">01 Apple Studio</a>
+      <a href="version-2-google-study.html" class="ui-study-link">02 Google Workspace</a>
+      <a href="version-3-linear-study.html" class="ui-study-link">03 Linear Dark</a>
+      <a href="version-4-ft-study.html" class="ui-study-link">04 FT Executive</a>
+      <a href="version-5-industrial-study.html" class="ui-study-link">05 Industrial Console</a>
+      <a href="version-6-nordic-study.html" class="ui-study-link">06 Nordic Library</a>
+      <a href="version-7-apple-braun-study.html" class="ui-study-link active">07 Apple × Braun</a>
+    </nav>
+  </header>
+
+  <!-- PRECISION UNIBODY HEADER -->
+  <header class="ab-header">
+    <div class="ab-brand-group">
+      <div class="ab-badge-chassis">
+        <span class="ab-led-pulse"></span>
+        <span>APPLE &times; BRAUN REVISION LAB</span>
+      </div>
+      <div class="ab-title-box">
+        <h1 class="ab-main-title">Precision Exam Preparation Studio</h1>
+        <span class="ab-sub-title">Dieter Rams Functional Tactility &bull; Cupertino Glassmorphic Rigor &bull; 266 Artifacts</span>
+      </div>
+    </div>
+    <div class="ab-controls">
+      <div class="ab-search-wrap">
+        <span class="ab-search-icon">🔍</span>
+        <input type="text" id="abSearch" class="ab-search-input" placeholder="Search papers, diets, codes...">
+      </div>
+      <button class="ab-btn ab-btn-orange" id="btnAbSyllabus">2025 Framework</button>
+    </div>
+  </header>
+
+  <!-- WORKSPACE BODY -->
+  <div class="ab-body">
+    <!-- LEFT MILLED HARDWARE RACK -->
+    <aside class="ab-sidebar">
+      <div class="ab-rack-header">
+        <span>CURRICULAR TIER</span>
+        <span>MODULES</span>
+      </div>
+      <div class="ab-tier-pill active" data-filter="ALL">
+        <span>All 10 Modules</span>
+        <span class="ab-pill-code">10</span>
+      </div>
+      <div class="ab-tier-pill" data-filter="PL">
+        <span>Professional Level</span>
+        <span class="ab-pill-code">PL-7</span>
+      </div>
+      <div class="ab-tier-pill" data-filter="AL">
+        <span>Advanced Level</span>
+        <span class="ab-pill-code">AL-3</span>
+      </div>
+
+      <div class="ab-rack-header" style="margin-top:16px;">
+        <span>DIRECT MODULE SELECT</span>
+      </div>
+      <div id="abModuleRack"></div>
+    </aside>
+
+    <!-- MAIN MILLED ALUMINUM WORKBENCH -->
+    <main class="ab-main">
+      <!-- Telemetry Banner -->
+      <div class="ab-telemetry-banner">
+        <div class="ab-banner-left">
+          <h2 class="ab-banner-title">High-Performance Comparative Revision Desk</h2>
+          <p class="ab-banner-text">
+            Engineered at the intersection of Dieter Rams' functionalist tactility and Apple's unibody clarity. Inspect exam questions alongside council-approved suggested solutions across 13 historical examination diets.
+          </p>
+        </div>
+        <div class="ab-telemetry-stats">
+          <div class="ab-stat-cell">
+            <span class="ab-stat-lbl">DIETS</span>
+            <span class="ab-stat-val">13</span>
+          </div>
+          <div class="ab-stat-cell" style="border-left:1px solid var(--ab-border); border-right:1px solid var(--ab-border); padding:0 14px;">
+            <span class="ab-stat-lbl">PAPERS</span>
+            <span class="ab-stat-val">266</span>
+          </div>
+          <div class="ab-stat-cell">
+            <span class="ab-stat-lbl">MODE</span>
+            <span class="ab-stat-val" style="color:var(--ab-orange);">DUAL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sessional Matrix Chassis Card -->
+      <div class="ab-chassis-card">
+        <div class="ab-chassis-head">
+          <span class="ab-chassis-title">SESSIONAL EXAMINATION MATRIX (2022 &ndash; 2026)</span>
+          <span style="font-family:var(--font-mono); font-size:11px; color:var(--ab-ink-muted);">[Q] QUESTION &bull; [A] SOLUTION</span>
+        </div>
+        <div class="ab-table-wrap">
+          <table class="ab-table" id="abMatrixTable"></table>
+        </div>
+      </div>
+
+      <!-- Compendium Shelf -->
+      <div class="ab-chassis-card" id="abCompendiumSection">
+        <div class="ab-chassis-head">
+          <span class="ab-chassis-title">ICAB STUDY MANUALS &amp; STATUTORY REPOSITORY</span>
+          <span style="font-family:var(--font-mono); font-size:11px; color:var(--ab-ink-muted);">OFFICIAL COURSEWARE</span>
+        </div>
+        <div class="ab-manuals-grid" id="abManualsGrid"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- DEDICATED DUAL SPLIT-SCREEN REVISION WORKBENCH (FULL OVERLAY) -->
+  <div class="ab-desk-overlay" id="abDesk">
+    <!-- Top Command Strip -->
+    <div class="ab-desk-bar">
+      <div class="ab-desk-meta">
+        <span class="ab-desk-code" id="abDeskCode">FAR</span>
+        <span class="ab-desk-subject" id="abDeskSubject">Financial Accounting &amp; Reporting</span>
+        <span class="ab-desk-diet" id="abDeskDiet">Nov-Dec '25</span>
+      </div>
+
+      <!-- 3-Way Rocker Switch -->
+      <div class="ab-rocker-group">
+        <button class="ab-rocker-btn" id="btnModeQ">Q Only</button>
+        <button class="ab-rocker-btn active" id="btnModeDual">Dual Split [D]</button>
+        <button class="ab-rocker-btn" id="btnModeA">A Only</button>
+      </div>
+
+      <!-- Action Steppers -->
+      <div class="ab-desk-actions">
+        <button class="ab-btn" id="btnAbPrevDiet">&larr; Older Diet</button>
+        <button class="ab-btn" id="btnAbNextDiet">Newer Diet &rarr;</button>
+        <button class="ab-btn ab-btn-orange" id="btnAbCloseDesk">Exit Studio &times;</button>
+      </div>
+    </div>
+
+    <!-- 13-Diet Timeline Scroller -->
+    <div class="ab-timeline-strip" id="abTimelineStrip"></div>
+
+    <!-- Dual CRT / High-DPI Split Viewports -->
+    <div class="ab-viewports">
+      <!-- Left: Question Paper -->
+      <div class="ab-pane" id="abPaneLeft">
+        <div class="ab-pane-strip">
+          <span>CH.01 // OFFICIAL EXAMINATION QUESTION PAPER</span>
+          <span id="abLblQuestion">Question Spec</span>
+        </div>
+        <iframe id="abFrameQuestion" class="ab-frame"></iframe>
+      </div>
+
+      <!-- Right: Suggested Answer -->
+      <div class="ab-pane" id="abPaneRight">
+        <div class="ab-pane-strip ans-strip">
+          <span>CH.02 // COUNCIL APPROVED SUGGESTED ANSWER</span>
+          <span id="abLblAnswer">Solution Spec</span>
+        </div>
+        <iframe id="abFrameAnswer" class="ab-frame"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="catalog.js"></script>
+  <script>
+    // State
+    let activeFilter = 'ALL';
+    let currentLvl = 'PL';
+    let currentSubject = 'Financial Accounting & Reporting';
+    let currentSessionIdx = 0;
+    let viewMode = 'DUAL'; // 'DUAL', 'Q', 'A'
+
+    // DOM Elements
+    const matrixTable = document.getElementById('abMatrixTable');
+    const searchInput = document.getElementById('abSearch');
+    const desk = document.getElementById('abDesk');
+    const deskCode = document.getElementById('abDeskCode');
+    const deskSubject = document.getElementById('abDeskSubject');
+    const deskDiet = document.getElementById('abDeskDiet');
+    const timelineStrip = document.getElementById('abTimelineStrip');
+    const paneLeft = document.getElementById('abPaneLeft');
+    const paneRight = document.getElementById('abPaneRight');
+    const frameQuestion = document.getElementById('abFrameQuestion');
+    const frameAnswer = document.getElementById('abFrameAnswer');
+    const manualsGrid = document.getElementById('abManualsGrid');
+    const moduleRack = document.getElementById('abModuleRack');
+
+    const btnModeQ = document.getElementById('btnModeQ');
+    const btnModeDual = document.getElementById('btnModeDual');
+    const btnModeA = document.getElementById('btnModeA');
+
+    // Populate Sidebar Rack
+    function populateRack() {
+      moduleRack.innerHTML = '';
+      ['PL', 'AL'].forEach(lvl => {
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          const pill = document.createElement('div');
+          pill.className = 'ab-tier-pill';
+          pill.innerHTML = `<span>${paper}</span> <span class="ab-pill-code">[${PAPER_CODES[paper] || lvl}]</span>`;
+          pill.addEventListener('click', () => openStudio(lvl, paper, 0));
+          moduleRack.appendChild(pill);
+        });
+      });
+    }
+
+    // Populate Courseware Manuals
+    function populateManuals() {
+      manualsGrid.innerHTML = '';
+      ['PL', 'AL'].forEach(lvl => {
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          const sessions = CATALOG[lvl][paper] || [];
+          const manuals = [];
+          sessions.forEach(s => {
+            if (s.manuals && s.manuals.length > 0) {
+              s.manuals.forEach(m => {
+                if (!manuals.some(existing => existing.rel_path === m.rel_path)) {
+                  manuals.push(m);
+                }
+              });
+            }
+          });
+
+          if (manuals.length > 0) {
+            const card = document.createElement('div');
+            card.className = 'ab-manual-card';
+            card.innerHTML = `<div class="ab-manual-head"><span>${paper}</span> <span style="font-family:var(--font-mono); color:var(--ab-orange);">[${PAPER_CODES[paper] || lvl}]</span></div>`;
+            manuals.forEach(m => {
+              const row = document.createElement('div');
+              row.className = 'ab-manual-row';
+              row.innerHTML = `<span>📖 ${m.title}</span> <span style="font-family:var(--font-mono); font-size:10px;">PDF &rarr;</span>`;
+              row.addEventListener('click', () => openSingleDoc(m.title, m.rel_path));
+              card.appendChild(row);
+            });
+            manualsGrid.appendChild(card);
+          }
+        });
+      });
+    }
+
+    // Update 3-Way Rocker View Mode
+    function setViewMode(mode) {
+      viewMode = mode;
+      [btnModeQ, btnModeDual, btnModeA].forEach(b => b.classList.remove('active'));
+
+      if (mode === 'DUAL') {
+        btnModeDual.classList.add('active');
+        paneLeft.style.display = 'flex';
+        paneRight.style.display = 'flex';
+      } else if (mode === 'Q') {
+        btnModeQ.classList.add('active');
+        paneLeft.style.display = 'flex';
+        paneRight.style.display = 'none';
+      } else if (mode === 'A') {
+        btnModeA.classList.add('active');
+        paneLeft.style.display = 'none';
+        paneRight.style.display = 'flex';
+      }
+    }
+
+    btnModeQ.addEventListener('click', () => setViewMode('Q'));
+    btnModeDual.addEventListener('click', () => setViewMode('DUAL'));
+    btnModeA.addEventListener('click', () => setViewMode('A'));
+
+    // Open Precision Revision Studio
+    function openStudio(lvl, paper, sessionIdx) {
+      currentLvl = lvl;
+      currentSubject = paper;
+      currentSessionIdx = sessionIdx;
+
+      const sessions = CATALOG[lvl][paper] || [];
+      const session = sessions[sessionIdx];
+      if (!session) return;
+
+      deskCode.textContent = PAPER_CODES[paper] || lvl;
+      deskSubject.textContent = paper;
+      deskDiet.textContent = session.session_tag;
+
+      document.getElementById('abLblQuestion').textContent = `${session.session_tag} QUESTION`;
+      document.getElementById('abLblAnswer').textContent = `${session.session_tag} SUGGESTED ANSWER`;
+
+      frameQuestion.src = session.question ? encodeURI(session.question.rel_path) : 'about:blank';
+      frameAnswer.src = session.answer ? encodeURI(session.answer.rel_path) : 'about:blank';
+
+      // 13-Diet Timeline Ribbon
+      timelineStrip.innerHTML = '<span class="ab-timeline-lbl">EXAM DIET CHRONOLOGY:</span>';
+      sessions.forEach((s, idx) => {
+        const key = document.createElement('button');
+        key.className = `ab-diet-key ${idx === sessionIdx ? 'active' : ''}`;
+        key.textContent = s.session_tag;
+        key.addEventListener('click', () => openStudio(lvl, paper, idx));
+        timelineStrip.appendChild(key);
+      });
+
+      setViewMode('DUAL');
+      desk.style.display = 'flex';
+    }
+
+    // Open Single Document in Left Pane
+    function openSingleDoc(title, path) {
+      deskCode.textContent = 'SPEC';
+      deskSubject.textContent = title;
+      deskDiet.textContent = 'Official Reference';
+      frameQuestion.src = encodeURI(path);
+      setViewMode('Q');
+      timelineStrip.innerHTML = '<span class="ab-timeline-lbl">CURRICULAR REFERENCE DOCUMENT MODE</span>';
+      desk.style.display = 'flex';
+    }
+
+    // Studio Event Handlers
+    document.getElementById('btnAbCloseDesk').addEventListener('click', () => {
+      desk.style.display = 'none';
+      frameQuestion.src = 'about:blank';
+      frameAnswer.src = 'about:blank';
+    });
+
+    document.getElementById('btnAbPrevDiet').addEventListener('click', () => {
+      const sessions = CATALOG[currentLvl][currentSubject] || [];
+      if (currentSessionIdx < sessions.length - 1) openStudio(currentLvl, currentSubject, currentSessionIdx + 1);
+    });
+
+    document.getElementById('btnAbNextDiet').addEventListener('click', () => {
+      if (currentSessionIdx > 0) openStudio(currentLvl, currentSubject, currentSessionIdx - 1);
+    });
+
+    document.getElementById('btnAbSyllabus').addEventListener('click', () => {
+      openSingleDoc(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path);
+    });
+
+    // Render Main Sessional Matrix Table
+    function renderMatrix(q = '') {
+      matrixTable.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      const thSubject = document.createElement('th');
+      thSubject.textContent = 'CURRICULAR MODULE';
+      headerRow.appendChild(thSubject);
+
+      SESSIONS_ORDER.forEach(col => {
+        const th = document.createElement('th');
+        th.innerHTML = `${col.label.replace(' ', '<br>')}`;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      matrixTable.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const levels = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') levels.push('AL');
+
+      levels.forEach(lvl => {
+        const bannerRow = document.createElement('tr');
+        const bannerCell = document.createElement('td');
+        bannerCell.className = 'ab-section-tr';
+        bannerCell.colSpan = SESSIONS_ORDER.length + 1;
+        bannerCell.textContent = lvl === 'PL' ? '// TIER 1 &bull; PROFESSIONAL LEVEL MODULES' : '// TIER 2 &bull; ADVANCED LEVEL MODULES';
+        bannerRow.appendChild(bannerCell);
+        tbody.appendChild(bannerRow);
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          if (query && !paper.toLowerCase().includes(query)) return;
+          const code = PAPER_CODES[paper] || 'CA';
+          const sessions = CATALOG[lvl][paper] || [];
+          const sessionMap = new Map();
+          sessions.forEach((s, idx) => sessionMap.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdSubject = document.createElement('td');
+          tdSubject.innerHTML = `<span style="font-family:var(--font-mono); font-size:10px; color:var(--ab-orange); margin-right:6px;">[${code}]</span> ${paper}`;
+          row.appendChild(tdSubject);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const item = sessionMap.get(col.tag);
+            if (item && (item.s.question || item.s.answer)) {
+              const pair = document.createElement('div');
+              pair.className = 'ab-key-pair';
+
+              const bQ = document.createElement('button');
+              bQ.className = 'ab-milled-btn';
+              bQ.textContent = 'Q';
+              bQ.title = `${item.s.session_tag} Question`;
+              bQ.disabled = !item.s.question;
+              if (item.s.question) bQ.addEventListener('click', () => openStudio(lvl, paper, item.idx));
+
+              const bA = document.createElement('button');
+              bA.className = 'ab-milled-btn ans';
+              bA.textContent = 'A';
+              bA.title = `${item.s.session_tag} Answer`;
+              bA.disabled = !item.s.answer;
+              if (item.s.answer) bA.addEventListener('click', () => openStudio(lvl, paper, item.idx));
+
+              pair.appendChild(bQ);
+              pair.appendChild(bA);
+              td.appendChild(pair);
+            } else {
+              td.innerHTML = '<span style="color:#c5cad4;">&middot;</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+      matrixTable.appendChild(tbody);
+    }
+
+    // Filter Chips
+    document.querySelectorAll('.ab-tier-pill[data-filter]').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.ab-tier-pill[data-filter]').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.getAttribute('data-filter');
+        renderMatrix(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => renderMatrix(e.target.value));
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') document.getElementById('btnAbCloseDesk').click();
+      if (e.key.toLowerCase() === 'd' && desk.style.display === 'flex') {
+        setViewMode(viewMode === 'DUAL' ? 'Q' : 'DUAL');
+      }
+      if (e.key.toLowerCase() === 's') document.getElementById('btnAbSyllabus').click();
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); searchInput.focus(); }
+    });
+
+    populateRack();
+    populateManuals();
+    renderMatrix();
+  </script>
+</body>
+</html>

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Exam Prep — Google Material 3 Deep Study</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* TOP WORKSPACE SWITCHER BAR */
+    .ui-study-bar {
+      background: #202124;
+      color: #9aa0a6;
+      font-family: 'Roboto', sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #3c4043;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-study-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-study-tag {
+      background: #1a73e8;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .ui-study-links { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-study-link {
+      color: #9aa0a6;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .ui-study-link:hover { color: #ffffff; background: #303134; }
+    .ui-study-link.active {
+      background: #ffffff;
+      color: #202124;
+      font-weight: 700;
+    }
+
+    /* GOOGLE MATERIAL 3 DEEP STUDY STYLING */
+    :root {
+      --g-bg: #f8fafd;
+      --g-surface: #ffffff;
+      --g-surface-elevated: #f0f4f9;
+      --g-border: #e0e0e0;
+      --g-primary: #0b57d0;
+      --g-primary-container: #d3e3fd;
+      --g-primary-text: #041e49;
+      --g-green: #146c2e;
+      --g-green-container: #c4eed0;
+      --g-text: #1f1f1f;
+      --g-secondary: #444746;
+      --font-google: 'Google Sans', 'Roboto', Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--g-bg);
+      color: var(--g-text);
+      font-family: var(--font-google);
+      font-size: 13px;
+      line-height: 1.5;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Google Classroom Header */
+    .g-header {
+      background: var(--g-surface);
+      height: 64px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--g-border);
+      flex-shrink: 0;
+      z-index: 50;
+    }
+    .g-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 17px;
+      font-weight: 500;
+      color: #444746;
+    }
+    .g-brand span.title { color: var(--g-primary); font-weight: 700; }
+
+    /* Search Bar */
+    .g-search-wrap {
+      flex: 1;
+      max-width: 640px;
+      background: var(--g-surface-elevated);
+      border-radius: 28px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      transition: all 0.2s;
+    }
+    .g-search-wrap:focus-within {
+      background: #ffffff;
+      box-shadow: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+    }
+    .g-search-input {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: inherit;
+      font-size: 14px;
+      width: 100%;
+    }
+
+    .g-syllabus-btn {
+      background: var(--g-primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .g-syllabus-btn:hover { background: #0842a0; }
+
+    /* Main Workspace */
+    .g-workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Left Drawer */
+    .g-drawer {
+      width: 250px;
+      background: var(--g-surface);
+      border-right: 1px solid var(--g-border);
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    .g-drawer-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--g-secondary);
+      padding: 6px 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .g-drawer-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 16px;
+      border-radius: 24px;
+      cursor: pointer;
+      color: var(--g-secondary);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .g-drawer-item:hover { background: #f0f4f9; color: var(--g-text); }
+    .g-drawer-item.active { background: #c2e7ff; color: #001d35; font-weight: 700; }
+
+    /* Center Content */
+    .g-center-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 24px 32px 60px;
+      position: relative;
+    }
+
+    /* Hero Revision Banner */
+    .g-hero-card {
+      background: #e8f0fe;
+      border: 1px solid #d2e3fc;
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .g-hero-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--g-primary-text);
+      margin-bottom: 4px;
+    }
+    .g-hero-desc {
+      font-size: 13px;
+      color: var(--g-secondary);
+      max-width: 680px;
+    }
+
+    /* Filter Chips Bar */
+    .g-chips-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .g-chip {
+      background: #ffffff;
+      border: 1px solid var(--g-border);
+      color: var(--g-secondary);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .g-chip:hover { background: #f8fafd; border-color: #747775; }
+    .g-chip.active { background: #e8f0fe; border-color: var(--g-primary); color: var(--g-primary); font-weight: 700; }
+
+    /* Study Matrix Card */
+    .g-study-card {
+      background: #ffffff;
+      border: 1px solid var(--g-border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 2px rgba(60,64,67,0.1);
+    }
+    .g-study-card-head {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--g-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .g-table-overflow { overflow-x: auto; }
+    .g-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .g-table th {
+      background: #f8fafd;
+      color: var(--g-secondary);
+      font-weight: 500;
+      font-size: 11px;
+      padding: 10px 6px;
+      border-bottom: 1px solid var(--g-border);
+      border-right: 1px solid #f0f0f0;
+      text-align: center;
+      white-space: nowrap;
+    }
+    .g-table th:first-child { text-align: left; padding-left: 20px; width: 260px; font-weight: 700; color: var(--g-text); }
+    .g-table td {
+      padding: 8px 4px;
+      border-bottom: 1px solid #f0f0f0;
+      border-right: 1px solid #f0f0f0;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .g-table td:first-child { text-align: left; padding-left: 20px; font-weight: 500; }
+    .g-table tr:hover td { background: #f8fafd; }
+    .g-sec-header {
+      background: #f0f4f9 !important;
+      font-weight: 700;
+      color: var(--g-primary);
+      padding: 6px 20px !important;
+      text-align: left !important;
+    }
+
+    /* Material Tonal Chips */
+    .g-tonal-chip {
+      background: var(--g-primary-container);
+      color: var(--g-primary-text);
+      border: none;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .g-tonal-chip:hover { background: #c2e7ff; }
+    .g-tonal-chip.sol {
+      background: var(--g-green-container);
+      color: #072711;
+    }
+    .g-tonal-chip.sol:hover { background: #a8dab5; }
+    .g-tonal-chip:disabled { opacity: 0.2; cursor: not-allowed; background: transparent; }
+
+    /* DUAL STUDY VIEWER */
+    .g-study-viewer {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #ffffff;
+      display: none;
+      flex-direction: column;
+      z-index: 100;
+    }
+    .g-viewer-toolbar {
+      background: var(--g-surface);
+      border-bottom: 1px solid var(--g-border);
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .g-viewer-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--g-primary);
+    }
+    .g-viewer-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .g-tool-btn {
+      background: #f0f4f9;
+      border: 1px solid var(--g-border);
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .g-tool-btn:hover { background: #e0e8f4; }
+    .g-tool-btn.primary { background: var(--g-primary); color: #ffffff; border-color: var(--g-primary); }
+
+    .g-viewer-panes {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      background: #525659;
+    }
+    .g-pane {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .g-pane:first-child { border-right: 2px solid #333333; }
+    .g-pane-label {
+      position: absolute;
+      top: 10px; left: 12px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #ffffff;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      z-index: 5;
+    }
+    .g-pdf-frame { width: 100%; height: 100%; border: none; }
+  </style>
+</head>
+<body>
+
+    <!-- UNIVERSAL STUDY WORKSPACE BAR -->
+  <header class="ui-study-bar">
+    <div class="ui-study-brand">
+      <span class="ui-study-tag">STUDY WORKSPACES</span>
+      <span>7 Brand Philosophies for CA Exam Prep</span>
+    </div>
+    <nav class="ui-study-links">
+      <a href="version-1-apple-study.html" class="ui-study-link">01 Apple Studio</a>
+      <a href="version-2-google-study.html" class="ui-study-link active">02 Google Workspace</a>
+      <a href="version-3-linear-study.html" class="ui-study-link">03 Linear Dark</a>
+      <a href="version-4-ft-study.html" class="ui-study-link">04 FT Executive</a>
+      <a href="version-5-industrial-study.html" class="ui-study-link">05 Industrial Console</a>
+      <a href="version-6-nordic-study.html" class="ui-study-link">06 Nordic Library</a>
+      <a href="version-7-apple-braun-study.html" class="ui-study-link">07 Apple × Braun</a>
+    </nav>
+  </header>
+
+  <!-- Google Header -->
+  <header class="g-header">
+    <div class="g-brand">
+      <span>ICAB Portal</span>
+      <span style="color:#d2d2d7;">/</span>
+      <span class="title">Deep Study Desk</span>
+    </div>
+
+    <div class="g-search-wrap">
+      <input type="text" id="gSearch" class="g-search-input" placeholder="Search curriculum papers, sessions, or textbook manuals...">
+    </div>
+
+    <button class="g-syllabus-btn" id="btnGSyllabus">
+      <span>2025 Framework</span>
+    </button>
+  </header>
+
+  <!-- Workspace -->
+  <div class="g-workspace">
+    <!-- Left Drawer -->
+    <aside class="g-drawer">
+      <div class="g-drawer-label">Curriculum Levels</div>
+      <div class="g-drawer-item active" data-filter="ALL">
+        <span>Complete Archive</span>
+        <span style="font-size:11px; font-weight:700;">10</span>
+      </div>
+      <div class="g-drawer-item" data-filter="PL">
+        <span>Professional Level</span>
+        <span style="font-size:11px; font-weight:700;">7</span>
+      </div>
+      <div class="g-drawer-item" data-filter="AL">
+        <span>Advanced Level</span>
+        <span style="font-size:11px; font-weight:700;">3</span>
+      </div>
+      <div class="g-drawer-item" data-filter="MANUALS">
+        <span>Study Manuals</span>
+        <span style="font-size:11px; font-weight:700;">20</span>
+      </div>
+    </aside>
+
+    <!-- Center Content -->
+    <main class="g-center-panel">
+      <!-- Banner -->
+      <div class="g-hero-card">
+        <div>
+          <div class="g-hero-title">ICAB Chartered Accountancy Exam Workbench</div>
+          <div class="g-hero-desc">Access 13 verified examination sessions (2022–2026) with integrated Dual-Pane Question & Solution auditing, instant Diet Steppers, and official study manuals.</div>
+        </div>
+      </div>
+
+      <!-- Chips Filter -->
+      <div class="g-chips-row">
+        <button class="g-chip active" data-chip="ALL">All Subjects</button>
+        <button class="g-chip" data-chip="Audit">Audit & Assurance</button>
+        <button class="g-chip" data-chip="Accounting">Financial Accounting (FAR)</button>
+        <button class="g-chip" data-chip="Taxation">Taxation (BPTC)</button>
+        <button class="g-chip" data-chip="Management">Financial Management</button>
+        <button class="g-chip" data-chip="Corporate">Corporate Reporting</button>
+      </div>
+
+      <!-- Examination Grid -->
+      <div class="g-study-card" id="cardMatrix">
+        <div class="g-study-card-head">
+          <span style="font-size:15px; font-weight:700;">Session Schedule Matrix</span>
+          <span style="font-size:12px; color:var(--g-secondary);">Click [Q] for Question, [A] for Solution</span>
+        </div>
+        <div class="g-table-overflow">
+          <table class="g-table" id="gTable"></table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- GOOGLE DUAL STUDY VIEWER -->
+  <div class="g-study-viewer" id="gStudyViewer">
+    <div class="g-viewer-toolbar">
+      <div class="g-viewer-title" id="gViewerTitle">Paper Title</div>
+      <div class="g-viewer-tools">
+        <button class="g-tool-btn" id="btnGPrev">◀ Older Diet</button>
+        <button class="g-tool-btn" id="btnGNext">Newer Diet ▶</button>
+        <button class="g-tool-btn primary" id="btnGToggleDual">Dual Split View</button>
+        <button class="g-tool-btn" id="btnGClose">Return to Desk [Esc]</button>
+      </div>
+    </div>
+    <div class="g-viewer-panes">
+      <div class="g-pane" id="gPaneLeft">
+        <div class="g-pane-label">Question Paper</div>
+        <iframe class="g-pdf-frame" id="gFrameLeft" src="about:blank"></iframe>
+      </div>
+      <div class="g-pane" id="gPaneRight">
+        <div class="g-pane-label">Official Suggested Answer</div>
+        <iframe class="g-pdf-frame" id="gFrameRight" src="about:blank"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    let currentLvl = 'PL';
+    let currentSubject = 'Audit & Assurance';
+    let currentSessionIdx = 0;
+    let isDual = true;
+
+    const table = document.getElementById('gTable');
+    const searchInput = document.getElementById('gSearch');
+    const viewer = document.getElementById('gStudyViewer');
+    const viewerTitle = document.getElementById('gViewerTitle');
+    const frameLeft = document.getElementById('gFrameLeft');
+    const frameRight = document.getElementById('gFrameRight');
+    const paneRight = document.getElementById('gPaneRight');
+    const btnDual = document.getElementById('btnGToggleDual');
+
+    function openStudy(lvl, subj, sIdx) {
+      currentLvl = lvl;
+      currentSubject = subj;
+      currentSessionIdx = sIdx;
+
+      const sessions = CATALOG[lvl][subj] || [];
+      const s = sessions[sIdx];
+      if (!s) return;
+
+      viewerTitle.textContent = `${subj} — ${s.session_label}`;
+      frameLeft.src = s.question ? encodeURI(s.question.rel_path) : 'about:blank';
+      frameRight.src = s.answer ? encodeURI(s.answer.rel_path) : 'about:blank';
+
+      isDual = true;
+      paneRight.style.display = 'flex';
+      btnDual.textContent = 'Split: Dual (Active)';
+
+      viewer.style.display = 'flex';
+    }
+
+    function openSingleDoc(title, path) {
+      viewerTitle.textContent = title;
+      frameLeft.src = encodeURI(path);
+      paneRight.style.display = 'none';
+      isDual = false;
+      viewer.style.display = 'flex';
+    }
+
+    document.getElementById('btnGClose').addEventListener('click', () => {
+      viewer.style.display = 'none';
+      frameLeft.src = 'about:blank';
+      frameRight.src = 'about:blank';
+    });
+
+    document.getElementById('btnGSyllabus').addEventListener('click', () => openSingleDoc(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path));
+
+    btnDual.addEventListener('click', () => {
+      isDual = !isDual;
+      paneRight.style.display = isDual ? 'flex' : 'none';
+      btnDual.textContent = isDual ? 'Split: Dual (Active)' : 'Single View';
+    });
+
+    document.getElementById('btnGPrev').addEventListener('click', () => {
+      const sessions = CATALOG[currentLvl][currentSubject] || [];
+      if (currentSessionIdx < sessions.length - 1) openStudy(currentLvl, currentSubject, currentSessionIdx + 1);
+    });
+
+    document.getElementById('btnGNext').addEventListener('click', () => {
+      if (currentSessionIdx > 0) openStudy(currentLvl, currentSubject, currentSessionIdx - 1);
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') document.getElementById('btnGClose').click();
+    });
+
+    function renderTable(q = '') {
+      table.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      const thead = document.createElement('thead');
+      const tr = document.createElement('tr');
+      const thPaper = document.createElement('th');
+      thPaper.textContent = 'Curriculum Paper';
+      tr.appendChild(thPaper);
+
+      SESSIONS_ORDER.forEach(s => {
+        const th = document.createElement('th');
+        th.innerHTML = `${s.label.replace(' ', '<br>')}`;
+        tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const tiers = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') tiers.push('AL');
+
+      tiers.forEach(lvl => {
+        const sepTr = document.createElement('tr');
+        const sepTd = document.createElement('td');
+        sepTd.className = 'g-sec-header';
+        sepTd.colSpan = SESSIONS_ORDER.length + 1;
+        sepTd.textContent = lvl === 'PL' ? 'Professional Level (7 Papers)' : 'Advanced Level (3 Papers)';
+        sepTr.appendChild(sepTd);
+        tbody.appendChild(sepTr);
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          if (query && !paper.toLowerCase().includes(query)) return;
+          const code = PAPER_CODES[paper] || 'CA';
+          const sessions = CATALOG[lvl][paper] || [];
+          const map = new Map();
+          sessions.forEach((s, idx) => map.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdPaper = document.createElement('td');
+          tdPaper.innerHTML = `<span style="color:var(--g-primary); font-weight:700; margin-right:4px;">${code}</span> ${paper}`;
+          row.appendChild(tdPaper);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const item = map.get(col.tag);
+            if (item && (item.s.question || item.s.answer)) {
+              const div = document.createElement('div');
+              div.style.cssText = 'display:inline-flex; gap:3px;';
+
+              const bQ = document.createElement('button');
+              bQ.className = 'g-tonal-chip';
+              bQ.textContent = 'Q';
+              bQ.disabled = !item.s.question;
+              if (item.s.question) bQ.addEventListener('click', () => openStudy(lvl, paper, item.idx));
+
+              const bA = document.createElement('button');
+              bA.className = 'g-tonal-chip sol';
+              bA.textContent = 'A';
+              bA.disabled = !item.s.answer;
+              if (item.s.answer) bA.addEventListener('click', () => openStudy(lvl, paper, item.idx));
+
+              div.appendChild(bQ);
+              div.appendChild(bA);
+              td.appendChild(div);
+            } else {
+              td.innerHTML = '<span style="color:#bbb;">—</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+      table.appendChild(tbody);
+    }
+
+    document.querySelectorAll('.g-drawer-item[data-filter]').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.g-drawer-item').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.getAttribute('data-filter');
+        renderTable(searchInput.value);
+      });
+    });
+
+    document.querySelectorAll('.g-chip[data-chip]').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.g-chip').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        const filterVal = b.getAttribute('data-chip');
+        renderTable(filterVal === 'ALL' ? '' : filterVal);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => renderTable(e.target.value));
+
+    renderTable();
+  </script>
+</body>
+</html>

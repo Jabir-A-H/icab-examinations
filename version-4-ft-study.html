@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Exam Vault — Financial Times Executive Study Desk</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* TOP WORKSPACE SWITCHER BAR */
+    .ui-study-bar {
+      background: #111a24;
+      color: #9cb0c2;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #233547;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-study-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-study-tag {
+      background: #00472f;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .ui-study-links { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-study-link {
+      color: #9cb0c2;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .ui-study-link:hover { color: #ffffff; background: #233547; }
+    .ui-study-link.active {
+      background: #fff1e5;
+      color: #0d2238;
+      font-weight: 700;
+    }
+
+    /* FINANCIAL TIMES / EXECUTIVE EDITORIAL PALETTE */
+    :root {
+      --ft-paper: #fff1e5;
+      --ft-paper-dark: #f2dfce;
+      --ft-paper-subtle: #faf0e6;
+      --ft-ink: #0d2238;
+      --ft-ink-muted: #536473;
+      --ft-ink-faint: #8a9ba8;
+      --ft-rule: #d9cbbd;
+      --ft-rule-dark: #baaa9b;
+      --ft-claret: #990000;
+      --ft-racing-green: #00472f;
+      --ft-oxford-blue: #0d2238;
+      --ft-gold: #c59b27;
+      --font-serif: 'Newsreader', Georgia, Cambria, serif;
+      --font-masthead: 'Cinzel', serif;
+      --font-mono: 'JetBrains Mono', Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--ft-paper);
+      color: var(--ft-ink);
+      font-family: var(--font-serif);
+      font-size: 14px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Masthead & Editorial Header */
+    .ft-masthead {
+      background: var(--ft-paper);
+      border-bottom: 3px double var(--ft-ink);
+      padding: 10px 32px 8px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .ft-masthead-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--ft-rule);
+      padding-bottom: 6px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--ft-ink-muted);
+      font-family: var(--font-mono);
+    }
+    .ft-masthead-main {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 4px;
+    }
+    .ft-title-box {
+      display: flex;
+      flex-direction: column;
+    }
+    .ft-title {
+      font-family: var(--font-masthead);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--ft-ink);
+      line-height: 1.1;
+    }
+    .ft-subtitle {
+      font-style: italic;
+      font-size: 12px;
+      color: var(--ft-ink-muted);
+      margin-top: 2px;
+    }
+
+    /* Executive Navigation & Controls */
+    .ft-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .ft-search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .ft-search-input {
+      background: #ffffff;
+      border: 1px solid var(--ft-rule-dark);
+      padding: 6px 12px 6px 30px;
+      font-family: var(--font-serif);
+      font-size: 13px;
+      color: var(--ft-ink);
+      border-radius: 2px;
+      width: 240px;
+      transition: all 0.2s;
+    }
+    .ft-search-input:focus {
+      outline: none;
+      border-color: var(--ft-ink);
+      box-shadow: 0 0 0 2px rgba(13, 34, 56, 0.15);
+      width: 280px;
+    }
+    .ft-search-icon {
+      position: absolute;
+      left: 10px;
+      font-size: 12px;
+      color: var(--ft-ink-muted);
+    }
+    .ft-btn {
+      background: var(--ft-oxford-blue);
+      color: #ffffff;
+      border: 1px solid var(--ft-ink);
+      padding: 6px 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.15s;
+    }
+    .ft-btn:hover {
+      background: #193a5c;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+    }
+    .ft-btn-claret {
+      background: var(--ft-claret);
+      border-color: var(--ft-claret);
+    }
+    .ft-btn-claret:hover { background: #b30000; }
+    .ft-btn-outline {
+      background: transparent;
+      color: var(--ft-ink);
+      border: 1px solid var(--ft-ink);
+    }
+    .ft-btn-outline:hover {
+      background: var(--ft-paper-dark);
+    }
+
+    /* Layout Container */
+    .ft-body {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Left Editorial Index / Ticker */
+    .ft-sidebar {
+      width: 280px;
+      background: var(--ft-paper-dark);
+      border-right: 1px solid var(--ft-rule-dark);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+    .ft-sidebar-header {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--ft-rule-dark);
+      font-family: var(--font-masthead);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--ft-ink);
+      background: rgba(0,0,0,0.03);
+    }
+    .ft-nav-group {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--ft-rule);
+    }
+    .ft-nav-group-title {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--ft-claret);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .ft-subject-item {
+      padding: 6px 8px;
+      border-radius: 2px;
+      cursor: pointer;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--ft-ink);
+      transition: background 0.15s;
+    }
+    .ft-subject-item:hover {
+      background: var(--ft-paper);
+    }
+    .ft-subject-item.active {
+      background: var(--ft-oxford-blue);
+      color: #ffffff;
+      font-weight: 600;
+    }
+    .ft-subject-item.active .ft-code {
+      color: var(--ft-gold);
+    }
+    .ft-code {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--ft-ink-muted);
+      font-weight: 600;
+    }
+
+    /* Main Editorial Dossier */
+    .ft-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 24px 36px 60px;
+      background: var(--ft-paper);
+    }
+
+    /* Executive Briefing Callout */
+    .ft-briefing {
+      background: #ffffff;
+      border-top: 4px solid var(--ft-oxford-blue);
+      border-bottom: 1px solid var(--ft-rule);
+      border-left: 1px solid var(--ft-rule);
+      border-right: 1px solid var(--ft-rule);
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .ft-briefing-title {
+      font-family: var(--font-masthead);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--ft-ink);
+      margin-bottom: 4px;
+    }
+    .ft-briefing-text {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--ft-ink-muted);
+      max-width: 680px;
+    }
+
+    /* Balance Sheet Matrix Table */
+    .ft-matrix-card {
+      background: #ffffff;
+      border: 1px solid var(--ft-rule-dark);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+    }
+    .ft-matrix-header {
+      padding: 14px 20px;
+      border-bottom: 2px solid var(--ft-ink);
+      background: var(--ft-paper-dark);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ft-matrix-header h3 {
+      font-family: var(--font-masthead);
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--ft-ink);
+    }
+    .ft-table-wrap {
+      overflow-x: auto;
+    }
+    .ft-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .ft-table th {
+      background: var(--ft-paper-subtle);
+      border-bottom: 1px solid var(--ft-rule-dark);
+      border-right: 1px solid var(--ft-rule);
+      padding: 10px 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      color: var(--ft-ink);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .ft-table th:first-child {
+      text-align: left;
+      padding-left: 18px;
+      width: 260px;
+      font-family: var(--font-masthead);
+      font-size: 12px;
+    }
+    .ft-table td {
+      border-bottom: 1px solid var(--ft-rule);
+      border-right: 1px solid var(--ft-rule);
+      padding: 8px 6px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .ft-table td:first-child {
+      text-align: left;
+      padding-left: 18px;
+      font-weight: 600;
+      color: var(--ft-ink);
+    }
+    .ft-table tr:hover td {
+      background: var(--ft-paper-subtle);
+    }
+    .ft-section-banner {
+      background: var(--ft-oxford-blue) !important;
+      color: #ffffff !important;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 8px 18px !important;
+      text-align: left !important;
+    }
+
+    /* Executive Diet Action Chips */
+    .ft-pair {
+      display: inline-flex;
+      gap: 3px;
+    }
+    .ft-chip {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border: 1px solid var(--ft-ink);
+      background: #ffffff;
+      color: var(--ft-ink);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s;
+      border-radius: 2px;
+    }
+    .ft-chip:hover {
+      background: var(--ft-oxford-blue);
+      color: #ffffff;
+    }
+    .ft-chip.ans {
+      border-color: var(--ft-racing-green);
+      color: var(--ft-racing-green);
+      background: #f0f7f3;
+    }
+    .ft-chip.ans:hover {
+      background: var(--ft-racing-green);
+      color: #ffffff;
+    }
+    .ft-empty-dot {
+      color: var(--ft-rule-dark);
+      font-size: 14px;
+    }
+
+    /* MANUALS COMPENDIUM SHELF */
+    .ft-manuals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .ft-manual-card {
+      background: #ffffff;
+      border: 1px solid var(--ft-rule-dark);
+      border-left: 4px solid var(--ft-claret);
+      padding: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .ft-manual-title {
+      font-family: var(--font-masthead);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ft-ink);
+      margin-bottom: 8px;
+    }
+    .ft-manual-link {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--ft-rule);
+      padding: 6px 0;
+      font-size: 12px;
+      color: var(--ft-ink-muted);
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .ft-manual-link:hover {
+      color: var(--ft-claret);
+      font-weight: 600;
+    }
+
+    /* DUAL FORENSIC REVISION WORKBENCH (FULL OVERLAY) */
+    .ft-forensic-desk {
+      position: absolute;
+      top: 36px; left: 0; right: 0; bottom: 0;
+      background: var(--ft-paper);
+      display: none;
+      flex-direction: column;
+      z-index: 200;
+    }
+
+    /* Masthead Ribbon for Desk */
+    .ft-desk-masthead {
+      background: var(--ft-oxford-blue);
+      color: #ffffff;
+      padding: 10px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      border-bottom: 2px solid var(--ft-gold);
+    }
+    .ft-desk-title-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .ft-desk-badge {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--ft-gold);
+      color: #000000;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+    .ft-desk-subject {
+      font-family: var(--font-masthead);
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .ft-desk-diet {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: rgba(255,255,255,0.15);
+      padding: 3px 10px;
+      border-radius: 2px;
+    }
+
+    /* Desk Controls */
+    .ft-desk-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ft-desk-btn {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .ft-desk-btn:hover {
+      background: #ffffff;
+      color: var(--ft-oxford-blue);
+    }
+    .ft-desk-btn.active {
+      background: var(--ft-gold);
+      color: #000000;
+      border-color: var(--ft-gold);
+      font-weight: 700;
+    }
+
+    /* Diet Chronology Nav Bar */
+    .ft-chronology-bar {
+      background: var(--ft-paper-dark);
+      border-bottom: 1px solid var(--ft-rule-dark);
+      padding: 6px 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+    .ft-chron-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--ft-ink-muted);
+      white-space: nowrap;
+    }
+    .ft-chron-chip {
+      background: #ffffff;
+      border: 1px solid var(--ft-rule-dark);
+      padding: 3px 9px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ft-ink);
+      cursor: pointer;
+      white-space: nowrap;
+      border-radius: 2px;
+    }
+    .ft-chron-chip:hover {
+      background: var(--ft-paper-subtle);
+      border-color: var(--ft-ink);
+    }
+    .ft-chron-chip.active {
+      background: var(--ft-oxford-blue);
+      color: #ffffff;
+      border-color: var(--ft-oxford-blue);
+      font-weight: 700;
+    }
+
+    /* Split Viewports */
+    .ft-viewports {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      background: #2b3542;
+    }
+    .ft-pane {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .ft-pane + .ft-pane {
+      border-left: 2px solid var(--ft-gold);
+    }
+    .ft-pane-header {
+      background: #19232e;
+      color: #ffffff;
+      padding: 6px 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #364556;
+      flex-shrink: 0;
+    }
+    .ft-pane-header.ans-head {
+      background: #003322;
+      border-bottom: 1px solid #004d33;
+    }
+    .ft-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+    <!-- UNIVERSAL STUDY WORKSPACE BAR -->
+  <header class="ui-study-bar">
+    <div class="ui-study-brand">
+      <span class="ui-study-tag">STUDY WORKSPACES</span>
+      <span>7 Brand Philosophies for CA Exam Prep</span>
+    </div>
+    <nav class="ui-study-links">
+      <a href="version-1-apple-study.html" class="ui-study-link">01 Apple Studio</a>
+      <a href="version-2-google-study.html" class="ui-study-link">02 Google Workspace</a>
+      <a href="version-3-linear-study.html" class="ui-study-link">03 Linear Dark</a>
+      <a href="version-4-ft-study.html" class="ui-study-link active">04 FT Executive</a>
+      <a href="version-5-industrial-study.html" class="ui-study-link">05 Industrial Console</a>
+      <a href="version-6-nordic-study.html" class="ui-study-link">06 Nordic Library</a>
+      <a href="version-7-apple-braun-study.html" class="ui-study-link">07 Apple × Braun</a>
+    </nav>
+  </header>
+
+  <!-- FT EXECUTIVE MASTHEAD -->
+  <header class="ft-masthead">
+    <div class="ft-masthead-top">
+      <span>The Institute of Chartered Accountants of Bangladesh</span>
+      <span>Official Examination Dossier &amp; Forensic Review Desk</span>
+      <span>13 Examination Diets (2022–2026)</span>
+    </div>
+    <div class="ft-masthead-main">
+      <div class="ft-title-box">
+        <h1 class="ft-title">FINANCIAL TIMES &bull; EXECUTIVE STUDY REVIEW</h1>
+        <p class="ft-subtitle">Curricular Balance Sheet &amp; Comparative Marking Solution Repository</p>
+      </div>
+      <div class="ft-controls">
+        <div class="ft-search-box">
+          <span class="ft-search-icon">🔍</span>
+          <input type="text" id="ftSearch" class="ft-search-input" placeholder="Search papers, diets, codes...">
+        </div>
+        <button class="ft-btn ft-btn-claret" id="btnFtSyllabus">2025 Framework</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BODY CONTENT -->
+  <div class="ft-body">
+    <!-- LEFT SIDEBAR: CURRICULAR INDEX -->
+    <aside class="ft-sidebar">
+      <div class="ft-sidebar-header">Curricular Ledger</div>
+      <div class="ft-nav-group">
+        <div class="ft-nav-group-title">Filter Scope</div>
+        <div class="ft-subject-item active" data-filter="ALL">
+          <span>All Curriculum Papers</span>
+          <span class="ft-code">10</span>
+        </div>
+        <div class="ft-subject-item" data-filter="PL">
+          <span>Professional Level</span>
+          <span class="ft-code">7</span>
+        </div>
+        <div class="ft-subject-item" data-filter="AL">
+          <span>Advanced Level</span>
+          <span class="ft-code">3</span>
+        </div>
+      </div>
+
+      <div class="ft-nav-group">
+        <div class="ft-nav-group-title">Professional Modules</div>
+        <div id="sidePlList"></div>
+      </div>
+
+      <div class="ft-nav-group">
+        <div class="ft-nav-group-title">Advanced Modules</div>
+        <div id="sideAlList"></div>
+      </div>
+    </aside>
+
+    <!-- MAIN DOSSIER AREA -->
+    <main class="ft-main">
+      <!-- Executive Briefing Banner -->
+      <div class="ft-briefing">
+        <div>
+          <h2 class="ft-briefing-title">Executive Examination Ledger</h2>
+          <p class="ft-briefing-text">
+            Compare official examination question papers directly against ICAB council-approved suggested answers.
+            Select <strong>[Q]</strong> to inspect question requirements or <strong>[A]</strong> to review marking schemes, workings, and statutory citations.
+          </p>
+        </div>
+        <div>
+          <button class="ft-btn ft-btn-outline" id="btnToggleManuals">Compendium Shelf</button>
+        </div>
+      </div>
+
+      <!-- Balance Sheet Matrix Table -->
+      <div class="ft-matrix-card">
+        <div class="ft-matrix-header">
+          <h3>Sessional Examination Matrix (2022 &ndash; 2026)</h3>
+          <span style="font-family:var(--font-mono); font-size:11px; color:var(--ft-ink-muted);">Dual-View Enabled</span>
+        </div>
+        <div class="ft-table-wrap">
+          <table class="ft-table" id="ftMatrixTable"></table>
+        </div>
+      </div>
+
+      <!-- ICAB Textbooks Compendium -->
+      <div class="ft-matrix-card" id="ftCompendiumSection">
+        <div class="ft-matrix-header">
+          <h3>Study Manuals &amp; Statutory References</h3>
+          <span style="font-family:var(--font-mono); font-size:11px; color:var(--ft-ink-muted);">Official Courseware</span>
+        </div>
+        <div style="padding: 16px 20px;">
+          <div class="ft-manuals-grid" id="ftManualsGrid"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- DUAL FORENSIC REVISION WORKBENCH OVERLAY -->
+  <div class="ft-forensic-desk" id="ftDesk">
+    <!-- Masthead Ribbon -->
+    <div class="ft-desk-masthead">
+      <div class="ft-desk-title-group">
+        <span class="ft-desk-badge" id="ftDeskCode">FAR</span>
+        <span class="ft-desk-subject" id="ftDeskSubject">Financial Accounting &amp; Reporting</span>
+        <span class="ft-desk-diet" id="ftDeskDiet">Nov-Dec '25</span>
+      </div>
+      <div class="ft-desk-actions">
+        <button class="ft-desk-btn" id="btnFtPrevDiet">&larr; Older Diet</button>
+        <button class="ft-desk-btn" id="btnFtNextDiet">Newer Diet &rarr;</button>
+        <button class="ft-desk-btn active" id="btnFtToggleDual">Dual Comparison: Active</button>
+        <button class="ft-desk-btn" id="btnFtCloseDesk" style="background:var(--ft-claret); border-color:var(--ft-claret);">Close Desk &times;</button>
+      </div>
+    </div>
+
+    <!-- Diet Chronology Ribbon -->
+    <div class="ft-chronology-bar" id="ftChronologyBar"></div>
+
+    <!-- Split Viewports -->
+    <div class="ft-viewports">
+      <!-- Left: Question Paper -->
+      <div class="ft-pane" id="ftPaneLeft">
+        <div class="ft-pane-header">
+          <span>Official Examination Question Paper</span>
+          <span id="ftLblQuestion">Nov-Dec '25 Question</span>
+        </div>
+        <iframe id="ftFrameQuestion" class="ft-frame"></iframe>
+      </div>
+
+      <!-- Right: Suggested Solution -->
+      <div class="ft-pane" id="ftPaneRight">
+        <div class="ft-pane-header ans-head">
+          <span>Council Approved Suggested Answer &amp; Marking Solution</span>
+          <span id="ftLblAnswer">Nov-Dec '25 Answer</span>
+        </div>
+        <iframe id="ftFrameAnswer" class="ft-frame"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="catalog.js"></script>
+  <script>
+    // State
+    let activeFilter = 'ALL';
+    let currentLvl = 'PL';
+    let currentSubject = 'Financial Accounting & Reporting';
+    let currentSessionIdx = 0;
+    let isDualMode = true;
+
+    // DOM Elements
+    const matrixTable = document.getElementById('ftMatrixTable');
+    const searchInput = document.getElementById('ftSearch');
+    const desk = document.getElementById('ftDesk');
+    const deskCode = document.getElementById('ftDeskCode');
+    const deskSubject = document.getElementById('ftDeskSubject');
+    const deskDiet = document.getElementById('ftDeskDiet');
+    const chronologyBar = document.getElementById('ftChronologyBar');
+    const paneRight = document.getElementById('ftPaneRight');
+    const frameQuestion = document.getElementById('ftFrameQuestion');
+    const frameAnswer = document.getElementById('ftFrameAnswer');
+    const btnToggleDual = document.getElementById('btnFtToggleDual');
+    const manualsGrid = document.getElementById('ftManualsGrid');
+
+    // Populate Sidebar Module Lists
+    function populateSidebar() {
+      const plContainer = document.getElementById('sidePlList');
+      const alContainer = document.getElementById('sideAlList');
+      plContainer.innerHTML = '';
+      alContainer.innerHTML = '';
+
+      SUBJECT_ORDER.PL.forEach(paper => {
+        const div = document.createElement('div');
+        div.className = 'ft-subject-item';
+        div.innerHTML = `<span>${paper}</span> <span class="ft-code">${PAPER_CODES[paper] || 'PL'}</span>`;
+        div.addEventListener('click', () => {
+          document.querySelectorAll('.ft-subject-item').forEach(x => x.classList.remove('active'));
+          div.classList.add('active');
+          openForensicDesk('PL', paper, 0);
+        });
+        plContainer.appendChild(div);
+      });
+
+      SUBJECT_ORDER.AL.forEach(paper => {
+        const div = document.createElement('div');
+        div.className = 'ft-subject-item';
+        div.innerHTML = `<span>${paper}</span> <span class="ft-code">${PAPER_CODES[paper] || 'AL'}</span>`;
+        div.addEventListener('click', () => {
+          document.querySelectorAll('.ft-subject-item').forEach(x => x.classList.remove('active'));
+          div.classList.add('active');
+          openForensicDesk('AL', paper, 0);
+        });
+        alContainer.appendChild(div);
+      });
+    }
+
+    // Populate Manuals Shelf
+    function populateManuals() {
+      manualsGrid.innerHTML = '';
+      ['PL', 'AL'].forEach(lvl => {
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          const sessions = CATALOG[lvl][paper] || [];
+          const manuals = [];
+          sessions.forEach(s => {
+            if (s.manuals && s.manuals.length > 0) {
+              s.manuals.forEach(m => {
+                if (!manuals.some(existing => existing.rel_path === m.rel_path)) {
+                  manuals.push(m);
+                }
+              });
+            }
+          });
+
+          if (manuals.length > 0) {
+            const card = document.createElement('div');
+            card.className = 'ft-manual-card';
+            card.innerHTML = `<div class="ft-manual-title">${paper} <span style="font-family:var(--font-mono); font-weight:normal; font-size:11px; color:var(--ft-gold);">[${PAPER_CODES[paper] || lvl}]</span></div>`;
+            manuals.forEach(m => {
+              const link = document.createElement('div');
+              link.className = 'ft-manual-link';
+              link.innerHTML = `<span>📖 ${m.title}</span> <span style="font-family:var(--font-mono); font-size:10px;">PDF &rarr;</span>`;
+              link.addEventListener('click', () => openSingleDocument(m.title, m.rel_path));
+              card.appendChild(link);
+            });
+            manualsGrid.appendChild(card);
+          }
+        });
+      });
+    }
+
+    // Open Forensic Revision Desk
+    function openForensicDesk(lvl, paper, sessionIdx) {
+      currentLvl = lvl;
+      currentSubject = paper;
+      currentSessionIdx = sessionIdx;
+
+      const sessions = CATALOG[lvl][paper] || [];
+      const session = sessions[sessionIdx];
+      if (!session) return;
+
+      deskCode.textContent = PAPER_CODES[paper] || lvl;
+      deskSubject.textContent = paper;
+      deskDiet.textContent = session.session_tag;
+
+      document.getElementById('ftLblQuestion').textContent = `${session.session_tag} Examination`;
+      document.getElementById('ftLblAnswer').textContent = `${session.session_tag} Suggested Solution`;
+
+      frameQuestion.src = session.question ? encodeURI(session.question.rel_path) : 'about:blank';
+      frameAnswer.src = session.answer ? encodeURI(session.answer.rel_path) : 'about:blank';
+
+      // Chronology ribbon
+      chronologyBar.innerHTML = '<span class="ft-chron-label">Exam Diets:</span>';
+      sessions.forEach((s, idx) => {
+        const chip = document.createElement('button');
+        chip.className = `ft-chron-chip ${idx === sessionIdx ? 'active' : ''}`;
+        chip.textContent = s.session_tag;
+        chip.addEventListener('click', () => openForensicDesk(lvl, paper, idx));
+        chronologyBar.appendChild(chip);
+      });
+
+      isDualMode = true;
+      paneRight.style.display = 'flex';
+      btnToggleDual.textContent = 'Dual Comparison: Active';
+      btnToggleDual.classList.add('active');
+
+      desk.style.display = 'flex';
+    }
+
+    // Open Single Document in Left Pane
+    function openSingleDocument(title, relPath) {
+      deskCode.textContent = 'DOC';
+      deskSubject.textContent = title;
+      deskDiet.textContent = 'Official Reference';
+      frameQuestion.src = encodeURI(relPath);
+      paneRight.style.display = 'none';
+      isDualMode = false;
+      btnToggleDual.textContent = 'Single Pane';
+      btnToggleDual.classList.remove('active');
+      chronologyBar.innerHTML = '<span class="ft-chron-label">Viewing Statutory Reference Manual</span>';
+      desk.style.display = 'flex';
+    }
+
+    // Event Listeners for Desk Controls
+    document.getElementById('btnFtCloseDesk').addEventListener('click', () => {
+      desk.style.display = 'none';
+      frameQuestion.src = 'about:blank';
+      frameAnswer.src = 'about:blank';
+    });
+
+    btnToggleDual.addEventListener('click', () => {
+      isDualMode = !isDualMode;
+      paneRight.style.display = isDualMode ? 'flex' : 'none';
+      btnToggleDual.textContent = isDualMode ? 'Dual Comparison: Active' : 'Single Pane';
+      if (isDualMode) btnToggleDual.classList.add('active');
+      else btnToggleDual.classList.remove('active');
+    });
+
+    document.getElementById('btnFtPrevDiet').addEventListener('click', () => {
+      const sessions = CATALOG[currentLvl][currentSubject] || [];
+      if (currentSessionIdx < sessions.length - 1) {
+        openForensicDesk(currentLvl, currentSubject, currentSessionIdx + 1);
+      }
+    });
+
+    document.getElementById('btnFtNextDiet').addEventListener('click', () => {
+      if (currentSessionIdx > 0) {
+        openForensicDesk(currentLvl, currentSubject, currentSessionIdx - 1);
+      }
+    });
+
+    document.getElementById('btnFtSyllabus').addEventListener('click', () => {
+      openSingleDocument(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path);
+    });
+
+    document.getElementById('btnToggleManuals').addEventListener('click', () => {
+      document.getElementById('ftCompendiumSection').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Render Main Sessional Matrix Table
+    function renderMatrix(filterQuery = '') {
+      matrixTable.innerHTML = '';
+      const query = filterQuery.toLowerCase().trim();
+
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      const thSubject = document.createElement('th');
+      thSubject.textContent = 'Curricular Subject';
+      headerRow.appendChild(thSubject);
+
+      SESSIONS_ORDER.forEach(col => {
+        const th = document.createElement('th');
+        th.innerHTML = `${col.label.replace(' ', '<br>')}`;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      matrixTable.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const levels = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') levels.push('AL');
+
+      levels.forEach(lvl => {
+        const bannerRow = document.createElement('tr');
+        const bannerCell = document.createElement('td');
+        bannerCell.className = 'ft-section-banner';
+        bannerCell.colSpan = SESSIONS_ORDER.length + 1;
+        bannerCell.textContent = lvl === 'PL' ? 'SECTION I &bull; PROFESSIONAL LEVEL MODULES' : 'SECTION II &bull; ADVANCED LEVEL MODULES';
+        bannerRow.appendChild(bannerCell);
+        tbody.appendChild(bannerRow);
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          if (query && !paper.toLowerCase().includes(query)) return;
+          const code = PAPER_CODES[paper] || 'CA';
+          const sessions = CATALOG[lvl][paper] || [];
+          const sessionMap = new Map();
+          sessions.forEach((s, idx) => sessionMap.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdSubject = document.createElement('td');
+          tdSubject.innerHTML = `<span style="font-family:var(--font-mono); font-size:11px; color:var(--ft-gold); margin-right:6px;">[${code}]</span> ${paper}`;
+          row.appendChild(tdSubject);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const item = sessionMap.get(col.tag);
+            if (item && (item.s.question || item.s.answer)) {
+              const pair = document.createElement('div');
+              pair.className = 'ft-pair';
+
+              const bQ = document.createElement('button');
+              bQ.className = 'ft-chip';
+              bQ.textContent = 'Q';
+              bQ.title = `Open ${item.s.session_tag} Question Paper`;
+              bQ.disabled = !item.s.question;
+              if (item.s.question) {
+                bQ.addEventListener('click', () => openForensicDesk(lvl, paper, item.idx));
+              }
+
+              const bA = document.createElement('button');
+              bA.className = 'ft-chip ans';
+              bA.textContent = 'A';
+              bA.title = `Open ${item.s.session_tag} Suggested Answer`;
+              bA.disabled = !item.s.answer;
+              if (item.s.answer) {
+                bA.addEventListener('click', () => openForensicDesk(lvl, paper, item.idx));
+              }
+
+              pair.appendChild(bQ);
+              pair.appendChild(bA);
+              td.appendChild(pair);
+            } else {
+              td.innerHTML = '<span class="ft-empty-dot">&middot;</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+      matrixTable.appendChild(tbody);
+    }
+
+    // Filter Buttons in Sidebar
+    document.querySelectorAll('.ft-subject-item[data-filter]').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.ft-subject-item[data-filter]').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.getAttribute('data-filter');
+        renderMatrix(searchInput.value);
+      });
+    });
+
+    // Search Input
+    searchInput.addEventListener('input', (e) => renderMatrix(e.target.value));
+
+    // Keyboard Shortcuts
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') document.getElementById('btnFtCloseDesk').click();
+      if (e.key.toLowerCase() === 'd' && desk.style.display === 'flex') btnToggleDual.click();
+    });
+
+    // Initialize
+    populateSidebar();
+    populateManuals();
+    renderMatrix();
+  </script>
+</body>
+</html>

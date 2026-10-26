@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Exam Desk — Linear Dark Speed Desk</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* TOP WORKSPACE SWITCHER BAR */
+    .ui-study-bar {
+      background: #000000;
+      color: #71717a;
+      font-family: 'Geist', sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #18181b;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-study-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-study-tag {
+      background: #27272a;
+      color: #f4f4f5;
+      font-weight: 600;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #3f3f46;
+    }
+    .ui-study-links { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-study-link {
+      color: #71717a;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .ui-study-link:hover { color: #f4f4f5; background: #18181b; }
+    .ui-study-link.active {
+      background: #f4f4f5;
+      color: #09090b;
+      font-weight: 600;
+    }
+
+    /* LINEAR DARK SPEED DESK STYLING */
+    :root {
+      --l-bg: #000000;
+      --l-surface: #09090b;
+      --l-card: #121215;
+      --l-border: #27272a;
+      --l-border-subtle: #18181b;
+      --l-accent: #5e6ad2;
+      --l-emerald: #10b981;
+      --l-text: #f4f4f5;
+      --l-muted: #a1a1aa;
+      --l-faint: #52525b;
+      --font-linear: 'Geist', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--l-bg);
+      color: var(--l-text);
+      font-family: var(--font-linear);
+      font-size: 13px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Header */
+    .l-header {
+      height: 52px;
+      border-bottom: 1px solid var(--l-border-subtle);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      z-index: 50;
+    }
+    .l-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .l-tag {
+      background: rgba(94, 106, 210, 0.2);
+      border: 1px solid var(--l-accent);
+      color: var(--l-accent);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .l-cmd-box {
+      display: flex;
+      align-items: center;
+      background: var(--l-surface);
+      border: 1px solid var(--l-border-subtle);
+      border-radius: 6px;
+      padding: 4px 12px;
+      gap: 8px;
+      width: 420px;
+    }
+    .l-cmd-box:focus-within { border-color: var(--l-border); background: #111114; }
+    .l-input {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 12px;
+      outline: none;
+      width: 100%;
+    }
+    .l-kbd {
+      background: #18181b;
+      border: 1px solid var(--l-border);
+      color: var(--l-muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    /* Workspace */
+    .l-workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Left Sidebar */
+    .l-sidebar {
+      width: 230px;
+      border-right: 1px solid var(--l-border-subtle);
+      padding: 16px 10px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      flex-shrink: 0;
+      background: #050507;
+    }
+    .l-sidebar-heading {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--l-faint);
+      padding: 4px 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
+    }
+    .l-nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: var(--l-muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+    .l-nav-item:hover { background: #121215; color: #ffffff; }
+    .l-nav-item.active { background: #18181f; color: #ffffff; font-weight: 600; }
+
+    /* Center Main Panel */
+    .l-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    /* Fast Matrix Table */
+    .l-matrix-container {
+      padding: 20px 24px 60px;
+    }
+    .l-table-wrap {
+      border: 1px solid var(--l-border-subtle);
+      border-radius: 8px;
+      overflow-x: auto;
+      background: var(--l-surface);
+    }
+    .l-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .l-table th {
+      background: #0d0d10;
+      color: var(--l-muted);
+      font-weight: 500;
+      font-size: 11px;
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--l-border);
+      border-right: 1px solid rgba(39, 39, 42, 0.4);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .l-table th:first-child { text-align: left; padding-left: 16px; width: 250px; color: #fff; font-weight: 600; }
+    .l-table td {
+      padding: 6px 4px;
+      border-bottom: 1px solid rgba(39, 39, 42, 0.4);
+      border-right: 1px solid rgba(39, 39, 42, 0.4);
+      text-align: center;
+      vertical-align: middle;
+    }
+    .l-table td:first-child { text-align: left; padding-left: 16px; font-weight: 500; }
+    .l-table tr:hover td { background: var(--l-card); }
+    .l-sec-tr {
+      background: #000000 !important;
+      color: var(--l-accent) !important;
+      font-weight: 700;
+      font-size: 11px;
+      padding: 6px 16px !important;
+      text-align: left !important;
+      border-top: 1px solid var(--l-border);
+    }
+
+    /* Linear Micro Buttons */
+    .l-chip-pair { display: inline-flex; gap: 2px; }
+    .l-chip-btn {
+      background: transparent;
+      border: 1px solid var(--l-border);
+      color: var(--l-muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 2px 5px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .l-chip-btn:hover { background: #27272a; color: #ffffff; border-color: #3f3f46; }
+    .l-chip-btn.ans { color: var(--l-emerald); border-color: rgba(16, 185, 129, 0.3); }
+    .l-chip-btn.ans:hover { background: rgba(16, 185, 129, 0.15); border-color: var(--l-emerald); }
+    .l-chip-btn:disabled { opacity: 0.15; cursor: not-allowed; border-color: transparent; }
+
+    /* DUAL SPLIT-SCREEN REVISION DESK */
+    .l-split-viewer {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: #000000;
+      display: none;
+      flex-direction: column;
+      z-index: 100;
+    }
+    .l-viewer-top {
+      height: 48px;
+      border-bottom: 1px solid var(--l-border-subtle);
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--l-surface);
+      flex-shrink: 0;
+    }
+    .l-viewer-title {
+      font-weight: 600;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .l-viewer-tools { display: flex; align-items: center; gap: 8px; }
+    .l-v-btn {
+      background: #18181b;
+      border: 1px solid var(--l-border);
+      color: #ffffff;
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .l-v-btn:hover { background: #27272a; }
+    .l-v-btn.accent { background: var(--l-accent); border-color: var(--l-accent); }
+
+    .l-panes-area {
+      flex: 1;
+      display: flex;
+      background: #09090b;
+    }
+    .l-pane {
+      flex: 1;
+      height: 100%;
+      position: relative;
+      display: flex;
+    }
+    .l-pane:first-child { border-right: 2px solid var(--l-border); }
+    .l-pane-tag {
+      position: absolute;
+      top: 8px; left: 10px;
+      background: rgba(0, 0, 0, 0.85);
+      border: 1px solid var(--l-border);
+      color: #ffffff;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      z-index: 5;
+    }
+    .l-frame { width: 100%; height: 100%; border: none; }
+  </style>
+</head>
+<body>
+
+    <!-- UNIVERSAL STUDY WORKSPACE BAR -->
+  <header class="ui-study-bar">
+    <div class="ui-study-brand">
+      <span class="ui-study-tag">STUDY WORKSPACES</span>
+      <span>7 Brand Philosophies for CA Exam Prep</span>
+    </div>
+    <nav class="ui-study-links">
+      <a href="version-1-apple-study.html" class="ui-study-link">01 Apple Studio</a>
+      <a href="version-2-google-study.html" class="ui-study-link">02 Google Workspace</a>
+      <a href="version-3-linear-study.html" class="ui-study-link active">03 Linear Dark</a>
+      <a href="version-4-ft-study.html" class="ui-study-link">04 FT Executive</a>
+      <a href="version-5-industrial-study.html" class="ui-study-link">05 Industrial Console</a>
+      <a href="version-6-nordic-study.html" class="ui-study-link">06 Nordic Library</a>
+      <a href="version-7-apple-braun-study.html" class="ui-study-link">07 Apple × Braun</a>
+    </nav>
+  </header>
+
+  <!-- Linear Header -->
+  <header class="l-header">
+    <div class="l-logo-wrap">
+      <span class="l-tag">ICAB CORE</span>
+      <span style="font-weight:600; font-size:13px;">Exam Prep Speed Desk</span>
+    </div>
+
+    <div class="l-cmd-box">
+      <input type="text" id="lSearch" class="l-input" placeholder="Search papers or exam diets (e.g. Audit, May 2026)...">
+      <span class="l-kbd">⌘K</span>
+    </div>
+
+    <button class="l-v-btn accent" id="btnLinearSyllabus">2025 Framework [S]</button>
+  </header>
+
+  <!-- Workspace -->
+  <div class="l-workspace">
+    <!-- Sidebar -->
+    <aside class="l-sidebar">
+      <div class="l-sidebar-heading">Curriculum Scope</div>
+      <div class="l-nav-item active" data-filter="ALL">
+        <span>All 10 Subjects</span>
+        <span class="l-kbd">10</span>
+      </div>
+      <div class="l-nav-item" data-filter="PL">
+        <span>Professional Level</span>
+        <span class="l-kbd">7</span>
+      </div>
+      <div class="l-nav-item" data-filter="AL">
+        <span>Advanced Level</span>
+        <span class="l-kbd">3</span>
+      </div>
+      <div class="l-nav-item" data-filter="MANUALS">
+        <span>Study Manuals</span>
+        <span class="l-kbd">20</span>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="l-main">
+      <div class="l-matrix-container">
+        <div class="l-table-wrap">
+          <table class="l-table" id="lTable"></table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- DUAL SPLIT-SCREEN REVISION DESK -->
+  <div class="l-split-viewer" id="lViewer">
+    <div class="l-viewer-top">
+      <div class="l-viewer-title">
+        <span style="color:var(--l-accent);" id="vCode">AA</span>
+        <span id="vTitle">Paper Title</span>
+        <span class="l-kbd" id="vDiet">May 2026</span>
+      </div>
+      <div class="l-viewer-tools">
+        <button class="l-v-btn" id="btnPrev">◀ Prior Diet [←]</button>
+        <button class="l-v-btn" id="btnNext">Next Diet [→] ▶</button>
+        <button class="l-v-btn accent" id="btnDual">Dual Split [D]</button>
+        <button class="l-v-btn" id="btnClose">Close [Esc]</button>
+      </div>
+    </div>
+    <div class="l-panes-area">
+      <div class="l-pane" id="paneLeft">
+        <span class="l-pane-tag">QUESTION PAPER</span>
+        <iframe class="l-frame" id="frameLeft" src="about:blank"></iframe>
+      </div>
+      <div class="l-pane" id="paneRight">
+        <span class="l-pane-tag" style="color:var(--l-emerald);">SUGGESTED SOLUTION</span>
+        <iframe class="l-frame" id="frameRight" src="about:blank"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="catalog.js"></script>
+
+  <script>
+    let activeFilter = 'ALL';
+    let currentLvl = 'PL';
+    let currentSubject = 'Audit & Assurance';
+    let currentSessionIdx = 0;
+    let isDual = true;
+
+    const table = document.getElementById('lTable');
+    const searchInput = document.getElementById('lSearch');
+    const viewer = document.getElementById('lViewer');
+    const vCode = document.getElementById('vCode');
+    const vTitle = document.getElementById('vTitle');
+    const vDiet = document.getElementById('vDiet');
+    const frameLeft = document.getElementById('frameLeft');
+    const frameRight = document.getElementById('frameRight');
+    const paneRight = document.getElementById('paneRight');
+    const btnDual = document.getElementById('btnDual');
+
+    function openDesk(lvl, subj, sIdx) {
+      currentLvl = lvl;
+      currentSubject = subj;
+      currentSessionIdx = sIdx;
+
+      const sessions = CATALOG[lvl][subj] || [];
+      const s = sessions[sIdx];
+      if (!s) return;
+
+      vCode.textContent = PAPER_CODES[subj] || 'CA';
+      vTitle.textContent = subj;
+      vDiet.textContent = s.session_label;
+
+      frameLeft.src = s.question ? encodeURI(s.question.rel_path) : 'about:blank';
+      frameRight.src = s.answer ? encodeURI(s.answer.rel_path) : 'about:blank';
+
+      isDual = true;
+      paneRight.style.display = 'flex';
+      btnDual.textContent = 'Dual Split: Active [D]';
+
+      viewer.style.display = 'flex';
+    }
+
+    function openSingle(title, path) {
+      vCode.textContent = 'DOC';
+      vTitle.textContent = title;
+      vDiet.textContent = 'Official';
+      frameLeft.src = encodeURI(path);
+      paneRight.style.display = 'none';
+      isDual = false;
+      viewer.style.display = 'flex';
+    }
+
+    document.getElementById('btnClose').addEventListener('click', () => {
+      viewer.style.display = 'none';
+      frameLeft.src = 'about:blank';
+      frameRight.src = 'about:blank';
+    });
+
+    document.getElementById('btnLinearSyllabus').addEventListener('click', () => openSingle(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path));
+
+    btnDual.addEventListener('click', () => {
+      isDual = !isDual;
+      paneRight.style.display = isDual ? 'flex' : 'none';
+      btnDual.textContent = isDual ? 'Dual Split: Active [D]' : 'Single Pane [D]';
+    });
+
+    document.getElementById('btnPrev').addEventListener('click', () => {
+      const sessions = CATALOG[currentLvl][currentSubject] || [];
+      if (currentSessionIdx < sessions.length - 1) openDesk(currentLvl, currentSubject, currentSessionIdx + 1);
+    });
+
+    document.getElementById('btnNext').addEventListener('click', () => {
+      if (currentSessionIdx > 0) openDesk(currentLvl, currentSubject, currentSessionIdx - 1);
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') document.getElementById('btnClose').click();
+      if (e.key.toLowerCase() === 'd' && viewer.style.display === 'flex') btnDual.click();
+      if (e.key.toLowerCase() === 's') document.getElementById('btnLinearSyllabus').click();
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); searchInput.focus(); }
+    });
+
+    function renderMatrix(q = '') {
+      table.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      const thead = document.createElement('thead');
+      const tr = document.createElement('tr');
+      const thPaper = document.createElement('th');
+      thPaper.textContent = 'Subject & Code';
+      tr.appendChild(thPaper);
+
+      SESSIONS_ORDER.forEach(s => {
+        const th = document.createElement('th');
+        th.innerHTML = `${s.label.replace(' ', '<br>')}`;
+        tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+      table.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const tiers = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') tiers.push('AL');
+
+      tiers.forEach(lvl => {
+        const sepTr = document.createElement('tr');
+        const sepTd = document.createElement('td');
+        sepTd.className = 'l-sec-tr';
+        sepTd.colSpan = SESSIONS_ORDER.length + 1;
+        sepTd.textContent = lvl === 'PL' ? '// PROFESSIONAL LEVEL (7 MODULES)' : '// ADVANCED LEVEL (3 MODULES)';
+        sepTr.appendChild(sepTd);
+        tbody.appendChild(sepTr);
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          if (query && !paper.toLowerCase().includes(query)) return;
+          const code = PAPER_CODES[paper] || 'CA';
+          const sessions = CATALOG[lvl][paper] || [];
+          const map = new Map();
+          sessions.forEach((s, idx) => map.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdPaper = document.createElement('td');
+          tdPaper.innerHTML = `<span style="color:var(--l-accent); font-family:var(--font-mono); margin-right:6px;">${code}</span> ${paper}`;
+          row.appendChild(tdPaper);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const item = map.get(col.tag);
+            if (item && (item.s.question || item.s.answer)) {
+              const div = document.createElement('div');
+              div.className = 'l-chip-pair';
+
+              const bQ = document.createElement('button');
+              bQ.className = 'l-chip-btn';
+              bQ.textContent = 'Q';
+              bQ.disabled = !item.s.question;
+              if (item.s.question) bQ.addEventListener('click', () => openDesk(lvl, paper, item.idx));
+
+              const bA = document.createElement('button');
+              bA.className = 'l-chip-btn ans';
+              bA.textContent = 'A';
+              bA.disabled = !item.s.answer;
+              if (item.s.answer) bA.addEventListener('click', () => openDesk(lvl, paper, item.idx));
+
+              div.appendChild(bQ);
+              div.appendChild(bA);
+              td.appendChild(div);
+            } else {
+              td.innerHTML = '<span style="color:#222;">·</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+      table.appendChild(tbody);
+    }
+
+    document.querySelectorAll('.l-nav-item[data-filter]').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.l-nav-item').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.getAttribute('data-filter');
+        renderMatrix(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => renderMatrix(e.target.value));
+
+    renderMatrix();
+  </script>
+</body>
+</html>

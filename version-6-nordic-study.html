@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Study Library — Nordic Reading Room</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* TOP WORKSPACE SWITCHER BAR */
+    .ui-study-bar {
+      background: #201e1d;
+      color: #9c9792;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #332f2c;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-study-brand { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ui-study-tag {
+      background: #3d5a49;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .ui-study-links { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .ui-study-link {
+      color: #9c9792;
+      text-decoration: none;
+      padding: 4px 8px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .ui-study-link:hover { color: #f7f5f0; background: #332f2c; }
+    .ui-study-link.active {
+      background: #f7f5f0;
+      color: #282523;
+      font-weight: 600;
+    }
+
+    /* NORDIC READING ROOM / KINFOLK PALETTE */
+    :root {
+      --n-paper: #f7f5f0;
+      --n-paper-subtle: #f0ece3;
+      --n-surface: #ffffff;
+      --n-ink: #282523;
+      --n-ink-muted: #6b6661;
+      --n-ink-faint: #9c9792;
+      --n-border: #e3ded5;
+      --n-border-subtle: #ede8df;
+      --n-sage: #3d5a49;
+      --n-sage-light: #edf2ee;
+      --n-terracotta: #a65944;
+      --n-terracotta-light: #faede8;
+      --font-serif: 'Source Serif 4', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--n-paper);
+      color: var(--n-ink);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Calm Library Header */
+    .n-header {
+      background: var(--n-paper);
+      border-bottom: 1px solid var(--n-border);
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .n-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .n-title {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      color: var(--n-ink);
+    }
+    .n-badge {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--n-sage);
+      background: var(--n-sage-light);
+      padding: 3px 8px;
+      border-radius: 12px;
+    }
+
+    /* Search & Action Bar */
+    .n-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .n-search-box {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .n-search-input {
+      background: #ffffff;
+      border: 1px solid var(--n-border);
+      padding: 6px 14px 6px 30px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: var(--n-ink);
+      border-radius: 20px;
+      width: 220px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .n-search-input:focus {
+      border-color: var(--n-sage);
+      box-shadow: 0 0 0 3px rgba(61, 90, 73, 0.12);
+      width: 260px;
+    }
+    .n-search-icon {
+      position: absolute;
+      left: 10px;
+      font-size: 12px;
+      color: var(--n-ink-faint);
+    }
+    .n-btn {
+      background: var(--n-sage);
+      color: #ffffff;
+      border: 1px solid var(--n-sage);
+      padding: 6px 14px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 500;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .n-btn:hover {
+      background: #324a3c;
+    }
+    .n-btn-outline {
+      background: #ffffff;
+      color: var(--n-ink);
+      border-color: var(--n-border);
+    }
+    .n-btn-outline:hover {
+      background: var(--n-paper-subtle);
+      border-color: var(--n-ink-muted);
+    }
+
+    /* Library Layout */
+    .n-body {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* Left Quiet Subject Drawer */
+    .n-sidebar {
+      width: 260px;
+      background: var(--n-paper-subtle);
+      border-right: 1px solid var(--n-border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 16px 12px;
+      flex-shrink: 0;
+    }
+    .n-sidebar-section {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--n-ink-muted);
+      padding: 4px 8px;
+      margin-bottom: 6px;
+    }
+    .n-nav-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-radius: 8px;
+      color: var(--n-ink);
+      cursor: pointer;
+      margin-bottom: 2px;
+      font-size: 12px;
+      font-weight: 500;
+      transition: all 0.15s;
+    }
+    .n-nav-pill:hover {
+      background: rgba(0,0,0,0.04);
+    }
+    .n-nav-pill.active {
+      background: #ffffff;
+      color: var(--n-sage);
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .n-pill-code {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--n-ink-faint);
+    }
+
+    /* Main Quiet Study Space */
+    .n-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 24px 36px 60px;
+    }
+
+    /* Library Introduction Callout */
+    .n-intro-card {
+      background: #ffffff;
+      border: 1px solid var(--n-border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .n-intro-title {
+      font-family: var(--font-serif);
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--n-ink);
+    }
+    .n-intro-desc {
+      font-size: 13px;
+      color: var(--n-ink-muted);
+      line-height: 1.5;
+      max-width: 650px;
+    }
+
+    /* Matrix Table Card */
+    .n-card {
+      background: #ffffff;
+      border: 1px solid var(--n-border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 30px;
+    }
+    .n-card-head {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--n-border);
+      background: #fbfaf8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .n-card-title {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .n-table-wrap {
+      overflow-x: auto;
+    }
+    .n-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .n-table th {
+      background: #faf8f5;
+      border-bottom: 1px solid var(--n-border);
+      border-right: 1px solid var(--n-border-subtle);
+      padding: 8px 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--n-ink-muted);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .n-table th:first-child {
+      text-align: left;
+      padding-left: 18px;
+      width: 260px;
+      font-size: 12px;
+      color: var(--n-ink);
+      font-weight: 600;
+    }
+    .n-table td {
+      border-bottom: 1px solid var(--n-border-subtle);
+      border-right: 1px solid var(--n-border-subtle);
+      padding: 6px 4px;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .n-table td:first-child {
+      text-align: left;
+      padding-left: 18px;
+      font-weight: 500;
+    }
+    .n-table tr:hover td {
+      background: #fcfbf9;
+    }
+    .n-sec-header {
+      background: #faf8f5 !important;
+      color: var(--n-sage) !important;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 11px;
+      padding: 8px 18px !important;
+      text-align: left !important;
+      letter-spacing: 0.5px;
+    }
+
+    /* Nordic Diet Chips */
+    .n-chip-group {
+      display: inline-flex;
+      gap: 3px;
+    }
+    .n-chip {
+      background: #f7f5f0;
+      border: 1px solid var(--n-border);
+      color: var(--n-ink);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.1s;
+    }
+    .n-chip:hover {
+      background: #ffffff;
+      border-color: var(--n-sage);
+      color: var(--n-sage);
+    }
+    .n-chip.ans {
+      background: var(--n-sage-light);
+      color: var(--n-sage);
+      border-color: #c7ded0;
+    }
+    .n-chip.ans:hover {
+      background: var(--n-sage);
+      color: #ffffff;
+    }
+
+    /* Courseware Shelf */
+    .n-manuals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+      padding: 18px;
+    }
+    .n-manual-item {
+      background: #fdfdfc;
+      border: 1px solid var(--n-border);
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .n-manual-title {
+      font-family: var(--font-serif);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--n-ink);
+    }
+    .n-manual-doc {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--n-border-subtle);
+      padding: 6px 0;
+      font-size: 11px;
+      color: var(--n-ink-muted);
+      cursor: pointer;
+    }
+    .n-manual-doc:hover {
+      color: var(--n-sage);
+      font-weight: 600;
+    }
+
+    /* QUIET READING SPLIT WORKBENCH (FULL OVERLAY) */
+    .n-reader {
+      position: absolute;
+      top: 36px; left: 0; right: 0; bottom: 0;
+      background: #ffffff;
+      display: none;
+      flex-direction: column;
+      z-index: 200;
+    }
+
+    /* Reader Top Bar */
+    .n-reader-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--n-border);
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .n-reader-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .n-reader-code {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: var(--n-sage-light);
+      color: var(--n-sage);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .n-reader-subject {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--n-ink);
+    }
+    .n-reader-diet {
+      font-size: 12px;
+      color: var(--n-ink-muted);
+      background: var(--n-paper-subtle);
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+
+    /* Reader Controls */
+    .n-reader-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .n-tool-btn {
+      background: #ffffff;
+      border: 1px solid var(--n-border);
+      color: var(--n-ink);
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .n-tool-btn:hover {
+      background: var(--n-paper-subtle);
+    }
+    .n-tool-btn.active {
+      background: var(--n-sage);
+      color: #ffffff;
+      border-color: var(--n-sage);
+    }
+
+    /* Diet Ribbon */
+    .n-ribbon {
+      background: var(--n-paper);
+      border-bottom: 1px solid var(--n-border);
+      padding: 6px 24px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+    .n-ribbon-chip {
+      background: #ffffff;
+      border: 1px solid var(--n-border);
+      color: var(--n-ink-muted);
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 12px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.1s;
+    }
+    .n-ribbon-chip:hover {
+      color: var(--n-ink);
+      border-color: var(--n-ink-muted);
+    }
+    .n-ribbon-chip.active {
+      background: var(--n-ink);
+      color: #ffffff;
+      border-color: var(--n-ink);
+      font-weight: 600;
+    }
+
+    /* Split Viewports */
+    .n-viewports {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      background: #383533;
+    }
+    .n-pane {
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .n-pane + .n-pane {
+      border-left: 1px solid #4a4643;
+    }
+    .n-pane-title {
+      background: #282523;
+      color: #e3ded5;
+      padding: 6px 16px;
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .n-pane-title.ans-title {
+      background: #1c2b22;
+      color: #b8e0c8;
+    }
+    .n-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+    <!-- UNIVERSAL STUDY WORKSPACE BAR -->
+  <header class="ui-study-bar">
+    <div class="ui-study-brand">
+      <span class="ui-study-tag">STUDY WORKSPACES</span>
+      <span>7 Brand Philosophies for CA Exam Prep</span>
+    </div>
+    <nav class="ui-study-links">
+      <a href="version-1-apple-study.html" class="ui-study-link">01 Apple Studio</a>
+      <a href="version-2-google-study.html" class="ui-study-link">02 Google Workspace</a>
+      <a href="version-3-linear-study.html" class="ui-study-link">03 Linear Dark</a>
+      <a href="version-4-ft-study.html" class="ui-study-link">04 FT Executive</a>
+      <a href="version-5-industrial-study.html" class="ui-study-link">05 Industrial Console</a>
+      <a href="version-6-nordic-study.html" class="ui-study-link active">06 Nordic Library</a>
+      <a href="version-7-apple-braun-study.html" class="ui-study-link">07 Apple × Braun</a>
+    </nav>
+  </header>
+
+  <!-- NORDIC LIBRARY HEADER -->
+  <header class="n-header">
+    <div class="n-brand">
+      <h1 class="n-title">ICAB Chartered Study Library</h1>
+      <span class="n-badge">Scandinavian Reading Room</span>
+    </div>
+    <div class="n-actions">
+      <div class="n-search-box">
+        <span class="n-search-icon">🔍</span>
+        <input type="text" id="nSearch" class="n-search-input" placeholder="Search papers, diets...">
+      </div>
+      <button class="n-btn" id="btnNSyllabus">2025 Framework</button>
+    </div>
+  </header>
+
+  <!-- BODY CONTENT -->
+  <div class="n-body">
+    <!-- LEFT SIDEBAR -->
+    <aside class="n-sidebar">
+      <div class="n-sidebar-section">Curriculum Filter</div>
+      <div class="n-nav-pill active" data-filter="ALL">
+        <span>All 10 Modules</span>
+        <span class="n-pill-code">10</span>
+      </div>
+      <div class="n-nav-pill" data-filter="PL">
+        <span>Professional Level</span>
+        <span class="n-pill-code">7</span>
+      </div>
+      <div class="n-nav-pill" data-filter="AL">
+        <span>Advanced Level</span>
+        <span class="n-pill-code">3</span>
+      </div>
+
+      <div class="n-sidebar-section" style="margin-top:16px;">Direct Reading Select</div>
+      <div id="nSubjectPills"></div>
+    </aside>
+
+    <!-- MAIN STUDY ROOM -->
+    <main class="n-main">
+      <!-- Calm Introduction -->
+      <div class="n-intro-card">
+        <div>
+          <h2 class="n-intro-title">Low-Fatigue Exam Study Desk</h2>
+          <p class="n-intro-desc">
+            Designed for 8–10 hour preparation marathons with soft milk-paper contrast, muted typography, and instant side-by-side comparison of question papers against suggested solutions.
+          </p>
+        </div>
+        <div>
+          <button class="n-btn n-btn-outline" id="btnToggleManuals">Study Textbooks</button>
+        </div>
+      </div>
+
+      <!-- Sessional Matrix -->
+      <div class="n-card">
+        <div class="n-card-head">
+          <h3 class="n-card-title">Past Examination Diets (2022 &ndash; 2026)</h3>
+          <span style="font-size:11px; color:var(--n-ink-muted);">Dual-Pane Enabled</span>
+        </div>
+        <div class="n-table-wrap">
+          <table class="n-table" id="nMatrixTable"></table>
+        </div>
+      </div>
+
+      <!-- Textbooks Vault -->
+      <div class="n-card" id="nTextbooksSection">
+        <div class="n-card-head">
+          <h3 class="n-card-title">ICAB Study Manuals</h3>
+          <span style="font-size:11px; color:var(--n-ink-muted);">Official Courseware</span>
+        </div>
+        <div class="n-manuals-grid" id="nManualsGrid"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- QUIET READING SPLIT WORKBENCH OVERLAY -->
+  <div class="n-reader" id="nReader">
+    <!-- Reader Top Bar -->
+    <div class="n-reader-bar">
+      <div class="n-reader-meta">
+        <span class="n-reader-code" id="nReaderCode">FAR</span>
+        <span class="n-reader-subject" id="nReaderSubject">Financial Accounting &amp; Reporting</span>
+        <span class="n-reader-diet" id="nReaderDiet">Nov-Dec '25</span>
+      </div>
+      <div class="n-reader-controls">
+        <button class="n-tool-btn" id="btnNPrevDiet">&larr; Older Session</button>
+        <button class="n-tool-btn" id="btnNNextDiet">Newer Session &rarr;</button>
+        <button class="n-tool-btn active" id="btnNToggleDual">Dual Comparison: Active</button>
+        <button class="n-tool-btn" id="btnNCloseReader" style="color:var(--n-terracotta); border-color:#e6c4ba;">Close Room &times;</button>
+      </div>
+    </div>
+
+    <!-- Diet Ribbon -->
+    <div class="n-ribbon" id="nRibbon"></div>
+
+    <!-- Viewports -->
+    <div class="n-viewports">
+      <!-- Left: Question Paper -->
+      <div class="n-pane" id="nPaneLeft">
+        <div class="n-pane-title">
+          <span>Question Paper</span>
+          <span id="nLblQuestion">Question Spec</span>
+        </div>
+        <iframe id="nFrameQuestion" class="n-frame"></iframe>
+      </div>
+
+      <!-- Right: Suggested Answer -->
+      <div class="n-pane" id="nPaneRight">
+        <div class="n-pane-title ans-title">
+          <span>Suggested Answer &amp; Marking Solution</span>
+          <span id="nLblAnswer">Answer Spec</span>
+        </div>
+        <iframe id="nFrameAnswer" class="n-frame"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="catalog.js"></script>
+  <script>
+    // State
+    let activeFilter = 'ALL';
+    let currentLvl = 'PL';
+    let currentSubject = 'Financial Accounting & Reporting';
+    let currentSessionIdx = 0;
+    let isDual = true;
+
+    // Elements
+    const matrixTable = document.getElementById('nMatrixTable');
+    const searchInput = document.getElementById('nSearch');
+    const reader = document.getElementById('nReader');
+    const readerCode = document.getElementById('nReaderCode');
+    const readerSubject = document.getElementById('nReaderSubject');
+    const readerDiet = document.getElementById('nReaderDiet');
+    const ribbon = document.getElementById('nRibbon');
+    const paneRight = document.getElementById('nPaneRight');
+    const frameQuestion = document.getElementById('nFrameQuestion');
+    const frameAnswer = document.getElementById('nFrameAnswer');
+    const btnToggleDual = document.getElementById('btnNToggleDual');
+    const manualsGrid = document.getElementById('nManualsGrid');
+    const subjectPills = document.getElementById('nSubjectPills');
+
+    // Populate Sidebar Pills
+    function populateSidebar() {
+      subjectPills.innerHTML = '';
+      ['PL', 'AL'].forEach(lvl => {
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          const pill = document.createElement('div');
+          pill.className = 'n-nav-pill';
+          pill.innerHTML = `<span>${paper}</span> <span class="n-pill-code">${PAPER_CODES[paper] || lvl}</span>`;
+          pill.addEventListener('click', () => openReader(lvl, paper, 0));
+          subjectPills.appendChild(pill);
+        });
+      });
+    }
+
+    // Populate Manuals
+    function populateManuals() {
+      manualsGrid.innerHTML = '';
+      ['PL', 'AL'].forEach(lvl => {
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          const sessions = CATALOG[lvl][paper] || [];
+          const manuals = [];
+          sessions.forEach(s => {
+            if (s.manuals && s.manuals.length > 0) {
+              s.manuals.forEach(m => {
+                if (!manuals.some(existing => existing.rel_path === m.rel_path)) {
+                  manuals.push(m);
+                }
+              });
+            }
+          });
+
+          if (manuals.length > 0) {
+            const card = document.createElement('div');
+            card.className = 'n-manual-item';
+            card.innerHTML = `<div class="n-manual-title">${paper} <span style="font-family:var(--font-mono); font-size:11px; color:var(--n-sage);">[${PAPER_CODES[paper] || lvl}]</span></div>`;
+            manuals.forEach(m => {
+              const doc = document.createElement('div');
+              doc.className = 'n-manual-doc';
+              doc.innerHTML = `<span>📖 ${m.title}</span> <span>PDF &rarr;</span>`;
+              doc.addEventListener('click', () => openSingleDoc(m.title, m.rel_path));
+              card.appendChild(doc);
+            });
+            manualsGrid.appendChild(card);
+          }
+        });
+      });
+    }
+
+    // Open Quiet Reader
+    function openReader(lvl, paper, sessionIdx) {
+      currentLvl = lvl;
+      currentSubject = paper;
+      currentSessionIdx = sessionIdx;
+
+      const sessions = CATALOG[lvl][paper] || [];
+      const session = sessions[sessionIdx];
+      if (!session) return;
+
+      readerCode.textContent = PAPER_CODES[paper] || lvl;
+      readerSubject.textContent = paper;
+      readerDiet.textContent = session.session_tag;
+
+      document.getElementById('nLblQuestion').textContent = `${session.session_tag} Question`;
+      document.getElementById('nLblAnswer').textContent = `${session.session_tag} Answer`;
+
+      frameQuestion.src = session.question ? encodeURI(session.question.rel_path) : 'about:blank';
+      frameAnswer.src = session.answer ? encodeURI(session.answer.rel_path) : 'about:blank';
+
+      // Ribbon
+      ribbon.innerHTML = '<span style="font-size:11px; color:var(--n-ink-muted); margin-right:4px;">Diets:</span>';
+      sessions.forEach((s, idx) => {
+        const chip = document.createElement('button');
+        chip.className = `n-ribbon-chip ${idx === sessionIdx ? 'active' : ''}`;
+        chip.textContent = s.session_tag;
+        chip.addEventListener('click', () => openReader(lvl, paper, idx));
+        ribbon.appendChild(chip);
+      });
+
+      isDual = true;
+      paneRight.style.display = 'flex';
+      btnToggleDual.textContent = 'Dual Comparison: Active';
+      btnToggleDual.classList.add('active');
+
+      reader.style.display = 'flex';
+    }
+
+    // Open Single Document in Left Pane
+    function openSingleDoc(title, path) {
+      readerCode.textContent = 'DOC';
+      readerSubject.textContent = title;
+      readerDiet.textContent = 'Curriculum Reference';
+      frameQuestion.src = encodeURI(path);
+      paneRight.style.display = 'none';
+      isDual = false;
+      btnToggleDual.textContent = 'Single Pane';
+      btnToggleDual.classList.remove('active');
+      ribbon.innerHTML = '<span style="font-size:11px; color:var(--n-ink-muted);">Study Reference Document Mode</span>';
+      reader.style.display = 'flex';
+    }
+
+    // Reader Event Handlers
+    document.getElementById('btnNCloseReader').addEventListener('click', () => {
+      reader.style.display = 'none';
+      frameQuestion.src = 'about:blank';
+      frameAnswer.src = 'about:blank';
+    });
+
+    btnToggleDual.addEventListener('click', () => {
+      isDual = !isDual;
+      paneRight.style.display = isDual ? 'flex' : 'none';
+      btnToggleDual.textContent = isDual ? 'Dual Comparison: Active' : 'Single Pane';
+      if (isDual) btnToggleDual.classList.add('active');
+      else btnToggleDual.classList.remove('active');
+    });
+
+    document.getElementById('btnNPrevDiet').addEventListener('click', () => {
+      const sessions = CATALOG[currentLvl][currentSubject] || [];
+      if (currentSessionIdx < sessions.length - 1) openReader(currentLvl, currentSubject, currentSessionIdx + 1);
+    });
+
+    document.getElementById('btnNNextDiet').addEventListener('click', () => {
+      if (currentSessionIdx > 0) openReader(currentLvl, currentSubject, currentSessionIdx - 1);
+    });
+
+    document.getElementById('btnNSyllabus').addEventListener('click', () => {
+      openSingleDoc(SYLLABUS_DOC.title, SYLLABUS_DOC.rel_path);
+    });
+
+    document.getElementById('btnToggleManuals').addEventListener('click', () => {
+      document.getElementById('nTextbooksSection').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // Render Matrix Table
+    function renderMatrix(q = '') {
+      matrixTable.innerHTML = '';
+      const query = q.toLowerCase().trim();
+
+      const thead = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      const thSubject = document.createElement('th');
+      thSubject.textContent = 'Study Subject';
+      headerRow.appendChild(thSubject);
+
+      SESSIONS_ORDER.forEach(col => {
+        const th = document.createElement('th');
+        th.innerHTML = `${col.label.replace(' ', '<br>')}`;
+        headerRow.appendChild(th);
+      });
+      thead.appendChild(headerRow);
+      matrixTable.appendChild(thead);
+
+      const tbody = document.createElement('tbody');
+      const levels = (activeFilter === 'ALL' || activeFilter === 'PL') ? ['PL'] : [];
+      if (activeFilter === 'ALL' || activeFilter === 'AL') levels.push('AL');
+
+      levels.forEach(lvl => {
+        const bannerRow = document.createElement('tr');
+        const bannerCell = document.createElement('td');
+        bannerCell.className = 'n-sec-header';
+        bannerCell.colSpan = SESSIONS_ORDER.length + 1;
+        bannerCell.textContent = lvl === 'PL' ? 'Professional Level (7 Papers)' : 'Advanced Level (3 Papers)';
+        bannerRow.appendChild(bannerCell);
+        tbody.appendChild(bannerRow);
+
+        SUBJECT_ORDER[lvl].forEach(paper => {
+          if (query && !paper.toLowerCase().includes(query)) return;
+          const code = PAPER_CODES[paper] || 'CA';
+          const sessions = CATALOG[lvl][paper] || [];
+          const sessionMap = new Map();
+          sessions.forEach((s, idx) => sessionMap.set(s.session_tag, { s, idx }));
+
+          const row = document.createElement('tr');
+          const tdSubject = document.createElement('td');
+          tdSubject.innerHTML = `<span style="font-family:var(--font-mono); font-size:10px; color:var(--n-sage); margin-right:6px;">[${code}]</span> ${paper}`;
+          row.appendChild(tdSubject);
+
+          SESSIONS_ORDER.forEach(col => {
+            const td = document.createElement('td');
+            const item = sessionMap.get(col.tag);
+            if (item && (item.s.question || item.s.answer)) {
+              const group = document.createElement('div');
+              group.className = 'n-chip-group';
+
+              const bQ = document.createElement('button');
+              bQ.className = 'n-chip';
+              bQ.textContent = 'Q';
+              bQ.title = `${item.s.session_tag} Question`;
+              bQ.disabled = !item.s.question;
+              if (item.s.question) bQ.addEventListener('click', () => openReader(lvl, paper, item.idx));
+
+              const bA = document.createElement('button');
+              bA.className = 'n-chip ans';
+              bA.textContent = 'A';
+              bA.title = `${item.s.session_tag} Answer`;
+              bA.disabled = !item.s.answer;
+              if (item.s.answer) bA.addEventListener('click', () => openReader(lvl, paper, item.idx));
+
+              group.appendChild(bQ);
+              group.appendChild(bA);
+              td.appendChild(group);
+            } else {
+              td.innerHTML = '<span style="color:#d5d0c7;">&middot;</span>';
+            }
+            row.appendChild(td);
+          });
+          tbody.appendChild(row);
+        });
+      });
+      matrixTable.appendChild(tbody);
+    }
+
+    // Filter Navigation
+    document.querySelectorAll('.n-nav-pill[data-filter]').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.n-nav-pill[data-filter]').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        activeFilter = b.getAttribute('data-filter');
+        renderMatrix(searchInput.value);
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => renderMatrix(e.target.value));
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT') return;
+      if (e.key === 'Escape') document.getElementById('btnNCloseReader').click();
+      if (e.key.toLowerCase() === 'd' && reader.style.display === 'flex') btnToggleDual.click();
+    });
+
+    populateSidebar();
+    populateManuals();
+    renderMatrix();
+  </script>
+</body>
+</html>
