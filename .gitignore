@@ -13,9 +13,15 @@ $RECYCLE.BIN/
 *.swp
 *.swo
 
-# Temporary & Log files
+# Temporary, Scratch & Audit artifacts
 *.tmp
 *.log
+.taste-skill/
+chrome_dump.txt
+*.png
+temp_*.html
+test_dom.html
+test_pdf.html
 
 # Quarantine & Discard Protocol
 .discard/

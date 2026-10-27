@@ -1,0 +1,3567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ExamRadar — The 13-Diet Question Trend Radar &amp; Dual-Deck Comparator</title>
+
+  <!-- Typography: Inter for Crisp UI, JetBrains Mono for Financial Intelligence Telemetry -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. FINANCIAL INTELLIGENCE TERMINAL DESIGN SYSTEM (Palantir / Bloomberg)
+       ========================================================================== */
+    :root {
+      --bg-void: #090d16;
+      --bg-chassis: #0b111e;
+      --bg-panel: #0f172a;
+      --bg-card: #131d35;
+      --bg-card-hover: #192644;
+      --bg-subtle: #1e293b;
+      --bg-glass: rgba(11, 17, 30, 0.85);
+
+      --border-base: #1e293b;
+      --border-subtle: #24344d;
+      --border-accent: #334e77;
+
+      --ink-primary: #f8fafc;
+      --ink-secondary: #cbd5e1;
+      --ink-muted: #94a3b8;
+      --ink-dim: #64748b;
+      --ink-faint: #475569;
+
+      /* Deck Alpha Accent: Cyan Telemetry */
+      --cyan-neon: #06b6d4;
+      --cyan-bright: #22d3ee;
+      --cyan-glow: rgba(6, 182, 212, 0.28);
+      --cyan-wash: rgba(6, 182, 212, 0.08);
+      --cyan-border: #0e7490;
+
+      /* Deck Beta Accent: Electric Amber */
+      --amber-neon: #f59e0b;
+      --amber-bright: #fbbf24;
+      --amber-glow: rgba(245, 158, 11, 0.28);
+      --amber-wash: rgba(245, 158, 11, 0.08);
+      --amber-border: #b45309;
+
+      /* Status Telemetry */
+      --emerald-neon: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.25);
+      --rose-neon: #f43f5e;
+      --indigo-neon: #818cf8;
+
+      --font-mono: 'JetBrains Mono', Consolas, monospace;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+      --transition-fast: 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-normal: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-void);
+      color: var(--ink-secondary);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 1.45;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      letter-spacing: -0.01em;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Subtle background grid pattern */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+      background-size: 36px 36px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Scanline pulse across header elements */
+    .scanline-pulse {
+      position: relative;
+      overflow: hidden;
+    }
+    .scanline-pulse::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(6, 182, 212, 0.06) 50%, transparent 100%);
+      animation: sweep 4s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes sweep {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(50%); }
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090d16;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334e77;
+    }
+
+    /* ==========================================================================
+       2. UNIVERSAL ECOSYSTEM STUDY BAR (All 11 Versions)
+       ========================================================================== */
+    .ui-study-bar {
+      background: #080c14;
+      color: #94a3b8;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1a2333;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-study-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .ui-study-tag {
+      background: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%);
+      color: #041017;
+      font-weight: 800;
+      font-size: 9px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px rgba(6, 182, 212, 0.35);
+    }
+    .ui-study-brand-sub {
+      color: #94a3b8;
+      font-size: 11px;
+    }
+    .ui-study-links {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+    .ui-study-link {
+      color: #8b949e;
+      text-decoration: none;
+      padding: 4px 7px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .ui-study-link:hover {
+      color: #f3f4f6;
+      background: #192438;
+    }
+    .ui-study-link.active {
+      background: #06b6d4;
+      color: #05141c;
+      font-weight: 800;
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.45);
+    }
+
+    /* ==========================================================================
+       3. MASTER INSTITUTIONAL TERMINAL HEADER
+       ========================================================================== */
+    .radar-header {
+      background: #0b111e;
+      border-bottom: 1px solid var(--border-base);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      position: relative;
+      z-index: 1000;
+      flex-shrink: 0;
+    }
+    .radar-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+    .radar-ping-chassis {
+      width: 36px;
+      height: 36px;
+      background: radial-gradient(circle, #083344 0%, #03141d 100%);
+      border: 1px solid var(--cyan-border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 0 14px rgba(6, 182, 212, 0.2);
+      flex-shrink: 0;
+    }
+    .radar-ping-chassis svg {
+      color: var(--cyan-neon);
+      animation: radar-sweep 3s linear infinite;
+    }
+    @keyframes radar-sweep {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .radar-live-dot {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--emerald-neon);
+      box-shadow: 0 0 8px var(--emerald-neon);
+      animation: blink 1.4s ease infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.85); }
+    }
+    .radar-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+    .radar-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .radar-main-title {
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--ink-primary);
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .radar-badge-pill {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .badge-cyan {
+      background: var(--cyan-wash);
+      color: var(--cyan-bright);
+      border: 1px solid var(--cyan-border);
+    }
+    .badge-amber {
+      background: var(--amber-wash);
+      color: var(--amber-bright);
+      border: 1px solid var(--amber-border);
+    }
+    .badge-emerald {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--emerald-neon);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .radar-sub-title {
+      font-size: 11px;
+      color: var(--ink-muted);
+      font-family: var(--font-mono);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Telemetry Tele-Strip */
+    .radar-tele-strip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #080d16;
+      border: 1px solid var(--border-base);
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      flex-shrink: 1;
+    }
+    .tele-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .tele-lbl {
+      font-size: 8.5px;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+    .tele-val {
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+    .tele-divider {
+      width: 1px;
+      height: 22px;
+      background: var(--border-subtle);
+    }
+
+    /* Header Actions */
+    .radar-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .btn-term {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 11px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border-subtle);
+      background: #131d33;
+      color: var(--ink-secondary);
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+      text-decoration: none;
+    }
+    .btn-term:hover {
+      background: #1b2848;
+      color: var(--ink-primary);
+      border-color: var(--border-accent);
+      transform: translateY(-1px);
+    }
+    .btn-term:active {
+      transform: translateY(0);
+    }
+    .btn-term-cyan {
+      background: var(--cyan-wash);
+      border-color: var(--cyan-border);
+      color: var(--cyan-bright);
+    }
+    .btn-term-cyan:hover {
+      background: rgba(6, 182, 212, 0.18);
+      border-color: var(--cyan-neon);
+      box-shadow: 0 0 10px var(--cyan-glow);
+    }
+    .btn-term-amber {
+      background: var(--amber-wash);
+      border-color: var(--amber-border);
+      color: var(--amber-bright);
+    }
+    .btn-term-amber:hover {
+      background: rgba(245, 158, 11, 0.18);
+      border-color: var(--amber-neon);
+      box-shadow: 0 0 10px var(--amber-glow);
+    }
+
+    /* Layout Split Buttons */
+    .split-btn-group {
+      display: flex;
+      align-items: center;
+      background: #080d16;
+      border: 1px solid var(--border-base);
+      border-radius: 5px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .split-btn {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      background: transparent;
+      border: none;
+      color: var(--ink-dim);
+      padding: 4px 7px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .split-btn:hover {
+      color: var(--ink-primary);
+      background: #141c2e;
+    }
+    .split-btn.active {
+      background: #1e293b;
+      color: var(--cyan-bright);
+      font-weight: 800;
+    }
+
+    /* ==========================================================================
+       4. 13-DIET CHRONOLOGICAL RIBBON (Visual Timeline Scroller)
+       ========================================================================== */
+    .timeline-ribbon-bar {
+      background: #090e18;
+      border-bottom: 1px solid var(--border-base);
+      padding: 7px 16px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      position: relative;
+      z-index: 900;
+      flex-shrink: 0;
+    }
+    .timeline-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .timeline-label-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .timeline-flipper-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-flip {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: #131b2e;
+      border: 1px solid var(--border-subtle);
+      color: var(--ink-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-flip:hover {
+      background: #1c2742;
+      border-color: var(--cyan-border);
+      color: var(--cyan-bright);
+    }
+    .btn-flip kbd {
+      background: #080d16;
+      border: 1px solid var(--border-base);
+      border-radius: 3px;
+      padding: 0 4px;
+      font-size: 9px;
+      color: var(--cyan-neon);
+    }
+
+    /* Horizontal Diet Strip */
+    .diet-strip-scroller {
+      display: flex;
+      align-items: stretch;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 3px;
+      scrollbar-width: thin;
+    }
+    .diet-card {
+      flex: 1 0 102px;
+      max-width: 126px;
+      background: #0d1424;
+      border: 1px solid var(--border-base);
+      border-radius: 5px;
+      padding: 6px 7px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      cursor: pointer;
+      position: relative;
+      transition: all var(--transition-fast);
+      user-select: none;
+    }
+    .diet-card:hover {
+      background: #141f38;
+      border-color: var(--border-accent);
+      transform: translateY(-1px);
+    }
+    .diet-card.active-alpha {
+      border-color: var(--cyan-neon);
+      background: #082132;
+      box-shadow: 0 0 10px var(--cyan-glow);
+    }
+    .diet-card.active-beta {
+      border-color: var(--amber-neon);
+      background: #231808;
+      box-shadow: 0 0 10px var(--amber-glow);
+    }
+    .diet-card.active-both {
+      border-image: linear-gradient(135deg, var(--cyan-neon) 0%, var(--amber-neon) 100%) 1;
+      background: #101c2b;
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.35);
+    }
+    .diet-card.disabled-diet {
+      opacity: 0.35;
+      cursor: not-allowed;
+      border-style: dashed;
+    }
+
+    .diet-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+    .diet-tag-pill {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--ink-muted);
+    }
+    .diet-card.active-alpha .diet-tag-pill {
+      color: var(--cyan-bright);
+    }
+    .diet-card.active-beta .diet-tag-pill {
+      color: var(--amber-bright);
+    }
+    .diet-deck-indicators {
+      display: flex;
+      gap: 2px;
+    }
+    .deck-badge {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 800;
+      padding: 0 4px;
+      border-radius: 2px;
+      line-height: 12px;
+      height: 12px;
+    }
+    .deck-badge-alpha {
+      background: var(--cyan-neon);
+      color: #041017;
+    }
+    .deck-badge-beta {
+      background: var(--amber-neon);
+      color: #1a0f00;
+    }
+
+    .diet-card-label {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .diet-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2px;
+      font-family: var(--font-mono);
+      font-size: 9px;
+    }
+    .diet-doc-tags {
+      display: flex;
+      gap: 3px;
+    }
+    .dot-doc {
+      width: 14px;
+      height: 12px;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7.5px;
+      font-weight: 800;
+      background: #172136;
+      color: var(--ink-dim);
+    }
+    .dot-doc.has-q {
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--cyan-bright);
+    }
+    .dot-doc.has-a {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--amber-bright);
+    }
+
+    /* Direct Assignment Mini-Buttons on Card Hover */
+    .diet-assign-actions {
+      display: none;
+      gap: 2px;
+    }
+    .diet-card:hover .diet-assign-actions {
+      display: flex;
+    }
+    .diet-card:hover .diet-doc-tags {
+      display: none;
+    }
+    .btn-assign {
+      font-family: var(--font-mono);
+      font-size: 8px;
+      font-weight: 800;
+      padding: 1px 4px;
+      border-radius: 2px;
+      border: none;
+      cursor: pointer;
+    }
+    .btn-assign-a {
+      background: var(--cyan-neon);
+      color: #041017;
+    }
+    .btn-assign-b {
+      background: var(--amber-neon);
+      color: #1a0f00;
+    }
+
+    /* Timeline Chronology Scale Ticks */
+    .timeline-scale-ticks {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 4px;
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      color: var(--ink-dim);
+      border-top: 1px solid #141d2e;
+      padding-top: 2px;
+    }
+
+    /* ==========================================================================
+       5. OPERATIONAL PRESETS & DELTA COMPARATOR SUB-TOOLBAR
+       ========================================================================== */
+    .ops-bar {
+      background: #0d1422;
+      border-bottom: 1px solid var(--border-base);
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: relative;
+      z-index: 800;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .presets-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .preset-lbl {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-right: 2px;
+    }
+    .btn-preset {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 4px;
+      background: #131c30;
+      border: 1px solid var(--border-subtle);
+      color: var(--ink-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .btn-preset:hover {
+      background: #1b2744;
+      color: var(--ink-primary);
+      border-color: var(--border-accent);
+    }
+    .btn-preset.active {
+      background: #082d3f;
+      border-color: var(--cyan-neon);
+      color: var(--cyan-bright);
+      font-weight: 700;
+      box-shadow: 0 0 8px var(--cyan-glow);
+    }
+    .btn-preset kbd {
+      background: #090e1a;
+      border: 1px solid var(--border-base);
+      border-radius: 3px;
+      padding: 0 3px;
+      font-size: 9px;
+      color: var(--cyan-neon);
+    }
+
+    /* Deck Delta Telemetry HUD */
+    .delta-hud {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #080d17;
+      border: 1px solid var(--border-base);
+      border-radius: 5px;
+      padding: 3px 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      flex-shrink: 1;
+      white-space: nowrap;
+    }
+    .delta-badge {
+      font-weight: 800;
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    .delta-badge-match {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald-neon);
+      border: 1px solid rgba(16, 185, 129, 0.35);
+    }
+    .delta-badge-diff {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--amber-bright);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .delta-text {
+      color: var(--ink-secondary);
+      font-size: 11px;
+    }
+    .delta-highlight {
+      color: var(--ink-primary);
+      font-weight: 700;
+    }
+
+    /* Deck Actions (Swap, Sync) */
+    .deck-ops-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+       6. DUAL-DECK COMPARATOR WORKBENCH (Split Viewports)
+       ========================================================================== */
+    .workbench-chassis {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      position: relative;
+      background: #05080e;
+      gap: 1px;
+    }
+    .workbench-chassis.split-70-30 {
+      grid-template-columns: 7fr 3fr;
+    }
+    .workbench-chassis.split-30-70 {
+      grid-template-columns: 3fr 7fr;
+    }
+    .workbench-chassis.split-full-alpha {
+      grid-template-columns: 1fr 0fr;
+    }
+    .workbench-chassis.split-full-beta {
+      grid-template-columns: 0fr 1fr;
+    }
+
+    /* Deck Pane */
+    .deck-pane {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #090e18;
+      position: relative;
+    }
+    .deck-pane-alpha {
+      border-right: 1px solid #1a253a;
+    }
+    .deck-pane-beta {
+      border-left: 1px solid #1a253a;
+    }
+
+    /* Deck Header & Control Rack */
+    .deck-rack {
+      background: #0c1220;
+      border-bottom: 1px solid var(--border-base);
+      padding: 8px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .deck-rack-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .deck-identity {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .deck-sigil {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 900;
+      padding: 2px 7px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .sigil-alpha {
+      background: var(--cyan-neon);
+      color: #041017;
+      box-shadow: 0 0 10px var(--cyan-glow);
+    }
+    .sigil-beta {
+      background: var(--amber-neon);
+      color: #1a0f00;
+      box-shadow: 0 0 10px var(--amber-glow);
+    }
+    .deck-current-doc-title {
+      font-family: var(--font-sans);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 320px;
+    }
+
+    .deck-quick-tools {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .tool-btn {
+      background: #141c30;
+      border: 1px solid var(--border-subtle);
+      color: var(--ink-muted);
+      border-radius: 4px;
+      padding: 3px 7px;
+      font-size: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+      font-family: var(--font-mono);
+      transition: all var(--transition-fast);
+    }
+    .tool-btn:hover {
+      background: #1d2948;
+      color: var(--ink-primary);
+      border-color: var(--border-accent);
+    }
+
+    /* Deck Selectors Bar */
+    .deck-selectors-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .deck-select-group {
+      display: flex;
+      align-items: center;
+      background: #080d16;
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 2px 6px;
+      gap: 5px;
+      min-width: 0;
+    }
+    .deck-select-lbl {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 700;
+      color: var(--ink-dim);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .deck-select {
+      background: transparent;
+      border: none;
+      color: var(--ink-primary);
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+      padding: 2px 0;
+      min-width: 0;
+    }
+    .deck-select option {
+      background: #0f172a;
+      color: #f8fafc;
+    }
+    .select-subject {
+      max-width: 220px;
+    }
+
+    /* Doc Type Toggle Pills (Q vs A vs M) */
+    .doc-type-pills {
+      display: inline-flex;
+      background: #080d16;
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .doc-pill {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      background: transparent;
+      border: none;
+      color: var(--ink-dim);
+      padding: 3px 8px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+    .doc-pill:hover {
+      color: var(--ink-secondary);
+      background: #141c2e;
+    }
+    .doc-pill.active-q-alpha {
+      background: var(--cyan-neon);
+      color: #041017;
+      font-weight: 800;
+    }
+    .doc-pill.active-a-alpha {
+      background: #0e7490;
+      color: #ffffff;
+      font-weight: 800;
+    }
+    .doc-pill.active-q-beta {
+      background: var(--amber-neon);
+      color: #1a0f00;
+      font-weight: 800;
+    }
+    .doc-pill.active-a-beta {
+      background: #b45309;
+      color: #ffffff;
+      font-weight: 800;
+    }
+    .doc-pill.active-manual {
+      background: #818cf8;
+      color: #0d122e;
+      font-weight: 800;
+    }
+
+    /* Deck Telemetry Strip */
+    .deck-tele-strip {
+      background: #080d17;
+      border-bottom: 1px solid var(--border-base);
+      padding: 3px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: var(--ink-dim);
+      flex-shrink: 0;
+    }
+    .deck-tele-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .tele-stat span {
+      color: var(--ink-secondary);
+      font-weight: 600;
+    }
+
+    /* Viewport / Frame Container */
+    .deck-viewport {
+      flex: 1;
+      position: relative;
+      background: #05080e;
+      overflow: hidden;
+    }
+    .terminal-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #ffffff;
+      display: block;
+    }
+
+    /* Frame Loading Overlay with Scanlines */
+    .deck-loader {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(9, 13, 22, 0.92);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      z-index: 10;
+      pointer-events: none;
+    }
+    .loader-spinner {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--border-base);
+      border-top-color: var(--cyan-neon);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    .deck-pane-beta .loader-spinner {
+      border-top-color: var(--amber-neon);
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .loader-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--ink-muted);
+      letter-spacing: 0.5px;
+    }
+
+    /* Fallback / Error Card */
+    .deck-fallback {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #090e18;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      text-align: center;
+      gap: 12px;
+      z-index: 5;
+    }
+    .fallback-icon {
+      font-size: 28px;
+      color: var(--amber-neon);
+    }
+    .fallback-title {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+    .fallback-msg {
+      font-size: 12px;
+      color: var(--ink-muted);
+      max-width: 440px;
+    }
+
+    /* ==========================================================================
+       7. CURRICULUM MARK WEIGHTING RADAR & INTELLIGENCE DRAWER (Expandable)
+       ========================================================================== */
+    .radar-drawer {
+      background: #0a0f1b;
+      border-top: 1px solid var(--border-base);
+      max-height: 380px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex-shrink: 0;
+      transition: max-height var(--transition-normal);
+      position: relative;
+      z-index: 700;
+    }
+    .radar-drawer.collapsed {
+      max-height: 34px;
+    }
+    .radar-drawer-head {
+      background: #0c1322;
+      border-bottom: 1px solid var(--border-base);
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .radar-drawer-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .radar-drawer-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--cyan-bright);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .radar-subject-pills {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow-x: auto;
+    }
+    .radar-sub-pill {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 3px;
+      background: #131c30;
+      border: 1px solid var(--border-subtle);
+      color: var(--ink-dim);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all var(--transition-fast);
+    }
+    .radar-sub-pill:hover {
+      background: #1c2742;
+      color: var(--ink-secondary);
+    }
+    .radar-sub-pill.active {
+      background: #082d3f;
+      border-color: var(--cyan-neon);
+      color: var(--cyan-bright);
+      box-shadow: 0 0 6px var(--cyan-glow);
+    }
+
+    .radar-drawer-body {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      overflow: hidden;
+      background: #070b14;
+    }
+    @media (max-width: 1100px) {
+      .radar-drawer-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Radar Modules Column */
+    .radar-modules-col {
+      border-right: 1px solid var(--border-base);
+      padding: 12px 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .radar-module-card {
+      background: #0c1424;
+      border: 1px solid var(--border-subtle);
+      border-radius: 5px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .radar-module-card:hover {
+      background: #131f38;
+      border-color: var(--border-accent);
+    }
+    .radar-module-card.selected-module {
+      border-color: var(--cyan-neon);
+      background: #082235;
+      box-shadow: 0 0 8px var(--cyan-glow);
+    }
+    .module-card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .module-name-tag {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-primary);
+    }
+    .module-weight-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--cyan-bright);
+    }
+    .module-progress-bar {
+      width: 100%;
+      height: 4px;
+      background: #141c2e;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .module-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #06b6d4, #38bdf8);
+      border-radius: 2px;
+    }
+    .module-meta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: var(--ink-muted);
+    }
+    .module-standards-list {
+      color: var(--ink-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 250px;
+    }
+
+    /* Radar Trend & Questions Matrix Column */
+    .radar-matrix-col {
+      padding: 12px 18px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .radar-matrix-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-base);
+      padding-bottom: 6px;
+    }
+    .matrix-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--ink-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .matrix-subtitle {
+      font-size: 11px;
+      color: var(--ink-muted);
+    }
+    .matrix-question-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 8px;
+    }
+    .matrix-q-card {
+      background: #0d1526;
+      border: 1px solid var(--border-subtle);
+      border-radius: 5px;
+      padding: 9px 11px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      transition: all var(--transition-fast);
+    }
+    .matrix-q-card:hover {
+      background: #14203a;
+      border-color: var(--border-accent);
+    }
+    .q-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .q-card-diet {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--cyan-bright);
+    }
+    .q-card-marks {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      color: var(--amber-bright);
+      background: rgba(245, 158, 11, 0.1);
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+    .q-card-title {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--ink-primary);
+      line-height: 1.35;
+    }
+    .q-card-summary {
+      font-size: 10.5px;
+      color: var(--ink-muted);
+      line-height: 1.4;
+    }
+    .q-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+    }
+    .btn-q-load {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 3px;
+      border: 1px solid var(--border-subtle);
+      background: #141c2e;
+      color: var(--ink-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .btn-q-load:hover {
+      background: #1c2742;
+      color: var(--ink-primary);
+    }
+    .btn-q-load-a {
+      border-color: var(--cyan-border);
+      color: var(--cyan-bright);
+    }
+    .btn-q-load-a:hover {
+      background: var(--cyan-wash);
+    }
+    .btn-q-load-b {
+      border-color: var(--amber-border);
+      color: var(--amber-bright);
+    }
+    .btn-q-load-b:hover {
+      background: var(--amber-wash);
+    }
+
+    /* ==========================================================================
+       8. OFFICIAL MANUALS & SYLLABUS MODAL DRAWER (`getAllManuals()`)
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 8, 14, 0.85);
+      backdrop-filter: blur(4px);
+      z-index: 200000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-window {
+      background: #0b111e;
+      border: 1px solid var(--border-accent);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 960px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px var(--cyan-glow);
+      overflow: hidden;
+      animation: modal-pop 0.15s ease-out;
+    }
+    @keyframes modal-pop {
+      from { transform: scale(0.96); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-header {
+      background: #0e1526;
+      border-bottom: 1px solid var(--border-base);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .modal-title-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-title {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--ink-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: var(--ink-dim);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      line-height: 1;
+    }
+    .modal-close-btn:hover {
+      color: var(--ink-primary);
+      background: #172136;
+    }
+
+    .modal-toolbar {
+      background: #090e18;
+      border-bottom: 1px solid var(--border-base);
+      padding: 8px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .manuals-filter-group {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .filter-btn {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 3px;
+      background: #131c30;
+      border: 1px solid var(--border-subtle);
+      color: var(--ink-dim);
+      cursor: pointer;
+    }
+    .filter-btn:hover {
+      color: var(--ink-secondary);
+      background: #1a253e;
+    }
+    .filter-btn.active {
+      background: #06b6d4;
+      color: #041017;
+      border-color: #06b6d4;
+    }
+    .manual-search-input {
+      background: #080d16;
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 4px 10px;
+      color: var(--ink-primary);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      width: 220px;
+      outline: none;
+    }
+    .manual-search-input:focus {
+      border-color: var(--cyan-neon);
+      box-shadow: 0 0 8px var(--cyan-glow);
+    }
+
+    .modal-content-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 18px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 10px;
+    }
+    .manual-card {
+      background: #0d1526;
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: all var(--transition-fast);
+    }
+    .manual-card:hover {
+      background: #141f38;
+      border-color: var(--border-accent);
+      transform: translateY(-1px);
+    }
+    .manual-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+    .manual-level-pill {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+    .lvl-pl {
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--cyan-bright);
+      border: 1px solid var(--cyan-border);
+    }
+    .lvl-al {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--amber-bright);
+      border: 1px solid var(--amber-border);
+    }
+    .lvl-all {
+      background: rgba(129, 140, 248, 0.15);
+      color: var(--indigo-neon);
+      border: 1px solid rgba(129, 140, 248, 0.4);
+    }
+    .manual-size {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      color: var(--ink-dim);
+    }
+    .manual-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink-primary);
+      line-height: 1.35;
+    }
+    .manual-subject {
+      font-size: 10.5px;
+      color: var(--ink-muted);
+      font-family: var(--font-mono);
+    }
+    .manual-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .btn-manual-load {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 3px;
+      border: 1px solid var(--border-subtle);
+      background: #131c30;
+      color: var(--ink-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-decoration: none;
+    }
+    .btn-manual-load:hover {
+      background: #1c2742;
+      color: var(--ink-primary);
+    }
+    .btn-m-alpha {
+      border-color: var(--cyan-border);
+      color: var(--cyan-bright);
+    }
+    .btn-m-alpha:hover {
+      background: var(--cyan-wash);
+    }
+    .btn-m-beta {
+      border-color: var(--amber-border);
+      color: var(--amber-bright);
+    }
+    .btn-m-beta:hover {
+      background: var(--amber-wash);
+    }
+
+    /* ==========================================================================
+       9. TELEMETRY STATUS FOOTER
+       ========================================================================== */
+    .radar-footer {
+      background: #080c14;
+      border-top: 1px solid var(--border-base);
+      padding: 5px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      color: var(--ink-dim);
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .footer-hotkeys-hud {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hotkey-pill {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #0f1626;
+      border: 1px solid var(--border-subtle);
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 9.5px;
+      color: var(--ink-muted);
+    }
+    .hotkey-pill kbd {
+      color: var(--cyan-bright);
+      font-weight: 700;
+    }
+    .footer-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Modal Cheatsheet Specifics */
+    .shortcuts-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 14px;
+    }
+    .shortcut-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0e1526;
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: 1px solid var(--border-subtle);
+    }
+    .shortcut-row kbd {
+      background: #141f38;
+      border: 1px solid var(--cyan-border);
+      color: var(--cyan-bright);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .shortcut-desc {
+      font-size: 11.5px;
+      color: var(--ink-secondary);
+    }
+
+    /* Notification Toast */
+    .toast-hud {
+      position: fixed;
+      bottom: 35px;
+      left: 50%;
+      transform: translateX(-50%) translateY(30px);
+      background: #0c1527;
+      border: 1px solid var(--cyan-neon);
+      color: var(--cyan-bright);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.6), 0 0 14px var(--cyan-glow);
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 300000;
+    }
+    .toast-hud.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======================================================================
+       1. UNIVERSAL ECOSYSTEM STUDY BAR (All 11 Versions)
+       ====================================================================== -->
+  <header class="ui-study-bar">
+    <div class="ui-study-brand">
+      <span class="ui-study-tag">STUDY WORKSPACES</span>
+      <span class="ui-study-brand-sub">11 Brand Philosophies for CA Exam Prep</span>
+    </div>
+    <nav class="ui-study-links">
+      <a href="version-1-apple-study.html" class="ui-study-link">01 Apple Studio</a>
+      <a href="version-2-google-study.html" class="ui-study-link">02 Google Workspace</a>
+      <a href="version-3-linear-study.html" class="ui-study-link">03 Linear Dark</a>
+      <a href="version-4-ft-study.html" class="ui-study-link">04 FT Executive</a>
+      <a href="version-5-industrial-study.html" class="ui-study-link">05 Industrial Console</a>
+      <a href="version-6-nordic-study.html" class="ui-study-link">06 Nordic Library</a>
+      <a href="version-7-apple-braun-study.html" class="ui-study-link">07 Apple &times; Braun</a>
+      <a href="version-8-mock-exam-hall.html" class="ui-study-link">08 Hall 180 Exam</a>
+      <a href="version-9-standards-codex.html" class="ui-study-link">09 Standards Codex</a>
+      <a href="version-10-audit-dossier.html" class="ui-study-link">10 Audit Dossier</a>
+      <a href="version-11-trend-radar.html" class="ui-study-link active">11 Trend Radar</a>
+    </nav>
+  </header>
+
+  <!-- ======================================================================
+       2. MASTER INSTITUTIONAL TERMINAL HEADER
+       ====================================================================== -->
+  <header class="radar-header scanline-pulse">
+    <!-- Brand Sigil -->
+    <div class="radar-brand">
+      <div class="radar-ping-chassis" title="Active Exam Intelligence Radar Stream">
+        <span class="radar-live-dot"></span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 2a10 10 0 0 1 10 10"></path>
+          <path d="M12 12l7 -7"></path>
+          <circle cx="12" cy="12" r="4"></circle>
+        </svg>
+      </div>
+      <div class="radar-title-group">
+        <div class="radar-title-row">
+          <h1 class="radar-main-title">EXAMRADAR // 13-DIET COMPARATOR</h1>
+          <span class="radar-badge-pill badge-cyan">DUAL-DECK ENGINE</span>
+          <span class="radar-badge-pill badge-emerald">PDFIUM RECYCLED</span>
+        </div>
+        <span class="radar-sub-title">13-Diet Chronological Timeline &bull; Cross-Diet Trend Radar &bull; Topic Rotation Finder &bull; 266 Artifacts</span>
+      </div>
+    </div>
+
+    <!-- Live Telemetry Readout Ticker -->
+    <div class="radar-tele-strip">
+      <div class="tele-cell">
+        <span class="tele-lbl">CHRONOLOGY</span>
+        <span class="tele-val" id="teleDietsCount">13 Diets (2022&ndash;2026)</span>
+      </div>
+      <div class="tele-divider"></div>
+      <div class="tele-cell">
+        <span class="tele-lbl">ARTIFACTS</span>
+        <span class="tele-val" id="teleArtifactsCount">245 Papers + 21 Manuals</span>
+      </div>
+      <div class="tele-divider"></div>
+      <div class="tele-cell">
+        <span class="tele-lbl">COMPARATOR</span>
+        <span class="tele-val" id="teleCompMode" style="color: var(--cyan-bright);">Diet vs Diet</span>
+      </div>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="radar-header-actions">
+      <!-- Layout Split Buttons -->
+      <div class="split-btn-group" title="Adjust Workbench Viewport Ratios">
+        <button class="split-btn active" id="btnSplit5050" onclick="setWorkbenchSplit('50-50')">50:50</button>
+        <button class="split-btn" id="btnSplit7030" onclick="setWorkbenchSplit('70-30')">70:30 &alpha;</button>
+        <button class="split-btn" id="btnSplit3070" onclick="setWorkbenchSplit('30-70')">&beta; 70:30</button>
+      </div>
+
+      <!-- Action Buttons -->
+      <button class="btn-term btn-term-cyan" onclick="toggleRadarDrawer()" title="Toggle Curriculum Mark Weighting Radar [R]">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        <span>Radar [R]</span>
+      </button>
+
+      <button class="btn-term" onclick="openManualsModal()" title="Ingested Official Manuals &amp; IVS Documents [M]">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/></svg>
+        <span>Manuals (21) [M]</span>
+      </button>
+
+      <button class="btn-term" onclick="openShortcutsModal()" title="Keyboard Shortcuts Reference [?]">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        <span>[?]</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ======================================================================
+       3. 13-DIET CHRONOLOGICAL RIBBON (Visual Timeline Scroller)
+       ====================================================================== -->
+  <section class="timeline-ribbon-bar">
+    <div class="timeline-top-row">
+      <div class="timeline-label-group">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>13-Diet Examination Chronology (2022-03 through 2026-05)</span>
+      </div>
+      <div class="timeline-flipper-controls">
+        <button class="btn-flip" onclick="flipDiet('earlier')" title="Navigate Earlier Diet [J]">
+          <span>&larr; Earlier</span>
+          <kbd>J</kbd>
+        </button>
+        <button class="btn-flip" onclick="flipDiet('later')" title="Navigate Later Diet [K]">
+          <span>Later &rarr;</span>
+          <kbd>K</kbd>
+        </button>
+        <button class="btn-flip" onclick="jumpToDiet('2026-05_May')" title="Jump to Newest Diet (May 2026)">
+          <span>Latest (2026-05)</span>
+        </button>
+        <button class="btn-flip" onclick="jumpToDiet('2022-03_Mar-Apr')" title="Jump to Baseline Diet (Mar-Apr 2022)">
+          <span>Baseline (2022-03)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 13 Diets Horizontal Strip -->
+    <div class="diet-strip-scroller" id="dietStripContainer">
+      <!-- Injected via JavaScript renderDietRibbon() -->
+    </div>
+
+    <!-- Time Scale Ticks -->
+    <div class="timeline-scale-ticks">
+      <span>&larr; 2026 (NEWEST)</span>
+      <span>2025</span>
+      <span>2024</span>
+      <span>2023</span>
+      <span>2022 (BASELINE) &rarr;</span>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       4. OPERATIONAL MODE PRESETS & DELTA COMPARATOR SUB-TOOLBAR
+       ====================================================================== -->
+  <section class="ops-bar">
+    <!-- Presets -->
+    <div class="presets-group">
+      <span class="preset-lbl">MODE PRESETS:</span>
+      <button class="btn-preset active" id="btnPresetDietVsDiet" onclick="activatePreset('diet-vs-diet')" title="Compare consecutive diets to spot rotated topics">
+        <kbd>1</kbd>
+        <span>Diet vs Diet (Rotated Topics)</span>
+      </button>
+      <button class="btn-preset" id="btnPresetQvsA" onclick="activatePreset('q-vs-a')" title="Compare Question with Suggested Answer for active diet">
+        <kbd>2</kbd>
+        <span>Question vs Answer (Scoring Desk)</span>
+      </button>
+      <button class="btn-preset" id="btnPreset5Yr" onclick="activatePreset('5yr-delta')" title="Compare 2026 vs 2022 baseline to see standard evolution">
+        <kbd>3</kbd>
+        <span>5-Year Delta (2026 vs 2022)</span>
+      </button>
+      <button class="btn-preset" id="btnPresetManualVsExam" onclick="activatePreset('manual-vs-exam')" title="Compare Study Manual against latest exam question">
+        <kbd>4</kbd>
+        <span>Manual vs Exam (Theory Link)</span>
+      </button>
+    </div>
+
+    <!-- Delta Telemetry HUD -->
+    <div class="delta-hud" id="deltaHud">
+      <span class="delta-badge delta-badge-diff" id="deltaBadge">DELTA: 1 DIET</span>
+      <span class="delta-text" id="deltaText">Comparing: <b>Deck &alpha;</b> (May 2026) vs <b>Deck &beta;</b> (Nov-Dec 2025) &bull; Gap: 6 months</span>
+    </div>
+
+    <!-- Deck Manipulation Actions -->
+    <div class="deck-ops-actions">
+      <button class="btn-term btn-term-cyan" onclick="swapDecks()" title="Swap Deck Alpha and Deck Beta [Space]">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"/><path d="M3 5h18M7 23l-4-4 4-4"/><path d="M21 19H3"/></svg>
+        <span>Swap Decks</span>
+        <kbd style="font-size: 9px; background:#041017; padding:0 3px; border-radius:2px;">Space</kbd>
+      </button>
+      <button class="btn-term btn-term-amber" onclick="syncDecks()" title="Synchronize Deck Beta subject and diet to Deck Alpha [D]">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+        <span>Sync &beta; &rarr; &alpha;</span>
+        <kbd style="font-size: 9px; background:#1c1000; padding:0 3px; border-radius:2px;">D</kbd>
+      </button>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       5. DUAL-DECK COMPARATOR WORKBENCH (Split Viewports)
+       ====================================================================== -->
+  <main class="workbench-chassis" id="workbenchChassis">
+    <!-- ------------------------------------------------------------------
+         DECK ALPHA (LEFT PANE — CYAN TELEMETRY)
+         ------------------------------------------------------------------ -->
+    <section class="deck-pane deck-pane-alpha" id="deckAlphaPane">
+      <!-- Deck Alpha Control Rack -->
+      <div class="deck-rack">
+        <div class="deck-rack-top">
+          <div class="deck-identity">
+            <span class="deck-sigil sigil-alpha">DECK // &alpha;</span>
+            <span class="deck-current-doc-title" id="alphaDocTitle">Audit &amp; Assurance &mdash; May 2026 Question</span>
+          </div>
+          <div class="deck-quick-tools">
+            <a class="tool-btn" id="alphaOpenTab" href="#" target="_blank" title="Open PDF directly in new tab">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              <span>Tab ↗</span>
+            </a>
+            <button class="tool-btn" onclick="toggleFullscreenDeck('alpha')" title="Toggle Alpha Fullscreen">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9M9 21 3 21 3 15M21 3l-7 7M3 21l7-7"/></svg>
+              <span>Focus</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Selectors Toolbar -->
+        <div class="deck-selectors-bar">
+          <!-- Level Select -->
+          <div class="deck-select-group">
+            <span class="deck-select-lbl">LVL</span>
+            <select class="deck-select" id="alphaSelectLevel" onchange="onDeckLevelChange('alpha', this.value)">
+              <option value="PL">PL (Professional)</option>
+              <option value="AL">AL (Advanced)</option>
+            </select>
+          </div>
+
+          <!-- Subject Select -->
+          <div class="deck-select-group">
+            <span class="deck-select-lbl">SUBJ</span>
+            <select class="deck-select select-subject" id="alphaSelectSubject" onchange="onDeckSubjectChange('alpha', this.value)">
+              <!-- Populated via JS -->
+            </select>
+          </div>
+
+          <!-- Diet Select -->
+          <div class="deck-select-group">
+            <span class="deck-select-lbl">DIET</span>
+            <select class="deck-select" id="alphaSelectDiet" onchange="onDeckDietChange('alpha', this.value)">
+              <!-- Populated via JS -->
+            </select>
+          </div>
+
+          <!-- Doc Type Selector Pills -->
+          <div class="doc-type-pills">
+            <button class="doc-pill active-q-alpha" id="alphaPillQ" onclick="setDeckDocType('alpha', 'question')">
+              Question Paper
+            </button>
+            <button class="doc-pill" id="alphaPillA" onclick="setDeckDocType('alpha', 'answer')">
+              Suggested Answer
+            </button>
+            <button class="doc-pill" id="alphaPillM" onclick="setDeckDocType('alpha', 'manual')">
+              Study Manual
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Telemetry Strip -->
+      <div class="deck-tele-strip">
+        <div class="deck-tele-left">
+          <span class="tele-stat">FILE: <span id="alphaTeleFile">loading...</span></span>
+          <span class="tele-stat">SIZE: <span id="alphaTeleSize">0 KB</span></span>
+        </div>
+        <div>
+          <span class="tele-stat">SESSION: <span id="alphaTeleSession" style="color: var(--cyan-bright);">May 2026</span></span>
+        </div>
+      </div>
+
+      <!-- PDF Viewport -->
+      <div class="deck-viewport">
+        <!-- Persistent Recycled Iframe (Alpha) -->
+        <iframe id="iframeAlpha" class="terminal-frame" src="about:blank" title="Deck Alpha Document Viewer"></iframe>
+
+        <!-- Scanline Loading Screen -->
+        <div class="deck-loader" id="loaderAlpha">
+          <div class="loader-spinner"></div>
+          <span class="loader-text">STREAMING TELEMETRY DECK &alpha;...</span>
+        </div>
+
+        <!-- Missing / Fallback Card -->
+        <div class="deck-fallback" id="fallbackAlpha">
+          <div class="fallback-icon">&Delta;</div>
+          <h3 class="fallback-title">DOCUMENT NOT INDEXED IN THIS SESSION</h3>
+          <p class="fallback-msg" id="fallbackMsgAlpha">
+            This subject was not convened in this diet sitting or the PDF has not been released.
+          </p>
+          <button class="btn-term btn-term-cyan" onclick="flipDiet('earlier')">Jump to Adjacent Diet</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------
+         DECK BETA (RIGHT PANE — AMBER TELEMETRY)
+         ------------------------------------------------------------------ -->
+    <section class="deck-pane deck-pane-beta" id="deckBetaPane">
+      <!-- Deck Beta Control Rack -->
+      <div class="deck-rack">
+        <div class="deck-rack-top">
+          <div class="deck-identity">
+            <span class="deck-sigil sigil-beta">DECK // &beta;</span>
+            <span class="deck-current-doc-title" id="betaDocTitle">Audit &amp; Assurance &mdash; Nov-Dec 2025 Question</span>
+          </div>
+          <div class="deck-quick-tools">
+            <a class="tool-btn" id="betaOpenTab" href="#" target="_blank" title="Open PDF directly in new tab">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+              <span>Tab ↗</span>
+            </a>
+            <button class="tool-btn" onclick="toggleFullscreenDeck('beta')" title="Toggle Beta Fullscreen">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 3 21 3 21 9M9 21 3 21 3 15M21 3l-7 7M3 21l7-7"/></svg>
+              <span>Focus</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Selectors Toolbar -->
+        <div class="deck-selectors-bar">
+          <!-- Level Select -->
+          <div class="deck-select-group">
+            <span class="deck-select-lbl">LVL</span>
+            <select class="deck-select" id="betaSelectLevel" onchange="onDeckLevelChange('beta', this.value)">
+              <option value="PL">PL (Professional)</option>
+              <option value="AL">AL (Advanced)</option>
+            </select>
+          </div>
+
+          <!-- Subject Select -->
+          <div class="deck-select-group">
+            <span class="deck-select-lbl">SUBJ</span>
+            <select class="deck-select select-subject" id="betaSelectSubject" onchange="onDeckSubjectChange('beta', this.value)">
+              <!-- Populated via JS -->
+            </select>
+          </div>
+
+          <!-- Diet Select -->
+          <div class="deck-select-group">
+            <span class="deck-select-lbl">DIET</span>
+            <select class="deck-select" id="betaSelectDiet" onchange="onDeckDietChange('beta', this.value)">
+              <!-- Populated via JS -->
+            </select>
+          </div>
+
+          <!-- Doc Type Selector Pills -->
+          <div class="doc-type-pills">
+            <button class="doc-pill active-q-beta" id="betaPillQ" onclick="setDeckDocType('beta', 'question')">
+              Question Paper
+            </button>
+            <button class="doc-pill" id="betaPillA" onclick="setDeckDocType('beta', 'answer')">
+              Suggested Answer
+            </button>
+            <button class="doc-pill" id="betaPillM" onclick="setDeckDocType('beta', 'manual')">
+              Study Manual
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Telemetry Strip -->
+      <div class="deck-tele-strip">
+        <div class="deck-tele-left">
+          <span class="tele-stat">FILE: <span id="betaTeleFile">loading...</span></span>
+          <span class="tele-stat">SIZE: <span id="betaTeleSize">0 KB</span></span>
+        </div>
+        <div>
+          <span class="tele-stat">SESSION: <span id="betaTeleSession" style="color: var(--amber-bright);">Nov-Dec 2025</span></span>
+        </div>
+      </div>
+
+      <!-- PDF Viewport -->
+      <div class="deck-viewport">
+        <!-- Persistent Recycled Iframe (Beta) -->
+        <iframe id="iframeBeta" class="terminal-frame" src="about:blank" title="Deck Beta Document Viewer"></iframe>
+
+        <!-- Scanline Loading Screen -->
+        <div class="deck-loader" id="loaderBeta">
+          <div class="loader-spinner"></div>
+          <span class="loader-text">STREAMING TELEMETRY DECK &beta;...</span>
+        </div>
+
+        <!-- Missing / Fallback Card -->
+        <div class="deck-fallback" id="fallbackBeta">
+          <div class="fallback-icon">&Delta;</div>
+          <h3 class="fallback-title">DOCUMENT NOT INDEXED IN THIS SESSION</h3>
+          <p class="fallback-msg" id="fallbackMsgBeta">
+            This subject was not convened in this diet sitting or the PDF has not been released.
+          </p>
+          <button class="btn-term btn-term-amber" onclick="flipDiet('earlier')">Jump to Adjacent Diet</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================================================================
+       6. CURRICULUM MARK WEIGHTING RADAR & INTELLIGENCE DRAWER
+       ====================================================================== -->
+  <section class="radar-drawer" id="radarDrawer">
+    <!-- Drawer Header Bar -->
+    <div class="radar-drawer-head" onclick="toggleRadarDrawer()">
+      <div class="radar-drawer-title-group">
+        <span class="radar-drawer-title">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          CURRICULUM MARK WEIGHTING RADAR &bull; ICAB OFFICIAL SYLLABUS INTELLIGENCE
+        </span>
+        <div class="radar-subject-pills" id="radarSubjectPills" onclick="event.stopPropagation()">
+          <!-- Populated via JS: FAR, AA, BPTC, CR, CS, BST, FM, CLP, ITG, SBML -->
+        </div>
+      </div>
+      <div>
+        <span id="radarDrawerToggleIcon" style="font-family: var(--font-mono); font-size: 11px; color: var(--ink-dim);">[▲ HIDE PANEL]</span>
+      </div>
+    </div>
+
+    <!-- Drawer Content Body -->
+    <div class="radar-drawer-body">
+      <!-- Left Column: Module Weighting Breakdown -->
+      <div class="radar-modules-col">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+          <span style="font-family: var(--font-mono); font-size: 10px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase;">
+            SYLLABUS MODULES &amp; WEIGHTINGS
+          </span>
+          <span style="font-family: var(--font-mono); font-size: 9.5px; color: var(--cyan-bright);" id="radarActivePaperCode">
+            PAPER // FAR (100 MARKS)
+          </span>
+        </div>
+        <div id="radarModulesList">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+
+      <!-- Right Column: 13-Diet Exam Question Links & Trends -->
+      <div class="radar-matrix-col">
+        <div class="radar-matrix-header">
+          <div>
+            <div class="matrix-title" id="matrixColTitle">13-DIET QUESTION EVOLUTION &amp; ROTATION TRENDS</div>
+            <div class="matrix-subtitle" id="matrixColSub">Click any module on the left to filter questions or click below to load directly into Deck &alpha; or &beta;</div>
+          </div>
+          <div>
+            <button class="btn-term btn-term-cyan" onclick="openManualForCurrentSubject()" style="font-size: 10px; padding: 3px 8px;">
+              <span>Open Study Manual &rarr;</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Question Cards Grid -->
+        <div class="matrix-question-grid" id="matrixQuestionsGrid">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================================
+       7. OFFICIAL MANUALS & SYLLABUS MODAL DRAWER (`getAllManuals()`)
+       ====================================================================== -->
+  <div class="modal-overlay" id="manualsModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/></svg>
+          <h2 class="modal-title">OFFICIAL STUDY MANUALS &amp; CURRICULUM REPOSITORY</h2>
+          <span class="radar-badge-pill badge-cyan">21 VOLUMES INGESTED</span>
+        </div>
+        <button class="modal-close-btn" onclick="closeManualsModal()">&times;</button>
+      </div>
+
+      <div class="modal-toolbar">
+        <div class="manuals-filter-group">
+          <button class="filter-btn active" id="btnFilterAll" onclick="filterManuals('ALL')">ALL (21)</button>
+          <button class="filter-btn" id="btnFilterPL" onclick="filterManuals('PL')">PL (11)</button>
+          <button class="filter-btn" id="btnFilterAL" onclick="filterManuals('AL')">AL (9)</button>
+          <button class="filter-btn" id="btnFilterIVS" onclick="filterManuals('IVS')">IVS &amp; SYLLABUS</button>
+        </div>
+        <div>
+          <input type="text" class="manual-search-input" id="manualSearchInput" placeholder="Filter manuals or standards..." oninput="onManualSearch(this.value)">
+        </div>
+      </div>
+
+      <div class="modal-content-list" id="manualsListContainer">
+        <!-- Ingested via getAllManuals() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       8. KEYBOARD SHORTCUTS CHEATSHEET MODAL
+       ====================================================================== -->
+  <div class="modal-overlay" id="shortcutsModal">
+    <div class="modal-window" style="max-width: 680px;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"/><path d="M6 8h.001M10 8h.001M14 8h.001M18 8h.001M6 12h.001M10 12h.001M14 12h.001M18 12h.001M7 16h10"/></svg>
+          <h2 class="modal-title">EXAMRADAR RAPID FILMSTRIP FLIPPER SHORTCUTS</h2>
+        </div>
+        <button class="modal-close-btn" onclick="closeShortcutsModal()">&times;</button>
+      </div>
+
+      <div class="shortcuts-grid">
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Flip to Earlier Diet Sitting</span>
+          <kbd>J</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Flip to Later Diet Sitting</span>
+          <kbd>K</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Swap Deck Alpha &harr; Deck Beta</span>
+          <kbd>Space</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Synchronize Beta to Alpha</span>
+          <kbd>D</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Preset 1: Diet vs Diet</span>
+          <kbd>1</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Preset 2: Question vs Answer</span>
+          <kbd>2</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Preset 3: 5-Year Delta (2026 vs 2022)</span>
+          <kbd>3</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Preset 4: Manual vs Exam</span>
+          <kbd>4</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Toggle Official Manuals Drawer</span>
+          <kbd>M</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Toggle Curriculum Weighting Radar</span>
+          <kbd>R</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Open Keyboard Cheatsheet</span>
+          <kbd>?</kbd>
+        </div>
+        <div class="shortcut-row">
+          <span class="shortcut-desc">Close Modal Dialogs</span>
+          <kbd>Esc</kbd>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div class="toast-hud" id="toastHud">Decks Swapped</div>
+
+  <!-- ======================================================================
+       9. TELEMETRY STATUS FOOTER
+       ====================================================================== -->
+  <footer class="radar-footer">
+    <div class="footer-left">
+      <div class="footer-hotkeys-hud">
+        <span class="hotkey-pill"><kbd>J</kbd> Earlier</span>
+        <span class="hotkey-pill"><kbd>K</kbd> Later</span>
+        <span class="hotkey-pill"><kbd>Space</kbd> Swap</span>
+        <span class="hotkey-pill"><kbd>D</kbd> Sync</span>
+        <span class="hotkey-pill"><kbd>1-4</kbd> Presets</span>
+        <span class="hotkey-pill"><kbd>M</kbd> Manuals</span>
+        <span class="hotkey-pill"><kbd>R</kbd> Radar</span>
+      </div>
+    </div>
+    <div class="footer-right">
+      <span>ICAB CHARTERED ACCOUNTANCY ARCHIVE &bull; 13 DIETS PRESERVED (2022-2026)</span>
+    </div>
+  </footer>
+
+  <!-- ======================================================================
+       10. CATALOG INGESTION & JAVASCRIPT ENGINE
+       ====================================================================== -->
+  <script src="catalog.js"></script>
+
+  <script>
+    // ------------------------------------------------------------------------
+    // A. Curriculum Radar & Official Syllabus Intelligence Database
+    // ------------------------------------------------------------------------
+    const SYLLABUS_RADAR = {
+      'Financial Accounting & Reporting': {
+        code: 'FAR',
+        level: 'PL',
+        totalMarks: 100,
+        modules: [
+          { id: 'M1', name: 'Regulatory & Reporting Framework', weight: 15, standards: 'IAS 1, IAS 8, BSEC Rules, FRC Standards', trend: 'Stable', freqScore: 85, description: 'Conceptual framework, qualitative characteristics, fair presentation, and Bangladesh regulatory reporting requirements.' },
+          { id: 'M2', name: 'Assets & Non-Financial Liabilities', weight: 30, standards: 'IAS 16, IAS 36, IAS 38, IAS 40, IAS 37', trend: 'Rising', freqScore: 100, description: 'PPE depreciation & revaluation, impairment testing of CGUs, intangible asset capitalization, provisions and contingent liabilities.' },
+          { id: 'M3', name: 'Revenue & Financial Instruments', weight: 20, standards: 'IFRS 15, IFRS 9, IAS 32', trend: 'Rising', freqScore: 92, description: '5-step revenue recognition model, performance obligations, financial asset classification, amortized cost and ECL provisioning.' },
+          { id: 'M4', name: 'Consolidated Financial Statements', weight: 25, standards: 'IFRS 3, IFRS 10, IAS 28, IFRS 11', trend: 'Core 100%', freqScore: 100, description: 'Mandatory 25-30 mark question every diet: Group accounts, step acquisitions, goodwill calculation, NCI, unrealized intercompany profits.' },
+          { id: 'M5', name: 'Leases, Currency & Presentation', weight: 10, standards: 'IFRS 16, IAS 21, IAS 7, IAS 33', trend: 'Stable', freqScore: 78, description: 'Right-of-use asset and lease liability accounting, functional currency translation, statement of cash flows, basic & diluted EPS.' }
+        ],
+        trendNotes: [
+          { diet: '2026-05_May', title: 'Step Acquisition Consolidation & IFRS 15 Bundled Contracts', qNum: 'Q1 & Q4', marks: '30m + 20m', summary: 'Complex consolidation featuring step acquisition with fair value adjustments to NCI; Question 4 tested software licensing with bundled ongoing maintenance.', moduleIds: ['M4', 'M3'] },
+          { diet: '2025-11_Nov-Dec', title: 'Consolidated SOFP with Associate & IFRS 16 Remeasurement', qNum: 'Q1 & Q2', marks: '25m + 20m', summary: 'Consolidated Statement of Financial Position with mid-year acquisition of an associate under equity method; Question 2 tested lease scope modifications.', moduleIds: ['M4', 'M5'] },
+          { diet: '2025-07_Jul-Aug', title: 'Group P&L/OCI & IAS 37 Decommissioning Provision', qNum: 'Q1 & Q3', marks: '25m + 15m', summary: 'Consolidated Statement of Profit or Loss and OCI with intra-group trading markups; legal and environmental decommissioning provision under IAS 37.', moduleIds: ['M4', 'M2'] },
+          { diet: '2025-03_Mar-Apr', title: 'Consolidation with Unrealized Profits & IAS 36 Impairment', qNum: 'Q1 & Q3', marks: '30m + 20m', summary: 'Inter-company asset transfers and inventory unrealized profits; goodwill impairment allocation across multiple cash-generating units (CGUs).', moduleIds: ['M4', 'M2'] },
+          { diet: '2024-11_Nov-Dec', title: 'Foreign Currency Subsidiary & IAS 38 R&D Capitalization', qNum: 'Q1 & Q2', marks: '30m + 20m', summary: 'Translation of foreign operations using closing rate method and currency translation reserve; research vs development phase criteria under IAS 38.', moduleIds: ['M4', 'M2', 'M5'] },
+          { diet: '2022-03_Mar-Apr', title: 'Baseline 5-Year Benchmark: Standard Group Balance Sheet', qNum: 'Q1', marks: '30m', summary: 'Baseline comparison: Traditional consolidation structure before enhanced IFRS 16 and IFRS 15 scrutiny took full effect in newer sittings.', moduleIds: ['M1', 'M4'] }
+        ]
+      },
+      'Audit & Assurance': {
+        code: 'AA',
+        level: 'PL',
+        totalMarks: 100,
+        modules: [
+          { id: 'M1', name: 'Professional Ethics & Governance', weight: 20, standards: 'ICAB Code, ISQM 1 & 2, IESBA Code', trend: 'Rising', freqScore: 90, description: 'Independence safeguards, conflict of interest, acceptance/continuance of client engagements, quality management standards.' },
+          { id: 'M2', name: 'Planning & Risk Assessment', weight: 25, standards: 'ISA 300, ISA 315 (Revised), ISA 320', trend: 'High Priority', freqScore: 100, description: 'Understanding entity and IT environment, identifying and assessing risks of material misstatement, determining performance materiality.' },
+          { id: 'M3', name: 'Audit Evidence & Substantive Testing', weight: 30, standards: 'ISA 500, ISA 501, ISA 505, ISA 520, ISA 540', trend: 'Core 100%', freqScore: 100, description: 'Designing tailored audit procedures, inventory count attendance, bank and receivable circularization, auditing accounting estimates.' },
+          { id: 'M4', name: 'Audit Conclusions & Reporting', weight: 25, standards: 'ISA 700, ISA 701 (KAM), ISA 705, ISA 570', trend: 'Rising', freqScore: 95, description: 'Forming audit opinion, drafting Key Audit Matters (KAM) for public entities, modified audit reports (qualifications/disclaimers), going concern.' }
+        ],
+        trendNotes: [
+          { diet: '2026-05_May', title: 'ISA 315 IT General Control Failures & Drafting ISA 701 KAM', qNum: 'Q1 & Q2', marks: '25m + 20m', summary: 'Scenario with ERP automated control breakdown leading to unrecorded sales; drafting full KAM paragraph on revenue recognition for listed entity.', moduleIds: ['M2', 'M4'] },
+          { diet: '2025-11_Nov-Dec', title: 'ISA 570 Going Concern Uncertainty & ISA 501 Inventory', qNum: 'Q1 & Q3', marks: '25m + 20m', summary: 'Supply chain collapse threatening operating viability; evaluating management assessment and drafting appropriate reporting paragraph.', moduleIds: ['M3', 'M4'] },
+          { diet: '2025-07_Jul-Aug', title: 'ISA 240 Fraud Risk Indicators & ISA 505 Direct Confirmations', qNum: 'Q2 & Q4', marks: '20m + 20m', summary: 'Management override of controls; evaluation of exceptions in trade receivable positive circularization and alternative substantive procedures.', moduleIds: ['M2', 'M3'] },
+          { diet: '2024-11_Nov-Dec', title: 'ISQM 1 Engagement Quality Review & ISA 540 Fair Value', qNum: 'Q1 & Q3', marks: '20m + 20m', summary: 'Firm-level quality management system review; challenging assumptions in management model for fair value of investment property.', moduleIds: ['M1', 'M3'] }
+        ]
+      },
+      'Business Planning Taxation & Compliance': {
+        code: 'BPTC',
+        level: 'PL',
+        totalMarks: 100,
+        modules: [
+          { id: 'M1', name: 'Corporate & Personal Income Tax', weight: 35, standards: 'Income Tax Act 2023, Sec 49-55, Sec 70 TDS', trend: 'Critical Transition', freqScore: 100, description: 'Comprehensive tax computation under Income Tax Act 2023, disallowed expenditures, minimum tax, surcharge on individual wealth, TDS rules.' },
+          { id: 'M2', name: 'VAT & Supplementary Duty', weight: 25, standards: 'VAT & SD Act 2012, Mushak 6.3/9.1, VDS Rules', trend: 'High Priority', freqScore: 95, description: 'Output VAT calculation, input tax rebate admissibility, Withholding VAT (VDS) obligations and deductions, penal provisions.' },
+          { id: 'M3', name: 'Customs & International Trade', weight: 15, standards: 'Customs Act, Bonded Warehouse, HS Valuation', trend: 'Stable', freqScore: 75, description: 'Customs duty assessment, transaction value vs deductive value, bonded warehouse audit and foreign exchange remittance compliance.' },
+          { id: 'M4', name: 'Tax Planning & Transfer Pricing', weight: 25, standards: 'Section 233 TP, Arm Length Methods, Tax Treaties DTAA', trend: 'Rising', freqScore: 88, description: 'Transfer pricing documentation, selection of most appropriate method (CUP, TNMM), international tax planning, permanent establishment.' }
+        ],
+        trendNotes: [
+          { diet: '2026-05_May', title: 'Income Tax Act 2023 Corporate Return & VDS Non-Compliance', qNum: 'Q1 & Q2', marks: '30m + 20m', summary: 'Total corporate income computation incorporating new disallowed provisions under Income Tax Act 2023; penalty and interest for failure to withhold VAT.', moduleIds: ['M1', 'M2'] },
+          { diet: '2025-11_Nov-Dec', title: 'Individual Tax with Capital Gains & Section 233 Transfer Pricing', qNum: 'Q1 & Q4', marks: '25m + 20m', summary: 'Taxation of resident individual with foreign dividends and property disposal; cross-border management fee justification under transfer pricing rules.', moduleIds: ['M1', 'M4'] },
+          { diet: '2025-07_Jul-Aug', title: 'Minimum Tax Liability (Sec 163) & Mushak 9.1 VAT Return', qNum: 'Q1 & Q3', marks: '30m + 20m', summary: 'Calculation comparing regular tax with gross receipts minimum tax; input tax credit reconciliation and disallowed invoices.', moduleIds: ['M1', 'M2'] },
+          { diet: '2025-03_Mar-Apr', title: 'Customs Valuation (Bonded Warehouse) & Advance Tax Sec 64', qNum: 'Q2 & Q3', marks: '20m + 20m', summary: 'Transaction value vs deductive method in customs duty; quarterly advance tax calculation and penal interest under Income Tax Act.', moduleIds: ['M3', 'M1'] }
+        ]
+      },
+      'Corporate Reporting': {
+        code: 'CR',
+        level: 'AL',
+        totalMarks: 100,
+        modules: [
+          { id: 'M1', name: 'Advanced Complex Group Accounts', weight: 30, standards: 'IFRS 10, IAS 21 Foreign Subs, IFRS 3 Disposal', trend: 'Core 100%', freqScore: 100, description: 'Multi-tier holding structures, overseas subsidiaries with currency translation reserve, loss of control and deemed disposal, joint ventures.' },
+          { id: 'M2', name: 'Complex Financial Instruments & Fair Value', weight: 25, standards: 'IFRS 9 Hedge Accounting, IFRS 13, IAS 32', trend: 'Rising', freqScore: 92, description: 'Cash flow hedges, fair value hedges, convertible debt with embedded derivatives, financial asset derecognition, valuation hierarchies.' },
+          { id: 'M3', name: 'Revenue, Leases & Employee Benefits', weight: 20, standards: 'IFRS 15, IFRS 16, IAS 19 Defined Benefit, IFRS 2', trend: 'High Priority', freqScore: 88, description: 'Complex licensing agreements, sale and leaseback with off-market terms, actuarial valuation of pension liabilities, equity-settled share options.' },
+          { id: 'M4', name: 'Audit Conclusions & Professional Evaluation', weight: 25, standards: 'ISA 700/701, Integrated Reporting <IR>, Skepticism', trend: 'Rising', freqScore: 95, description: 'Audit committee reporting on subjective valuations, resolving ethical disputes between CFO and audit partner, evaluating sustainability metrics.' }
+        ],
+        trendNotes: [
+          { diet: '2026-05_May', title: 'Multi-Tier Group with Foreign Sub & IFRS 9 Hedge Reserve', qNum: 'Q1 (40m)', marks: '40m', summary: 'Comprehensive 40-mark case requiring consolidated financial statements for multi-tier group with European subsidiary, hedge accounting documentation, and auditor critique.', moduleIds: ['M1', 'M2', 'M4'] },
+          { diet: '2025-11_Nov-Dec', title: 'Deconsolidation on Partial Disposal & IAS 19 Pension Deficit', qNum: 'Q1 & Q2', marks: '35m + 25m', summary: 'Accounting for sale of 40% equity holding retaining 30% significant influence; actuarial gains/losses and asset ceiling under IAS 19.', moduleIds: ['M1', 'M3'] },
+          { diet: '2025-07_Jul-Aug', title: 'Step Acquisition to 80% & IFRS 16 Sale and Leaseback', qNum: 'Q1 & Q3', marks: '40m + 20m', summary: 'Remeasurement of previously held 25% interest to fair value through P&L; commercial property sale and leaseback testing transfer of control.', moduleIds: ['M1', 'M3'] },
+          { diet: '2025-03_Mar-Apr', title: 'IFRS 9 Hedge Accounting Documentation & ISA 701 KAM Drafting', qNum: 'Q1 & Q2', marks: '35m + 25m', summary: 'Effectiveness testing for cash flow hedge of forecasted inventory purchase; auditor evaluation of subjective fair value measurements.', moduleIds: ['M2', 'M4'] }
+        ]
+      },
+      'Case Study': {
+        code: 'CS',
+        level: 'AL',
+        totalMarks: 100,
+        modules: [
+          { id: 'M1', name: 'Strategic Position & Industry Environment', weight: 30, standards: 'SWOT, PESTEL, Porter 5 Forces, Value Chain', trend: 'Core 100%', freqScore: 100, description: 'Analysis of pre-seen industry data, competitive forces, macro headwinds, regulatory compliance, and business model viability.' },
+          { id: 'M2', name: 'Operational & Financial Evaluation', weight: 25, standards: 'Financial Ratios, Variance Analysis, Working Capital', trend: 'Core 100%', freqScore: 100, description: 'Diagnostic analysis of company performance, gross margin decline, cash conversion cycle, liquidity risks, debt covenant headroom.' },
+          { id: 'M3', name: 'Financial Forecasting & Investment Appraisal', weight: 25, standards: 'DCF/NPV, Sensitivity Testing, Financing Mix', trend: 'Core 100%', freqScore: 100, description: 'Appraisal of competing strategic options, building projected financial statements, evaluating funding structures (debt vs equity vs sukuk).' },
+          { id: 'M4', name: 'Strategic Recommendations & Professional Ethics', weight: 20, standards: 'Board Memorandum, Risk Register, Governance', trend: 'Core 100%', freqScore: 100, description: 'Drafting structured formal advisory report to the Board, prioritized implementation roadmap, operational risk mitigations, ethical integrity.' }
+        ],
+        trendNotes: [
+          { diet: '2026-05_May', title: 'Apex Clean Energy Ltd — Battery Storage Capex & Covenant Renegotiation', qNum: 'Full 4-Hour Case', marks: '100m', summary: 'Pre-seen and unseen case on renewable IPP expanding into grid-scale battery storage; evaluating financing mix and managing currency volatility.', moduleIds: ['M1', 'M2', 'M3', 'M4'] },
+          { diet: '2025-11_Nov-Dec', title: 'Biomax Pharma Ltd — Biosimilar R&D & US FDA Compliance', qNum: 'Full 4-Hour Case', marks: '100m', summary: 'Generic manufacturer facing product recall and margin squeeze; strategic assessment of international contract manufacturing partnership.', moduleIds: ['M1', 'M2', 'M3', 'M4'] },
+          { diet: '2025-07_Jul-Aug', title: 'TransLogix Logistics — Automated Cold Chain Expansion', qNum: 'Full 4-Hour Case', marks: '100m', summary: 'Cold chain supply business evaluating major automated warehouse expansion amidst severe fuel price fluctuations.', moduleIds: ['M1', 'M2', 'M3', 'M4'] }
+        ]
+      },
+      'Business Strategy & Technology': {
+        code: 'BST',
+        level: 'PL',
+        totalMarks: 100,
+        modules: [
+          { id: 'M1', name: 'Strategic Analysis & Business Models', weight: 35, standards: 'Ansoff Matrix, Porter Generic, BCG Matrix', trend: 'Core 100%', freqScore: 95, description: 'Strategic positioning, evaluating competitive advantage, assessing diversification and digital business models.' },
+          { id: 'M2', name: 'Technology, Data Analytics & AI', weight: 30, standards: 'Big Data, Cloud ERP, Cybersecurity, AI', trend: 'Rising Fast', freqScore: 90, description: 'Cloud migration risks, big data analytics for customer acquisition, AI adoption in business processes, cyber defense framework.' },
+          { id: 'M3', name: 'Performance Management & Change', weight: 35, standards: 'Balanced Scorecard, Kotter 8-Step, Value Chain', trend: 'Stable', freqScore: 90, description: 'KPI architecture, divisional performance appraisal, managing organizational change and operational bottlenecks.' }
+        ],
+        trendNotes: [
+          { diet: '2026-05_May', title: 'Fintech Market Entry & Cloud Migration Cyber Assessment', qNum: 'Q1 & Q3', marks: '30m + 20m', summary: 'Digital banking strategy against traditional incumbents; risk assessment of cloud infrastructure migration and customer data privacy.', moduleIds: ['M1', 'M2'] },
+          { diet: '2025-11_Nov-Dec', title: 'Balanced Scorecard Architecture & Kotter 8-Step Turnaround', qNum: 'Q1 & Q2', marks: '30m + 20m', summary: 'Design of balanced scorecard cascading to retail branches; managing resistance in merger turnaround under Kotter model.', moduleIds: ['M3', 'M1'] }
+        ]
+      },
+      'Financial Management': {
+        code: 'FM',
+        level: 'PL',
+        totalMarks: 100,
+        modules: [
+          { id: 'M1', name: 'Investment Appraisal & Project Finance', weight: 35, standards: 'NPV / IRR / MIRR, Capital Rationing, Sensitivity', trend: 'Core 100%', freqScore: 100, description: 'Multi-year project cash flows, inflation and tax adjustments, APV for changing capital structure, real options.' },
+          { id: 'M2', name: 'Cost of Capital & Capital Structure', weight: 25, standards: 'WACC, CAPM, Modigliani-Miller Propositions', trend: 'Core 100%', freqScore: 95, description: 'Cost of equity and debt, un-gearing and re-gearing beta, optimal gearing levels, credit rating impact.' },
+          { id: 'M3', name: 'Financial Risk Management & Hedging', weight: 25, standards: 'Forward Contracts, Currency Options, Swaps', trend: 'Rising', freqScore: 88, description: 'Transaction and translation foreign exchange exposure, forward exchange contracts, money market hedge, interest rate caps and swaps.' },
+          { id: 'M4', name: 'Working Capital & Business Valuation', weight: 15, standards: 'Operating Cycle, FCFF / FCFE, Valuation Multiples', trend: 'Stable', freqScore: 80, description: 'Optimizing inventory and debtor policies, cash budget forecasting, free cash flow valuation models.' }
+        ],
+        trendNotes: [
+          { diet: '2026-05_May', title: 'Advanced NPV with Foreign Subsidiary & Currency Option Hedging', qNum: 'Q1 & Q2', marks: '30m + 25m', summary: 'Appraisal of overseas assembly plant including withholding tax on dividends and exchange risk hedging.', moduleIds: ['M1', 'M3'] },
+          { diet: '2025-11_Nov-Dec', title: 'WACC Re-Gearing & Working Capital Operating Cycle Optimization', qNum: 'Q1 & Q3', marks: '30m + 20m', summary: 'Un-gearing asset beta from comparable peer and re-gearing for new debt mix; operating cycle reduction via factoring.', moduleIds: ['M2', 'M4'] }
+        ]
+      },
+      'Corporate Laws & Practices': {
+        code: 'CLP',
+        level: 'PL',
+        totalMarks: 100,
+        modules: [
+          { id: 'M1', name: 'Companies Act 1994 & Corporate Governance', weight: 40, standards: 'Sec 59-115, Board of Directors, BSEC CGC Code', trend: 'Core 100%', freqScore: 100, description: 'Company formation, share capital alteration, board meetings, director duties and disqualifications, BSEC Corporate Governance Code.' },
+          { id: 'M2', name: 'Securities & Capital Market Regulations', weight: 25, standards: 'BSEC Act 1993, Public Issue Rules, Insider Trading', trend: 'Rising', freqScore: 90, description: 'IPO prospectus requirements, rights issue procedures, substantial share acquisition, prevention of market manipulation.' },
+          { id: 'M3', name: 'Banking & Financial Institutions Laws', weight: 20, standards: 'Bank Company Act 1991, NBFI Rules, Artha Rin', trend: 'High Priority', freqScore: 85, description: 'Bank licensing, single borrower exposure limits, default loan classification, Artha Rin Adalat proceedings.' },
+          { id: 'M4', name: 'Commercial & Foreign Exchange Laws', weight: 15, standards: 'FERA 1947, Contract Act, Arbitration Act', trend: 'Stable', freqScore: 75, description: 'Bangladesh Bank foreign exchange guidelines, cross-border remittances, dispute resolution under Arbitration Act 2001.' }
+        ],
+        trendNotes: [
+          { diet: '2026-05_May', title: 'BSEC Corporate Governance Code Independent Directors & Rights Issue', qNum: 'Q1 & Q3', marks: '25m + 20m', summary: 'Evaluating board composition compliance; step-by-step statutory process for rights share issuance under Companies Act 1994.', moduleIds: ['M1', 'M2'] },
+          { diet: '2025-11_Nov-Dec', title: 'Bank Company Act Single Borrower Limit & FERA 1947 Remittance', qNum: 'Q2 & Q3', marks: '25m + 25m', summary: 'Evaluating compliance with central bank single borrower exposure ceiling; overseas royalty remittance documentation under FERA.', moduleIds: ['M3', 'M4'] }
+        ]
+      },
+      'IT Governance': {
+        code: 'ITG',
+        level: 'PL',
+        totalMarks: 100,
+        modules: [
+          { id: 'M1', name: 'IT Strategy, Architecture & Frameworks', weight: 25, standards: 'COBIT 2019, ITIL 4, Enterprise Architecture', trend: 'Core 100%', freqScore: 95, description: 'Aligning IT with corporate strategy, IT balanced scorecard, governance frameworks (COBIT), service delivery models.' },
+          { id: 'M2', name: 'Cybersecurity, Privacy & Risk Management', weight: 30, standards: 'ISO 27001, Cyber Security Act, NIST', trend: 'Critical Rising', freqScore: 100, description: 'Information security management, threat intelligence, ransomware mitigation, data protection legislation compliance.' },
+          { id: 'M3', name: 'IT Audit, Controls & Assurance', weight: 25, standards: 'ISACA Standards, ITGC, ERP Controls, SOC 1/2', trend: 'High Priority', freqScore: 90, description: 'IT general controls (ITGC), segregation of duties in ERP, user access reviews, third-party vendor risk and SOC reports.' },
+          { id: 'M4', name: 'Emerging Technologies & Digital Transformation', weight: 20, standards: 'Cloud Governance, Fintech, Blockchain, AI Ethics', trend: 'Rising Fast', freqScore: 85, description: 'Multi-cloud governance, automated reconciliations, digital payment gateway compliance, AI algorithm transparency.' }
+        ],
+        trendNotes: [
+          { diet: '2026-05_May', title: 'ISO 27001 Security Incident & COBIT Evaluation of Cloud ERP', qNum: 'Q1 & Q2', marks: '30m + 25m', summary: 'Data breach response protocol and regulatory notifications; evaluating cloud vendor controls under SOC 2 Type II framework.', moduleIds: ['M2', 'M1'] },
+          { diet: '2025-11_Nov-Dec', title: 'ITGC User Access Controls Review & SOC 2 Type II Vendor Assurance', qNum: 'Q1 & Q3', marks: '30m + 20m', summary: 'Audit findings on ERP segregation of duties conflicts; analyzing SOC 2 Type II carve-out vs inclusive reporting for outsourced SaaS.', moduleIds: ['M3', 'M4'] }
+        ]
+      },
+      'Strategic Business Management & Leadership': {
+        code: 'SBML',
+        level: 'AL',
+        totalMarks: 100,
+        modules: [
+          { id: 'M1', name: 'Strategic Leadership & Corporate Governance', weight: 30, standards: 'Leadership Frameworks, Board Dynamics, Stakeholders', trend: 'Core 100%', freqScore: 100, description: 'Transformational leadership, steering organizational turnaround, board effectiveness, managing shareholder activism.' },
+          { id: 'M2', name: 'Financial Strategy & Capital Allocation', weight: 25, standards: 'M&A Valuation, Restructuring, Dividend Policy', trend: 'Core 100%', freqScore: 95, description: 'Cross-border M&A synergy evaluation, defensive restructuring, optimizing dividend signaling and capital structure.' },
+          { id: 'M3', name: 'Enterprise Risk Management (ERM)', weight: 25, standards: 'COSO ERM, ISO 31000, Crisis Leadership', trend: 'Rising', freqScore: 90, description: 'Enterprise risk taxonomy, appetite and tolerance statements, stress-testing black swan scenarios, crisis communications.' },
+          { id: 'M4', name: 'Organizational Transformation & Ethics', weight: 20, standards: 'Cultural Change, Whistleblowing, ESG Integration', trend: 'Rising Fast', freqScore: 85, description: 'Driving post-merger integration, designing robust whistleblowing systems, integrating ESG into executive compensation.' }
+        ],
+        trendNotes: [
+          { diet: '2026-05_May', title: 'Cross-Border M&A Turnaround & Supply Chain Resilience Strategy', qNum: 'Q1 (40m)', marks: '40m', summary: 'Senior executive dilemma: evaluating distressed acquisition of regional manufacturer, restructuring debt, and addressing cultural integration.', moduleIds: ['M1', 'M2'] },
+          { diet: '2025-11_Nov-Dec', title: 'COSO ERM Black Swan Scenario & ESG Leadership Strategy', qNum: 'Q1 (40m)', marks: '40m', summary: 'Enterprise risk governance for supply chain geopolitical disruption; integrating sustainability targets into executive long-term incentive plans.', moduleIds: ['M3', 'M4'] }
+        ]
+      }
+    };
+
+    // ------------------------------------------------------------------------
+    // B. Manuals Ingestion Routine (`getAllManuals()`)
+    // ------------------------------------------------------------------------
+    function getAllManuals() {
+      const manuals = [];
+      if (typeof CATALOG !== 'undefined' && CATALOG && CATALOG.Manuals) {
+        const levels = ['PL', 'AL'];
+        levels.forEach(lvl => {
+          if (CATALOG.Manuals[lvl]) {
+            const subjects = Object.keys(CATALOG.Manuals[lvl]);
+            subjects.forEach(subject => {
+              const items = CATALOG.Manuals[lvl][subject];
+              const arr = Array.isArray(items) ? items : [items];
+              arr.forEach(item => {
+                manuals.push({
+                  title: item.title || (item.filename ? item.filename.replace(/\.pdf$/i, '') : subject),
+                  filename: item.filename,
+                  rel_path: item.rel_path,
+                  size_mb: item.size_mb || (item.size_kb ? (item.size_kb / 1024).toFixed(2) : 'N/A'),
+                  level: lvl,
+                  subject: subject,
+                  isSyllabus: false,
+                  isIVS: subject.toLowerCase().includes('ivs') || (item.title && item.title.toLowerCase().includes('ivs'))
+                });
+              });
+            });
+          }
+        });
+      }
+      if (typeof SYLLABUS_DOC !== 'undefined' && SYLLABUS_DOC) {
+        manuals.push({
+          title: SYLLABUS_DOC.title || "ICAB Latest Syllabus (2025)",
+          filename: "ICAB Latest Syllabus (2025).pdf",
+          rel_path: SYLLABUS_DOC.rel_path,
+          size_mb: SYLLABUS_DOC.size_mb || 6.2,
+          level: 'ALL',
+          subject: 'Curriculum Framework',
+          isSyllabus: true,
+          isIVS: false
+        });
+      }
+      return manuals;
+    }
+
+    // ------------------------------------------------------------------------
+    // C. Application State & Telemetry Engine
+    // ------------------------------------------------------------------------
+    const state = {
+      alpha: {
+        level: 'PL',
+        subject: 'Financial Accounting & Reporting',
+        diet: '2026-05_May',
+        docType: 'question', // 'question' | 'answer' | 'manual'
+        customManual: null
+      },
+      beta: {
+        level: 'PL',
+        subject: 'Financial Accounting & Reporting',
+        diet: '2025-11_Nov-Dec',
+        docType: 'question',
+        customManual: null
+      },
+      activePreset: 'diet-vs-diet',
+      workbenchSplit: '50-50',
+      radarSubject: 'Financial Accounting & Reporting',
+      radarSelectedModuleId: null,
+      radarDrawerOpen: true,
+      manualsFilter: 'ALL',
+      manualsSearchQuery: ''
+    };
+
+    // Debounce timers for memory recycling & rapid flipper responsiveness
+    let debounceTimerAlpha = null;
+    let debounceTimerBeta = null;
+
+    // Toast Timer
+    let toastTimeout = null;
+
+    // ------------------------------------------------------------------------
+    // D. Initialization & Population
+    // ------------------------------------------------------------------------
+    if (typeof window !== 'undefined') {
+      window.addEventListener('DOMContentLoaded', () => {
+        initDeckSelectors('alpha');
+        initDeckSelectors('beta');
+        renderDietRibbon();
+        renderRadarSubjectPills();
+        renderRadarContent();
+        renderManualsModalList();
+        applyWorkbenchSplit(state.workbenchSplit);
+
+        // Initial Deck Load (Immediate on boot)
+        renderDeck('alpha', true);
+        renderDeck('beta', true);
+
+        initKeyboardShortcuts();
+      });
+    }
+
+    function initDeckSelectors(deckId) {
+      const isAlpha = deckId === 'alpha';
+      const deckState = isAlpha ? state.alpha : state.beta;
+
+      const lvlSelect = document.getElementById(isAlpha ? 'alphaSelectLevel' : 'betaSelectLevel');
+      const subjSelect = document.getElementById(isAlpha ? 'alphaSelectSubject' : 'betaSelectSubject');
+      const dietSelect = document.getElementById(isAlpha ? 'alphaSelectDiet' : 'betaSelectDiet');
+
+      lvlSelect.value = deckState.level;
+
+      // Populate Subjects
+      populateSubjectDropdown(deckId, deckState.level, deckState.subject);
+
+      // Populate Diets
+      dietSelect.innerHTML = '';
+      if (typeof SESSIONS_ORDER !== 'undefined') {
+        SESSIONS_ORDER.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.tag;
+          opt.textContent = s.label + (s.tag === '2026-05_May' ? ' (Latest)' : s.tag === '2022-03_Mar-Apr' ? ' (Baseline)' : '');
+          dietSelect.appendChild(opt);
+        });
+      }
+      dietSelect.value = deckState.diet;
+    }
+
+    function populateSubjectDropdown(deckId, level, selectedSubject) {
+      const isAlpha = deckId === 'alpha';
+      const subjSelect = document.getElementById(isAlpha ? 'alphaSelectSubject' : 'betaSelectSubject');
+      subjSelect.innerHTML = '';
+
+      const subjects = (typeof SUBJECT_ORDER !== 'undefined' && SUBJECT_ORDER[level]) 
+        ? [...SUBJECT_ORDER[level]] 
+        : (typeof CATALOG !== 'undefined' && CATALOG[level] ? Object.keys(CATALOG[level]) : []);
+
+      // Preserve special or custom manual subjects (e.g. IVS or Curriculum Framework)
+      if (selectedSubject && !subjects.includes(selectedSubject)) {
+        subjects.push(selectedSubject);
+      }
+
+      subjects.forEach(subj => {
+        const opt = document.createElement('option');
+        opt.value = subj;
+        const code = (typeof PAPER_CODES !== 'undefined' && PAPER_CODES[subj]) ? `[${PAPER_CODES[subj]}] ` : '';
+        opt.textContent = code + subj;
+        subjSelect.appendChild(opt);
+      });
+
+      if (selectedSubject && subjects.includes(selectedSubject)) {
+        subjSelect.value = selectedSubject;
+      } else if (subjects.length > 0) {
+        subjSelect.value = subjects[0];
+        if (isAlpha) state.alpha.subject = subjects[0];
+        else state.beta.subject = subjects[0];
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // E. 13-Diet Chronological Ribbon Renderer
+    // ------------------------------------------------------------------------
+    function renderDietRibbon() {
+      const container = document.getElementById('dietStripContainer');
+      if (!container || typeof SESSIONS_ORDER === 'undefined') return;
+
+      container.innerHTML = '';
+
+      const currentSubject = state.alpha.subject;
+      const currentLevel = state.alpha.level;
+      const subjectCatalog = (typeof CATALOG !== 'undefined' && CATALOG[currentLevel]) ? CATALOG[currentLevel][currentSubject] : null;
+
+      SESSIONS_ORDER.forEach(session => {
+        const dietItem = subjectCatalog ? subjectCatalog.find(d => d.session_tag === session.tag) : null;
+        const hasQ = !!(dietItem && dietItem.question);
+        const hasA = !!(dietItem && dietItem.answer);
+        const isHeld = hasQ || hasA;
+
+        const isAlpha = state.alpha.diet === session.tag;
+        const isBeta = state.beta.diet === session.tag;
+
+        const card = document.createElement('div');
+        card.className = 'diet-card';
+        if (isAlpha && isBeta) card.classList.add('active-both');
+        else if (isAlpha) card.classList.add('active-alpha');
+        else if (isBeta) card.classList.add('active-beta');
+
+        if (!isHeld) card.classList.add('disabled-diet');
+
+        card.innerHTML = `
+          <div class="diet-card-head">
+            <span class="diet-tag-pill">${session.tag.substring(0, 7)}</span>
+            <div class="diet-deck-indicators">
+              ${isAlpha ? '<span class="deck-badge deck-badge-alpha">&alpha;</span>' : ''}
+              ${isBeta ? '<span class="deck-badge deck-badge-beta">&beta;</span>' : ''}
+            </div>
+          </div>
+          <div class="diet-card-label" title="${session.label}">${session.label}</div>
+          <div class="diet-card-footer">
+            <div class="diet-doc-tags">
+              <span class="dot-doc ${hasQ ? 'has-q' : ''}" title="${hasQ ? 'Question Available' : 'No Question'}">Q</span>
+              <span class="dot-doc ${hasA ? 'has-a' : ''}" title="${hasA ? 'Answer Available' : 'No Answer'}">A</span>
+            </div>
+            <div class="diet-assign-actions" onclick="event.stopPropagation()">
+              <button class="btn-assign btn-assign-a" onclick="setDietDirect('alpha', '${session.tag}')" title="Set Deck Alpha to this diet">&alpha;</button>
+              <button class="btn-assign btn-assign-b" onclick="setDietDirect('beta', '${session.tag}')" title="Set Deck Beta to this diet">&beta;</button>
+            </div>
+          </div>
+        `;
+
+        card.addEventListener('click', () => {
+          onDietRibbonCardClick(session.tag);
+        });
+
+        container.appendChild(card);
+      });
+    }
+
+    function onDietRibbonCardClick(dietTag) {
+      if (state.activePreset === 'q-vs-a') {
+        state.alpha.diet = dietTag;
+        state.alpha.docType = 'question';
+        state.beta.diet = dietTag;
+        state.beta.docType = 'answer';
+        state.beta.level = state.alpha.level;
+        state.beta.subject = state.alpha.subject;
+        syncDeckDropdowns();
+        renderDeck('alpha');
+        renderDeck('beta');
+      } else if (state.activePreset === 'diet-vs-diet') {
+        state.alpha.diet = dietTag;
+        const dietIdx = SESSIONS_ORDER.findIndex(s => s.tag === dietTag);
+        const prevDietTag = (dietIdx + 1 < SESSIONS_ORDER.length) ? SESSIONS_ORDER[dietIdx + 1].tag : dietTag;
+        state.beta.diet = prevDietTag;
+        state.beta.level = state.alpha.level;
+        state.beta.subject = state.alpha.subject;
+        state.beta.docType = state.alpha.docType;
+        syncDeckDropdowns();
+        renderDeck('alpha');
+        renderDeck('beta');
+      } else {
+        state.alpha.diet = dietTag;
+        syncDeckDropdowns();
+        renderDeck('alpha');
+      }
+    }
+
+    function setDietDirect(deckId, dietTag) {
+      if (deckId === 'alpha') {
+        state.alpha.diet = dietTag;
+      } else {
+        state.beta.diet = dietTag;
+      }
+      syncDeckDropdowns();
+      renderDeck(deckId);
+      showToast(`Set Deck ${deckId === 'alpha' ? '&alpha;' : '&beta;'} to ${dietTag.replace(/_/g, ' ')}`);
+    }
+
+    // ------------------------------------------------------------------------
+    // F. Deck Rendering & Debounced Iframe Engine (Recycled Nodes)
+    // ------------------------------------------------------------------------
+    function renderDeck(deckId, immediate = false) {
+      const isAlpha = deckId === 'alpha';
+      const deckState = isAlpha ? state.alpha : state.beta;
+
+      // 1. Zero-latency UI updates
+      updateDeckTelemetry(deckId);
+      renderDietRibbon();
+      updateDeltaHUD();
+
+      // 2. Debounce the actual iframe src mutation
+      const timer = isAlpha ? debounceTimerAlpha : debounceTimerBeta;
+      if (timer) clearTimeout(timer);
+
+      const apply = () => {
+        applyIframeSrc(deckId);
+      };
+
+      if (immediate) {
+        apply();
+      } else {
+        const timeout = setTimeout(apply, 250);
+        if (isAlpha) debounceTimerAlpha = timeout;
+        else debounceTimerBeta = timeout;
+      }
+    }
+
+    function applyIframeSrc(deckId) {
+      const isAlpha = deckId === 'alpha';
+      const iframe = document.getElementById(isAlpha ? 'iframeAlpha' : 'iframeBeta');
+      const loader = document.getElementById(isAlpha ? 'loaderAlpha' : 'loaderBeta');
+      const fallback = document.getElementById(isAlpha ? 'fallbackAlpha' : 'fallbackBeta');
+      const openTabBtn = document.getElementById(isAlpha ? 'alphaOpenTab' : 'betaOpenTab');
+
+      const docInfo = resolveDeckDocument(deckId);
+
+      if (!docInfo || !docInfo.rel_path) {
+        iframe.style.display = 'none';
+        loader.style.display = 'none';
+        fallback.style.display = 'flex';
+        openTabBtn.href = '#';
+        return;
+      }
+
+      fallback.style.display = 'none';
+      iframe.style.display = 'block';
+      loader.style.display = 'flex';
+
+      const targetSrc = docInfo.rel_path;
+      const encodedSrc = encodeURI(targetSrc);
+      openTabBtn.href = encodedSrc;
+
+      // Only update iframe src if it differs to conserve memory
+      const targetFrameUrl = `${encodedSrc}#page=1&zoom=page-fit`;
+      const currentSrc = iframe.getAttribute('src');
+      if (currentSrc !== targetSrc && currentSrc !== encodedSrc && currentSrc !== targetFrameUrl) {
+        iframe.src = targetFrameUrl;
+      }
+
+      iframe.onload = () => {
+        loader.style.display = 'none';
+      };
+
+      // Built-in safety fallback for embedded browser PDF viewer
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 700);
+    }
+
+    function resolveDeckDocument(deckId) {
+      const isAlpha = deckId === 'alpha';
+      const deckState = isAlpha ? state.alpha : state.beta;
+
+      if (deckState.docType === 'manual') {
+        if (deckState.customManual) return deckState.customManual;
+        const manuals = getAllManuals();
+        const found = manuals.find(m => m.subject === deckState.subject && m.level === deckState.level) 
+                   || manuals.find(m => m.subject === deckState.subject)
+                   || manuals[0];
+        return found;
+      }
+
+      if (typeof CATALOG === 'undefined' || !CATALOG[deckState.level]) return null;
+      const subCatalog = CATALOG[deckState.level][deckState.subject];
+      if (!subCatalog) return null;
+
+      const dietItem = subCatalog.find(d => d.session_tag === deckState.diet);
+      if (!dietItem) return null;
+
+      if (deckState.docType === 'question') {
+        return dietItem.question;
+      } else {
+        return dietItem.answer || dietItem.question;
+      }
+    }
+
+    function updateDeckTelemetry(deckId) {
+      const isAlpha = deckId === 'alpha';
+      const deckState = isAlpha ? state.alpha : state.beta;
+      const docInfo = resolveDeckDocument(deckId);
+
+      const titleEl = document.getElementById(isAlpha ? 'alphaDocTitle' : 'betaDocTitle');
+      const fileEl = document.getElementById(isAlpha ? 'alphaTeleFile' : 'betaTeleFile');
+      const sizeEl = document.getElementById(isAlpha ? 'alphaTeleSize' : 'betaTeleSize');
+      const sessionEl = document.getElementById(isAlpha ? 'alphaTeleSession' : 'betaTeleSession');
+
+      const docTypeLabel = deckState.docType === 'question' ? 'Question Paper' 
+                        : deckState.docType === 'answer' ? 'Suggested Answer' 
+                        : 'Study Manual';
+
+      const sessionObj = (typeof SESSIONS_ORDER !== 'undefined') ? SESSIONS_ORDER.find(s => s.tag === deckState.diet) : null;
+      const sessionLabel = sessionObj ? sessionObj.label : deckState.diet;
+
+      if (deckState.docType === 'manual') {
+        const manTitle = docInfo ? (docInfo.title || docInfo.filename) : 'Curriculum Manual';
+        titleEl.textContent = `${deckState.subject} — ${manTitle}`;
+        fileEl.textContent = docInfo ? (docInfo.filename || 'Manual.pdf') : 'N/A';
+        sizeEl.textContent = docInfo ? (docInfo.size_mb ? `${docInfo.size_mb} MB` : 'N/A') : 'N/A';
+        sessionEl.textContent = 'Curriculum Core';
+      } else if (docInfo) {
+        titleEl.textContent = `${deckState.subject} — ${sessionLabel} ${docTypeLabel}`;
+        fileEl.textContent = docInfo.filename || 'ExamPaper.pdf';
+        sizeEl.textContent = docInfo.size_kb ? `${docInfo.size_kb} KB` : docInfo.size_mb ? `${docInfo.size_mb} MB` : 'N/A';
+        sessionEl.textContent = sessionLabel;
+      } else {
+        titleEl.textContent = `${deckState.subject} — [No Paper in ${sessionLabel}]`;
+        fileEl.textContent = 'None';
+        sizeEl.textContent = '0 KB';
+        sessionEl.textContent = sessionLabel;
+      }
+
+      // Update doc type pill active styles
+      updateDocTypePills(deckId);
+    }
+
+    function updateDocTypePills(deckId) {
+      const isAlpha = deckId === 'alpha';
+      const deckState = isAlpha ? state.alpha : state.beta;
+
+      const pQ = document.getElementById(isAlpha ? 'alphaPillQ' : 'betaPillQ');
+      const pA = document.getElementById(isAlpha ? 'alphaPillA' : 'betaPillA');
+      const pM = document.getElementById(isAlpha ? 'alphaPillM' : 'betaPillM');
+
+      pQ.className = 'doc-pill';
+      pA.className = 'doc-pill';
+      pM.className = 'doc-pill';
+
+      if (deckState.docType === 'question') {
+        pQ.classList.add(isAlpha ? 'active-q-alpha' : 'active-q-beta');
+      } else if (deckState.docType === 'answer') {
+        pA.classList.add(isAlpha ? 'active-a-alpha' : 'active-a-beta');
+      } else {
+        pM.classList.add('active-manual');
+      }
+    }
+
+    function updateDeltaHUD() {
+      const deltaBadge = document.getElementById('deltaBadge');
+      const deltaText = document.getElementById('deltaText');
+
+      if (!deltaBadge || !deltaText || typeof SESSIONS_ORDER === 'undefined') return;
+
+      const idxA = SESSIONS_ORDER.findIndex(s => s.tag === state.alpha.diet);
+      const idxB = SESSIONS_ORDER.findIndex(s => s.tag === state.beta.diet);
+
+      const labelA = SESSIONS_ORDER[idxA] ? SESSIONS_ORDER[idxA].label : state.alpha.diet;
+      const labelB = SESSIONS_ORDER[idxB] ? SESSIONS_ORDER[idxB].label : state.beta.diet;
+
+      const sameSubject = state.alpha.subject === state.beta.subject;
+      const subjectNote = sameSubject ? state.alpha.subject : `&alpha;: ${state.alpha.subject} &bull; &beta;: ${state.beta.subject}`;
+
+      if (state.alpha.docType === 'manual' || state.beta.docType === 'manual') {
+        deltaBadge.className = 'delta-badge delta-badge-match';
+        deltaBadge.textContent = 'THEORY LINK';
+        deltaText.innerHTML = `Comparing: <b>Study Manual</b> vs <b>Past Exam Question</b> &bull; ${subjectNote}`;
+        return;
+      }
+
+      if (idxA === -1 || idxB === -1) {
+        deltaBadge.textContent = 'DELTA';
+        return;
+      }
+
+      const diff = Math.abs(idxA - idxB);
+
+      if (diff === 0) {
+        if (state.alpha.docType !== state.beta.docType) {
+          deltaBadge.className = 'delta-badge delta-badge-match';
+          deltaBadge.textContent = 'SCORING MATCH';
+          deltaText.innerHTML = `Identical Diet: <b>${labelA}</b> &bull; Question vs Answer Scoring Pair &bull; ${subjectNote}`;
+        } else {
+          deltaBadge.className = 'delta-badge delta-badge-match';
+          deltaBadge.textContent = 'IDENTICAL';
+          deltaText.innerHTML = `Both decks viewing <b>${labelA}</b> ${state.alpha.docType} &bull; ${subjectNote}`;
+        }
+      } else {
+        const years = (diff * 0.35).toFixed(1);
+        deltaBadge.className = 'delta-badge delta-badge-diff';
+        deltaBadge.textContent = `DELTA: ${diff} DIET${diff > 1 ? 'S' : ''} (${years} YRS)`;
+        deltaText.innerHTML = `Comparing: <b>&alpha;: ${labelA}</b> vs <b>&beta;: ${labelB}</b> &bull; Gap: ${diff} sittings (~${years} years) &bull; ${subjectNote}`;
+      }
+    }
+
+    function syncDeckDropdowns() {
+      document.getElementById('alphaSelectLevel').value = state.alpha.level;
+      populateSubjectDropdown('alpha', state.alpha.level, state.alpha.subject);
+      document.getElementById('alphaSelectDiet').value = state.alpha.diet;
+
+      document.getElementById('betaSelectLevel').value = state.beta.level;
+      populateSubjectDropdown('beta', state.beta.level, state.beta.subject);
+      document.getElementById('betaSelectDiet').value = state.beta.diet;
+    }
+
+    // ------------------------------------------------------------------------
+    // G. Dropdown & DocType Change Handlers
+    // ------------------------------------------------------------------------
+    function onDeckLevelChange(deckId, newLevel) {
+      const isAlpha = deckId === 'alpha';
+      if (isAlpha) state.alpha.level = newLevel;
+      else state.beta.level = newLevel;
+
+      populateSubjectDropdown(deckId, newLevel, null);
+      if (isAlpha && typeof SYLLABUS_RADAR !== 'undefined' && SYLLABUS_RADAR[state.alpha.subject]) {
+        state.radarSubject = state.alpha.subject;
+        state.radarSelectedModuleId = null;
+        renderRadarContent();
+        renderRadarSubjectPills();
+      }
+      renderDeck(deckId);
+    }
+
+    function onDeckSubjectChange(deckId, newSubj) {
+      const isAlpha = deckId === 'alpha';
+      if (isAlpha) {
+        state.alpha.subject = newSubj;
+        state.radarSubject = newSubj;
+        renderRadarContent();
+        renderRadarSubjectPills();
+      } else {
+        state.beta.subject = newSubj;
+      }
+      renderDeck(deckId);
+    }
+
+    function onDeckDietChange(deckId, newDiet) {
+      const isAlpha = deckId === 'alpha';
+      if (isAlpha) state.alpha.diet = newDiet;
+      else state.beta.diet = newDiet;
+
+      renderDeck(deckId);
+    }
+
+    function setDeckDocType(deckId, docType) {
+      const isAlpha = deckId === 'alpha';
+      if (isAlpha) {
+        state.alpha.docType = docType;
+        if (docType !== 'manual') state.alpha.customManual = null;
+      } else {
+        state.beta.docType = docType;
+        if (docType !== 'manual') state.beta.customManual = null;
+      }
+      renderDeck(deckId);
+    }
+
+    // ------------------------------------------------------------------------
+    // H. Rapid Filmstrip Flipper Routines (Hotkeys J / K)
+    // ------------------------------------------------------------------------
+    function flipDiet(direction) {
+      if (typeof SESSIONS_ORDER === 'undefined') return;
+
+      const currentTag = state.alpha.diet;
+      const currentIndex = SESSIONS_ORDER.findIndex(s => s.tag === currentTag);
+      if (currentIndex === -1) return;
+
+      let nextIndex = currentIndex;
+      if (direction === 'earlier') {
+        // Chronologically earlier (down the array)
+        if (currentIndex < SESSIONS_ORDER.length - 1) nextIndex = currentIndex + 1;
+        else nextIndex = 0; // Wrap to latest
+      } else {
+        // Chronologically later (up the array)
+        if (currentIndex > 0) nextIndex = currentIndex - 1;
+        else nextIndex = SESSIONS_ORDER.length - 1; // Wrap to oldest
+      }
+
+      const newDietTag = SESSIONS_ORDER[nextIndex].tag;
+
+      if (state.activePreset === 'diet-vs-diet') {
+        state.alpha.diet = newDietTag;
+        const prevIdx = (nextIndex + 1 < SESSIONS_ORDER.length) ? nextIndex + 1 : nextIndex;
+        state.beta.diet = SESSIONS_ORDER[prevIdx].tag;
+        syncDeckDropdowns();
+        renderDeck('alpha');
+        renderDeck('beta');
+      } else if (state.activePreset === 'q-vs-a') {
+        state.alpha.diet = newDietTag;
+        state.beta.diet = newDietTag;
+        syncDeckDropdowns();
+        renderDeck('alpha');
+        renderDeck('beta');
+      } else {
+        state.alpha.diet = newDietTag;
+        syncDeckDropdowns();
+        renderDeck('alpha');
+      }
+
+      showToast(`Flipped to ${SESSIONS_ORDER[nextIndex].label}`);
+    }
+
+    function jumpToDiet(dietTag) {
+      state.alpha.diet = dietTag;
+      if (state.activePreset === 'diet-vs-diet') {
+        const idx = SESSIONS_ORDER.findIndex(s => s.tag === dietTag);
+        const prevIdx = (idx + 1 < SESSIONS_ORDER.length) ? idx + 1 : idx;
+        state.beta.diet = SESSIONS_ORDER[prevIdx].tag;
+        renderDeck('beta');
+      }
+      syncDeckDropdowns();
+      renderDeck('alpha');
+      showToast(`Jumped to ${dietTag.replace(/_/g, ' ')}`);
+    }
+
+    // ------------------------------------------------------------------------
+    // I. Deck Presets & Actions (Swap, Sync, Presets 1-4)
+    // ------------------------------------------------------------------------
+    function activatePreset(presetId) {
+      state.activePreset = presetId;
+
+      document.querySelectorAll('.btn-preset').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(
+        presetId === 'diet-vs-diet' ? 'btnPresetDietVsDiet' :
+        presetId === 'q-vs-a' ? 'btnPresetQvsA' :
+        presetId === '5yr-delta' ? 'btnPreset5Yr' : 'btnPresetManualVsExam'
+      );
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const compLabel = document.getElementById('teleCompMode');
+
+      if (presetId === 'diet-vs-diet') {
+        compLabel.textContent = 'Diet vs Diet';
+        // Alpha: Current Diet Q, Beta: Previous Diet Q
+        state.alpha.docType = 'question';
+        state.beta.level = state.alpha.level;
+        state.beta.subject = state.alpha.subject;
+        state.beta.docType = 'question';
+
+        const currIdx = SESSIONS_ORDER.findIndex(s => s.tag === state.alpha.diet);
+        const prevIdx = (currIdx + 1 < SESSIONS_ORDER.length) ? currIdx + 1 : currIdx;
+        state.beta.diet = SESSIONS_ORDER[prevIdx].tag;
+
+        showToast('Mode: Consecutive Diet Comparison (Rotation Finder)');
+      } else if (presetId === 'q-vs-a') {
+        compLabel.textContent = 'Question vs Answer';
+        // Alpha: Current Diet Q, Beta: Same Diet Suggested Answer
+        state.alpha.docType = 'question';
+        state.beta.level = state.alpha.level;
+        state.beta.subject = state.alpha.subject;
+        state.beta.diet = state.alpha.diet;
+        state.beta.docType = 'answer';
+
+        showToast('Mode: Question vs Suggested Answer (Scoring Desk)');
+      } else if (presetId === '5yr-delta') {
+        compLabel.textContent = '5-Year Delta';
+        // Alpha: May 2026, Beta: Mar-Apr 2022
+        state.alpha.diet = '2026-05_May';
+        state.alpha.docType = 'question';
+        state.beta.level = state.alpha.level;
+        state.beta.subject = state.alpha.subject;
+        state.beta.diet = '2022-03_Mar-Apr';
+        state.beta.docType = 'question';
+
+        showToast('Mode: 5-Year Standard Evolution (2026 vs 2022)');
+      } else if (presetId === 'manual-vs-exam') {
+        compLabel.textContent = 'Manual vs Exam';
+        // Alpha: Official Study Manual, Beta: Current Diet Question
+        state.alpha.docType = 'manual';
+        state.beta.level = state.alpha.level;
+        state.beta.subject = state.alpha.subject;
+        state.beta.docType = 'question';
+
+        showToast('Mode: Study Manual vs Past Question (Theory Link)');
+      }
+
+      syncDeckDropdowns();
+      renderDeck('alpha');
+      renderDeck('beta');
+    }
+
+    function swapDecks() {
+      const tempAlpha = { ...state.alpha };
+      state.alpha = { ...state.beta };
+      state.beta = tempAlpha;
+
+      if (typeof SYLLABUS_RADAR !== 'undefined' && SYLLABUS_RADAR[state.alpha.subject]) {
+        state.radarSubject = state.alpha.subject;
+        state.radarSelectedModuleId = null;
+        renderRadarContent();
+        renderRadarSubjectPills();
+      }
+
+      syncDeckDropdowns();
+      renderDeck('alpha', true);
+      renderDeck('beta', true);
+      showToast('Swapped Decks (Deck &alpha; &harr; Deck &beta;)');
+    }
+
+    function syncDecks() {
+      state.beta.level = state.alpha.level;
+      state.beta.subject = state.alpha.subject;
+      state.beta.diet = state.alpha.diet;
+      syncDeckDropdowns();
+      renderDeck('beta');
+      showToast('Synchronized Deck &beta; to match Deck &alpha;');
+    }
+
+    // ------------------------------------------------------------------------
+    // J. Workbench Split Ratios & Fullscreen Focus
+    // ------------------------------------------------------------------------
+    function setWorkbenchSplit(ratio) {
+      state.workbenchSplit = ratio;
+      applyWorkbenchSplit(ratio);
+    }
+
+    function applyWorkbenchSplit(ratio) {
+      const bench = document.getElementById('workbenchChassis');
+      bench.className = 'workbench-chassis';
+
+      document.querySelectorAll('.split-btn').forEach(b => b.classList.remove('active'));
+
+      if (ratio === '70-30') {
+        bench.classList.add('split-70-30');
+        document.getElementById('btnSplit7030').classList.add('active');
+      } else if (ratio === '30-70') {
+        bench.classList.add('split-30-70');
+        document.getElementById('btnSplit3070').classList.add('active');
+      } else if (ratio === 'full-alpha') {
+        bench.classList.add('split-full-alpha');
+      } else if (ratio === 'full-beta') {
+        bench.classList.add('split-full-beta');
+      } else {
+        document.getElementById('btnSplit5050').classList.add('active');
+      }
+    }
+
+    function toggleFullscreenDeck(deckId) {
+      if (state.workbenchSplit === `full-${deckId}`) {
+        setWorkbenchSplit('50-50');
+      } else {
+        setWorkbenchSplit(`full-${deckId}`);
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // K. Curriculum Mark Weighting Radar & Trend Renderer
+    // ------------------------------------------------------------------------
+    function toggleRadarDrawer() {
+      const drawer = document.getElementById('radarDrawer');
+      const icon = document.getElementById('radarDrawerToggleIcon');
+      state.radarDrawerOpen = !state.radarDrawerOpen;
+
+      if (state.radarDrawerOpen) {
+        drawer.classList.remove('collapsed');
+        icon.textContent = '[▲ HIDE PANEL]';
+      } else {
+        drawer.classList.add('collapsed');
+        icon.textContent = '[▼ EXPAND RADAR]';
+      }
+    }
+
+    function renderRadarSubjectPills() {
+      const container = document.getElementById('radarSubjectPills');
+      if (!container) return;
+      container.innerHTML = '';
+
+      Object.keys(SYLLABUS_RADAR).forEach(subj => {
+        const data = SYLLABUS_RADAR[subj];
+        const pill = document.createElement('button');
+        pill.className = 'radar-sub-pill';
+        if (subj === state.radarSubject) pill.classList.add('active');
+        pill.textContent = data.code;
+        pill.title = `${subj} (${data.level})`;
+        pill.onclick = () => {
+          state.radarSubject = subj;
+          state.radarSelectedModuleId = null;
+          renderRadarSubjectPills();
+          renderRadarContent();
+        };
+        container.appendChild(pill);
+      });
+    }
+
+    function renderRadarContent() {
+      const data = SYLLABUS_RADAR[state.radarSubject];
+      if (!data) return;
+
+      document.getElementById('radarActivePaperCode').textContent = `PAPER // ${data.code} (${data.totalMarks} MARKS)`;
+
+      // Render Modules List
+      const modulesContainer = document.getElementById('radarModulesList');
+      modulesContainer.innerHTML = '';
+
+      data.modules.forEach(mod => {
+        const card = document.createElement('div');
+        card.className = 'radar-module-card';
+        if (state.radarSelectedModuleId === mod.id) card.classList.add('selected-module');
+
+        card.innerHTML = `
+          <div class="module-card-head">
+            <span class="module-name-tag">${mod.name}</span>
+            <span class="module-weight-tag">${mod.weight}%</span>
+          </div>
+          <div class="module-progress-bar">
+            <div class="module-progress-fill" style="width: ${mod.weight * 2.5}%;"></div>
+          </div>
+          <div class="module-meta-row">
+            <span class="module-standards-list" title="${mod.standards}">Std: ${mod.standards}</span>
+            <span style="font-weight:700; color:var(--amber-bright);">${mod.trend}</span>
+          </div>
+        `;
+
+        card.onclick = () => {
+          if (state.radarSelectedModuleId === mod.id) {
+            state.radarSelectedModuleId = null;
+          } else {
+            state.radarSelectedModuleId = mod.id;
+          }
+          renderRadarContent();
+        };
+
+        modulesContainer.appendChild(card);
+      });
+
+      // Render Trend Notes & Questions (Filtered by module if selected)
+      const questionsContainer = document.getElementById('matrixQuestionsGrid');
+      questionsContainer.innerHTML = '';
+
+      let notes = data.trendNotes || [];
+      const subTitleEl = document.getElementById('matrixColSub');
+
+      if (state.radarSelectedModuleId) {
+        const selectedMod = data.modules.find(m => m.id === state.radarSelectedModuleId);
+        const modName = selectedMod ? selectedMod.name : state.radarSelectedModuleId;
+        notes = notes.filter(n => n.moduleIds && n.moduleIds.includes(state.radarSelectedModuleId));
+        if (subTitleEl) {
+          subTitleEl.innerHTML = `<span style="color:var(--cyan-bright); font-weight:700;">Filtered by [${state.radarSelectedModuleId}] ${modName}</span> &bull; ${notes.length} matching questions &bull; <a href="javascript:void(0)" onclick="clearRadarModuleFilter()" style="color:var(--amber-bright); text-decoration:underline; font-weight:700;">Clear Filter</a>`;
+        }
+      } else {
+        if (subTitleEl) {
+          subTitleEl.textContent = 'Click any module on the left to filter questions or click below to load directly into Deck α or β';
+        }
+      }
+
+      if (notes.length === 0) {
+        const emptyCard = document.createElement('div');
+        emptyCard.className = 'matrix-q-card';
+        emptyCard.style.gridColumn = '1 / -1';
+        emptyCard.style.textAlign = 'center';
+        emptyCard.style.padding = '24px 16px';
+        emptyCard.innerHTML = `
+          <div style="color: var(--amber-bright); font-weight: 700; margin-bottom: 6px;">No questions directly tagged for this module in active highlights</div>
+          <div style="color: var(--ink-muted); font-size: 11px; margin-bottom: 12px;">This module is tested in rotational diets or integrated case scenarios.</div>
+          <button class="btn-term btn-term-cyan" onclick="clearRadarModuleFilter()" style="margin: 0 auto;">Show All Questions</button>
+        `;
+        questionsContainer.appendChild(emptyCard);
+        return;
+      }
+
+      notes.forEach(note => {
+        const qCard = document.createElement('div');
+        qCard.className = 'matrix-q-card';
+        qCard.innerHTML = `
+          <div class="q-card-top">
+            <span class="q-card-diet">${note.diet.replace(/_/g, ' ')} &bull; ${note.qNum}</span>
+            <span class="q-card-marks">${note.marks}</span>
+          </div>
+          <div class="q-card-title">${note.title}</div>
+          <div class="q-card-summary">${note.summary}</div>
+          <div class="q-card-actions">
+            <button class="btn-q-load btn-q-load-a" onclick="loadExamQuestionFromRadar('${note.diet}', 'alpha')">
+              Load &alpha; (Q)
+            </button>
+            <button class="btn-q-load btn-q-load-b" onclick="loadExamQuestionFromRadar('${note.diet}', 'beta')">
+              Load &beta; (A)
+            </button>
+          </div>
+        `;
+        questionsContainer.appendChild(qCard);
+      });
+    }
+
+    function clearRadarModuleFilter() {
+      state.radarSelectedModuleId = null;
+      renderRadarContent();
+    }
+
+    function loadExamQuestionFromRadar(dietTag, deckId) {
+      if (deckId === 'alpha') {
+        state.alpha.level = SYLLABUS_RADAR[state.radarSubject].level;
+        state.alpha.subject = state.radarSubject;
+        state.alpha.diet = dietTag;
+        state.alpha.docType = 'question';
+        syncDeckDropdowns();
+        renderDeck('alpha');
+      } else {
+        state.beta.level = SYLLABUS_RADAR[state.radarSubject].level;
+        state.beta.subject = state.radarSubject;
+        state.beta.diet = dietTag;
+        state.beta.docType = 'answer';
+        syncDeckDropdowns();
+        renderDeck('beta');
+      }
+      showToast(`Loaded ${state.radarSubject} (${dietTag.replace(/_/g, ' ')}) into Deck ${deckId === 'alpha' ? '&alpha;' : '&beta;'}`);
+    }
+
+    function openManualForCurrentSubject() {
+      const manuals = getAllManuals();
+      const match = manuals.find(m => m.subject === state.radarSubject);
+      if (match) {
+        state.alpha.docType = 'manual';
+        state.alpha.customManual = match;
+        state.alpha.subject = state.radarSubject;
+        if (match.level && match.level !== 'ALL') {
+          state.alpha.level = match.level;
+        }
+        syncDeckDropdowns();
+        renderDeck('alpha');
+        showToast(`Loaded Manual: ${match.title} into Deck &alpha;`);
+      } else {
+        openManualsModal();
+      }
+    }
+
+    // ------------------------------------------------------------------------
+    // L. Official Manuals & Syllabus Library Modal (`getAllManuals()`)
+    // ------------------------------------------------------------------------
+    function openManualsModal() {
+      document.getElementById('manualsModal').classList.add('open');
+      renderManualsModalList();
+    }
+
+    function closeManualsModal() {
+      document.getElementById('manualsModal').classList.remove('open');
+    }
+
+    function filterManuals(level) {
+      state.manualsFilter = level;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(
+        level === 'PL' ? 'btnFilterPL' :
+        level === 'AL' ? 'btnFilterAL' :
+        level === 'IVS' ? 'btnFilterIVS' : 'btnFilterAll'
+      );
+      if (activeBtn) activeBtn.classList.add('active');
+      renderManualsModalList();
+    }
+
+    function onManualSearch(query) {
+      state.manualsSearchQuery = query.toLowerCase().trim();
+      renderManualsModalList();
+    }
+
+    function renderManualsModalList() {
+      const container = document.getElementById('manualsListContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const manuals = getAllManuals();
+
+      const filtered = manuals.filter(m => {
+        // Level filter
+        if (state.manualsFilter === 'PL' && m.level !== 'PL') return false;
+        if (state.manualsFilter === 'AL' && m.level !== 'AL') return false;
+        if (state.manualsFilter === 'IVS' && !m.isIVS && !m.isSyllabus) return false;
+
+        // Search Query
+        if (state.manualsSearchQuery) {
+          const matchTitle = m.title.toLowerCase().includes(state.manualsSearchQuery);
+          const matchSubj = m.subject.toLowerCase().includes(state.manualsSearchQuery);
+          if (!matchTitle && !matchSubj) return false;
+        }
+
+        return true;
+      });
+
+      filtered.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'manual-card';
+
+        const lvlClass = item.level === 'PL' ? 'lvl-pl' : item.level === 'AL' ? 'lvl-al' : 'lvl-all';
+
+        card.innerHTML = `
+          <div class="manual-card-top">
+            <span class="manual-level-pill ${lvlClass}">${item.isSyllabus ? 'SYLLABUS' : item.isIVS ? 'IVS' : item.level}</span>
+            <span class="manual-size">${item.size_mb} MB</span>
+          </div>
+          <div class="manual-title">${item.title}</div>
+          <div class="manual-subject">${item.subject}</div>
+          <div class="manual-card-actions">
+            <button class="btn-manual-load btn-m-alpha" onclick="loadManualIntoDeck('alpha', '${encodeURIComponent(JSON.stringify(item))}')">
+              Load &alpha; (Left)
+            </button>
+            <button class="btn-manual-load btn-m-beta" onclick="loadManualIntoDeck('beta', '${encodeURIComponent(JSON.stringify(item))}')">
+              Load &beta; (Right)
+            </button>
+            <a class="btn-manual-load" href="${item.rel_path}" target="_blank" title="Open PDF directly in new tab">
+              Tab ↗
+            </a>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function loadManualIntoDeck(deckId, itemEncoded) {
+      const item = JSON.parse(decodeURIComponent(itemEncoded));
+      if (deckId === 'alpha') {
+        state.alpha.docType = 'manual';
+        state.alpha.customManual = item;
+        state.alpha.subject = item.subject;
+        state.alpha.level = item.level === 'ALL' ? 'PL' : item.level;
+        syncDeckDropdowns();
+        renderDeck('alpha');
+      } else {
+        state.beta.docType = 'manual';
+        state.beta.customManual = item;
+        state.beta.subject = item.subject;
+        state.beta.level = item.level === 'ALL' ? 'PL' : item.level;
+        syncDeckDropdowns();
+        renderDeck('beta');
+      }
+      closeManualsModal();
+      showToast(`Loaded ${item.title} into Deck ${deckId === 'alpha' ? '&alpha;' : '&beta;'}`);
+    }
+
+    // ------------------------------------------------------------------------
+    // M. Shortcuts Modal & Toast Notifications
+    // ------------------------------------------------------------------------
+    function openShortcutsModal() {
+      document.getElementById('shortcutsModal').classList.add('open');
+    }
+
+    function closeShortcutsModal() {
+      document.getElementById('shortcutsModal').classList.remove('open');
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toastHud');
+      if (!toast) return;
+      toast.innerHTML = message;
+      toast.classList.add('show');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2200);
+    }
+
+    // ------------------------------------------------------------------------
+    // N. Keyboard Shortcuts Listeners (Rapid Filmstrip Flipper Engine)
+    // ------------------------------------------------------------------------
+    function initKeyboardShortcuts() {
+      window.addEventListener('keydown', (e) => {
+        // Ignore if user is currently typing in an input or select
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
+          if (e.key === 'Escape') {
+            e.target.blur();
+            closeManualsModal();
+            closeShortcutsModal();
+          }
+          return;
+        }
+
+        const key = e.key.toLowerCase();
+
+        if (e.key === 'Escape') {
+          closeManualsModal();
+          closeShortcutsModal();
+          return;
+        }
+
+        if (key === 'j') {
+          e.preventDefault();
+          flipDiet('earlier');
+        } else if (key === 'k') {
+          e.preventDefault();
+          flipDiet('later');
+        } else if (e.code === 'Space') {
+          e.preventDefault();
+          if (document.activeElement && document.activeElement.tagName === 'BUTTON') {
+            document.activeElement.blur();
+          }
+          swapDecks();
+        } else if (key === 'd') {
+          e.preventDefault();
+          syncDecks();
+        } else if (key === '1') {
+          e.preventDefault();
+          activatePreset('diet-vs-diet');
+        } else if (key === '2') {
+          e.preventDefault();
+          activatePreset('q-vs-a');
+        } else if (key === '3') {
+          e.preventDefault();
+          activatePreset('5yr-delta');
+        } else if (key === '4') {
+          e.preventDefault();
+          activatePreset('manual-vs-exam');
+        } else if (key === 'm') {
+          e.preventDefault();
+          const modal = document.getElementById('manualsModal');
+          if (modal.classList.contains('open')) closeManualsModal();
+          else openManualsModal();
+        } else if (key === 'r') {
+          e.preventDefault();
+          toggleRadarDrawer();
+        } else if (key === '?' || (e.shiftKey && key === '/')) {
+          e.preventDefault();
+          openShortcutsModal();
+        }
+      });
+    }
+
+    if (typeof module !== 'undefined' && module.exports) {
+      module.exports = {
+        getAllManuals,
+        state,
+        SYLLABUS_RADAR,
+        flipDiet,
+        swapDecks,
+        syncDecks,
+        activatePreset,
+        setWorkbenchSplit,
+        toggleRadarDrawer,
+        resolveDeckDocument,
+        loadManualIntoDeck,
+        openManualForCurrentSubject,
+        onDeckLevelChange,
+        onDeckSubjectChange,
+        onDeckDietChange,
+        setDeckDocType,
+        clearRadarModuleFilter
+      };
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,4318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICAB Hall 180 — 180-Minute Exam Hall & Self-Grading Engine</title>
+
+  <!-- Typography: Newsreader (Editorial Serif), Inter (Sans UI), JetBrains Mono (Financials & Telemetry) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       1. UNIVERSAL ECOSYSTEM STUDY BAR (All 11 Versions)
+       ========================================================================== */
+    .ui-study-bar {
+      background: #11141a;
+      color: #9aa0a6;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1;
+      padding: 0 16px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #232834;
+      position: relative;
+      z-index: 100000;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+    .ui-study-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .ui-study-tag {
+      background: linear-gradient(135deg, #78350f 0%, #b45309 50%, #f59e0b 100%);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 9px;
+      padding: 3px 8px;
+      border-radius: 3px;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+    .ui-study-links {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+    .ui-study-link {
+      color: #8b949e;
+      text-decoration: none;
+      padding: 4px 7px;
+      font-size: 11px;
+      border-radius: 4px;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .ui-study-link:hover {
+      color: #f3f4f6;
+      background: #1f2430;
+    }
+    .ui-study-link.active {
+      background: #f59e0b;
+      color: #11141a;
+      font-weight: 700;
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.35);
+    }
+
+    /* ==========================================================================
+       2. INSTITUTIONAL ROOT TOKENS & RESET
+       ========================================================================== */
+    :root {
+      --bg-desk: #11141a;
+      --bg-panel: #161a22;
+      --bg-surface: #1c212c;
+      --bg-toolbar: #131720;
+      --border-dark: #232936;
+      --border-subtle: #2d3446;
+      --border-walnut: #78350f;
+      --accent-walnut: #92400e;
+      --accent-amber: #f59e0b;
+      --accent-amber-glow: rgba(245, 158, 11, 0.25);
+      --accent-green: #10b981;
+      --accent-red: #ef4444;
+      --accent-blue: #3b82f6;
+      --accent-gold: #d97706;
+
+      /* Parchment Answer Sheet Surface */
+      --paper-bg: #fcfbf7;
+      --paper-ink: #1c1917;
+      --paper-muted: #44403c;
+      --paper-rule: #f0ece1;
+      --paper-accent: #854d0e;
+
+      --font-serif: 'Newsreader', Georgia, 'Times New Roman', serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-desk);
+      color: #e5e7eb;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+
+    input, textarea, select, [contenteditable="true"] {
+      user-select: text;
+    }
+
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #11141a;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a3142;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #3b445c;
+    }
+
+    /* ==========================================================================
+       3. MASTER INSTITUTIONAL HEADER & CLOCKS
+       ========================================================================== */
+    .hall-header {
+      background: linear-gradient(180deg, #181d26 0%, #12151c 100%);
+      border-bottom: 2px solid var(--border-walnut);
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-shrink: 0;
+      position: relative;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      min-width: 0;
+    }
+
+    .hall-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 1;
+      min-width: 0;
+    }
+    .hall-seal-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #991b1b 30%, #450a0a 100%);
+      border: 1.5px solid #b45309;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fef3c7;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.6), inset 0 0 4px rgba(254, 243, 199, 0.4);
+      flex-shrink: 0;
+    }
+    .hall-title-group {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .hall-main-title {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      color: #fef3c7;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .hall-badge-pro {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      font-weight: 700;
+      background: #78350f;
+      color: #fef08a;
+      padding: 1px 5px;
+      border-radius: 3px;
+      border: 1px solid #b45309;
+      letter-spacing: 0.5px;
+    }
+    .hall-sub-title {
+      font-family: var(--font-sans);
+      font-size: 10.5px;
+      color: #94a3b8;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 260px;
+    }
+    @media (max-width: 1480px) {
+      .hall-sub-title {
+        display: none;
+      }
+    }
+
+    /* Filters: Tier, Paper, Diet */
+    .hall-selectors {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 2;
+      min-width: 0;
+    }
+    .hall-select-wrap {
+      display: flex;
+      align-items: center;
+      background: #1b202c;
+      border: 1px solid var(--border-subtle);
+      border-radius: 4px;
+      padding: 2px 5px;
+      gap: 4px;
+      min-width: 0;
+    }
+    .hall-select-label {
+      font-family: var(--font-mono);
+      font-size: 9.5px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .hall-select {
+      background: transparent;
+      border: none;
+      color: #f3f4f6;
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 500;
+      outline: none;
+      cursor: pointer;
+      max-width: 155px;
+    }
+    .hall-select option {
+      background: #161a22;
+      color: #f3f4f6;
+    }
+
+    /* Master Chronometer & Question Budget Telemetry Bay */
+    .hall-clocks-bay {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #090c10;
+      padding: 3px 8px;
+      border-radius: 6px;
+      border: 1px solid #232936;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.8);
+      flex-shrink: 0;
+    }
+
+    /* Master Clock */
+    .clock-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .clock-caption {
+      font-family: var(--font-mono);
+      font-size: 8.5px;
+      color: #94a3b8;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    .master-clock-display {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: var(--accent-amber);
+      text-shadow: 0 0 10px var(--accent-amber-glow);
+      line-height: 1.1;
+      min-width: 86px;
+      text-align: center;
+    }
+    .master-clock-display.critical {
+      color: var(--accent-red);
+      text-shadow: 0 0 14px rgba(239, 68, 68, 0.4);
+      animation: pulse-critical 1s infinite alternate;
+    }
+    @keyframes pulse-critical {
+      from { opacity: 0.85; }
+      to { opacity: 1; text-shadow: 0 0 20px rgba(239, 68, 68, 0.75); }
+    }
+
+    /* Question Budget Clock */
+    .q-budget-clock {
+      border-left: 1px solid #242b38;
+      padding-left: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      min-width: 105px;
+      flex-shrink: 0;
+    }
+    .q-budget-status {
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      line-height: 1.2;
+    }
+    .q-budget-status.budget-green {
+      color: var(--accent-green);
+    }
+    .q-budget-status.budget-amber {
+      color: var(--accent-amber);
+    }
+    .q-budget-status.budget-over {
+      color: var(--accent-red);
+      animation: pulse-critical 0.8s infinite alternate;
+    }
+    .q-budget-bar {
+      width: 100%;
+      height: 3px;
+      background: #1e2430;
+      border-radius: 2px;
+      margin-top: 2px;
+      overflow: hidden;
+    }
+    .q-budget-fill {
+      height: 100%;
+      background: var(--accent-green);
+      width: 100%;
+      transition: width 0.3s ease, background 0.3s ease;
+    }
+
+    /* Master Clock Action Buttons */
+    .clock-actions {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      flex-shrink: 0;
+    }
+    .btn-timer {
+      background: #1b202c;
+      border: 1px solid #2d3446;
+      color: #cbd5e1;
+      padding: 3px 6px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-timer:hover {
+      background: #283042;
+      color: #ffffff;
+      border-color: #4b5563;
+    }
+    .btn-timer-primary {
+      background: #78350f;
+      border-color: #b45309;
+      color: #fef3c7;
+    }
+    .btn-timer-primary:hover {
+      background: #92400e;
+      color: #ffffff;
+    }
+
+    /* Actions bay (Seal + Fresh sitting) */
+    .hall-actions-bay {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    /* Council Seal Action Button */
+    .btn-council-seal {
+      background: radial-gradient(circle at 30% 30%, #991b1b, #580d0d);
+      border: 1px solid #b45309;
+      color: #fef08a;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-council-seal:hover {
+      background: radial-gradient(circle at 30% 30%, #b91c1c, #7f1d1d);
+      box-shadow: 0 0 12px rgba(185, 28, 28, 0.4);
+      transform: translateY(-1px);
+    }
+    .btn-council-seal.unsealed {
+      background: #064e3b;
+      border-color: #059669;
+      color: #a7f3d0;
+    }
+
+    /* Desktop Viewport Adaptations */
+    @media (max-width: 1440px) {
+      .hall-header {
+        padding: 5px 10px;
+        gap: 6px;
+      }
+      .hall-sub-title {
+        display: none;
+      }
+      .hall-select {
+        max-width: 130px;
+      }
+      #selPaper {
+        max-width: 140px !important;
+      }
+      .q-budget-clock {
+        min-width: 95px;
+      }
+    }
+    @media (max-width: 1200px) {
+      .hall-sub-title {
+        display: none;
+      }
+      .hall-select-label {
+        display: none;
+      }
+    }
+
+    /* ==========================================================================
+       4. SUB-TOOLBAR: QUESTION PACING PRESETS & VIEW TOGGLES
+       ========================================================================== */
+    .hall-sub-bar {
+      background: #131720;
+      border-bottom: 1px solid var(--border-dark);
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+      overflow-x: auto;
+    }
+
+    .pacing-preset-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .preset-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: #71717a;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .btn-preset {
+      background: #1c212c;
+      border: 1px solid #2d3446;
+      color: #94a3b8;
+      padding: 3px 8px;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-preset:hover {
+      background: #252c3b;
+      color: #f1f5f9;
+    }
+    .btn-preset.active {
+      background: #78350f;
+      border-color: #b45309;
+      color: #fef3c7;
+      font-weight: 600;
+    }
+
+    /* Interactive Question Pacing Tabs */
+    .pacing-tabs-strip {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .pacing-tab {
+      background: #181d26;
+      border: 1px solid #262e3d;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #94a3b8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .pacing-tab:hover {
+      background: #212836;
+      color: #f8fafc;
+      border-color: #3b4458;
+    }
+    .pacing-tab.active {
+      background: #242c3d;
+      border-color: var(--accent-amber);
+      color: #ffffff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+    .pacing-tab-badge {
+      font-size: 9px;
+      background: #0f131a;
+      padding: 1px 4px;
+      border-radius: 3px;
+      color: var(--accent-amber);
+    }
+    .pacing-tab.active .pacing-tab-badge {
+      background: var(--accent-amber);
+      color: #11141a;
+      font-weight: 700;
+    }
+
+    /* Right View Switcher & Telemetry */
+    .hall-view-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .view-mode-group {
+      display: flex;
+      background: #0e1117;
+      border: 1px solid #242a37;
+      border-radius: 4px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .btn-view-mode {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-view-mode:hover {
+      color: #f1f5f9;
+      background: #1b212c;
+    }
+    .btn-view-mode.active {
+      background: #2a3344;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    /* Autosave Telemetry indicator */
+    .autosave-telemetry {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .autosave-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 6px var(--accent-green);
+      transition: transform 0.2s ease;
+    }
+    .autosave-dot.saving {
+      background: var(--accent-amber);
+      box-shadow: 0 0 8px var(--accent-amber);
+      transform: scale(1.3);
+    }
+
+    /* ==========================================================================
+       5. MAIN SPLIT EXAM DESK WORKSPACE
+       ========================================================================== */
+    .hall-workspace {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+      background: var(--bg-desk);
+    }
+
+    /* Left Pane: Question Paper PDF Desk / Candidate Mirror */
+    .desk-pane-left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #161a22;
+      border-right: 1px solid var(--border-dark);
+      min-width: 320px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Splitter Handle */
+    .desk-splitter {
+      width: 6px;
+      background: #11141a;
+      cursor: col-resize;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 100;
+      border-left: 1px solid #1f2532;
+      border-right: 1px solid #1f2532;
+      transition: background 0.15s ease;
+    }
+    .desk-splitter:hover, .desk-splitter.dragging {
+      background: var(--accent-amber);
+    }
+    .desk-splitter-handle {
+      width: 2px;
+      height: 28px;
+      background: #475569;
+      border-radius: 1px;
+    }
+
+    /* Right Pane: Candidate Working Desk / Solution PDF / Rubric */
+    .desk-pane-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #1a1e27;
+      min-width: 350px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Pane Toolbars */
+    .pane-toolbar {
+      background: #131720;
+      border-bottom: 1px solid var(--border-dark);
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-shrink: 0;
+      height: 38px;
+    }
+    .pane-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: 0.5px;
+    }
+    .pane-title-badge {
+      background: #252d3d;
+      color: #f59e0b;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 10px;
+    }
+
+    /* Rapid PDF Page Jump Ribbon */
+    .pdf-nav-strip {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+    }
+    .btn-pdf-page {
+      background: #1b212c;
+      border: 1px solid #2a3344;
+      color: #94a3b8;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-pdf-page:hover {
+      background: #2a3447;
+      color: #ffffff;
+      border-color: #4b5873;
+    }
+    .btn-pdf-page.active {
+      background: #78350f;
+      border-color: #b45309;
+      color: #fef08a;
+    }
+
+    .pane-tools-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-tool-icon {
+      background: #1b212c;
+      border: 1px solid #283141;
+      color: #94a3b8;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.15s ease;
+    }
+    .btn-tool-icon:hover {
+      background: #273042;
+      color: #ffffff;
+    }
+
+    /* Iframe Shell */
+    .pdf-frame-shell {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: #0f1217;
+      position: relative;
+    }
+    .pdf-frame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: #0f1217;
+    }
+
+    /* Left Pane Candidate Review Shell (for Comparative Mode) */
+    .left-candidate-shell {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: var(--paper-bg);
+      color: var(--paper-ink);
+      overflow-y: auto;
+      padding: 18px;
+      display: none;
+    }
+    .candidate-mirror-section {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--paper-rule);
+    }
+    .candidate-mirror-heading {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--paper-accent);
+      margin-bottom: 8px;
+    }
+    .candidate-mirror-body {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      color: var(--paper-ink);
+    }
+    .print-transcript-header {
+      display: none;
+    }
+
+    /* ==========================================================================
+       6. CANDIDATE WORKING SHEET TABS & PARCHMENT STYLING
+       ========================================================================== */
+    .sheet-tabs-header {
+      background: #141822;
+      border-bottom: 1px solid var(--border-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 8px;
+      height: 38px;
+      flex-shrink: 0;
+    }
+    .sheet-tabs-list {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      height: 100%;
+    }
+    .sheet-tab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: #cbd5e1;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 0 10px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .sheet-tab-btn:hover {
+      color: #f1f5f9;
+      background: rgba(255,255,255,0.02);
+    }
+    .sheet-tab-btn.active {
+      color: #fef3c7;
+      border-bottom-color: var(--accent-amber);
+      background: #1a1f2b;
+      font-weight: 600;
+    }
+
+    .sheet-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .text-counter-pill {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #64748b;
+      background: #0e1117;
+      padding: 2px 7px;
+      border-radius: 3px;
+      border: 1px solid #232936;
+    }
+
+    /* Tab Content Viewport */
+    .sheet-tab-content-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--paper-bg);
+      color: var(--paper-ink);
+      position: relative;
+    }
+    .sheet-tab-pane {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      height: 100%;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    .sheet-tab-pane.active {
+      display: flex;
+    }
+
+    /* TAB 1: Written Examination Script (Parchment Paper Editor) */
+    .script-formatting-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--paper-rule);
+      flex-shrink: 0;
+    }
+    .script-chip-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .btn-script-chip {
+      background: #f5f2e9;
+      border: 1px solid #e2dcd0;
+      color: #57534e;
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 7px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-script-chip:hover {
+      background: #ebe4d5;
+      color: #1c1917;
+      border-color: #c7beaf;
+    }
+    .script-font-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-font-size {
+      background: #f5f2e9;
+      border: 1px solid #e2dcd0;
+      color: #57534e;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      width: 22px;
+      height: 22px;
+      border-radius: 3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .btn-font-size:hover, .btn-font-size.active {
+      background: #78350f;
+      color: #fef08a;
+      border-color: #b45309;
+    }
+
+    .candidate-textarea {
+      flex: 1;
+      width: 100%;
+      border: none;
+      outline: none;
+      resize: none;
+      background: transparent;
+      color: var(--paper-ink);
+      font-family: var(--font-serif);
+      font-size: 16px;
+      line-height: 1.65;
+      padding: 0;
+      tab-size: 4;
+    }
+    .candidate-textarea::placeholder {
+      color: #78716c;
+      font-style: italic;
+    }
+
+    /* TAB 2: Double-Entry Journal Ledger */
+    .ledger-table-wrap {
+      flex: 1;
+      overflow: auto;
+      border: 1px solid #e7e2d6;
+      border-radius: 4px;
+      background: #ffffff;
+    }
+    .ledger-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+    .ledger-table th {
+      background: #f4efe4;
+      color: #44403c;
+      font-weight: 700;
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 2px solid #dcd3c2;
+      border-right: 1px solid #e7e2d6;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .ledger-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #ede8de;
+      border-right: 1px solid #ede8de;
+      vertical-align: middle;
+    }
+    .ledger-input {
+      width: 100%;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      padding: 4px 6px;
+      font-family: inherit;
+      font-size: inherit;
+      color: #1c1917;
+      outline: none;
+    }
+    .ledger-input:focus {
+      background: #fffbeb;
+      border-color: #d97706;
+    }
+    .ledger-input.num-right {
+      text-align: right;
+    }
+    .btn-del-row {
+      background: transparent;
+      border: none;
+      color: #991b1b;
+      cursor: pointer;
+      font-size: 13px;
+      padding: 2px 6px;
+      border-radius: 3px;
+    }
+    .btn-del-row:hover {
+      background: #fee2e2;
+    }
+    .ledger-footer-bar {
+      margin-top: 10px;
+      padding: 10px 12px;
+      background: #f7f3ea;
+      border: 1px solid #e4ddd0;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .ledger-balance-pill {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ledger-balance-pill.balanced {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+    .ledger-balance-pill.unbalanced {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    /* TAB 3: Audit Risk Matrix */
+    .audit-matrix-wrap {
+      flex: 1;
+      overflow: auto;
+      border: 1px solid #e7e2d6;
+      border-radius: 4px;
+      background: #ffffff;
+    }
+    .audit-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .audit-table th {
+      background: #f4efe4;
+      color: #44403c;
+      font-weight: 700;
+      text-align: left;
+      padding: 8px 10px;
+      border-bottom: 2px solid #dcd3c2;
+      border-right: 1px solid #e7e2d6;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .audit-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #ede8de;
+      border-right: 1px solid #ede8de;
+      vertical-align: top;
+    }
+    .audit-textarea {
+      width: 100%;
+      min-height: 48px;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      padding: 4px 6px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      line-height: 1.4;
+      resize: vertical;
+      outline: none;
+      background: transparent;
+    }
+    .audit-textarea:focus {
+      background: #fffbeb;
+      border-color: #d97706;
+    }
+    .audit-select {
+      width: 100%;
+      border: 1px solid #e2dcd0;
+      border-radius: 3px;
+      padding: 4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: #faf7f0;
+      outline: none;
+    }
+
+    /* TAB 4: Corporate Tax Computation Schedule */
+    .tax-schedule-card {
+      background: #ffffff;
+      border: 1px solid #e4ddd0;
+      border-radius: 4px;
+      padding: 14px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .tax-header-title {
+      font-family: var(--font-serif);
+      font-size: 16px;
+      font-weight: 600;
+      color: #292524;
+      margin-bottom: 4px;
+    }
+    .tax-meta-subtitle {
+      font-family: var(--font-sans);
+      font-size: 11px;
+      color: #78716c;
+      margin-bottom: 14px;
+    }
+    .tax-calc-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tax-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 4px 0;
+      border-bottom: 1px dashed #e7e2d6;
+    }
+    .tax-row-label {
+      font-weight: 500;
+      color: #44403c;
+      font-size: 12px;
+      flex: 1;
+    }
+    .tax-row-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 190px;
+    }
+    .tax-currency-symbol {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #78716c;
+    }
+    .tax-input {
+      width: 100%;
+      text-align: right;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      padding: 4px 8px;
+      border: 1px solid #d6cfbf;
+      border-radius: 3px;
+      outline: none;
+      background: #fdfbf7;
+    }
+    .tax-input:focus {
+      background: #ffffff;
+      border-color: #d97706;
+    }
+    .tax-subheading {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: #78350f;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #d6cfbf;
+    }
+    .tax-summary-box {
+      margin-top: 14px;
+      background: #fefce8;
+      border: 1px solid #fef08a;
+      border-radius: 4px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .tax-liability-badge {
+      font-family: var(--font-mono);
+      font-size: 16px;
+      font-weight: 700;
+      color: #854d0e;
+    }
+
+    /* Common Buttons in Sheets */
+    .btn-sheet-action {
+      background: #f5f2e9;
+      border: 1px solid #d6cfbf;
+      color: #44403c;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+    .btn-sheet-action:hover {
+      background: #e9e2d3;
+      color: #1c1917;
+    }
+
+    /* ==========================================================================
+       7. SELF-GRADING & COUNCIL RUBRIC CONSOLE
+       ========================================================================== */
+    .rubric-console-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      background: #141822;
+      color: #e2e8f0;
+      padding: 16px;
+    }
+    .rubric-header-box {
+      background: #1b212d;
+      border: 1px solid #283143;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .rubric-tally-bay {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .rubric-total-card {
+      display: flex;
+      flex-direction: column;
+    }
+    .rubric-score-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .rubric-score-value {
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent-amber);
+    }
+    .rubric-verdict-badge {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .verdict-pass {
+      background: #064e3b;
+      color: #6ee7b7;
+      border: 1px solid #059669;
+    }
+    .verdict-fail {
+      background: #7f1d1d;
+      color: #fca5a5;
+      border: 1px solid #dc2626;
+    }
+    .verdict-distinction {
+      background: #78350f;
+      color: #fef08a;
+      border: 1px solid #d97706;
+    }
+
+    .rubric-q-card {
+      background: #181e2a;
+      border: 1px solid #262e3f;
+      border-radius: 6px;
+      padding: 12px 16px;
+      margin-bottom: 12px;
+    }
+    .rubric-q-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .rubric-q-title {
+      font-family: var(--font-serif);
+      font-size: 15px;
+      font-weight: 600;
+      color: #f8fafc;
+    }
+    .rubric-mark-input-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .rubric-mark-input {
+      width: 60px;
+      background: #0f131a;
+      border: 1px solid #2e384c;
+      color: #f59e0b;
+      font-family: var(--font-mono);
+      font-size: 15px;
+      font-weight: 700;
+      text-align: center;
+      padding: 3px 6px;
+      border-radius: 4px;
+      outline: none;
+    }
+    .rubric-mark-input:focus {
+      border-color: #f59e0b;
+      box-shadow: 0 0 6px var(--accent-amber-glow);
+    }
+    .rubric-mark-max {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #64748b;
+    }
+    .rubric-feedback-textarea {
+      width: 100%;
+      background: #0f131a;
+      border: 1px solid #252e3f;
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-family: var(--font-sans);
+      font-size: 12px;
+      color: #e2e8f0;
+      resize: vertical;
+      min-height: 40px;
+      outline: none;
+      margin-top: 6px;
+    }
+
+    /* Statutory Citation Bonus Checklist */
+    .citation-checklist-box {
+      background: #181e2a;
+      border: 1px solid #262e3f;
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+    .citation-box-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: #f59e0b;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 8px;
+    }
+    .citation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 6px;
+    }
+    .citation-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 4px 6px;
+      border-radius: 3px;
+      font-size: 11px;
+      color: #cbd5e1;
+      cursor: pointer;
+    }
+    .citation-item:hover {
+      background: #202738;
+    }
+    .citation-checkbox {
+      margin-top: 2px;
+      accent-color: #f59e0b;
+      cursor: pointer;
+    }
+
+    /* Dossier Export Tray */
+    .dossier-export-tray {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      padding-top: 12px;
+      border-top: 1px solid #242c3d;
+      flex-wrap: wrap;
+    }
+    .btn-export-dossier {
+      background: #1e2534;
+      border: 1px solid #2d374d;
+      color: #f1f5f9;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .btn-export-dossier:hover {
+      background: #2b354a;
+      border-color: #435170;
+    }
+
+    /* ==========================================================================
+       8. MODALS: COUNCIL SEAL, CUSTOM PACING, & MANUALS COMPENDIUM
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(4, 6, 9, 0.82);
+      backdrop-filter: blur(4px);
+      z-index: 200000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-dialog {
+      background: #181d26;
+      border: 1px solid #2d3648;
+      border-radius: 8px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+      width: 100%;
+      max-width: 560px;
+      overflow: hidden;
+      animation: modal-pop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modal-pop {
+      from { opacity: 0; transform: scale(0.96) translateY(6px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header {
+      background: #12161f;
+      padding: 14px 18px;
+      border-bottom: 1px solid #242b3b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-title {
+      font-family: var(--font-serif);
+      font-size: 17px;
+      font-weight: 600;
+      color: #fef3c7;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-close-btn {
+      background: transparent;
+      border: none;
+      color: #94a3b8;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .modal-close-btn:hover {
+      color: #ffffff;
+      background: #252d3d;
+    }
+    .modal-body {
+      padding: 18px;
+      color: #cbd5e1;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .modal-footer {
+      background: #12161f;
+      padding: 12px 18px;
+      border-top: 1px solid #242b3b;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* Custom Presets Modal Table */
+    .custom-preset-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+    }
+    .custom-preset-table th {
+      background: #12161f;
+      color: #94a3b8;
+      padding: 6px 8px;
+      border-bottom: 1px solid #2d3648;
+      text-align: left;
+    }
+    .custom-preset-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #232936;
+    }
+    .custom-q-input {
+      background: #0d1017;
+      border: 1px solid #2d3648;
+      color: #f8fafc;
+      padding: 4px 6px;
+      border-radius: 3px;
+      font-family: inherit;
+      font-size: inherit;
+      outline: none;
+      width: 100%;
+    }
+
+    /* Manuals Shelf Modal Specifics */
+    .modal-manuals {
+      max-width: 860px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .modal-manuals .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 18px;
+    }
+    .manuals-search-bar {
+      width: 100%;
+      background: #10141c;
+      border: 1px solid #252d3d;
+      border-radius: 5px;
+      padding: 8px 12px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      color: #f1f5f9;
+      outline: none;
+      margin-bottom: 12px;
+    }
+    .manuals-search-bar:focus {
+      border-color: #f59e0b;
+    }
+    .manuals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 10px;
+    }
+    .manual-card {
+      background: #1f2533;
+      border: 1px solid #2a3346;
+      border-radius: 6px;
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+    .manual-card:hover {
+      background: #272f42;
+      border-color: #f59e0b;
+      transform: translateY(-1px);
+    }
+    .manual-card-level {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      font-weight: 700;
+      color: #f59e0b;
+      text-transform: uppercase;
+    }
+    .manual-card-title {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      font-weight: 600;
+      color: #f8fafc;
+      line-height: 1.3;
+    }
+    .manual-card-meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: #64748b;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    /* ==========================================================================
+       9. PRINT DOSSIER MEDIA STYLING
+       ========================================================================== */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        overflow: visible !important;
+        height: auto !important;
+      }
+      .ui-study-bar,
+      .hall-header,
+      .hall-sub-bar,
+      .desk-splitter,
+      .sheet-tabs-header,
+      .script-formatting-bar,
+      .btn-del-row,
+      .btn-sheet-action,
+      .modal-backdrop,
+      .dossier-export-tray,
+      .pdf-frame-shell,
+      .pdf-frame,
+      .pane-toolbar,
+      .pane-header,
+      .sheet-tab-content-area {
+        display: none !important;
+      }
+      .hall-workspace {
+        overflow: visible !important;
+        display: block !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+        height: auto !important;
+      }
+      .desk-pane-left {
+        overflow: visible !important;
+        display: block !important;
+        width: 100% !important;
+        flex: none !important;
+        background: #ffffff !important;
+        height: auto !important;
+        border: none !important;
+        padding: 0 !important;
+      }
+      .left-candidate-shell {
+        display: block !important;
+        overflow: visible !important;
+        height: auto !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+      }
+      .print-transcript-header {
+        display: block !important;
+        margin-bottom: 20px !important;
+      }
+      .candidate-mirror-section {
+        display: block !important;
+        page-break-inside: avoid;
+        border-bottom: 1px solid #cccccc !important;
+        margin-bottom: 18px !important;
+        padding-bottom: 12px !important;
+      }
+      .candidate-mirror-heading {
+        color: #000000 !important;
+        font-size: 13pt !important;
+        margin-bottom: 8px !important;
+      }
+      .candidate-mirror-body {
+        font-size: 11pt !important;
+        line-height: 1.6 !important;
+        color: #000000 !important;
+      }
+      .desk-pane-right {
+        overflow: visible !important;
+        display: block !important;
+        width: 100% !important;
+        flex: none !important;
+        height: auto !important;
+        background: #ffffff !important;
+        padding: 0 !important;
+      }
+      .ledger-table, .audit-table {
+        border: 1px solid #000000 !important;
+        font-size: 9.5pt !important;
+        width: 100% !important;
+        page-break-inside: avoid;
+      }
+      .ledger-table th, .audit-table th {
+        background: #eeeeee !important;
+        color: #000000 !important;
+        border: 1px solid #000000 !important;
+      }
+      .ledger-table td, .audit-table td {
+        border: 1px solid #cccccc !important;
+        color: #000000 !important;
+      }
+      .rubric-console-wrap {
+        background: #ffffff !important;
+        color: #000000 !important;
+        page-break-before: always;
+        padding: 0 !important;
+      }
+      .rubric-header-box {
+        background: #f5f5f5 !important;
+        border: 1px solid #cccccc !important;
+        color: #000000 !important;
+      }
+      .rubric-q-card, .citation-checklist-box {
+        background: #ffffff !important;
+        border: 1px solid #000000 !important;
+        color: #000000 !important;
+        page-break-inside: avoid;
+        margin-bottom: 12px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UNIVERSAL STUDY WORKSPACE BAR (All 11 Versions) -->
+  <header class="ui-study-bar">
+    <div class="ui-study-brand">
+      <span class="ui-study-tag">STUDY WORKSPACES</span>
+      <span>11 Brand Philosophies for CA Exam Prep</span>
+    </div>
+    <nav class="ui-study-links">
+      <a href="version-1-apple-study.html" class="ui-study-link">01 Apple Studio</a>
+      <a href="version-2-google-study.html" class="ui-study-link">02 Google Workspace</a>
+      <a href="version-3-linear-study.html" class="ui-study-link">03 Linear Dark</a>
+      <a href="version-4-ft-study.html" class="ui-study-link">04 FT Executive</a>
+      <a href="version-5-industrial-study.html" class="ui-study-link">05 Industrial Console</a>
+      <a href="version-6-nordic-study.html" class="ui-study-link">06 Nordic Library</a>
+      <a href="version-7-apple-braun-study.html" class="ui-study-link">07 Apple × Braun</a>
+      <a href="version-8-mock-exam-hall.html" class="ui-study-link active">08 Hall 180 Exam</a>
+      <a href="version-9-matrix.html" class="ui-study-link">09 Matrix</a>
+      <a href="version-10-statutory-reader.html" class="ui-study-link">10 Statutory</a>
+      <a href="version-11-trend-radar.html" class="ui-study-link">11 Trend Radar</a>
+    </nav>
+  </header>
+
+  <!-- MASTER INSTITUTIONAL EXAM HEADER -->
+  <header class="hall-header">
+    <!-- Brand Emblem -->
+    <div class="hall-brand">
+      <div class="hall-seal-icon" title="Institute of Chartered Accountants of Bangladesh Official Examination Hall">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10h18M5 10v11M9 10v11M15 10v11M19 10v11M12 2L2 7h20L12 2z"/></svg>
+      </div>
+      <div class="hall-title-group">
+        <h1 class="hall-main-title">
+          ICAB Hall 180
+          <span class="hall-badge-pro">180-MIN EXAM</span>
+        </h1>
+        <span class="hall-sub-title">1.8m/mark &bull; Real-time Ledger &bull; Rubric Self-Grading</span>
+      </div>
+    </div>
+
+    <!-- Paper & Diet Selectors -->
+    <div class="hall-selectors">
+      <!-- Tier Selector -->
+      <div class="hall-select-wrap">
+        <span class="hall-select-label">Tier:</span>
+        <select id="selLevel" class="hall-select">
+          <option value="PL">Professional (PL)</option>
+          <option value="AL">Advanced (AL)</option>
+        </select>
+      </div>
+
+      <!-- Subject Selector -->
+      <div class="hall-select-wrap">
+        <span class="hall-select-label">Paper:</span>
+        <select id="selPaper" class="hall-select" style="max-width: 160px;"></select>
+      </div>
+
+      <!-- Diet Selector -->
+      <div class="hall-select-wrap">
+        <span class="hall-select-label">Diet:</span>
+        <select id="selDiet" class="hall-select" style="max-width: 110px;"></select>
+      </div>
+
+      <!-- Manuals & Framework Button -->
+      <button class="btn-timer" id="btnOpenManuals" title="Open 20 ICAB Study Manuals, 2 IVS Volumes & 2025 Syllabus">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Manuals
+      </button>
+    </div>
+
+    <!-- Master Chronometer & Question Budget Bay -->
+    <div class="hall-clocks-bay">
+      <!-- Master Countdown -->
+      <div class="clock-group">
+        <span class="clock-caption">Master Clock</span>
+        <div class="master-clock-display" id="masterClockDisplay">180:00</div>
+      </div>
+
+      <!-- Active Question Budget -->
+      <div class="q-budget-clock">
+        <span class="clock-caption" id="activeQBudgetCaption">Q1 Budget (36m)</span>
+        <div class="q-budget-status budget-green" id="activeQBudgetStatus">
+          <span id="activeQTimeRemaining">36:00 rem</span>
+        </div>
+        <div class="q-budget-bar">
+          <div class="q-budget-fill" id="activeQBudgetFill"></div>
+        </div>
+      </div>
+
+      <!-- Clock Controls -->
+      <div class="clock-actions">
+        <button class="btn-timer btn-timer-primary" id="btnTimerToggle">▶ Start</button>
+        <button class="btn-timer" id="btnTimerReset" title="Reset Exam Timer">↺ Reset</button>
+        <button class="btn-timer" id="btnTimerAdd5" title="Add 5 Minutes Emergency Buffer">+5m</button>
+        <button class="btn-timer" id="btnAudioToggle" title="Toggle Chime / Alerts">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Council Seal & Fresh Sitting Actions Bay -->
+    <div class="hall-actions-bay">
+      <button class="btn-timer" id="btnFreshSitting" title="Start a fresh examination sitting with a clean desk">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        Start Fresh Sitting
+      </button>
+
+      <!-- Council Solution & Seal Action -->
+      <button class="btn-council-seal" id="btnCouncilSeal">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <span>Break Exam Seal</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- SUB-TOOLBAR: PACING PRESETS, QUESTION TABS & VIEW SELECTOR -->
+  <section class="hall-sub-bar">
+    <!-- Presets -->
+    <div class="pacing-preset-group">
+      <span class="preset-label">Pacing Presets:</span>
+      <button class="btn-preset active" data-preset="std5">5-Q (20m / 36m)</button>
+      <button class="btn-preset" data-preset="heavy4">4-Q Heavy (25m / 45m)</button>
+      <button class="btn-preset" data-preset="caseStudy">Case Study (35/35/30m)</button>
+      <button class="btn-preset" data-preset="custom">Custom...</button>
+    </div>
+
+    <!-- Active Question Tabs -->
+    <div class="pacing-tabs-strip" id="pacingTabsStrip">
+      <!-- Injected dynamically: Q1 [20m], Q2 [20m], etc. -->
+    </div>
+
+    <!-- View Mode & Autosave -->
+    <div class="hall-view-controls">
+      <div class="view-mode-group">
+        <button class="btn-view-mode active" data-mode="split-q-cand" title="Question Paper vs Candidate Answers">Exam Desk</button>
+        <button class="btn-view-mode" data-mode="split-cand-ans" title="Candidate Answers vs Council Solution">Comparative Review</button>
+        <button class="btn-view-mode" data-mode="rubric-view" title="Council Solution vs Scoring Rubric">Scoring Rubric</button>
+      </div>
+
+      <div class="autosave-telemetry">
+        <span class="autosave-dot" id="autosaveDot"></span>
+        <span id="autosaveText">Ready</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN DUAL SPLIT WORKSPACE -->
+  <main class="hall-workspace" id="hallWorkspace">
+    <!-- LEFT PANE: Question Paper PDF Desk / Candidate Review Script -->
+    <section class="desk-pane-left" id="deskPaneLeft">
+      <div class="pane-toolbar">
+        <div class="pane-title">
+          <span class="pane-title-badge" id="leftPaneBadge">CH.01</span>
+          <span id="leftPaneTitle">Question Paper</span>
+        </div>
+
+        <!-- Rapid Page Jumps -->
+        <div class="pdf-nav-strip" id="pdfPageStrip">
+          <span style="font-size: 10px; color: #64748b; font-family: var(--font-mono); margin-right: 2px;">JUMP:</span>
+          <button class="btn-pdf-page" data-page="1">[P.1]</button>
+          <button class="btn-pdf-page" data-page="2">[P.2]</button>
+          <button class="btn-pdf-page" data-page="3">[P.3]</button>
+          <button class="btn-pdf-page" data-page="4">[P.4]</button>
+          <button class="btn-pdf-page" data-page="5">[P.5]</button>
+          <button class="btn-pdf-page" data-page="6">[P.6]</button>
+          <button class="btn-pdf-page" data-page="7">[P.7]</button>
+          <button class="btn-pdf-page" data-page="8">[P.8]</button>
+          <button class="btn-pdf-page" data-page="9">[P.9]</button>
+          <button class="btn-pdf-page" data-page="10">[P.10]</button>
+        </div>
+
+        <!-- Tools -->
+        <div class="pane-tools-group">
+          <button class="btn-tool-icon" id="btnReloadLeftPdf" title="Reload PDF">↻</button>
+          <button class="btn-tool-icon" id="btnOpenLeftPdfNewTab" title="Open in New Tab">↗</button>
+        </div>
+      </div>
+
+      <!-- Left PDF Frame Shell -->
+      <div class="pdf-frame-shell" id="leftPdfShell">
+        <iframe id="leftPdfFrame" class="pdf-frame" title="Question Paper PDF"></iframe>
+      </div>
+
+      <!-- Left Candidate Review Shell (Active during Comparative Review mode & Formal Print) -->
+      <div class="left-candidate-shell" id="leftCandidateShell">
+        <div class="print-transcript-header">
+          <div style="font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: #1c1917; margin-bottom: 4px;">
+            Institute of Chartered Accountants of Bangladesh
+          </div>
+          <div style="font-family: var(--font-sans); font-size: 13px; font-weight: 600; color: #78350f; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;">
+            Official Examination Transcript — Candidate Sitting Dossier
+          </div>
+          <div id="printMetaLine" style="font-family: var(--font-mono); font-size: 10px; color: #57534e; display: flex; gap: 16px; border-top: 1px solid #e7e2d6; border-bottom: 1px solid #e7e2d6; padding: 6px 0; margin-bottom: 16px;"></div>
+        </div>
+        <div class="candidate-mirror-section">
+          <h2 class="candidate-mirror-heading">Candidate Submitted Examination Script</h2>
+          <div class="candidate-mirror-body" id="mirrorScriptText">(No written text entered yet.)</div>
+        </div>
+        <div class="candidate-mirror-section">
+          <h3 class="candidate-mirror-heading">Submitted Journal Ledger Entries</h3>
+          <div id="mirrorLedgerWrap"></div>
+        </div>
+        <div class="candidate-mirror-section">
+          <h3 class="candidate-mirror-heading">Submitted Audit Risk Matrix</h3>
+          <div id="mirrorAuditWrap"></div>
+        </div>
+        <div class="candidate-mirror-section">
+          <h3 class="candidate-mirror-heading">Corporate Tax Computation Schedule</h3>
+          <div id="mirrorTaxWrap"></div>
+        </div>
+        <div id="mirrorScratchWrap"></div>
+      </div>
+    </section>
+
+    <!-- DRAGGABLE SPLITTER -->
+    <div class="desk-splitter" id="deskSplitter" title="Drag to resize split view">
+      <div class="desk-splitter-handle"></div>
+    </div>
+
+    <!-- RIGHT PANE: Candidate Working Desk / Council Suggested Answer / Rubric -->
+    <section class="desk-pane-right" id="deskPaneRight">
+      <!-- Sheet Tabs Header -->
+      <div class="sheet-tabs-header" id="rightTabsHeader">
+        <div class="sheet-tabs-list">
+          <button class="sheet-tab-btn active" data-tab="tab-script">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            Written Script
+          </button>
+          <button class="sheet-tab-btn" data-tab="tab-journal">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+            Journal Ledger
+          </button>
+          <button class="sheet-tab-btn" data-tab="tab-audit">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            Audit Risk Matrix
+          </button>
+          <button class="sheet-tab-btn" data-tab="tab-tax">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M8 7h8"/><path d="M12 11v6"/><path d="M9 14h6"/></svg>
+            Corporate Tax
+          </button>
+          <button class="sheet-tab-btn" data-tab="tab-scratch">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+            Scratchpad
+          </button>
+        </div>
+
+        <div class="sheet-tools">
+          <button class="btn-timer" id="btnManualSave" title="Save Candidate Sitting Now">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save
+          </button>
+          <button class="btn-timer" id="btnFreshSittingSheet" title="Clear desk and restart sitting" style="color: #fca5a5; border-color: #7f1d1d;">↺ Fresh Sitting</button>
+        </div>
+      </div>
+
+      <!-- Right Tab Content Area (Parchment Paper Grounds) -->
+      <div class="sheet-tab-content-area" id="sheetTabContentArea">
+
+        <!-- TAB 1: Written Examination Script -->
+        <div class="sheet-tab-pane active" id="tab-script">
+          <div class="script-formatting-bar">
+            <div class="script-chip-group">
+              <span style="font-size: 10px; color: #78716c; font-family: var(--font-mono); font-weight: 600;">INSERT:</span>
+              <button class="btn-script-chip" data-insert="[QUESTION_HEADER]">Question Heading</button>
+              <button class="btn-script-chip" data-insert="[REQUIREMENT]">Requirement (a)</button>
+              <button class="btn-script-chip" data-insert="[SECTION_REF]">Statutory Section §</button>
+              <button class="btn-script-chip" data-insert="[ACCOUNTING_POLICY]">IFRS / IAS Policy Note</button>
+              <button class="btn-script-chip" data-insert="[CONCLUSION]">Formal Audit Conclusion</button>
+            </div>
+            <div class="script-font-controls">
+              <span style="font-size: 10px; color: #78716c; font-family: var(--font-mono);">SIZE:</span>
+              <button class="btn-font-size" data-size="14">S</button>
+              <button class="btn-font-size active" data-size="16">M</button>
+              <button class="btn-font-size" data-size="18">L</button>
+            </div>
+          </div>
+          <textarea id="candidateScriptEditor" class="candidate-textarea" placeholder="Type candidate examination answers, statutory legal analyses, board advisory memorandums, and workings here... Autosaved locally in real time."></textarea>
+        </div>
+
+        <!-- TAB 2: Double-Entry Journal Ledger -->
+        <div class="sheet-tab-pane" id="tab-journal">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div>
+              <span style="font-family: var(--font-serif); font-size: 15px; font-weight: 600;">Financial Accounting & Corporate Reporting Working Ledger</span>
+              <p style="font-size: 11px; color: #78716c;">Double-entry balances calculated in real time.</p>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn-sheet-action" id="btnAddLedgerRow">+ Add Journal Entry</button>
+              <button class="btn-sheet-action" id="btnClearLedger">↺ Reset Ledger</button>
+            </div>
+          </div>
+
+          <div class="ledger-table-wrap">
+            <table class="ledger-table">
+              <thead>
+                <tr>
+                  <th style="width: 100px;">Date / Ref</th>
+                  <th>Account Title & Explanation</th>
+                  <th style="width: 60px;">Folio</th>
+                  <th style="width: 140px; text-align: right;">Debit (৳ BDT)</th>
+                  <th style="width: 140px; text-align: right;">Credit (৳ BDT)</th>
+                  <th style="width: 40px; text-align: center;">Act</th>
+                </tr>
+              </thead>
+              <tbody id="ledgerTableBody">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="ledger-footer-bar">
+            <div style="display: flex; gap: 16px; font-family: var(--font-mono); font-size: 11px;">
+              <span>Total Debit: <b id="totalDebitDisplay">৳ 0</b></span>
+              <span>Total Credit: <b id="totalCreditDisplay">৳ 0</b></span>
+            </div>
+            <div class="ledger-balance-pill balanced" id="ledgerBalanceStatus">
+              <span>✓ TRIAL BALANCE MATCHED (Diff: ৳ 0)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: Audit Risk Matrix -->
+        <div class="sheet-tab-pane" id="tab-audit">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div>
+              <span style="font-family: var(--font-serif); font-size: 15px; font-weight: 600;">Audit Risk, Financial Statement Assertions & Substantive Responses</span>
+              <p style="font-size: 11px; color: #78716c;">Standard ISA 315 / ISA 330 engagement planning template.</p>
+            </div>
+            <button class="btn-sheet-action" id="btnAddAuditRow">+ Add Risk Row</button>
+          </div>
+
+          <div class="audit-matrix-wrap">
+            <table class="audit-table">
+              <thead>
+                <tr>
+                  <th style="width: 32%;">Identified Audit Risk / Misstatement Condition</th>
+                  <th style="width: 24%;">Relevant Financial Statement Assertion</th>
+                  <th>Auditor's Substantive Response / Testing Procedure</th>
+                  <th style="width: 40px; text-align: center;">Act</th>
+                </tr>
+              </thead>
+              <tbody id="auditTableBody">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 4: Corporate Tax Computation Schedule -->
+        <div class="sheet-tab-pane" id="tab-tax">
+          <div class="tax-schedule-card">
+            <h3 class="tax-header-title">Corporate Tax Computation Schedule (Income Tax Act 2023)</h3>
+            <p class="tax-meta-subtitle">Automated computation of accounting profit adjustments, allowable allowances, and net tax liability.</p>
+
+            <div class="tax-calc-grid">
+              <div class="tax-row">
+                <span class="tax-row-label">Net Profit Before Tax (Accounting Profit as per Audited Accounts):</span>
+                <div class="tax-row-input-wrap">
+                  <span class="tax-currency-symbol">৳</span>
+                  <input type="number" id="taxNetProfit" class="tax-input" value="10000000" step="1000">
+                </div>
+              </div>
+
+              <div class="tax-subheading">Section A: Inadmissible Expenses / Disallowances (Add Back)</div>
+              <div id="taxAdditionsContainer">
+                <!-- Injected rows -->
+              </div>
+              <button class="btn-sheet-action" id="btnAddTaxAddition" style="align-self: flex-start; margin-top: 4px;">+ Add Disallowance Item</button>
+
+              <div class="tax-subheading" style="margin-top: 12px;">Section B: Allowable Deductions & Tax Depreciation (Less)</div>
+              <div id="taxDeductionsContainer">
+                <!-- Injected rows -->
+              </div>
+              <button class="btn-sheet-action" id="btnAddTaxDeduction" style="align-self: flex-start; margin-top: 4px;">+ Add Deduction Item</button>
+
+              <div class="tax-row" style="border-top: 2px solid #78350f; margin-top: 10px; padding-top: 8px;">
+                <span class="tax-row-label" style="font-weight: 700; color: #1c1917;">Total Taxable Business Income:</span>
+                <div class="tax-row-input-wrap">
+                  <span class="tax-currency-symbol">৳</span>
+                  <input type="text" id="taxTotalTaxableIncome" class="tax-input" readonly style="font-weight: 700; background: #f5f2e9;">
+                </div>
+              </div>
+
+              <div class="tax-row">
+                <span class="tax-row-label">Applicable Corporate Tax Rate (%):</span>
+                <div class="tax-row-input-wrap">
+                  <select id="taxRateSelect" class="tax-input">
+                    <option value="0.275">27.5% (Non-Listed Company)</option>
+                    <option value="0.20">20.0% (Publicly Listed >=20% shares)</option>
+                    <option value="0.225">22.5% (Publicly Listed standard)</option>
+                    <option value="0.30">30.0% (Non-reporting / High slab)</option>
+                    <option value="0.12">12.0% (Export Oriented RMG)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="tax-row">
+                <span class="tax-row-label">Advance Income Tax (AIT) / Withholding Tax Deducted at Source (TDS):</span>
+                <div class="tax-row-input-wrap">
+                  <span class="tax-currency-symbol">৳</span>
+                  <input type="number" id="taxAitTds" class="tax-input" value="1200000" step="1000">
+                </div>
+              </div>
+
+              <div class="tax-summary-box">
+                <div>
+                  <span style="font-size: 11px; color: #854d0e; font-weight: 600; text-transform: uppercase;">Net Tax Payable / (Refundable):</span>
+                  <div style="font-size: 10px; color: #78350f;">Calculated after AIT/TDS adjustment</div>
+                </div>
+                <div class="tax-liability-badge" id="netTaxLiabilityDisplay">৳ 0</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: Scratchpad -->
+        <div class="sheet-tab-pane" id="tab-scratch">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; color: #78716c;">ROUGH WORKING &amp; SCRATCHPAD (Not Graded)</span>
+            <button class="btn-sheet-action" id="btnClearScratch">Clear Scratchpad</button>
+          </div>
+          <textarea id="candidateScratchEditor" class="candidate-textarea" style="font-family: var(--font-mono); font-size: 13px;" placeholder="Use this scratchpad for quick ratio formulas, draft balancing arithmetic, or planning outlines."></textarea>
+        </div>
+
+      </div>
+
+      <!-- RIGHT PANE ALTERNATE: Council Suggested Answer PDF (Shown in Comparative Mode) -->
+      <div class="pdf-frame-shell" id="rightPdfShell" style="display: none;">
+        <div class="pane-toolbar" style="background: #19202c;">
+          <div class="pane-title" style="color: #6ee7b7;">
+            <span class="pane-title-badge" style="background: #064e3b; color: #a7f3d0;">CH.02</span>
+            <span>Official Council Suggested Answer</span>
+          </div>
+          <!-- Rapid Page Jumps for Suggested Answer -->
+          <div class="pdf-nav-strip">
+            <span style="font-size: 10px; color: #64748b; font-family: var(--font-mono); margin-right: 2px;">JUMP:</span>
+            <button class="btn-pdf-page" data-page-right="1">[P.1]</button>
+            <button class="btn-pdf-page" data-page-right="2">[P.2]</button>
+            <button class="btn-pdf-page" data-page-right="3">[P.3]</button>
+            <button class="btn-pdf-page" data-page-right="4">[P.4]</button>
+            <button class="btn-pdf-page" data-page-right="5">[P.5]</button>
+            <button class="btn-pdf-page" data-page-right="6">[P.6]</button>
+            <button class="btn-pdf-page" data-page-right="8">[P.8]</button>
+            <button class="btn-pdf-page" data-page-right="10">[P.10]</button>
+          </div>
+          <div class="pane-tools-group">
+            <button class="btn-tool-icon" id="btnReloadRightPdf" title="Reload Solution PDF">↻</button>
+            <button class="btn-tool-icon" id="btnOpenRightPdfNewTab" title="Open in New Tab">↗</button>
+          </div>
+        </div>
+        <iframe id="rightPdfFrame" class="pdf-frame" title="Council Suggested Answer PDF"></iframe>
+      </div>
+
+      <!-- RIGHT PANE ALTERNATE: Self-Grading Rubric Console -->
+      <div class="rubric-console-wrap" id="rubricConsoleWrap" style="display: none;">
+        <div class="rubric-header-box">
+          <div>
+            <h2 style="font-family: var(--font-serif); font-size: 18px; color: #fef3c7; font-weight: 600;">Interactive ICAB Examination Rubric</h2>
+            <p style="font-size: 11px; color: #94a3b8;">Score candidate performance against official marking standards (Pass benchmark: 50%).</p>
+          </div>
+          <div class="rubric-tally-bay">
+            <div class="rubric-total-card">
+              <span class="rubric-score-label">Aggregate Mark</span>
+              <span class="rubric-score-value" id="rubricScoreDisplay">0 / 100</span>
+            </div>
+            <div class="rubric-verdict-badge verdict-fail" id="rubricVerdictBadge">
+              FAIL - REFERRAL (Deficit: 50)
+            </div>
+          </div>
+        </div>
+
+        <!-- Question-by-Question Marking Rubric -->
+        <div id="rubricQuestionsList">
+          <!-- Injected dynamically based on active preset -->
+        </div>
+
+        <!-- Statutory Citation Bonus Checklist -->
+        <div class="citation-checklist-box">
+          <div class="citation-box-title">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:4px;"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>
+            Statutory Citation Bonus Verification Checklist
+          </div>
+          <p style="font-size: 11px; color: #94a3b8; margin-bottom: 8px;">Check all statutory laws, standards, and regulatory frameworks cited by candidate:</p>
+          <div class="citation-grid" id="citationChecklistGrid">
+            <!-- Injected dynamically -->
+          </div>
+        </div>
+
+        <!-- Dossier Export & Print Tray -->
+        <div class="dossier-export-tray">
+          <button class="btn-export-dossier" id="btnExportJson">Export Dossier (JSON)</button>
+          <button class="btn-export-dossier" id="btnExportMarkdown">Export Dossier (Markdown)</button>
+          <button class="btn-export-dossier" id="btnPrintDossier">Print Formal Transcript (PDF)</button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- CONFIRM BREAK SEAL MODAL -->
+  <div class="modal-backdrop" id="modalBreakSeal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>Break Council Exam Seal?</span>
+        </h3>
+        <button class="modal-close-btn" data-close-modal="modalBreakSeal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 12px; font-weight: 600; color: #fef08a;">
+          CONFIDENTIAL COUNCIL EXAMINATION ARCHIVE
+        </p>
+        <p style="margin-bottom: 10px;">
+          You are about to break the official Council Exam Seal for this 180-minute sitting.
+        </p>
+        <ul style="padding-left: 20px; margin-bottom: 12px; color: #94a3b8; font-size: 12px; line-height: 1.6;">
+          <li>Your master 180-minute examination timer will be paused.</li>
+          <li>The official Council-Approved Suggested Solution PDF will be unsealed.</li>
+          <li>The Interactive Self-Grading Rubric will activate for line-by-line mark allocation.</li>
+          <li>Your candidate answer script, ledger, and tax schedules remain fully intact for comparison.</li>
+        </ul>
+        <p style="font-size: 12px; color: #cbd5e1;">
+          Would you like to conclude this examination sitting and initiate comparative self-grading?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-timer" data-close-modal="modalBreakSeal">Cancel / Continue Exam</button>
+        <button class="btn-council-seal" id="btnConfirmBreakSeal">Break Seal & Open Solution</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONFIRM FRESH SITTING MODAL -->
+  <div class="modal-backdrop" id="modalFreshSitting">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          <span>Start Fresh Sitting?</span>
+        </h3>
+        <button class="modal-close-btn" data-close-modal="modalFreshSitting">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="margin-bottom: 12px; font-weight: 600; color: #fef08a;">
+          INITIALIZE CLEAN EXAM DESK
+        </p>
+        <p style="margin-bottom: 10px;">
+          Starting a fresh sitting will reset this paper's workspace:
+        </p>
+        <ul style="padding-left: 20px; margin-bottom: 12px; color: #94a3b8; font-size: 12px; line-height: 1.6;">
+          <li>Master clock will reset to 180:00 (full 180-minute duration).</li>
+          <li>Written answer scripts and scratchpad notes will be wiped.</li>
+          <li>All worksheets (Journal Ledger, Audit Matrix, Tax Schedule) will be reset to clean empty sheets.</li>
+          <li>Cached local progress for this paper and diet will be cleared.</li>
+        </ul>
+        <p style="font-size: 12px; color: #f87171; font-weight: 500;">
+          This action cannot be undone. Are you sure you want to begin a fresh sitting?
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-timer" data-close-modal="modalFreshSitting">Cancel / Keep Current Sitting</button>
+        <button class="btn-timer btn-timer-primary" id="btnConfirmFreshSitting" style="background:#b91c1c; border-color:#dc2626; color:#ffffff;">Reset to Clean Desk</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOM PACING PRESET CONFIGURATION MODAL -->
+  <div class="modal-backdrop" id="modalCustomPreset">
+    <div class="modal-dialog" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Configure Custom Question Pacing</span>
+        </h3>
+        <button class="modal-close-btn" data-close-modal="modalCustomPreset">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 12px; color: #94a3b8; margin-bottom: 8px;">
+          Define question division and mark weightings. Pacing is calculated at <b>1.8 minutes per mark</b>.
+        </p>
+        <table class="custom-preset-table">
+          <thead>
+            <tr>
+              <th style="width: 30%;">Question ID</th>
+              <th style="width: 35%;">Marks</th>
+              <th style="width: 25%;">Budget</th>
+              <th style="width: 10%; text-align: center;">Act</th>
+            </tr>
+          </thead>
+          <tbody id="customPresetTableBody">
+            <!-- Dynamic rows -->
+          </tbody>
+        </table>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 12px;">
+          <button class="btn-timer" id="btnAddCustomQ">+ Add Question</button>
+          <div style="font-family: var(--font-mono); font-size: 11px; color: #f59e0b;" id="customTotalsSummary">
+            Total: 100 Marks | 180 Min
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-timer" data-close-modal="modalCustomPreset">Cancel</button>
+        <button class="btn-timer btn-timer-primary" id="btnSaveCustomPreset">Apply Custom Pacing</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STUDY MANUALS & SYLLABUS COMPENDIUM MODAL -->
+  <div class="modal-backdrop" id="modalManuals">
+    <div class="modal-dialog modal-manuals">
+      <div class="modal-header">
+        <h3 class="modal-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <span>ICAB Study Manuals, IVS Standards & Syllabus Compendium</span>
+        </h3>
+        <button class="modal-close-btn" data-close-modal="modalManuals">&times;</button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="manualsSearchInput" class="manuals-search-bar" placeholder="Filter 20 Study Manuals, 2 IVS Volumes & 2025 Framework by subject or keyword...">
+        <div class="manuals-grid" id="manualsCardsGrid">
+          <!-- Injected via getAllManuals() -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-timer" data-close-modal="modalManuals">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT ENGINE: Loads catalog.js and executes Hall 180 Logic -->
+  <script src="catalog.js"></script>
+  <script>
+    /* ==========================================================================
+       HALL 180 COMPLETE APPLICATION ENGINE
+       ========================================================================== */
+    (function () {
+      'use strict';
+
+      // ------------------------------------------------------------------------
+      // 1. Audio Telemetry Synthesizer (Web Audio API)
+      // ------------------------------------------------------------------------
+      const Sound = {
+        ctx: null,
+        muted: false,
+        init() {
+          if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            this.ctx = new AudioCtx();
+          }
+        },
+        playTone(freq, duration, type = 'sine', gainVal = 0.15) {
+          if (this.muted) return;
+          try {
+            this.init();
+            if (!this.ctx) return;
+            if (this.ctx.state === 'suspended') this.ctx.resume();
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+            gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start();
+            osc.stop(this.ctx.currentTime + duration);
+          } catch (e) {
+            console.warn('Audio playback error:', e);
+          }
+        },
+        examStart() {
+          this.playTone(392, 0.35, 'triangle', 0.2);
+          setTimeout(() => this.playTone(523.25, 0.7, 'triangle', 0.25), 320);
+        },
+        warningChime() {
+          this.playTone(587.33, 0.25, 'sine', 0.2);
+          setTimeout(() => this.playTone(440, 0.45, 'sine', 0.2), 220);
+        },
+        timeExpiredGong() {
+          this.playTone(220, 1.2, 'sawtooth', 0.3);
+          setTimeout(() => this.playTone(196, 1.8, 'sine', 0.35), 400);
+        }
+      };
+
+      // ------------------------------------------------------------------------
+      // 2. Security & Template Escaping Utilities
+      // ------------------------------------------------------------------------
+      function escapeHtml(str) {
+        if (str === null || str === undefined) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function escapeAttr(str) {
+        return escapeHtml(str);
+      }
+
+      // ------------------------------------------------------------------------
+      // 3. Hardened Manuals Ingestion Routine
+      // ------------------------------------------------------------------------
+      function getAllManuals() {
+        const manuals = [];
+        if (typeof CATALOG !== 'undefined' && CATALOG && CATALOG.Manuals) {
+          const levels = ['PL', 'AL'];
+          levels.forEach(lvl => {
+            if (CATALOG.Manuals[lvl]) {
+              const subjects = Object.keys(CATALOG.Manuals[lvl]);
+              subjects.forEach(subject => {
+                const items = CATALOG.Manuals[lvl][subject];
+                const arr = Array.isArray(items) ? items : [items];
+                arr.forEach(item => {
+                  manuals.push({
+                    title: item.title || (item.filename ? item.filename.replace(/\.pdf$/i, '') : subject),
+                    filename: item.filename,
+                    rel_path: item.rel_path,
+                    size_mb: item.size_mb || (item.size_kb ? (item.size_kb / 1024).toFixed(2) : 'N/A'),
+                    level: lvl,
+                    subject: subject,
+                    isSyllabus: false,
+                    isIVS: subject.toLowerCase().includes('ivs') || (item.title && item.title.toLowerCase().includes('ivs'))
+                  });
+                });
+              });
+            }
+          });
+        }
+        if (typeof SYLLABUS_DOC !== 'undefined' && SYLLABUS_DOC) {
+          manuals.push({
+            title: SYLLABUS_DOC.title || "ICAB Latest Syllabus (2025)",
+            filename: "ICAB Latest Syllabus (2025).pdf",
+            rel_path: SYLLABUS_DOC.rel_path,
+            size_mb: SYLLABUS_DOC.size_mb || 6.2,
+            level: 'ALL',
+            subject: 'Curriculum Framework',
+            isSyllabus: true,
+            isIVS: false
+          });
+        }
+        return manuals;
+      }
+
+      // ------------------------------------------------------------------------
+      // 3. Question Presets Configuration
+      // ------------------------------------------------------------------------
+      const PRESETS = {
+        'std5': {
+          id: 'std5',
+          name: 'Standard 5-Question (20m each)',
+          questions: [
+            { id: 'Q1', title: 'Question 1', marks: 20 },
+            { id: 'Q2', title: 'Question 2', marks: 20 },
+            { id: 'Q3', title: 'Question 3', marks: 20 },
+            { id: 'Q4', title: 'Question 4', marks: 20 },
+            { id: 'Q5', title: 'Question 5', marks: 20 }
+          ]
+        },
+        'heavy4': {
+          id: 'heavy4',
+          name: '4-Question Heavy (25m each)',
+          questions: [
+            { id: 'Q1', title: 'Question 1', marks: 25 },
+            { id: 'Q2', title: 'Question 2', marks: 25 },
+            { id: 'Q3', title: 'Question 3', marks: 25 },
+            { id: 'Q4', title: 'Question 4', marks: 25 }
+          ]
+        },
+        'caseStudy': {
+          id: 'caseStudy',
+          name: 'Case Study Simulation (35m, 35m, 30m)',
+          questions: [
+            { id: 'Req1', title: 'Requirement 1', marks: 35 },
+            { id: 'Req2', title: 'Requirement 2', marks: 35 },
+            { id: 'Req3', title: 'Requirement 3', marks: 30 }
+          ]
+        },
+        'custom': {
+          id: 'custom',
+          name: 'Custom Configuration',
+          questions: [
+            { id: 'Q1', title: 'Question 1', marks: 20 },
+            { id: 'Q2', title: 'Question 2', marks: 20 },
+            { id: 'Q3', title: 'Question 3', marks: 20 },
+            { id: 'Q4', title: 'Question 4', marks: 20 },
+            { id: 'Q5', title: 'Question 5', marks: 20 }
+          ]
+        }
+      };
+
+      // Statutory Citations Checklist Catalog
+      const STATUTORY_CITATIONS = [
+        { id: 'c1', label: 'Companies Act 1994 (Sec 181 - Proper Books of Account)' },
+        { id: 'c2', label: 'Companies Act 1994 (Sec 183 / 210 - Auditor Duties & Report)' },
+        { id: 'c3', label: 'Income Tax Act 2023 (Sec 45 / 55 - Disallowed Expenses)' },
+        { id: 'c4', label: 'Income Tax Act 2023 (Sec 73 / 3rd Sched - Depreciation)' },
+        { id: 'c5', label: 'Income Tax Act 2023 (Sec 154 / 163 - AIT & TDS Compliance)' },
+        { id: 'c6', label: 'Value Added Tax & Supplementary Duty Act 2012' },
+        { id: 'c7', label: 'IAS 1 (Presentation of Financial Statements)' },
+        { id: 'c8', label: 'IAS 2 (Inventories - Lower of Cost & Net Realizable Value)' },
+        { id: 'c9', label: 'IAS 16 (Property, Plant and Equipment - Component Depreciation)' },
+        { id: 'c10', label: 'IAS 36 (Impairment of Assets - Recoverable Amount Test)' },
+        { id: 'c11', label: 'IFRS 9 (Financial Instruments - Expected Credit Loss Model)' },
+        { id: 'c12', label: 'IFRS 15 (Revenue Recognition - 5-Step Model)' },
+        { id: 'c13', label: 'IFRS 16 (Leases - Right-of-Use Asset & Lease Liability)' },
+        { id: 'c14', label: 'ISA 240 (Auditor Responsibilities Relating to Fraud)' },
+        { id: 'c15', label: 'ISA 315 / 330 (Risk Assessment & Responsive Procedures)' },
+        { id: 'c16', label: 'ISA 700 / 705 (Forming an Opinion & Modified Opinions)' },
+        { id: 'c17', label: 'BSEC Corporate Governance Code 2018' },
+        { id: 'c18', label: 'Financial Reporting Council (FRC) Bangladesh Directives' }
+      ];
+
+      // ------------------------------------------------------------------------
+      // 4. Central Application State
+      // ------------------------------------------------------------------------
+      const state = {
+        level: 'PL',
+        paper: '',
+        diet: '',
+        sessionObj: null,
+
+        // Master Clock
+        masterRemaining: 180 * 60, // 10,800 seconds
+        isTimerRunning: false,
+        timerInterval: null,
+        targetEndTime: null,
+        lastTickTime: null,
+
+        // Pacing & Question Management
+        currentPreset: 'std5',
+        questions: JSON.parse(JSON.stringify(PRESETS['std5'].questions)),
+        activeQIndex: 0,
+        qTimeSpent: [0, 0, 0, 0, 0], // seconds spent per question
+
+        // Council Seal & View Modes
+        isUnsealed: false,
+        viewMode: 'split-q-cand', // 'split-q-cand', 'split-cand-ans', 'rubric-view'
+        activeSheetTab: 'tab-script',
+
+        // Candidate Data (Starts with Clean Empty Worksheets)
+        scriptText: '',
+        scratchText: '',
+        ledgerRows: [],
+        auditRows: [],
+        taxSchedule: {
+          netProfit: 0,
+          rate: 0.275,
+          aitTds: 0,
+          additions: [],
+          deductions: []
+        },
+
+        // Self-Grading Rubric
+        rubricScores: {}, // { 'Q1': 16, 'Q2': 14 ... }
+        rubricFeedback: {},
+        citationsChecked: {}
+      };
+
+      // ------------------------------------------------------------------------
+      // 5. DOM References
+      // ------------------------------------------------------------------------
+      const selLevel = document.getElementById('selLevel');
+      const selPaper = document.getElementById('selPaper');
+      const selDiet = document.getElementById('selDiet');
+
+      const masterClockDisplay = document.getElementById('masterClockDisplay');
+      const activeQBudgetCaption = document.getElementById('activeQBudgetCaption');
+      const activeQBudgetStatus = document.getElementById('activeQBudgetStatus');
+      const activeQTimeRemaining = document.getElementById('activeQTimeRemaining');
+      const activeQBudgetFill = document.getElementById('activeQBudgetFill');
+
+      const btnTimerToggle = document.getElementById('btnTimerToggle');
+      const btnTimerReset = document.getElementById('btnTimerReset');
+      const btnTimerAdd5 = document.getElementById('btnTimerAdd5');
+      const btnAudioToggle = document.getElementById('btnAudioToggle');
+      const btnCouncilSeal = document.getElementById('btnCouncilSeal');
+      const btnFreshSitting = document.getElementById('btnFreshSitting');
+
+      const pacingTabsStrip = document.getElementById('pacingTabsStrip');
+      const autosaveDot = document.getElementById('autosaveDot');
+      const autosaveText = document.getElementById('autosaveText');
+
+      const deskPaneLeft = document.getElementById('deskPaneLeft');
+      const deskSplitter = document.getElementById('deskSplitter');
+      const deskPaneRight = document.getElementById('deskPaneRight');
+      const leftPaneTitle = document.getElementById('leftPaneTitle');
+      const leftPaneBadge = document.getElementById('leftPaneBadge');
+      const leftPdfShell = document.getElementById('leftPdfShell');
+      const leftPdfFrame = document.getElementById('leftPdfFrame');
+      const leftCandidateShell = document.getElementById('leftCandidateShell');
+      const mirrorScriptText = document.getElementById('mirrorScriptText');
+      const mirrorLedgerWrap = document.getElementById('mirrorLedgerWrap');
+      const mirrorAuditWrap = document.getElementById('mirrorAuditWrap');
+      const mirrorTaxWrap = document.getElementById('mirrorTaxWrap');
+
+      const rightPdfShell = document.getElementById('rightPdfShell');
+      const rightPdfFrame = document.getElementById('rightPdfFrame');
+      const rubricConsoleWrap = document.getElementById('rubricConsoleWrap');
+      const sheetTabContentArea = document.getElementById('sheetTabContentArea');
+      const rightTabsHeader = document.getElementById('rightTabsHeader');
+
+      const candidateScriptEditor = document.getElementById('candidateScriptEditor');
+      const candidateScratchEditor = document.getElementById('candidateScratchEditor');
+      const wordCounterPill = document.getElementById('wordCounterPill');
+
+      const ledgerTableBody = document.getElementById('ledgerTableBody');
+      const totalDebitDisplay = document.getElementById('totalDebitDisplay');
+      const totalCreditDisplay = document.getElementById('totalCreditDisplay');
+      const ledgerBalanceStatus = document.getElementById('ledgerBalanceStatus');
+
+      const auditTableBody = document.getElementById('auditTableBody');
+      const taxAdditionsContainer = document.getElementById('taxAdditionsContainer');
+      const taxDeductionsContainer = document.getElementById('taxDeductionsContainer');
+      const taxNetProfit = document.getElementById('taxNetProfit');
+      const taxRateSelect = document.getElementById('taxRateSelect');
+      const taxAitTds = document.getElementById('taxAitTds');
+      const taxTotalTaxableIncome = document.getElementById('taxTotalTaxableIncome');
+      const netTaxLiabilityDisplay = document.getElementById('netTaxLiabilityDisplay');
+
+      const rubricQuestionsList = document.getElementById('rubricQuestionsList');
+      const rubricScoreDisplay = document.getElementById('rubricScoreDisplay');
+      const rubricVerdictBadge = document.getElementById('rubricVerdictBadge');
+      const citationChecklistGrid = document.getElementById('citationChecklistGrid');
+
+      // Modals
+      const modalBreakSeal = document.getElementById('modalBreakSeal');
+      const btnConfirmBreakSeal = document.getElementById('btnConfirmBreakSeal');
+      const modalFreshSitting = document.getElementById('modalFreshSitting');
+      const btnConfirmFreshSitting = document.getElementById('btnConfirmFreshSitting');
+      const modalManuals = document.getElementById('modalManuals');
+      const btnOpenManuals = document.getElementById('btnOpenManuals');
+      const manualsCardsGrid = document.getElementById('manualsCardsGrid');
+      const manualsSearchInput = document.getElementById('manualsSearchInput');
+
+      const modalCustomPreset = document.getElementById('modalCustomPreset');
+      const customPresetTableBody = document.getElementById('customPresetTableBody');
+      const customTotalsSummary = document.getElementById('customTotalsSummary');
+      const btnAddCustomQ = document.getElementById('btnAddCustomQ');
+      const btnSaveCustomPreset = document.getElementById('btnSaveCustomPreset');
+
+      // ------------------------------------------------------------------------
+      // 6. Initialization & Catalog Population
+      // ------------------------------------------------------------------------
+      function initApp() {
+        populateLevelPapers();
+        setupEventListeners();
+        setupManualsShelf();
+        loadSessionData();
+      }
+
+      function populateLevelPapers() {
+        state.level = selLevel.value;
+        selPaper.innerHTML = '';
+
+        const subjects = (typeof SUBJECT_ORDER !== 'undefined' && SUBJECT_ORDER[state.level])
+          ? SUBJECT_ORDER[state.level]
+          : (typeof CATALOG !== 'undefined' && CATALOG[state.level] ? Object.keys(CATALOG[state.level]) : []);
+
+        subjects.forEach(sub => {
+          const opt = document.createElement('option');
+          opt.value = sub;
+          opt.textContent = sub;
+          selPaper.appendChild(opt);
+        });
+
+        if (subjects.length > 0) {
+          state.paper = subjects[0];
+          selPaper.value = state.paper;
+        }
+
+        populateDiets();
+      }
+
+      function populateDiets() {
+        state.paper = selPaper.value;
+        selDiet.innerHTML = '';
+
+        let sessions = [];
+        if (typeof CATALOG !== 'undefined' && CATALOG[state.level] && CATALOG[state.level][state.paper]) {
+          sessions = CATALOG[state.level][state.paper];
+        }
+
+        if (sessions.length > 0) {
+          sessions.forEach((s, idx) => {
+            const opt = document.createElement('option');
+            opt.value = idx;
+            opt.textContent = s.session_label || s.session_tag;
+            selDiet.appendChild(opt);
+          });
+          state.diet = sessions[0].session_tag;
+          state.sessionObj = sessions[0];
+        } else {
+          const opt = document.createElement('option');
+          opt.value = 0;
+          opt.textContent = "Default Sitting (May 2026)";
+          selDiet.appendChild(opt);
+          state.diet = "2026-05_May";
+          state.sessionObj = null;
+        }
+
+        loadPdfForCurrentSession();
+      }
+
+      function loadPdfForCurrentSession() {
+        const dietIdx = parseInt(selDiet.value, 10) || 0;
+        if (typeof CATALOG !== 'undefined' && CATALOG[state.level] && CATALOG[state.level][state.paper]) {
+          state.sessionObj = CATALOG[state.level][state.paper][dietIdx] || null;
+        }
+
+        if (state.sessionObj && state.sessionObj.session_tag) {
+          state.diet = state.sessionObj.session_tag;
+        } else if (!state.diet) {
+          state.diet = "2026-05_May";
+        }
+
+        if (state.sessionObj && state.sessionObj.question && state.sessionObj.question.rel_path) {
+          const qPath = encodeURI(state.sessionObj.question.rel_path);
+          leftPdfFrame.src = `${qPath}#page=1&zoom=page-fit`;
+          if (state.viewMode === 'split-q-cand') {
+            leftPaneTitle.textContent = `${state.paper} — ${state.sessionObj.session_label || state.diet} (Question Paper)`;
+          }
+        } else {
+          leftPdfFrame.src = 'about:blank';
+          if (state.viewMode === 'split-q-cand') {
+            leftPaneTitle.textContent = `${state.paper} (No Question PDF available)`;
+          }
+        }
+
+        if (state.sessionObj && state.sessionObj.answer && state.sessionObj.answer.rel_path) {
+          const aPath = encodeURI(state.sessionObj.answer.rel_path);
+          rightPdfFrame.src = `${aPath}#page=1&zoom=page-fit`;
+        } else {
+          rightPdfFrame.src = 'about:blank';
+        }
+      }
+
+      // ------------------------------------------------------------------------
+      // 7. Timer & Question Pacing Telemetry Engine (Epoch Precision)
+      // ------------------------------------------------------------------------
+      function toggleTimer() {
+        if (state.isTimerRunning) {
+          pauseTimer();
+        } else {
+          startTimer();
+        }
+      }
+
+      function onTimerTick() {
+        if (!state.isTimerRunning) return;
+        const now = Date.now();
+        const prevRemaining = state.masterRemaining;
+        const remaining = Math.max(0, Math.round((state.targetEndTime - now) / 1000));
+        const elapsed = Math.max(0, prevRemaining - remaining);
+        state.masterRemaining = remaining;
+
+        if (elapsed > 0) {
+          if (state.qTimeSpent[state.activeQIndex] !== undefined) {
+            state.qTimeSpent[state.activeQIndex] += elapsed;
+          }
+
+          if (prevRemaining > 15 * 60 && state.masterRemaining <= 15 * 60) {
+            Sound.warningChime();
+          } else if (prevRemaining > 5 * 60 && state.masterRemaining <= 5 * 60) {
+            Sound.warningChime();
+          }
+        }
+
+        if (state.masterRemaining <= 0) {
+          pauseTimer();
+          Sound.timeExpiredGong();
+          alert("ICAB EXAM TIMER: 180 Minutes Expired. Pens Down.\nPlease proceed to break the council seal and grade your paper.");
+        }
+
+        updateClocksDisplay();
+      }
+
+      function startTimer() {
+        if (state.isTimerRunning) return;
+        state.isTimerRunning = true;
+        state.targetEndTime = Date.now() + (state.masterRemaining * 1000);
+        state.lastTickTime = Date.now();
+        btnTimerToggle.textContent = '⏸ Pause';
+        btnTimerToggle.classList.remove('btn-timer-primary');
+        Sound.examStart();
+
+        state.timerInterval = setInterval(onTimerTick, 500);
+      }
+
+      function pauseTimer() {
+        state.isTimerRunning = false;
+        clearInterval(state.timerInterval);
+        if (state.targetEndTime) {
+          state.masterRemaining = Math.max(0, Math.round((state.targetEndTime - Date.now()) / 1000));
+        }
+        btnTimerToggle.textContent = '▶ Resume';
+        btnTimerToggle.classList.add('btn-timer-primary');
+        updateClocksDisplay();
+        triggerAutosave();
+      }
+
+      function resetTimer() {
+        modalFreshSitting.classList.add('open');
+      }
+
+      function addFiveMinutes() {
+        state.masterRemaining += 5 * 60;
+        if (state.isTimerRunning && state.targetEndTime) {
+          state.targetEndTime += 5 * 60 * 1000;
+        }
+        updateClocksDisplay();
+        triggerAutosave();
+      }
+
+      function updateClocksDisplay() {
+        const m = Math.floor(state.masterRemaining / 60);
+        const s = state.masterRemaining % 60;
+        const mm = String(m).padStart(2, '0');
+        const ss = String(s).padStart(2, '0');
+        masterClockDisplay.textContent = `${mm}:${ss}`;
+
+        if (state.masterRemaining < 15 * 60) {
+          masterClockDisplay.classList.add('critical');
+        } else {
+          masterClockDisplay.classList.remove('critical');
+        }
+
+        const activeQ = state.questions[state.activeQIndex] || { marks: 20, title: 'Q1' };
+        const budgetSeconds = Math.round(activeQ.marks * 1.8 * 60);
+        const spentSeconds = state.qTimeSpent[state.activeQIndex] || 0;
+        const remainingSeconds = budgetSeconds - spentSeconds;
+
+        activeQBudgetCaption.textContent = `${activeQ.title} Budget (${Math.round(activeQ.marks * 1.8)}m)`;
+
+        if (remainingSeconds >= 0) {
+          const remM = Math.floor(remainingSeconds / 60);
+          const remS = remainingSeconds % 60;
+          activeQTimeRemaining.textContent = `${remM}m ${String(remS).padStart(2, '0')}s rem`;
+
+          const pct = Math.max(0, Math.min(100, (remainingSeconds / budgetSeconds) * 100));
+          activeQBudgetFill.style.width = `${pct}%`;
+
+          if (pct > 25) {
+            activeQBudgetStatus.className = 'q-budget-status budget-green';
+            activeQBudgetFill.style.background = 'var(--accent-green)';
+          } else {
+            activeQBudgetStatus.className = 'q-budget-status budget-amber';
+            activeQBudgetFill.style.background = 'var(--accent-amber)';
+          }
+        } else {
+          const over = Math.abs(remainingSeconds);
+          const overM = Math.floor(over / 60);
+          const overS = over % 60;
+          activeQTimeRemaining.textContent = `OVER +${overM}m ${String(overS).padStart(2, '0')}s`;
+          activeQBudgetStatus.className = 'q-budget-status budget-over';
+          activeQBudgetFill.style.width = '100%';
+          activeQBudgetFill.style.background = 'var(--accent-red)';
+        }
+
+        const tabEl = document.querySelector(`.pacing-tab[data-index="${state.activeQIndex}"]`);
+        if (tabEl) {
+          const spentM = Math.floor(spentSeconds / 60);
+          const badgeEl = tabEl.querySelector('.pacing-tab-badge');
+          if (badgeEl) badgeEl.textContent = `${spentM}m / ${Math.round(activeQ.marks * 1.8)}m`;
+        }
+      }
+
+      function renderPacingTabs() {
+        pacingTabsStrip.innerHTML = '';
+        state.questions.forEach((q, idx) => {
+          const tab = document.createElement('button');
+          tab.className = `pacing-tab ${idx === state.activeQIndex ? 'active' : ''}`;
+          tab.dataset.index = idx;
+
+          const spentSeconds = state.qTimeSpent[idx] || 0;
+          const spentM = Math.floor(spentSeconds / 60);
+          const budgetM = Math.round(q.marks * 1.8);
+
+          tab.innerHTML = `
+            <span>${q.id}</span>
+            <span class="pacing-tab-badge">${spentM}m / ${budgetM}m</span>
+          `;
+
+          tab.addEventListener('click', () => {
+            state.activeQIndex = idx;
+            document.querySelectorAll('.pacing-tab').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            updateClocksDisplay();
+          });
+
+          pacingTabsStrip.appendChild(tab);
+        });
+      }
+
+      function switchPreset(presetId) {
+        if (presetId === 'custom') {
+          openCustomPresetModal();
+          return;
+        }
+
+        if (!PRESETS[presetId]) return;
+        state.currentPreset = presetId;
+        state.questions = JSON.parse(JSON.stringify(PRESETS[presetId].questions));
+        state.activeQIndex = 0;
+        state.qTimeSpent = state.questions.map(() => 0);
+
+        document.querySelectorAll('.btn-preset').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.preset === presetId);
+        });
+
+        renderPacingTabs();
+        renderRubricQuestions();
+        updateClocksDisplay();
+        triggerAutosave();
+      }
+
+      // ------------------------------------------------------------------------
+      // 8. Custom Pacing Modal Logic
+      // ------------------------------------------------------------------------
+      let customTempQuestions = [];
+
+      function openCustomPresetModal() {
+        customTempQuestions = JSON.parse(JSON.stringify(state.questions));
+        renderCustomPresetTable();
+        modalCustomPreset.classList.add('open');
+      }
+
+      function renderCustomPresetTable() {
+        customPresetTableBody.innerHTML = '';
+
+        customTempQuestions.forEach((q, idx) => {
+          const budgetM = Math.round((Number(q.marks) || 0) * 1.8);
+          const tr = document.createElement('tr');
+
+          tr.innerHTML = `
+            <td><input type="text" class="custom-q-input custom-q-id" value="${escapeAttr(q.id)}" data-custom-id="${idx}"></td>
+            <td><input type="number" class="custom-q-input custom-q-marks" value="${escapeAttr(q.marks)}" data-custom-marks="${idx}" min="1" max="100"></td>
+            <td class="custom-q-budget" style="color: #cbd5e1;">${budgetM} min</td>
+            <td style="text-align: center;"><button class="btn-del-row" data-del-custom="${idx}">&times;</button></td>
+          `;
+          customPresetTableBody.appendChild(tr);
+        });
+
+        updateCustomPresetTotals();
+      }
+
+      function updateCustomPresetTotals() {
+        let totalMarks = 0;
+        customTempQuestions.forEach((q, idx) => {
+          const m = Number(q.marks) || 0;
+          totalMarks += m;
+          const tr = customPresetTableBody.querySelector(`tr:nth-child(${idx + 1})`);
+          if (tr) {
+            const budgetCell = tr.querySelector('.custom-q-budget');
+            if (budgetCell) budgetCell.textContent = `${Math.round(m * 1.8)} min`;
+          }
+        });
+
+        const totalMin = Math.round(totalMarks * 1.8);
+        customTotalsSummary.textContent = `Total: ${totalMarks} Marks | ${totalMin} Min (Goal: 100m / 180 min)`;
+        customTotalsSummary.style.color = (totalMarks === 100) ? 'var(--accent-green)' : 'var(--accent-amber)';
+      }
+
+      btnAddCustomQ.addEventListener('click', () => {
+        const nextNum = customTempQuestions.length + 1;
+        customTempQuestions.push({ id: `Q${nextNum}`, title: `Question ${nextNum}`, marks: 20 });
+        renderCustomPresetTable();
+      });
+
+      customPresetTableBody.addEventListener('input', e => {
+        const idIdx = e.target.dataset.customId;
+        const marksIdx = e.target.dataset.customMarks;
+        if (idIdx !== undefined && customTempQuestions[idIdx]) {
+          customTempQuestions[idIdx].id = e.target.value;
+          customTempQuestions[idIdx].title = `Question ${e.target.value}`;
+        }
+        if (marksIdx !== undefined && customTempQuestions[marksIdx]) {
+          customTempQuestions[marksIdx].marks = Number(e.target.value) || 0;
+        }
+        updateCustomPresetTotals();
+      });
+
+      customPresetTableBody.addEventListener('click', e => {
+        if (e.target.dataset.delCustom !== undefined) {
+          const idx = parseInt(e.target.dataset.delCustom, 10);
+          customTempQuestions.splice(idx, 1);
+          renderCustomPresetTable();
+        }
+      });
+
+      btnSaveCustomPreset.addEventListener('click', () => {
+        if (customTempQuestions.length === 0) {
+          alert("Please add at least one question.");
+          return;
+        }
+        for (let i = 0; i < customTempQuestions.length; i++) {
+          const q = customTempQuestions[i];
+          if (!q.id || !q.id.trim()) {
+            alert(`Question #${i + 1} must have a valid identifier (e.g. Q1, Req1).`);
+            return;
+          }
+          if (Number(q.marks) <= 0) {
+            alert(`Question ${q.id} must have marks greater than 0.`);
+            return;
+          }
+        }
+
+        state.currentPreset = 'custom';
+        state.questions = JSON.parse(JSON.stringify(customTempQuestions));
+        PRESETS['custom'].questions = JSON.parse(JSON.stringify(customTempQuestions));
+        state.activeQIndex = 0;
+        state.qTimeSpent = state.questions.map(() => 0);
+
+        document.querySelectorAll('.btn-preset').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.preset === 'custom');
+        });
+
+        modalCustomPreset.classList.remove('open');
+        renderPacingTabs();
+        renderRubricQuestions();
+        updateClocksDisplay();
+        triggerAutosave();
+      });
+
+      // ------------------------------------------------------------------------
+      // 9. View Modes & Comparative Desk Transitions
+      // ------------------------------------------------------------------------
+      function setViewMode(mode) {
+        if ((mode === 'split-cand-ans' || mode === 'rubric-view') && !state.isUnsealed) {
+          openBreakSealModal();
+          return;
+        }
+
+        state.viewMode = mode;
+        document.querySelectorAll('.btn-view-mode').forEach(b => {
+          b.classList.toggle('active', b.dataset.mode === mode);
+        });
+
+        if (mode === 'split-q-cand') {
+          // Standard Exam Sitting Mode: Left = Question PDF, Right = Candidate Sheet
+          leftPdfShell.style.display = 'block';
+          leftCandidateShell.style.display = 'none';
+          document.getElementById('pdfPageStrip').style.display = 'flex';
+          document.getElementById('btnReloadLeftPdf').style.display = 'flex';
+          document.getElementById('btnOpenLeftPdfNewTab').style.display = 'flex';
+
+          rightTabsHeader.style.display = 'flex';
+          sheetTabContentArea.style.display = 'flex';
+          rightPdfShell.style.display = 'none';
+          rubricConsoleWrap.style.display = 'none';
+
+          leftPaneBadge.textContent = 'CH.01';
+          leftPaneTitle.textContent = `${state.paper} (Question Paper)`;
+          loadPdfForCurrentSession();
+        } else if (mode === 'split-cand-ans') {
+          // Comparative Split Mode: Left = Candidate Submitted Script, Right = Council Suggested Answer PDF
+          renderLeftCandidateMirror();
+          leftPdfShell.style.display = 'none';
+          leftCandidateShell.style.display = 'block';
+          document.getElementById('pdfPageStrip').style.display = 'none';
+          document.getElementById('btnReloadLeftPdf').style.display = 'none';
+          document.getElementById('btnOpenLeftPdfNewTab').style.display = 'none';
+
+          leftPaneBadge.textContent = 'CANDIDATE';
+          leftPaneTitle.textContent = 'Candidate Working Script (Submission)';
+
+          // Right Pane = Council Solution PDF
+          rightTabsHeader.style.display = 'none';
+          sheetTabContentArea.style.display = 'none';
+          rubricConsoleWrap.style.display = 'none';
+          rightPdfShell.style.display = 'flex';
+
+          if (state.sessionObj && state.sessionObj.answer && state.sessionObj.answer.rel_path) {
+            rightPdfFrame.src = `${encodeURI(state.sessionObj.answer.rel_path)}#page=1&zoom=page-fit`;
+          }
+        } else if (mode === 'rubric-view') {
+          // Self-Grading Rubric Mode: Left = Council Suggested Answer PDF, Right = Rubric Console
+          leftPdfShell.style.display = 'block';
+          leftCandidateShell.style.display = 'none';
+          document.getElementById('pdfPageStrip').style.display = 'flex';
+          document.getElementById('btnReloadLeftPdf').style.display = 'flex';
+          document.getElementById('btnOpenLeftPdfNewTab').style.display = 'flex';
+
+          if (state.sessionObj && state.sessionObj.answer && state.sessionObj.answer.rel_path) {
+            leftPdfFrame.src = `${encodeURI(state.sessionObj.answer.rel_path)}#page=1&zoom=page-fit`;
+          }
+          leftPaneBadge.textContent = 'SOLUTION';
+          leftPaneTitle.textContent = `${state.paper} (Official Suggested Answer)`;
+
+          rightTabsHeader.style.display = 'none';
+          sheetTabContentArea.style.display = 'none';
+          rightPdfShell.style.display = 'none';
+          rubricConsoleWrap.style.display = 'flex';
+          renderRubricQuestions();
+        }
+      }
+
+      function renderLeftCandidateMirror() {
+        const scriptVal = candidateScriptEditor.value || '';
+        mirrorScriptText.textContent = scriptVal.trim() ? scriptVal : '(No written answer script entered.)';
+
+        // Mirror Ledger
+        let totalD = 0, totalC = 0;
+        let ledgerHtml = `<table class="ledger-table" style="background: #ffffff; border: 1px solid #e7e2d6;">
+          <thead>
+            <tr>
+              <th style="width: 100px;">Date / Ref</th>
+              <th>Account Title & Explanation</th>
+              <th style="width: 60px;">Folio</th>
+              <th style="width: 130px; text-align: right;">Debit (৳)</th>
+              <th style="width: 130px; text-align: right;">Credit (৳)</th>
+            </tr>
+          </thead>
+          <tbody>`;
+        state.ledgerRows.forEach(r => {
+          const d = Number(r.debit) || 0;
+          const c = Number(r.credit) || 0;
+          totalD += d;
+          totalC += c;
+          ledgerHtml += `<tr>
+            <td>${escapeHtml(r.date || '')}</td>
+            <td>${escapeHtml(r.desc || '')}</td>
+            <td style="text-align: center;">${escapeHtml(r.ref || '')}</td>
+            <td style="text-align: right;">${d.toLocaleString()}</td>
+            <td style="text-align: right;">${c.toLocaleString()}</td>
+          </tr>`;
+        });
+        const diff = Math.abs(totalD - totalC);
+        const balanced = diff === 0;
+        ledgerHtml += `<tr style="font-weight: 700; background: ${balanced ? '#f0fdf4' : '#fef2f2'};">
+          <td colspan="3" style="text-align: right;">Status: <span style="color: ${balanced ? '#166534' : '#991b1b'};">${balanced ? 'BALANCED' : `[VARIANCE] OUT OF BALANCE: ৳ ${diff.toLocaleString()}`}</span></td>
+          <td style="text-align: right;">৳ ${totalD.toLocaleString()}</td>
+          <td style="text-align: right;">৳ ${totalC.toLocaleString()}</td>
+        </tr>`;
+        ledgerHtml += `</tbody></table>`;
+        mirrorLedgerWrap.innerHTML = ledgerHtml;
+
+        // Mirror Audit
+        let auditHtml = `<table class="audit-table" style="background: #ffffff; border: 1px solid #e7e2d6;">
+          <thead>
+            <tr>
+              <th style="width: 32%;">Identified Risk</th>
+              <th style="width: 24%;">Assertion</th>
+              <th>Substantive Response</th>
+            </tr>
+          </thead>
+          <tbody>`;
+        state.auditRows.forEach(a => {
+          auditHtml += `<tr>
+            <td>${escapeHtml(a.risk || '')}</td>
+            <td><b>${escapeHtml(a.assertion || '')}</b></td>
+            <td>${escapeHtml(a.response || '')}</td>
+          </tr>`;
+        });
+        auditHtml += `</tbody></table>`;
+        mirrorAuditWrap.innerHTML = auditHtml;
+
+        // Mirror Tax
+        const netProfit = Number(state.taxSchedule.netProfit) || 0;
+        let totalAdd = 0;
+        (state.taxSchedule.additions || []).forEach(a => totalAdd += Number(a.amount) || 0);
+        let totalDed = 0;
+        (state.taxSchedule.deductions || []).forEach(d => totalDed += Number(d.amount) || 0);
+        const taxable = Math.max(0, netProfit + totalAdd - totalDed);
+        const rate = Number(state.taxSchedule.rate) || 0.275;
+        const grossTax = taxable * rate;
+        const ait = Number(state.taxSchedule.aitTds) || 0;
+        const netPayable = grossTax - ait;
+
+        mirrorTaxWrap.innerHTML = `
+          <div style="background: #ffffff; border: 1px solid #e7e2d6; border-radius: 4px; padding: 12px; font-family: var(--font-mono); font-size: 11px;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span>Net Accounting Profit Before Tax:</span>
+              <b>৳ ${netProfit.toLocaleString()}</b>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span>Disallowed Expenses (Add Back):</span>
+              <span>+ ৳ ${totalAdd.toLocaleString()}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span>Allowable Deductions (Less):</span>
+              <span>- ৳ ${totalDed.toLocaleString()}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-top: 1px solid #e7e2d6; padding-top: 4px; margin-bottom: 4px; font-weight: 700;">
+              <span>Total Taxable Business Income:</span>
+              <span>৳ ${taxable.toLocaleString()}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span>Corporate Tax Rate (${(rate * 100).toFixed(1)}%):</span>
+              <span>৳ ${Math.round(grossTax).toLocaleString()}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+              <span>Advance Income Tax (AIT / TDS):</span>
+              <span>- ৳ ${ait.toLocaleString()}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; border-top: 2px solid #854d0e; padding-top: 6px; margin-top: 6px; font-size: 13px; font-weight: 700; color: ${netPayable >= 0 ? '#854d0e' : '#15803d'};">
+              <span>Net Tax Liability:</span>
+              <span>৳ ${Math.round(Math.abs(netPayable)).toLocaleString()} (${netPayable >= 0 ? 'Payable' : 'Refundable'})</span>
+            </div>
+          </div>
+        `;
+
+        // Mirror Scratchpad Notes
+        const mirrorScratchWrap = document.getElementById('mirrorScratchWrap');
+        if (mirrorScratchWrap) {
+          const scratchVal = candidateScratchEditor.value || '';
+          if (scratchVal.trim()) {
+            mirrorScratchWrap.innerHTML = `
+              <div class="candidate-mirror-section">
+                <h3 class="candidate-mirror-heading">Rough Working &amp; Scratchpad (Not Graded)</h3>
+                <div class="candidate-mirror-body" style="font-family: var(--font-mono); font-size: 13px;">${escapeHtml(scratchVal)}</div>
+              </div>`;
+          } else {
+            mirrorScratchWrap.innerHTML = '';
+          }
+        }
+      }
+
+      function preparePrintTranscript() {
+        renderLeftCandidateMirror();
+        const meta = document.getElementById('printMetaLine');
+        if (meta) {
+          const usedSec = Math.max(0, 180 * 60 - state.masterRemaining);
+          const usedMin = Math.floor(usedSec / 60);
+          meta.innerHTML = `
+            <span><b>Paper:</b> ${escapeHtml(state.paper || 'Examination Paper')} (${escapeHtml(state.level || '')})</span>
+            <span><b>Diet:</b> ${escapeHtml(state.diet || '')}</span>
+            <span><b>Time Used:</b> ${usedMin}m / 180m</span>
+            <span><b>Status:</b> ${state.isUnsealed ? 'Council Seal Broken (Self-Graded)' : 'In Progress (Active Sitting)'}</span>
+            <span><b>Date:</b> ${new Date().toLocaleDateString()}</span>
+          `;
+        }
+      }
+
+      function openBreakSealModal() {
+        modalBreakSeal.classList.add('open');
+      }
+
+      function breakCouncilSeal() {
+        state.isUnsealed = true;
+        modalBreakSeal.classList.remove('open');
+        pauseTimer();
+
+        btnCouncilSeal.classList.add('unsealed');
+        btnCouncilSeal.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg><span>Council Seal Broken</span>';
+
+        setViewMode('split-cand-ans');
+        triggerAutosave();
+      }
+
+      // ------------------------------------------------------------------------
+      // 10. Candidate Working Sheets: Ledger, Audit & Tax Logic
+      // ------------------------------------------------------------------------
+
+      // TAB 2: Double-Entry Journal Ledger
+      function renderLedgerTable() {
+        ledgerTableBody.innerHTML = '';
+        state.ledgerRows.forEach((row, idx) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td><input type="text" class="ledger-input" value="${escapeAttr(row.date || '')}" data-idx="${idx}" data-field="date"></td>
+            <td><input type="text" class="ledger-input" value="${escapeAttr(row.desc || '')}" data-idx="${idx}" data-field="desc" placeholder="e.g. Dr. Equipment / Cr. Bank"></td>
+            <td><input type="text" class="ledger-input" value="${escapeAttr(row.ref || '')}" data-idx="${idx}" data-field="ref" style="text-align: center;"></td>
+            <td><input type="number" class="ledger-input num-right" value="${escapeAttr(row.debit || 0)}" data-idx="${idx}" data-field="debit" step="100"></td>
+            <td><input type="number" class="ledger-input num-right" value="${escapeAttr(row.credit || 0)}" data-idx="${idx}" data-field="credit" step="100"></td>
+            <td style="text-align: center;"><button class="btn-del-row" data-del-ledger="${idx}" title="Delete Row">&times;</button></td>
+          `;
+          ledgerTableBody.appendChild(tr);
+        });
+
+        recalculateLedger();
+      }
+
+      function recalculateLedger() {
+        let totalDebit = 0;
+        let totalCredit = 0;
+        state.ledgerRows.forEach(r => {
+          totalDebit += Number(r.debit) || 0;
+          totalCredit += Number(r.credit) || 0;
+        });
+
+        totalDebitDisplay.textContent = `৳ ${totalDebit.toLocaleString()}`;
+        totalCreditDisplay.textContent = `৳ ${totalCredit.toLocaleString()}`;
+
+        const diff = Math.abs(totalDebit - totalCredit);
+        if (diff === 0 && (totalDebit > 0 || totalCredit > 0)) {
+          ledgerBalanceStatus.className = 'ledger-balance-pill balanced';
+          ledgerBalanceStatus.innerHTML = `<span>✓ TRIAL BALANCE MATCHED (Diff: ৳ 0)</span>`;
+        } else if (diff === 0) {
+          ledgerBalanceStatus.className = 'ledger-balance-pill balanced';
+          ledgerBalanceStatus.innerHTML = `<span>✓ BALANCED</span>`;
+        } else {
+          ledgerBalanceStatus.className = 'ledger-balance-pill unbalanced';
+          ledgerBalanceStatus.innerHTML = `<span>[VARIANCE] OUT OF BALANCE: ৳ ${diff.toLocaleString()} (${totalDebit > totalCredit ? 'Debit Excess' : 'Credit Excess'})</span>`;
+        }
+      }
+
+      // TAB 3: Audit Risk Matrix
+      function renderAuditTable() {
+        auditTableBody.innerHTML = '';
+        const assertions = [
+          'Existence', 'Occurrence', 'Completeness', 'Accuracy', 'Cut-off',
+          'Valuation & Allocation', 'Rights & Obligations', 'Classification', 'Presentation'
+        ];
+
+        state.auditRows.forEach((row, idx) => {
+          const tr = document.createElement('tr');
+          let optHtml = '';
+          assertions.forEach(a => {
+            optHtml += `<option value="${escapeAttr(a)}" ${row.assertion === a ? 'selected' : ''}>${escapeHtml(a)}</option>`;
+          });
+
+          tr.innerHTML = `
+            <td><textarea class="audit-textarea" data-idx="${idx}" data-field="risk" placeholder="Describe identified risk or misstatement...">${escapeHtml(row.risk || '')}</textarea></td>
+            <td><select class="audit-select" data-idx="${idx}" data-field="assertion">${optHtml}</select></td>
+            <td><textarea class="audit-textarea" data-idx="${idx}" data-field="response" placeholder="Describe responsive testing procedures...">${escapeHtml(row.response || '')}</textarea></td>
+            <td style="text-align: center; vertical-align: middle;"><button class="btn-del-row" data-del-audit="${idx}" title="Delete Row">&times;</button></td>
+          `;
+          auditTableBody.appendChild(tr);
+        });
+      }
+
+      // TAB 4: Corporate Tax Computation Schedule
+      function renderTaxSchedule() {
+        // Additions
+        taxAdditionsContainer.innerHTML = '';
+        state.taxSchedule.additions.forEach((item, idx) => {
+          const div = document.createElement('div');
+          div.className = 'tax-row';
+          div.innerHTML = `
+            <input type="text" class="tax-input" style="flex: 1; text-align: left;" value="${escapeAttr(item.desc || '')}" data-tax-add-desc="${idx}" placeholder="Disallowed Item...">
+            <div class="tax-row-input-wrap">
+              <span class="tax-currency-symbol">৳</span>
+              <input type="number" class="tax-input" value="${escapeAttr(item.amount || 0)}" data-tax-add-amt="${idx}" step="1000">
+              <button class="btn-del-row" data-del-tax-add="${idx}">&times;</button>
+            </div>
+          `;
+          taxAdditionsContainer.appendChild(div);
+        });
+
+        // Deductions
+        taxDeductionsContainer.innerHTML = '';
+        state.taxSchedule.deductions.forEach((item, idx) => {
+          const div = document.createElement('div');
+          div.className = 'tax-row';
+          div.innerHTML = `
+            <input type="text" class="tax-input" style="flex: 1; text-align: left;" value="${escapeAttr(item.desc || '')}" data-tax-ded-desc="${idx}" placeholder="Allowable Deduction...">
+            <div class="tax-row-input-wrap">
+              <span class="tax-currency-symbol">৳</span>
+              <input type="number" class="tax-input" value="${escapeAttr(item.amount || 0)}" data-tax-ded-amt="${idx}" step="1000">
+              <button class="btn-del-row" data-del-tax-ded="${idx}">&times;</button>
+            </div>
+          `;
+          taxDeductionsContainer.appendChild(div);
+        });
+
+        taxNetProfit.value = state.taxSchedule.netProfit;
+        taxRateSelect.value = state.taxSchedule.rate;
+        taxAitTds.value = state.taxSchedule.aitTds;
+      }
+
+      function recalculateTax() {
+        const netProfit = Number(taxNetProfit.value) || 0;
+        state.taxSchedule.netProfit = netProfit;
+        state.taxSchedule.rate = Number(taxRateSelect.value) || 0.275;
+        state.taxSchedule.aitTds = Number(taxAitTds.value) || 0;
+
+        let totalAdditions = 0;
+        state.taxSchedule.additions.forEach(a => totalAdditions += Number(a.amount) || 0);
+
+        let totalDeductions = 0;
+        state.taxSchedule.deductions.forEach(d => totalDeductions += Number(d.amount) || 0);
+
+        const totalTaxable = Math.max(0, netProfit + totalAdditions - totalDeductions);
+        taxTotalTaxableIncome.value = totalTaxable.toLocaleString();
+
+        const grossTax = totalTaxable * state.taxSchedule.rate;
+        const netPayable = grossTax - state.taxSchedule.aitTds;
+
+        if (netPayable >= 0) {
+          netTaxLiabilityDisplay.textContent = `৳ ${Math.round(netPayable).toLocaleString()} (Payable)`;
+          netTaxLiabilityDisplay.style.color = '#854d0e';
+        } else {
+          netTaxLiabilityDisplay.textContent = `৳ ${Math.round(Math.abs(netPayable)).toLocaleString()} (Refundable)`;
+          netTaxLiabilityDisplay.style.color = '#15803d';
+        }
+      }
+
+      // ------------------------------------------------------------------------
+      // 11. Self-Grading Rubric & Statutory Citation Verification
+      // ------------------------------------------------------------------------
+      function renderRubricQuestions() {
+        rubricQuestionsList.innerHTML = '';
+        state.questions.forEach(q => {
+          const card = document.createElement('div');
+          card.className = 'rubric-q-card';
+          const score = state.rubricScores[q.id] !== undefined ? state.rubricScores[q.id] : 0;
+          const fb = state.rubricFeedback[q.id] || '';
+
+          card.innerHTML = `
+            <div class="rubric-q-top">
+              <div class="rubric-q-title">${escapeHtml(q.title)} — Model Answer Alignment</div>
+              <div class="rubric-mark-input-wrap">
+                <span style="font-size: 11px; color: #94a3b8; font-family: var(--font-mono);">Mark:</span>
+                <input type="number" class="rubric-mark-input" data-rubric-q="${escapeAttr(q.id)}" min="0" max="${q.marks}" value="${score}">
+                <span class="rubric-mark-max">/ ${q.marks}</span>
+              </div>
+            </div>
+            <textarea class="rubric-feedback-textarea" data-feedback-q="${escapeAttr(q.id)}" placeholder="Candidate self-critique notes, missed points, statutory citation gaps...">${escapeHtml(fb)}</textarea>
+          `;
+          rubricQuestionsList.appendChild(card);
+        });
+
+        recalculateRubricTotal();
+      }
+
+      function recalculateRubricTotal() {
+        let total = 0;
+        let totalMax = 0;
+        state.questions.forEach(q => {
+          total += Number(state.rubricScores[q.id]) || 0;
+          totalMax += Number(q.marks) || 0;
+        });
+        if (totalMax === 0) totalMax = 100;
+
+        rubricScoreDisplay.textContent = `${total} / ${totalMax}`;
+
+        const pct = (total / totalMax) * 100;
+        if (pct >= 75) {
+          rubricVerdictBadge.className = 'rubric-verdict-badge verdict-distinction';
+          rubricVerdictBadge.textContent = `PASS WITH DISTINCTION (${Math.round(pct)}% — Medal Standard)`;
+        } else if (pct >= 50) {
+          rubricVerdictBadge.className = 'rubric-verdict-badge verdict-pass';
+          rubricVerdictBadge.textContent = `PASS (Competent — Surplus: +${total - Math.ceil(totalMax * 0.5)})`;
+        } else {
+          rubricVerdictBadge.className = 'rubric-verdict-badge verdict-fail';
+          rubricVerdictBadge.textContent = `FAIL - REFERRAL (Deficit: ${Math.ceil(totalMax * 0.5) - total} marks)`;
+        }
+      }
+
+      function renderCitationChecklist() {
+        citationChecklistGrid.innerHTML = '';
+        STATUTORY_CITATIONS.forEach(cit => {
+          const label = document.createElement('label');
+          label.className = 'citation-item';
+          const isChecked = !!state.citationsChecked[cit.id];
+          label.innerHTML = `
+            <input type="checkbox" class="citation-checkbox" data-citation-id="${cit.id}" ${isChecked ? 'checked' : ''}>
+            <span>${cit.label}</span>
+          `;
+          citationChecklistGrid.appendChild(label);
+        });
+      }
+
+      // ------------------------------------------------------------------------
+      // 12. Study Manuals Shelf Modal Logic
+      // ------------------------------------------------------------------------
+      function setupManualsShelf() {
+        const manuals = getAllManuals();
+        renderManualsList(manuals);
+
+        manualsSearchInput.addEventListener('input', () => {
+          const q = manualsSearchInput.value.toLowerCase().trim();
+          const filtered = manuals.filter(m => {
+            return m.title.toLowerCase().includes(q) ||
+                   m.subject.toLowerCase().includes(q) ||
+                   m.level.toLowerCase().includes(q);
+          });
+          renderManualsList(filtered);
+        });
+      }
+
+      function renderManualsList(list) {
+        manualsCardsGrid.innerHTML = '';
+        if (list.length === 0) {
+          manualsCardsGrid.innerHTML = `<div style="grid-column: 1/-1; color: #94a3b8; padding: 20px; text-align: center;">No matching study manuals found.</div>`;
+          return;
+        }
+
+        list.forEach(m => {
+          const card = document.createElement('div');
+          card.className = 'manual-card';
+          card.innerHTML = `
+            <span class="manual-card-level">${m.isSyllabus ? 'CURRICULUM' : (m.isIVS ? 'VALUATION STANDARDS' : `${m.level} MANUAL`)}</span>
+            <span class="manual-card-title">${m.title}</span>
+            <div class="manual-card-meta">
+              <span>${m.subject}</span>
+              <span>${m.size_mb} MB</span>
+            </div>
+          `;
+          card.addEventListener('click', () => {
+            modalManuals.classList.remove('open');
+            if (m.rel_path) {
+              const p = encodeURI(m.rel_path);
+              window.open(p, '_blank');
+            }
+          });
+          manualsCardsGrid.appendChild(card);
+        });
+      }
+
+      // ------------------------------------------------------------------------
+      // 13. Local Storage Autosave Engine
+      // ------------------------------------------------------------------------
+      let autosaveTimeout = null;
+
+      function getStorageKey() {
+        return `hall180_${state.level}_${state.paper}_${state.diet}`;
+      }
+
+      function getDefaultPresetForPaper(paper) {
+        if (paper === 'Case Study') return 'caseStudy';
+        if (paper === 'Corporate Reporting') return 'heavy4';
+        return 'std5';
+      }
+
+      function resetSessionState() {
+        state.isTimerRunning = false;
+        clearInterval(state.timerInterval);
+        btnTimerToggle.textContent = '▶ Start';
+        btnTimerToggle.classList.add('btn-timer-primary');
+        state.masterRemaining = 180 * 60;
+        state.isUnsealed = false;
+
+        const defaultPreset = getDefaultPresetForPaper(state.paper);
+        state.currentPreset = defaultPreset;
+        state.questions = JSON.parse(JSON.stringify(PRESETS[defaultPreset].questions));
+        state.activeQIndex = 0;
+        state.qTimeSpent = state.questions.map(() => 0);
+
+        candidateScriptEditor.value = '';
+        candidateScratchEditor.value = '';
+
+        state.ledgerRows = [];
+        state.auditRows = [];
+        state.taxSchedule = {
+          netProfit: 0,
+          rate: 0.275,
+          aitTds: 0,
+          additions: [],
+          deductions: []
+        };
+
+        state.rubricScores = {};
+        state.rubricFeedback = {};
+        state.citationsChecked = {};
+
+        setViewMode('split-q-cand');
+        syncUIWithState();
+        autosaveText.textContent = 'Clean sitting desk ready';
+      }
+
+      function syncUIWithState() {
+        document.querySelectorAll('.btn-preset').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.preset === state.currentPreset);
+        });
+
+        if (state.isUnsealed) {
+          btnCouncilSeal.classList.add('unsealed');
+          btnCouncilSeal.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></svg><span>Council Seal Broken</span>';
+        } else {
+          btnCouncilSeal.classList.remove('unsealed');
+          btnCouncilSeal.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>Break Exam Seal</span>';
+        }
+
+        renderPacingTabs();
+        renderLedgerTable();
+        renderAuditTable();
+        renderTaxSchedule();
+        recalculateTax();
+        renderRubricQuestions();
+        renderCitationChecklist();
+        updateClocksDisplay();
+        updateWordCount();
+      }
+
+      function triggerAutosave() {
+        autosaveDot.classList.add('saving');
+        autosaveText.textContent = 'Autosaving...';
+
+        clearTimeout(autosaveTimeout);
+        autosaveTimeout = setTimeout(() => {
+          try {
+            const data = {
+              masterRemaining: state.masterRemaining,
+              currentPreset: state.currentPreset,
+              questions: state.questions,
+              activeQIndex: state.activeQIndex,
+              qTimeSpent: state.qTimeSpent,
+              isUnsealed: state.isUnsealed,
+              scriptText: candidateScriptEditor.value,
+              scratchText: candidateScratchEditor.value,
+              ledgerRows: state.ledgerRows,
+              auditRows: state.auditRows,
+              taxSchedule: state.taxSchedule,
+              rubricScores: state.rubricScores,
+              rubricFeedback: state.rubricFeedback,
+              citationsChecked: state.citationsChecked,
+              savedAt: new Date().toISOString()
+            };
+
+            localStorage.setItem(getStorageKey(), JSON.stringify(data));
+            const now = new Date();
+            const timeStr = now.toTimeString().split(' ')[0];
+            autosaveDot.classList.remove('saving');
+            autosaveText.textContent = `Autosaved at ${timeStr}`;
+          } catch (e) {
+            console.error('LocalStorage autosave failed:', e);
+            autosaveDot.classList.remove('saving');
+            autosaveText.textContent = 'Save Failed (Storage Full?)';
+          }
+        }, 600);
+      }
+
+      function loadSessionData() {
+        try {
+          const raw = localStorage.getItem(getStorageKey());
+          if (raw) {
+            const data = JSON.parse(raw);
+            if (data.masterRemaining !== undefined) state.masterRemaining = data.masterRemaining;
+            if (data.currentPreset && PRESETS[data.currentPreset]) state.currentPreset = data.currentPreset;
+            if (data.questions) state.questions = data.questions;
+            if (data.activeQIndex !== undefined) state.activeQIndex = data.activeQIndex;
+            if (data.qTimeSpent) state.qTimeSpent = data.qTimeSpent;
+            if (data.isUnsealed !== undefined) state.isUnsealed = data.isUnsealed;
+            if (data.scriptText !== undefined) candidateScriptEditor.value = data.scriptText;
+            if (data.scratchText !== undefined) candidateScratchEditor.value = data.scratchText;
+            if (data.ledgerRows) state.ledgerRows = data.ledgerRows;
+            if (data.auditRows) state.auditRows = data.auditRows;
+            if (data.taxSchedule) state.taxSchedule = data.taxSchedule;
+            if (data.rubricScores) state.rubricScores = data.rubricScores;
+            if (data.rubricFeedback) state.rubricFeedback = data.rubricFeedback;
+            if (data.citationsChecked) state.citationsChecked = data.citationsChecked;
+
+            syncUIWithState();
+            autosaveText.textContent = `Restored session (${new Date(data.savedAt || Date.now()).toLocaleTimeString()})`;
+          } else {
+            resetSessionState();
+          }
+        } catch (e) {
+          console.warn('Error restoring session from localStorage:', e);
+          resetSessionState();
+        }
+      }
+
+      function updateWordCount() {
+        const text = candidateScriptEditor.value || '';
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        const chars = text.length;
+        wordCounterPill.textContent = `${words} words | ${chars} chars`;
+      }
+
+      // ------------------------------------------------------------------------
+      // 14. Dossier Exporters: JSON, Markdown & Print
+      // ------------------------------------------------------------------------
+      function exportDossierJson() {
+        const dossier = {
+          institution: 'Institute of Chartered Accountants of Bangladesh (ICAB)',
+          examinationHall: 'Hall 180 Self-Grading Engine',
+          candidateLevel: state.level,
+          paperTitle: state.paper,
+          examDiet: state.diet,
+          sittingDate: new Date().toISOString(),
+          timeSpentMinutes: Math.round((180 * 60 - state.masterRemaining) / 60),
+          aggregateScore: Object.values(state.rubricScores).reduce((a, b) => Number(a) + Number(b), 0),
+          isPassed: Object.values(state.rubricScores).reduce((a, b) => Number(a) + Number(b), 0) >= 50,
+          questionsMarks: state.rubricScores,
+          examinerFeedback: state.rubricFeedback,
+          citationsVerified: Object.keys(state.citationsChecked).filter(k => state.citationsChecked[k]),
+          candidateScript: candidateScriptEditor.value,
+          journalLedger: state.ledgerRows,
+          auditRiskMatrix: state.auditRows,
+          taxComputationSchedule: state.taxSchedule,
+          scratchpadNotes: candidateScratchEditor.value || ''
+        };
+
+        const blob = new Blob([JSON.stringify(dossier, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ICAB_Hall180_Dossier_${state.paper}_${state.diet}.json`.replace(/[\s\/:]+/g, '_');
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      function exportDossierMarkdown() {
+        const total = Object.values(state.rubricScores).reduce((a, b) => Number(a) + Number(b), 0);
+        let md = `# ICAB Examination Dossier — Hall 180 Sitting Report\n\n`;
+        md += `**Institution:** Institute of Chartered Accountants of Bangladesh (ICAB)  \n`;
+        md += `**Level:** ${state.level}  \n`;
+        md += `**Subject Paper:** ${state.paper}  \n`;
+        md += `**Examination Diet:** ${state.diet}  \n`;
+        md += `**Sitting Date:** ${new Date().toLocaleString()}  \n`;
+        md += `**Time Consumed:** ${Math.round((180 * 60 - state.masterRemaining) / 60)} minutes (out of 180)  \n`;
+        md += `**Aggregate Score:** **${total} / 100** (${total >= 50 ? 'PASSED' : 'REFERRAL'}${total >= 75 ? ' — DISTINCTION' : ''})  \n\n`;
+
+        md += `## 1. Candidate Marks Breakdown\n\n`;
+        state.questions.forEach(q => {
+          const s = state.rubricScores[q.id] || 0;
+          const fb = state.rubricFeedback[q.id] || 'No notes.';
+          md += `### ${q.title} (${s} / ${q.marks} Marks)\n`;
+          md += `*Examiner Critique:* ${fb}\n\n`;
+        });
+
+        md += `## 2. Statutory Citations Verified\n\n`;
+        const checkedCitations = STATUTORY_CITATIONS.filter(c => state.citationsChecked[c.id]);
+        if (checkedCitations.length > 0) {
+          checkedCitations.forEach(c => {
+            md += `- [x] ${c.label}\n`;
+          });
+        } else {
+          md += `*No statutory frameworks cited.*\n`;
+        }
+        md += `\n`;
+
+        md += `## 3. Written Answer Script\n\n`;
+        md += `\`\`\`text\n${candidateScriptEditor.value || '(No written answer script entered.)'}\n\`\`\`\n\n`;
+
+        md += `## 4. Double-Entry Journal Ledger\n\n`;
+        if (state.ledgerRows && state.ledgerRows.length > 0) {
+          md += `| Date / Ref | Account Title & Explanation | Folio | Debit (৳) | Credit (৳) |\n`;
+          md += `|---|---|---|---|---|\n`;
+          let totD = 0, totC = 0;
+          state.ledgerRows.forEach(r => {
+            const d = Number(r.debit) || 0;
+            const c = Number(r.credit) || 0;
+            totD += d;
+            totC += c;
+            md += `| ${r.date || ''} | ${r.desc || ''} | ${r.ref || ''} | ${d.toLocaleString()} | ${c.toLocaleString()} |\n`;
+          });
+          md += `| **TOTAL** | **Trial Balance ${totD === totC ? 'Balanced' : 'Out of Balance'}** | | **৳ ${totD.toLocaleString()}** | **৳ ${totC.toLocaleString()}** |\n\n`;
+        } else {
+          md += `*No journal entries recorded.*\n\n`;
+        }
+
+        md += `## 5. Audit Risk & Response Matrix\n\n`;
+        if (state.auditRows && state.auditRows.length > 0) {
+          md += `| Identified Audit Risk / Condition | Financial Statement Assertion | Auditor's Substantive Response |\n`;
+          md += `|---|---|---|\n`;
+          state.auditRows.forEach(a => {
+            md += `| ${(a.risk || '').replace(/\n+/g, ' ')} | **${a.assertion || ''}** | ${(a.response || '').replace(/\n+/g, ' ')} |\n`;
+          });
+          md += `\n`;
+        } else {
+          md += `*No audit risk rows recorded.*\n\n`;
+        }
+
+        md += `## 6. Corporate Tax Computation Schedule (Income Tax Act 2023)\n\n`;
+        const netProfit = Number(state.taxSchedule.netProfit) || 0;
+        let totalAdd = 0;
+        (state.taxSchedule.additions || []).forEach(a => totalAdd += Number(a.amount) || 0);
+        let totalDed = 0;
+        (state.taxSchedule.deductions || []).forEach(d => totalDed += Number(d.amount) || 0);
+        const taxable = Math.max(0, netProfit + totalAdd - totalDed);
+        const rate = Number(state.taxSchedule.rate) || 0.275;
+        const grossTax = taxable * rate;
+        const ait = Number(state.taxSchedule.aitTds) || 0;
+        const netPayable = grossTax - ait;
+
+        md += `- **Net Profit Before Tax (Accounting Profit):** ৳ ${netProfit.toLocaleString()}\n`;
+        md += `### Inadmissible Expenses / Disallowances (Add Back)\n`;
+        (state.taxSchedule.additions || []).forEach(a => {
+          md += `- ${a.desc || 'Disallowance'}: ৳ ${(Number(a.amount) || 0).toLocaleString()}\n`;
+        });
+        md += `- **Total Disallowances:** ৳ ${totalAdd.toLocaleString()}\n\n`;
+
+        md += `### Allowable Deductions & Tax Depreciation (Less)\n`;
+        (state.taxSchedule.deductions || []).forEach(d => {
+          md += `- ${d.desc || 'Deduction'}: ৳ ${(Number(d.amount) || 0).toLocaleString()}\n`;
+        });
+        md += `- **Total Allowable Deductions:** ৳ ${totalDed.toLocaleString()}\n\n`;
+
+        md += `- **Total Taxable Business Income:** ৳ ${taxable.toLocaleString()}\n`;
+        md += `- **Applicable Corporate Tax Rate:** ${(rate * 100).toFixed(1)}%\n`;
+        md += `- **Gross Corporate Tax Liability:** ৳ ${Math.round(grossTax).toLocaleString()}\n`;
+        md += `- **Advance Income Tax (AIT / TDS Deducted at Source):** ৳ ${ait.toLocaleString()}\n`;
+        md += `- **Net Tax ${netPayable >= 0 ? 'Payable' : 'Refundable'}:** **৳ ${Math.round(Math.abs(netPayable)).toLocaleString()}**\n\n`;
+
+        if (candidateScratchEditor.value && candidateScratchEditor.value.trim()) {
+          md += `## 7. Rough Scratchpad Workings (Non-Graded)\n\n`;
+          md += `\`\`\`text\n${candidateScratchEditor.value.trim()}\n\`\`\`\n\n`;
+        }
+
+        const blob = new Blob([md], { type: 'text/markdown' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ICAB_Hall180_Dossier_${state.paper}_${state.diet}.md`.replace(/[\s\/:]+/g, '_');
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+
+      // ------------------------------------------------------------------------
+      // 15. Event Listeners & Wire-up
+      // ------------------------------------------------------------------------
+      function setupEventListeners() {
+        // Level, Paper, Diet dropdowns
+        selLevel.addEventListener('change', () => {
+          if (state.isTimerRunning) pauseTimer();
+          populateLevelPapers();
+          loadSessionData();
+        });
+
+        selPaper.addEventListener('change', () => {
+          if (state.isTimerRunning) pauseTimer();
+          populateDiets();
+          loadSessionData();
+        });
+
+        selDiet.addEventListener('change', () => {
+          if (state.isTimerRunning) pauseTimer();
+          loadPdfForCurrentSession();
+          loadSessionData();
+        });
+
+        // Clock controls
+        btnTimerToggle.addEventListener('click', toggleTimer);
+        btnTimerReset.addEventListener('click', resetTimer);
+        btnTimerAdd5.addEventListener('click', addFiveMinutes);
+
+        btnAudioToggle.addEventListener('click', () => {
+          Sound.muted = !Sound.muted;
+          btnAudioToggle.innerHTML = Sound.muted
+            ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>'
+            : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>';
+          btnAudioToggle.title = Sound.muted ? 'Sound Muted' : 'Sound Alerts Active';
+        });
+
+        // Fresh Sitting Flow (Clean Desk Initializer)
+        if (btnFreshSitting) {
+          btnFreshSitting.addEventListener('click', () => {
+            modalFreshSitting.classList.add('open');
+          });
+        }
+        const btnFreshSittingSheet = document.getElementById('btnFreshSittingSheet');
+        if (btnFreshSittingSheet) {
+          btnFreshSittingSheet.addEventListener('click', () => {
+            modalFreshSitting.classList.add('open');
+          });
+        }
+        if (btnConfirmFreshSitting) {
+          btnConfirmFreshSitting.addEventListener('click', () => {
+            localStorage.removeItem(getStorageKey());
+            if (state.isTimerRunning) pauseTimer();
+            resetSessionState();
+            modalFreshSitting.classList.remove('open');
+            autosaveText.textContent = 'Clean sitting desk initialized';
+          });
+        }
+
+        // Council Seal
+        btnCouncilSeal.addEventListener('click', () => {
+          if (!state.isUnsealed) {
+            openBreakSealModal();
+          } else {
+            setViewMode(state.viewMode === 'split-cand-ans' ? 'rubric-view' : 'split-cand-ans');
+          }
+        });
+
+        btnConfirmBreakSeal.addEventListener('click', breakCouncilSeal);
+
+        // Pacing presets buttons
+        document.querySelectorAll('.btn-preset').forEach(btn => {
+          btn.addEventListener('click', () => {
+            switchPreset(btn.dataset.preset);
+          });
+        });
+
+        // View mode toggles
+        document.querySelectorAll('.btn-view-mode').forEach(btn => {
+          btn.addEventListener('click', () => {
+            setViewMode(btn.dataset.mode);
+          });
+        });
+
+        function getActiveLeftPdfPath() {
+          if (state.viewMode === 'rubric-view') {
+            return (state.sessionObj && state.sessionObj.answer && state.sessionObj.answer.rel_path)
+              ? encodeURI(state.sessionObj.answer.rel_path)
+              : null;
+          } else {
+            return (state.sessionObj && state.sessionObj.question && state.sessionObj.question.rel_path)
+              ? encodeURI(state.sessionObj.question.rel_path)
+              : null;
+          }
+        }
+
+        // Rapid Page Jumps (Left PDF Desk: Question Paper or Council Answer depending on active view mode)
+        document.querySelectorAll('.btn-pdf-page[data-page]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const pageNum = btn.dataset.page;
+            document.querySelectorAll('.btn-pdf-page[data-page]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const activePath = getActiveLeftPdfPath();
+            if (activePath) {
+              leftPdfFrame.src = `${activePath}?_t=${Date.now()}#page=${pageNum}&zoom=page-fit`;
+            }
+          });
+        });
+
+        // Rapid Page Jumps (Council Suggested Answer)
+        document.querySelectorAll('.btn-pdf-page[data-page-right]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const pageNum = btn.dataset.pageRight;
+            document.querySelectorAll('.btn-pdf-page[data-page-right]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            if (state.sessionObj && state.sessionObj.answer && state.sessionObj.answer.rel_path) {
+              const aPath = encodeURI(state.sessionObj.answer.rel_path);
+              rightPdfFrame.src = `${aPath}?_t=${Date.now()}#page=${pageNum}&zoom=page-fit`;
+            }
+          });
+        });
+
+        // Left PDF tools
+        document.getElementById('btnReloadLeftPdf').addEventListener('click', () => {
+          const activePath = getActiveLeftPdfPath();
+          if (activePath) {
+            leftPdfFrame.src = `${activePath}?_t=${Date.now()}#page=1&zoom=page-fit`;
+          } else {
+            loadPdfForCurrentSession();
+          }
+        });
+        document.getElementById('btnOpenLeftPdfNewTab').addEventListener('click', () => {
+          const activePath = getActiveLeftPdfPath();
+          if (activePath) {
+            window.open(activePath, '_blank');
+          }
+        });
+
+        // Right PDF tools (Solution)
+        document.getElementById('btnReloadRightPdf').addEventListener('click', () => {
+          if (state.sessionObj && state.sessionObj.answer && state.sessionObj.answer.rel_path) {
+            rightPdfFrame.src = `${encodeURI(state.sessionObj.answer.rel_path)}?_t=${Date.now()}#page=1&zoom=page-fit`;
+          }
+        });
+        document.getElementById('btnOpenRightPdfNewTab').addEventListener('click', () => {
+          if (state.sessionObj && state.sessionObj.answer && state.sessionObj.answer.rel_path) {
+            window.open(encodeURI(state.sessionObj.answer.rel_path), '_blank');
+          }
+        });
+
+        // Candidate Working Sheet Tab Switcher
+        document.querySelectorAll('.sheet-tab-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.sheet-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.sheet-tab-pane').forEach(p => p.classList.remove('active'));
+
+            btn.classList.add('active');
+            const targetId = btn.dataset.tab;
+            const targetPane = document.getElementById(targetId);
+            if (targetPane) targetPane.classList.add('active');
+            state.activeSheetTab = targetId;
+          });
+        });
+
+        // Textarea input & word count
+        candidateScriptEditor.addEventListener('input', () => {
+          updateWordCount();
+          triggerAutosave();
+        });
+        candidateScratchEditor.addEventListener('input', triggerAutosave);
+
+        // Insertion Chips in Script Editor
+        document.querySelectorAll('.btn-script-chip').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const insType = btn.dataset.insert;
+            let snippet = '';
+            if (insType === '[QUESTION_HEADER]') {
+              const currentQ = (state.questions && state.questions[state.activeQIndex]) || { id: 'Q1', title: 'Question 1', marks: 20 };
+              const qTitle = (currentQ.title || currentQ.id || 'Question').toUpperCase();
+              const qMarks = currentQ.marks || 20;
+              snippet = `\n\n========================================================\n${qTitle} — (${qMarks} MARKS)\n========================================================\n\n`;
+            } else if (insType === '[REQUIREMENT]') {
+              snippet = `\nRequirement (a): \n`;
+            } else if (insType === '[SECTION_REF]') {
+              snippet = ` As per Section ___ of the Companies Act 1994 / Income Tax Act 2023, `;
+            } else if (insType === '[ACCOUNTING_POLICY]') {
+              snippet = `\n[IFRS Standard Reference]: Under IFRS 15 / IAS 16, the entity shall recognize...\n`;
+            } else if (insType === '[CONCLUSION]') {
+              snippet = `\nConclusion & Recommendations:\nIn our professional judgment as chartered accountants, `;
+            }
+
+            const start = candidateScriptEditor.selectionStart || candidateScriptEditor.value.length;
+            const end = candidateScriptEditor.selectionEnd || start;
+            const cur = candidateScriptEditor.value;
+            candidateScriptEditor.value = cur.substring(0, start) + snippet + cur.substring(end);
+            candidateScriptEditor.focus();
+            candidateScriptEditor.selectionStart = candidateScriptEditor.selectionEnd = start + snippet.length;
+            updateWordCount();
+            triggerAutosave();
+          });
+        });
+
+        // Font size adjusters
+        document.querySelectorAll('.btn-font-size').forEach(btn => {
+          btn.addEventListener('click', () => {
+            document.querySelectorAll('.btn-font-size').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            candidateScriptEditor.style.fontSize = `${btn.dataset.size}px`;
+          });
+        });
+
+        // Manual Save
+        document.getElementById('btnManualSave').addEventListener('click', () => {
+          triggerAutosave();
+          alert("Candidate working sheets successfully saved to local encrypted cache.");
+        });
+
+        // Journal Ledger interactions
+        document.getElementById('btnAddLedgerRow').addEventListener('click', () => {
+          state.ledgerRows.push({ date: '', desc: '', ref: '', debit: 0, credit: 0 });
+          renderLedgerTable();
+          triggerAutosave();
+        });
+
+        document.getElementById('btnClearLedger').addEventListener('click', () => {
+          if (confirm("Reset journal entries?")) {
+            state.ledgerRows = [];
+            renderLedgerTable();
+            triggerAutosave();
+          }
+        });
+
+        ledgerTableBody.addEventListener('input', e => {
+          const idx = e.target.dataset.idx;
+          const field = e.target.dataset.field;
+          if (idx !== undefined && field && state.ledgerRows[idx]) {
+            if (field === 'debit' || field === 'credit') {
+              state.ledgerRows[idx][field] = Number(e.target.value) || 0;
+            } else {
+              state.ledgerRows[idx][field] = e.target.value;
+            }
+            recalculateLedger();
+            triggerAutosave();
+          }
+        });
+
+        ledgerTableBody.addEventListener('click', e => {
+          if (e.target.dataset.delLedger !== undefined) {
+            const idx = parseInt(e.target.dataset.delLedger, 10);
+            state.ledgerRows.splice(idx, 1);
+            renderLedgerTable();
+            triggerAutosave();
+          }
+        });
+
+        // Audit Matrix interactions
+        document.getElementById('btnAddAuditRow').addEventListener('click', () => {
+          state.auditRows.push({ risk: '', assertion: 'Existence', response: '' });
+          renderAuditTable();
+          triggerAutosave();
+        });
+
+        auditTableBody.addEventListener('input', e => {
+          const idx = e.target.dataset.idx;
+          const field = e.target.dataset.field;
+          if (idx !== undefined && field && state.auditRows[idx]) {
+            state.auditRows[idx][field] = e.target.value;
+            triggerAutosave();
+          }
+        });
+
+        auditTableBody.addEventListener('click', e => {
+          if (e.target.dataset.delAudit !== undefined) {
+            const idx = parseInt(e.target.dataset.delAudit, 10);
+            state.auditRows.splice(idx, 1);
+            renderAuditTable();
+            triggerAutosave();
+          }
+        });
+
+        // Tax Schedule interactions
+        document.getElementById('btnAddTaxAddition').addEventListener('click', () => {
+          state.taxSchedule.additions.push({ desc: '', amount: 0 });
+          renderTaxSchedule();
+          recalculateTax();
+          triggerAutosave();
+        });
+
+        document.getElementById('btnAddTaxDeduction').addEventListener('click', () => {
+          state.taxSchedule.deductions.push({ desc: '', amount: 0 });
+          renderTaxSchedule();
+          recalculateTax();
+          triggerAutosave();
+        });
+
+        taxNetProfit.addEventListener('input', () => { recalculateTax(); triggerAutosave(); });
+        taxRateSelect.addEventListener('change', () => { recalculateTax(); triggerAutosave(); });
+        taxAitTds.addEventListener('input', () => { recalculateTax(); triggerAutosave(); });
+
+        taxAdditionsContainer.addEventListener('input', e => {
+          const descIdx = e.target.dataset.taxAddDesc;
+          const amtIdx = e.target.dataset.taxAddAmt;
+          if (descIdx !== undefined) state.taxSchedule.additions[descIdx].desc = e.target.value;
+          if (amtIdx !== undefined) state.taxSchedule.additions[amtIdx].amount = Number(e.target.value) || 0;
+          recalculateTax();
+          triggerAutosave();
+        });
+
+        taxAdditionsContainer.addEventListener('click', e => {
+          if (e.target.dataset.delTaxAdd !== undefined) {
+            state.taxSchedule.additions.splice(parseInt(e.target.dataset.delTaxAdd, 10), 1);
+            renderTaxSchedule();
+            recalculateTax();
+            triggerAutosave();
+          }
+        });
+
+        taxDeductionsContainer.addEventListener('input', e => {
+          const descIdx = e.target.dataset.taxDedDesc;
+          const amtIdx = e.target.dataset.taxDedAmt;
+          if (descIdx !== undefined) state.taxSchedule.deductions[descIdx].desc = e.target.value;
+          if (amtIdx !== undefined) state.taxSchedule.deductions[amtIdx].amount = Number(e.target.value) || 0;
+          recalculateTax();
+          triggerAutosave();
+        });
+
+        taxDeductionsContainer.addEventListener('click', e => {
+          if (e.target.dataset.delTaxDed !== undefined) {
+            state.taxSchedule.deductions.splice(parseInt(e.target.dataset.delTaxDed, 10), 1);
+            renderTaxSchedule();
+            recalculateTax();
+            triggerAutosave();
+          }
+        });
+
+        // Scratchpad clear
+        document.getElementById('btnClearScratch').addEventListener('click', () => {
+          if (confirm("Clear rough scratchpad?")) {
+            candidateScratchEditor.value = '';
+            triggerAutosave();
+          }
+        });
+
+        // Rubric inputs
+        rubricQuestionsList.addEventListener('input', e => {
+          const qId = e.target.dataset.rubricQ;
+          const fbId = e.target.dataset.feedbackQ;
+          if (qId) {
+            const activeQ = state.questions.find(q => q.id === qId);
+            const maxM = activeQ ? activeQ.marks : 100;
+            const entered = Number(e.target.value) || 0;
+            state.rubricScores[qId] = Math.max(0, Math.min(maxM, entered));
+            if (entered > maxM) {
+              e.target.value = maxM;
+            }
+            recalculateRubricTotal();
+            triggerAutosave();
+          }
+          if (fbId) {
+            state.rubricFeedback[fbId] = e.target.value;
+            triggerAutosave();
+          }
+        });
+
+        // Statutory citations checklist
+        citationChecklistGrid.addEventListener('change', e => {
+          const citId = e.target.dataset.citationId;
+          if (citId) {
+            state.citationsChecked[citId] = e.target.checked;
+            triggerAutosave();
+          }
+        });
+
+        // Exporters
+        document.getElementById('btnExportJson').addEventListener('click', exportDossierJson);
+        document.getElementById('btnExportMarkdown').addEventListener('click', exportDossierMarkdown);
+        document.getElementById('btnPrintDossier').addEventListener('click', () => {
+          preparePrintTranscript();
+          window.print();
+        });
+        window.addEventListener('beforeprint', preparePrintTranscript);
+
+        // Visibility Change for Background Tab Epoch Timer Sync
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible' && state.isTimerRunning) {
+            onTimerTick();
+          }
+        });
+
+        // Modals open/close
+        btnOpenManuals.addEventListener('click', () => modalManuals.classList.add('open'));
+
+        document.querySelectorAll('[data-close-modal]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const modalId = btn.dataset.closeModal;
+            const modal = document.getElementById(modalId);
+            if (modal) modal.classList.remove('open');
+          });
+        });
+
+        // Close modal on escape key
+        window.addEventListener('keydown', e => {
+          if (e.key === 'Escape') {
+            document.querySelectorAll('.modal-backdrop.open').forEach(m => m.classList.remove('open'));
+          }
+        });
+
+        // Close modal on backdrop click
+        document.querySelectorAll('.modal-backdrop').forEach(modal => {
+          modal.addEventListener('click', e => {
+            if (e.target === modal) {
+              modal.classList.remove('open');
+            }
+          });
+        });
+
+        // Splitter Dragging
+        setupSplitter();
+      }
+
+      // ------------------------------------------------------------------------
+      // 16. Smooth Resizable Splitter
+      // ------------------------------------------------------------------------
+      function setupSplitter() {
+        let isDragging = false;
+        deskSplitter.addEventListener('mousedown', e => {
+          isDragging = true;
+          deskSplitter.classList.add('dragging');
+          document.body.style.cursor = 'col-resize';
+          document.querySelectorAll('.pdf-frame').forEach(f => {
+            f.style.pointerEvents = 'none';
+          });
+          e.preventDefault();
+        });
+
+        window.addEventListener('mousemove', e => {
+          if (!isDragging) return;
+          const containerRect = document.getElementById('hallWorkspace').getBoundingClientRect();
+          const offsetX = e.clientX - containerRect.left;
+          const totalWidth = containerRect.width;
+          const pct = Math.max(20, Math.min(80, (offsetX / totalWidth) * 100));
+
+          deskPaneLeft.style.flex = `0 0 ${pct}%`;
+          deskPaneRight.style.flex = '1 1 0%';
+        });
+
+        const stopDragging = () => {
+          if (isDragging) {
+            isDragging = false;
+            deskSplitter.classList.remove('dragging');
+            document.body.style.cursor = '';
+            document.querySelectorAll('.pdf-frame').forEach(f => {
+              f.style.pointerEvents = '';
+            });
+          }
+        };
+
+        window.addEventListener('mouseup', stopDragging);
+        window.addEventListener('blur', stopDragging);
+      }
+
+      // Launch application upon document ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initApp);
+      } else {
+        initApp();
+      }
+
+    })();
+  </script>
+</body>
+</html>
