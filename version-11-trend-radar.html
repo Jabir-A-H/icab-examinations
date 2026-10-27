@@ -1828,13 +1828,13 @@
         <span>13-Diet Examination Chronology (2022-03 through 2026-05)</span>
       </div>
       <div class="timeline-flipper-controls">
-        <button class="btn-flip" onclick="flipDiet('earlier')" title="Navigate Earlier Diet [J]">
-          <span>&larr; Earlier</span>
-          <kbd>J</kbd>
-        </button>
         <button class="btn-flip" onclick="flipDiet('later')" title="Navigate Later Diet [K]">
-          <span>Later &rarr;</span>
+          <span>&larr; Later</span>
           <kbd>K</kbd>
+        </button>
+        <button class="btn-flip" onclick="flipDiet('earlier')" title="Navigate Earlier Diet [J]">
+          <span>Earlier &rarr;</span>
+          <kbd>J</kbd>
         </button>
         <button class="btn-flip" onclick="jumpToDiet('2026-05_May')" title="Jump to Newest Diet (May 2026)">
           <span>Latest (2026-05)</span>
@@ -2441,8 +2441,8 @@
           { id: 'M4', name: 'Emerging Technologies & Digital Transformation', weight: 20, standards: 'Cloud Governance, Fintech, Blockchain, AI Ethics', trend: 'Rising Fast', freqScore: 85, description: 'Multi-cloud governance, automated reconciliations, digital payment gateway compliance, AI algorithm transparency.' }
         ],
         trendNotes: [
-          { diet: '2026-05_May', title: 'ISO 27001 Security Incident & COBIT Evaluation of Cloud ERP', qNum: 'Q1 & Q2', marks: '30m + 25m', summary: 'Data breach response protocol and regulatory notifications; evaluating cloud vendor controls under SOC 2 Type II framework.', moduleIds: ['M2', 'M1'] },
-          { diet: '2025-11_Nov-Dec', title: 'ITGC User Access Controls Review & SOC 2 Type II Vendor Assurance', qNum: 'Q1 & Q3', marks: '30m + 20m', summary: 'Audit findings on ERP segregation of duties conflicts; analyzing SOC 2 Type II carve-out vs inclusive reporting for outsourced SaaS.', moduleIds: ['M3', 'M4'] }
+          { diet: '2024-07_Jul-Aug', title: 'ISO 27001 Security Incident & COBIT Evaluation of Cloud ERP', qNum: 'Q1 & Q2', marks: '30m + 25m', summary: 'Data breach response protocol and regulatory notifications; evaluating cloud vendor controls under SOC 2 Type II framework.', moduleIds: ['M2', 'M1'] },
+          { diet: '2024-03_Mar-Apr', title: 'ITGC User Access Controls Review & SOC 2 Type II Vendor Assurance', qNum: 'Q1 & Q3', marks: '30m + 20m', summary: 'Audit findings on ERP segregation of duties conflicts; analyzing SOC 2 Type II carve-out vs inclusive reporting for outsourced SaaS.', moduleIds: ['M3', 'M4'] }
         ]
       },
       'Strategic Business Management & Leadership': {
@@ -2699,6 +2699,16 @@
         syncDeckDropdowns();
         renderDeck('alpha');
         renderDeck('beta');
+      } else if (state.activePreset === 'manual-vs-exam') {
+        if (state.beta.docType !== 'manual') {
+          state.beta.diet = dietTag;
+          syncDeckDropdowns();
+          renderDeck('beta');
+        } else {
+          state.alpha.diet = dietTag;
+          syncDeckDropdowns();
+          renderDeck('alpha');
+        }
       } else {
         state.alpha.diet = dietTag;
         syncDeckDropdowns();
@@ -2707,11 +2717,12 @@
     }
 
     function setDietDirect(deckId, dietTag) {
-      if (deckId === 'alpha') {
-        state.alpha.diet = dietTag;
-      } else {
-        state.beta.diet = dietTag;
+      const deckState = deckId === 'alpha' ? state.alpha : state.beta;
+      if (deckState.docType === 'manual') {
+        deckState.docType = 'question';
+        deckState.customManual = null;
       }
+      deckState.diet = dietTag;
       syncDeckDropdowns();
       renderDeck(deckId);
       showToast(`Set Deck ${deckId === 'alpha' ? '&alpha;' : '&beta;'} to ${dietTag.replace(/_/g, ' ')}`);
@@ -2937,8 +2948,9 @@
     // ------------------------------------------------------------------------
     function onDeckLevelChange(deckId, newLevel) {
       const isAlpha = deckId === 'alpha';
-      if (isAlpha) state.alpha.level = newLevel;
-      else state.beta.level = newLevel;
+      const deckState = isAlpha ? state.alpha : state.beta;
+      deckState.level = newLevel;
+      deckState.customManual = null;
 
       populateSubjectDropdown(deckId, newLevel, null);
       if (isAlpha && typeof SYLLABUS_RADAR !== 'undefined' && SYLLABUS_RADAR[state.alpha.subject]) {
@@ -2952,22 +2964,25 @@
 
     function onDeckSubjectChange(deckId, newSubj) {
       const isAlpha = deckId === 'alpha';
+      const deckState = isAlpha ? state.alpha : state.beta;
+      deckState.subject = newSubj;
+      deckState.customManual = null;
       if (isAlpha) {
-        state.alpha.subject = newSubj;
         state.radarSubject = newSubj;
         renderRadarContent();
         renderRadarSubjectPills();
-      } else {
-        state.beta.subject = newSubj;
       }
       renderDeck(deckId);
     }
 
     function onDeckDietChange(deckId, newDiet) {
       const isAlpha = deckId === 'alpha';
-      if (isAlpha) state.alpha.diet = newDiet;
-      else state.beta.diet = newDiet;
-
+      const deckState = isAlpha ? state.alpha : state.beta;
+      if (deckState.docType === 'manual') {
+        deckState.docType = 'question';
+        deckState.customManual = null;
+      }
+      deckState.diet = newDiet;
       renderDeck(deckId);
     }
 
@@ -2989,7 +3004,9 @@
     function flipDiet(direction) {
       if (typeof SESSIONS_ORDER === 'undefined') return;
 
-      const currentTag = state.alpha.diet;
+      const currentTag = (state.activePreset === 'manual-vs-exam' && state.alpha.docType === 'manual')
+        ? state.beta.diet
+        : state.alpha.diet;
       const currentIndex = SESSIONS_ORDER.findIndex(s => s.tag === currentTag);
       if (currentIndex === -1) return;
 
@@ -3019,6 +3036,16 @@
         syncDeckDropdowns();
         renderDeck('alpha');
         renderDeck('beta');
+      } else if (state.activePreset === 'manual-vs-exam') {
+        if (state.beta.docType !== 'manual') {
+          state.beta.diet = newDietTag;
+          syncDeckDropdowns();
+          renderDeck('beta');
+        } else {
+          state.alpha.diet = newDietTag;
+          syncDeckDropdowns();
+          renderDeck('alpha');
+        }
       } else {
         state.alpha.diet = newDietTag;
         syncDeckDropdowns();
@@ -3035,6 +3062,14 @@
         const prevIdx = (idx + 1 < SESSIONS_ORDER.length) ? idx + 1 : idx;
         state.beta.diet = SESSIONS_ORDER[prevIdx].tag;
         renderDeck('beta');
+      } else if (state.activePreset === 'q-vs-a') {
+        state.beta.diet = dietTag;
+        renderDeck('beta');
+      } else if (state.activePreset === 'manual-vs-exam') {
+        if (state.beta.docType !== 'manual') {
+          state.beta.diet = dietTag;
+          renderDeck('beta');
+        }
       }
       syncDeckDropdowns();
       renderDeck('alpha');
@@ -3129,6 +3164,8 @@
       state.beta.level = state.alpha.level;
       state.beta.subject = state.alpha.subject;
       state.beta.diet = state.alpha.diet;
+      state.beta.docType = state.alpha.docType;
+      state.beta.customManual = state.alpha.customManual;
       syncDeckDropdowns();
       renderDeck('beta');
       showToast('Synchronized Deck &beta; to match Deck &alpha;');
@@ -3188,6 +3225,12 @@
       }
     }
 
+    function closeRadarDrawer() {
+      if (state.radarDrawerOpen) {
+        toggleRadarDrawer();
+      }
+    }
+
     function renderRadarSubjectPills() {
       const container = document.getElementById('radarSubjectPills');
       if (!container) return;
@@ -3231,7 +3274,7 @@
             <span class="module-weight-tag">${mod.weight}%</span>
           </div>
           <div class="module-progress-bar">
-            <div class="module-progress-fill" style="width: ${mod.weight * 2.5}%;"></div>
+            <div class="module-progress-fill" style="width: ${mod.weight}%;"></div>
           </div>
           <div class="module-meta-row">
             <span class="module-standards-list" title="${mod.standards}">Std: ${mod.standards}</span>
@@ -3320,6 +3363,7 @@
         state.alpha.subject = state.radarSubject;
         state.alpha.diet = dietTag;
         state.alpha.docType = 'question';
+        state.alpha.customManual = null;
         syncDeckDropdowns();
         renderDeck('alpha');
       } else {
@@ -3327,6 +3371,7 @@
         state.beta.subject = state.radarSubject;
         state.beta.diet = dietTag;
         state.beta.docType = 'answer';
+        state.beta.customManual = null;
         syncDeckDropdowns();
         renderDeck('beta');
       }
@@ -3440,6 +3485,12 @@
         state.alpha.customManual = item;
         state.alpha.subject = item.subject;
         state.alpha.level = item.level === 'ALL' ? 'PL' : item.level;
+        if (typeof SYLLABUS_RADAR !== 'undefined' && SYLLABUS_RADAR[item.subject]) {
+          state.radarSubject = item.subject;
+          state.radarSelectedModuleId = null;
+          renderRadarContent();
+          renderRadarSubjectPills();
+        }
         syncDeckDropdowns();
         renderDeck('alpha');
       } else {
@@ -3494,8 +3545,21 @@
         const key = e.key.toLowerCase();
 
         if (e.key === 'Escape') {
+          const manualsModal = document.getElementById('manualsModal');
+          const shortcutsModal = document.getElementById('shortcutsModal');
+          const modalOpen = (manualsModal && manualsModal.classList.contains('open')) ||
+                            (shortcutsModal && shortcutsModal.classList.contains('open'));
+
           closeManualsModal();
           closeShortcutsModal();
+
+          if (!modalOpen) {
+            if (state.radarDrawerOpen) {
+              closeRadarDrawer();
+            } else if (state.workbenchSplit !== '50-50') {
+              setWorkbenchSplit('50-50');
+            }
+          }
           return;
         }
 
@@ -3552,6 +3616,9 @@
         activatePreset,
         setWorkbenchSplit,
         toggleRadarDrawer,
+        closeRadarDrawer,
+        jumpToDiet,
+        setDietDirect,
         resolveDeckDocument,
         loadManualIntoDeck,
         openManualForCurrentSubject,
@@ -3559,7 +3626,9 @@
         onDeckSubjectChange,
         onDeckDietChange,
         setDeckDocType,
-        clearRadarModuleFilter
+        clearRadarModuleFilter,
+        onDietRibbonCardClick,
+        loadExamQuestionFromRadar
       };
     }
   </script>

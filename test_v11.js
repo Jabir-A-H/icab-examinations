@@ -36,8 +36,10 @@ const jsCode = scriptMatch[1];
 
 // Mock minimal browser environment
 global.window = {
+  _keydownHandlers: [],
   addEventListener: (event, handler) => {
     if (event === 'DOMContentLoaded') global.window._onDOMContentLoaded = handler;
+    if (event === 'keydown') global.window._keydownHandlers.push(handler);
   }
 };
 global.document = {
@@ -202,4 +204,173 @@ if (m4Notes.length === 0 || m3Notes.length === 0 || m4Notes.length === m3Notes.l
 }
 console.log(`PASS: Module M4 matched ${m4Notes.length} questions, M3 matched ${m3Notes.length} questions.`);
 
-console.log('--- ALL 13 VERIFICATION GATES PASSED CLEANLY! ---');
+console.log('--- TEST 14: Preset 4 (Manual vs Exam) Hotkey Flipping ---');
+app.activatePreset('manual-vs-exam');
+const initialBetaDiet = app.state.beta.diet;
+app.flipDiet('earlier');
+console.log('Preset 4 Flip earlier: Before =', initialBetaDiet, 'After =', app.state.beta.diet);
+if (app.state.beta.diet === initialBetaDiet || app.state.alpha.docType !== 'manual') {
+  console.error('FAIL: Preset 4 flip failed to update exam deck or modified manual deck docType');
+  process.exit(1);
+}
+console.log('PASS: Preset 4 hotkey flip successfully advanced Deck Beta exam paper.');
+
+console.log('--- TEST 15: Preset 2 (Q vs A) jumpToDiet Sync ---');
+app.activatePreset('q-vs-a');
+app.jumpToDiet('2024-07_Jul-Aug');
+console.log('Preset 2 Jump: Alpha diet =', app.state.alpha.diet, 'Beta diet =', app.state.beta.diet);
+if (app.state.alpha.diet !== '2024-07_Jul-Aug' || app.state.beta.diet !== '2024-07_Jul-Aug') {
+  console.error('FAIL: jumpToDiet did not sync both decks in q-vs-a mode');
+  process.exit(1);
+}
+console.log('PASS: jumpToDiet synchronized both decks in q-vs-a preset.');
+
+console.log('--- TEST 16: syncDecks docType & customManual Sync ---');
+app.state.alpha.docType = 'manual';
+app.state.alpha.customManual = { title: 'Test Custom Manual' };
+app.state.beta.docType = 'question';
+app.state.beta.customManual = null;
+app.syncDecks();
+if (app.state.beta.docType !== 'manual' || !app.state.beta.customManual || app.state.beta.customManual.title !== 'Test Custom Manual') {
+  console.error('FAIL: syncDecks did not copy docType or customManual:', app.state.beta);
+  process.exit(1);
+}
+console.log('PASS: syncDecks synchronized docType and customManual.');
+
+console.log('--- TEST 17: Custom Manual Reset on Subject/Level Change ---');
+app.state.alpha.customManual = { title: 'IVS Volume 1' };
+app.onDeckSubjectChange('alpha', 'Audit & Assurance');
+if (app.state.alpha.customManual !== null) {
+  console.error('FAIL: onDeckSubjectChange did not clear customManual');
+  process.exit(1);
+}
+app.state.beta.customManual = { title: 'IVS Volume 2' };
+app.onDeckLevelChange('beta', 'AL');
+if (app.state.beta.customManual !== null) {
+  console.error('FAIL: onDeckLevelChange did not clear customManual');
+  process.exit(1);
+}
+console.log('PASS: customManual correctly reset to null on level and subject change.');
+
+console.log('--- TEST 18: setDietDirect Resets Manual docType to Question ---');
+app.state.alpha.docType = 'manual';
+app.state.alpha.customManual = { title: 'Some Manual' };
+app.setDietDirect('alpha', '2023-11_Nov-Dec');
+if (app.state.alpha.docType !== 'question' || app.state.alpha.customManual !== null || app.state.alpha.diet !== '2023-11_Nov-Dec') {
+  console.error('FAIL: setDietDirect did not reset manual docType to question:', app.state.alpha);
+  process.exit(1);
+}
+console.log('PASS: setDietDirect reset manual docType to question and updated diet.');
+
+console.log('--- TEST 19: IT Governance Archive Diets Ingestion ---');
+const itgNotes = app.SYLLABUS_RADAR['IT Governance'].trendNotes;
+if (itgNotes[0].diet !== '2024-07_Jul-Aug' || itgNotes[1].diet !== '2024-03_Mar-Apr') {
+  console.error('FAIL: IT Governance trendNotes diets are not archive sittings:', itgNotes);
+  process.exit(1);
+}
+const itgCat = cat.CATALOG['PL']['IT Governance'];
+const hasJulAug = itgCat.some(s => s.session_tag === '2024-07_Jul-Aug');
+const hasMarApr = itgCat.some(s => s.session_tag === '2024-03_Mar-Apr');
+if (!hasJulAug || !hasMarApr) {
+  console.error('FAIL: IT Governance archive diets do not resolve in CATALOG');
+  process.exit(1);
+}
+console.log('PASS: IT Governance trendNotes point to valid archive catalog diets (2024-07 & 2024-03).');
+
+console.log('--- TEST 20: Module Progress Bar 1:1 Scaling & Flipper Arrow Layout ---');
+if (content.includes('style="width: ${mod.weight * 2.5}%;"')) {
+  console.error('FAIL: 2.5x multiplier still present in module progress bar!');
+  process.exit(1);
+}
+if (!content.includes('style="width: ${mod.weight}%;"')) {
+  console.error('FAIL: 1:1 module weight progress bar missing!');
+  process.exit(1);
+}
+if (!content.includes('&larr; Later') || !content.includes('Earlier &rarr;')) {
+  console.error('FAIL: Timeline flipper arrows not aligned with chronology!');
+  process.exit(1);
+}
+console.log('PASS: 1:1 progress scaling and chronological timeline flipper order verified.');
+
+console.log('--- TEST 21: Escape Key Handling (Radar Drawer & Fullscreen Split) ---');
+if (global.window._onDOMContentLoaded) {
+  global.window._onDOMContentLoaded();
+}
+if (global.window._keydownHandlers.length === 0) {
+  console.error('FAIL: Keydown handler not registered!');
+  process.exit(1);
+}
+const fireEscape = () => {
+  global.window._keydownHandlers.forEach(h => h({ key: 'Escape', target: { tagName: 'BODY' }, preventDefault: () => {} }));
+};
+
+// Sub-test A: Close Radar Drawer if open
+app.state.radarDrawerOpen = true;
+fireEscape();
+if (app.state.radarDrawerOpen !== false) {
+  console.error('FAIL: Escape did not close open Radar Drawer!');
+  process.exit(1);
+}
+
+// Sub-test B: Reset fullscreen split to 50-50 when drawer is closed
+app.state.radarDrawerOpen = false;
+app.state.workbenchSplit = 'full-alpha';
+fireEscape();
+if (app.state.workbenchSplit !== '50-50') {
+  console.error('FAIL: Escape did not reset fullscreen split to 50-50!');
+  process.exit(1);
+}
+console.log('PASS: Escape key correctly closes Radar Drawer and resets fullscreen focus to 50-50.');
+
+console.log('--- TEST 22: onDietRibbonCardClick in Preset 4 (Manual vs Exam) ---');
+app.activatePreset('manual-vs-exam');
+app.onDietRibbonCardClick('2024-07_Jul-Aug');
+if (app.state.beta.diet !== '2024-07_Jul-Aug' || app.state.alpha.docType !== 'manual') {
+  console.error('FAIL: onDietRibbonCardClick did not update Deck Beta diet in manual-vs-exam preset:', app.state);
+  process.exit(1);
+}
+// Swapped case
+app.swapDecks();
+app.onDietRibbonCardClick('2023-11_Nov-Dec');
+if (app.state.alpha.diet !== '2023-11_Nov-Dec' || app.state.beta.docType !== 'manual') {
+  console.error('FAIL: onDietRibbonCardClick did not update Deck Alpha diet when swapped in manual-vs-exam preset:', app.state);
+  process.exit(1);
+}
+console.log('PASS: onDietRibbonCardClick correctly updates exam deck in Preset 4 both default and swapped.');
+
+console.log('--- TEST 23: onDeckDietChange Resets Manual docType to Question ---');
+app.state.alpha.docType = 'manual';
+app.state.alpha.customManual = { title: 'Test Manual' };
+app.onDeckDietChange('alpha', '2025-05_May');
+if (app.state.alpha.docType !== 'question' || app.state.alpha.customManual !== null || app.state.alpha.diet !== '2025-05_May') {
+  console.error('FAIL: onDeckDietChange did not reset manual docType to question:', app.state.alpha);
+  process.exit(1);
+}
+console.log('PASS: onDeckDietChange reset manual docType to question and cleared customManual.');
+
+console.log('--- TEST 24: loadExamQuestionFromRadar Clears customManual ---');
+app.state.alpha.customManual = { title: 'Stale Manual' };
+app.state.radarSubject = 'Financial Accounting & Reporting';
+app.loadExamQuestionFromRadar('2026-05_May', 'alpha');
+if (app.state.alpha.customManual !== null) {
+  console.error('FAIL: loadExamQuestionFromRadar did not clear customManual on alpha:', app.state.alpha);
+  process.exit(1);
+}
+app.state.beta.customManual = { title: 'Stale Manual Beta' };
+app.loadExamQuestionFromRadar('2025-11_Nov-Dec', 'beta');
+if (app.state.beta.customManual !== null) {
+  console.error('FAIL: loadExamQuestionFromRadar did not clear customManual on beta:', app.state.beta);
+  process.exit(1);
+}
+console.log('PASS: loadExamQuestionFromRadar cleanly resets customManual on both decks.');
+
+console.log('--- TEST 25: loadManualIntoDeck Syncs radarSubject for Syllabus Papers ---');
+const crManual = manuals.find(m => m.subject === 'Corporate Reporting');
+app.loadManualIntoDeck('alpha', encodeURIComponent(JSON.stringify(crManual)));
+if (app.state.radarSubject !== 'Corporate Reporting') {
+  console.error('FAIL: loadManualIntoDeck did not sync radarSubject for Corporate Reporting:', app.state.radarSubject);
+  process.exit(1);
+}
+console.log('PASS: loadManualIntoDeck correctly syncs radarSubject for syllabus manuals.');
+
+console.log('--- ALL 25 VERIFICATION GATES PASSED CLEANLY! ---');

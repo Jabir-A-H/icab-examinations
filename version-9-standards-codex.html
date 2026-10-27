@@ -3864,15 +3864,18 @@
         renderSidebarList();
         
         // Update mastery button classes in-place without re-rendering dossier
-        document.querySelectorAll('.mastery-option[data-set-mastery]').forEach(btn => {
-          const m = btn.getAttribute('data-set-mastery');
-          btn.classList.remove('active-unstudied', 'active-reviewing', 'active-mastered');
-          if (m === status) {
-            if (status === 'UNSTUDIED') btn.classList.add('active-unstudied');
-            else if (status === 'REVIEWING') btn.classList.add('active-reviewing');
-            else if (status === 'MASTERED') btn.classList.add('active-mastered');
-          }
-        });
+        const currentStd = STANDARDS_DATA.find(x => x.id === activeStandardId);
+        if (currentStd && currentStd.code === code) {
+          document.querySelectorAll('.mastery-option[data-set-mastery]').forEach(btn => {
+            const m = btn.getAttribute('data-set-mastery');
+            btn.classList.remove('active-unstudied', 'active-reviewing', 'active-mastered');
+            if (m === status) {
+              if (status === 'UNSTUDIED') btn.classList.add('active-unstudied');
+              else if (status === 'REVIEWING') btn.classList.add('active-reviewing');
+              else if (status === 'MASTERED') btn.classList.add('active-mastered');
+            }
+          });
+        }
       }
       function getMemo(code) {
         return localStorage.getItem('standards_memo_' + code) || '';
@@ -3993,9 +3996,19 @@
         }
 
         // Only switch activeStandardId if the active standard is eliminated by the filter
+        const desk = document.getElementById('dossierDesk');
+        const deskShowingEmpty = desk && !desk.querySelector('.dossier-hero');
+        const paneLeftContent = document.getElementById('paneLeftContent');
+        const paneLeftShowingEmpty = splitDeskActive && (!paneLeftContent || !paneLeftContent.querySelector('.condensed-dossier-wrap'));
+
         const currentActiveStillPresent = list.some(s => s.id === activeStandardId);
         if (!currentActiveStillPresent) {
           activeStandardId = list[0].id;
+          renderDossier(activeStandardId);
+          if (splitDeskActive) {
+            refreshSplitDeskForActiveStandard();
+          }
+        } else if (deskShowingEmpty || paneLeftShowingEmpty) {
           renderDossier(activeStandardId);
           if (splitDeskActive) {
             refreshSplitDeskForActiveStandard();
@@ -4062,6 +4075,11 @@
       }
       window.addEventListener('beforeunload', flushActiveMemos);
       window.addEventListener('pagehide', flushActiveMemos);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') flushActiveMemos();
+      });
+
+      let splitDeskLastStandardId = null;
 
       function refreshSplitDeskForActiveStandard() {
         if (!splitDeskActive) return;
@@ -4070,6 +4088,7 @@
         if (s && s.manualRelPath) {
           openDocumentInSplitPane('paneRight', 'manual', s.manualRelPath, s.code + ' Study Manual');
         }
+        splitDeskLastStandardId = activeStandardId;
       }
 
       function selectStandard(id) {
@@ -4533,6 +4552,7 @@
       }
 
       function renderCondensedDossierView(s, container) {
+        if (!s || !container) return;
         let principlesHtml = '';
         (s.corePrinciples || []).forEach(p => {
           principlesHtml += `
@@ -4645,6 +4665,7 @@
       // 7. Split Desk Dual-Pane Engine
       // ------------------------------------------------------------------------
       function openSplitDesk() {
+        flushActiveMemos();
         splitDeskActive = true;
         const desk = document.getElementById('dossierDesk');
         if (desk) desk.style.display = 'none';
@@ -4653,17 +4674,20 @@
         document.getElementById('btnToggleSplitDesk').classList.add('active');
         document.getElementById('btnSplitDeskLabel').textContent = 'Exit Split Desk';
         
-        // Ensure default documents are loaded if pane is empty
+        // Ensure default documents are loaded or re-synced if standard changed
         const paneLeftContent = document.getElementById('paneLeftContent');
-        if (!paneLeftContent.hasChildNodes() || paneLeftContent.innerHTML.trim() === '') {
-          loadDossierIntoPaneLeft();
-        }
+        const hasLeftContent = paneLeftContent && paneLeftContent.hasChildNodes() && paneLeftContent.innerHTML.trim() !== '';
 
-        const paneRightContent = document.getElementById('paneRightContent');
-        if (!paneRightContent.hasChildNodes() || paneRightContent.innerHTML.trim() === '') {
-          const s = STANDARDS_DATA.find(x => x.id === activeStandardId) || STANDARDS_DATA[0];
-          openDocumentInSplitPane('paneRight', 'manual', s.manualRelPath, s.code + ' Study Manual');
+        if (!hasLeftContent || splitDeskLastStandardId !== activeStandardId) {
+          refreshSplitDeskForActiveStandard();
+        } else {
+          const paneRightContent = document.getElementById('paneRightContent');
+          if (!paneRightContent.hasChildNodes() || paneRightContent.innerHTML.trim() === '') {
+            const s = STANDARDS_DATA.find(x => x.id === activeStandardId) || STANDARDS_DATA[0];
+            openDocumentInSplitPane('paneRight', 'manual', s.manualRelPath, s.code + ' Study Manual');
+          }
         }
+        splitDeskLastStandardId = activeStandardId;
       }
 
       function closeSplitDesk() {

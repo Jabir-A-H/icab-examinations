@@ -1430,7 +1430,7 @@
         </button>
 
         <!-- CA Tick-Mark Keypad Floating Bar Toggle -->
-        <button class="btn-header" id="btn-toggle-tickmarks" title="Toggle CA Tick-Mark Keypad">
+        <button class="btn-header active" id="btn-toggle-tickmarks" title="Toggle CA Tick-Mark Keypad">
           <span>✓^</span>
           <span>Tick Marks</span>
         </button>
@@ -2117,7 +2117,7 @@
           csv += [clean(r.ref), clean(r.area), clean(r.risk), clean(r.tests), r.balance || 0, clean(r.conclusion), clean(r.marks)].join(',') + '\n';
         });
 
-        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -2259,26 +2259,28 @@
       function handleCalcOp(op) {
         const val = parseFloat(CALC.currentInput) || 0;
         
-        if (CALC.pendingOp && !CALC.resetNextInput) {
-          executeCalcEquals();
-        } else {
-          CALC.accumulator = val;
-        }
-
-        CALC.pendingOp = op;
-        CALC.resetNextInput = true;
-        
         let symbol = '+';
         if (op === 'sub') symbol = '-';
         if (op === 'mul') symbol = '×';
         if (op === 'div') symbol = '÷';
 
-        addTapeEntry('Item', val, symbol, false);
+        if (CALC.pendingOp && !CALC.resetNextInput) {
+          executeCalcEquals();
+        } else if (!CALC.pendingOp) {
+          CALC.accumulator = val;
+          addTapeEntry('Item', val, symbol, false);
+        }
+
+        CALC.pendingOp = op;
+        CALC.resetNextInput = true;
       }
 
       function executeCalcEquals() {
         const val = parseFloat(CALC.currentInput) || 0;
         if (!CALC.pendingOp) return;
+
+        // Print current input operand to tape before printing the Cast Total line
+        addTapeEntry('Item', val, '', false);
 
         let result = CALC.accumulator;
         if (CALC.pendingOp === 'add') result = CALC.accumulator + val;
@@ -2352,13 +2354,19 @@
         // Copy Tape to Active Note
         document.getElementById('btn-tape-to-notes').addEventListener('click', () => {
           let tapeText = 'Tape Cast: ' + Number(CALC.currentInput).toLocaleString() + ' ^=';
-          if (STATE.activeInput) {
-            STATE.activeInput.value += ' [' + tapeText + ']';
-            STATE.activeInput.dispatchEvent(new Event('input'));
-            showToast('Appended calculation tape to active note');
+          if (STATE.activeInput && document.contains(STATE.activeInput)) {
+            if (STATE.activeInput.type === 'number') {
+              STATE.activeInput.value = Number(CALC.currentInput).toFixed(2);
+              STATE.activeInput.dispatchEvent(new Event('input'));
+              showToast('Set balance from calculation tape');
+            } else {
+              STATE.activeInput.value += ' [' + tapeText + ']';
+              STATE.activeInput.dispatchEvent(new Event('input'));
+              showToast('Appended calculation tape to active note');
+            }
           } else {
             if (navigator.clipboard && navigator.clipboard.writeText) {
-              navigator.clipboard.writeText(tapeText);
+              navigator.clipboard.writeText(tapeText).catch(() => {});
             }
             showToast('Copied tape total to clipboard');
           }
@@ -2368,7 +2376,7 @@
         document.getElementById('btn-copy-tape-text').addEventListener('click', () => {
           const lines = CALC.tapeEntries.map(e => (e.op || '') + ' ' + e.label + ': ' + e.val).join('\n');
           if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(lines || 'Empty Tape');
+            navigator.clipboard.writeText(lines || 'Empty Tape').catch(() => {});
           }
           showToast('Copied calculation tape transcript');
         });
@@ -2437,31 +2445,35 @@
         return 'audit_review_points_' + STATE.currentPaperCode + '_' + STATE.currentDietTag;
       }
 
+      function getDefaultReviewPoints() {
+        return [
+          {
+            id: 1,
+            ref: 'REV-01',
+            query: 'Verify bank confirmation letter covers all 3 branches in Dhaka and Chittagong with authorized partner signature.',
+            reviewer: 'Senior Manager, FCA',
+            date: '2026-10-25',
+            cleared: false
+          },
+          {
+            id: 2,
+            ref: 'REV-02',
+            query: 'Check IAS 12 deferred tax computation reflects applicable statutory corporate tax rate under Bangladesh Finance Act.',
+            reviewer: 'Engagement Partner',
+            date: '2026-10-26',
+            cleared: true
+          }
+        ];
+      }
+
       function loadReviewPoints() {
         const key = getReviewStorageKey();
         const saved = localStorage.getItem(key);
         let list = [];
         if (saved) {
-          try { list = JSON.parse(saved); } catch (e) { list = []; }
+          try { list = JSON.parse(saved) || getDefaultReviewPoints(); } catch (e) { list = getDefaultReviewPoints(); }
         } else {
-          list = [
-            {
-              id: 1,
-              ref: 'REV-01',
-              query: 'Verify bank confirmation letter covers all 3 branches in Dhaka and Chittagong with authorized partner signature.',
-              reviewer: 'Senior Manager, FCA',
-              date: '2026-10-25',
-              cleared: false
-            },
-            {
-              id: 2,
-              ref: 'REV-02',
-              query: 'Check IAS 12 deferred tax computation reflects applicable statutory corporate tax rate under Bangladesh Finance Act.',
-              reviewer: 'Engagement Partner',
-              date: '2026-10-26',
-              cleared: true
-            }
-          ];
+          list = getDefaultReviewPoints();
         }
         renderReviewPoints(list);
       }
@@ -2528,8 +2540,14 @@
           if (!q) return;
 
           const key = getReviewStorageKey();
-          let list = [];
-          try { list = JSON.parse(localStorage.getItem(key)) || []; } catch (e) { list = []; }
+          let list = null;
+          const saved = localStorage.getItem(key);
+          if (saved !== null) {
+            try { list = JSON.parse(saved); } catch (e) { list = null; }
+          }
+          if (!list || !Array.isArray(list)) {
+            list = getDefaultReviewPoints();
+          }
 
           list.push({
             id: Date.now(),
@@ -3267,6 +3285,9 @@
 
             if (isSigned && matchesQuery) {
               wrap.style.display = 'block';
+              wrap.querySelectorAll('.tree-leaf-item').forEach(leaf => {
+                leaf.style.display = 'flex';
+              });
               const parentSublist = wrap.closest('.tree-sublist');
               if (parentSublist) parentSublist.classList.add('open');
               const parentHeader = parentSublist ? parentSublist.previousElementSibling : null;
@@ -3289,6 +3310,10 @@
         });
 
         if (q) {
+          subjectWraps.forEach(wrap => {
+            wrap.style.display = 'none';
+          });
+
           // Search query active: open matching ancestor sublists so results are visible
           leaves.forEach(leaf => {
             const text = leaf.textContent.toLowerCase();
@@ -3316,8 +3341,21 @@
             const text = wrap.textContent.toLowerCase();
             if (text.includes(q)) {
               wrap.style.display = 'block';
+              wrap.querySelectorAll('.tree-leaf-item').forEach(leaf => {
+                leaf.style.display = 'flex';
+              });
               const parentSublist = wrap.closest('.tree-sublist');
               if (parentSublist) parentSublist.classList.add('open');
+              let parent = wrap.parentElement;
+              while (parent && parent.id !== 'drawer-tree') {
+                if (parent.classList.contains('tree-sublist')) {
+                  parent.classList.add('open');
+                  if (parent.previousElementSibling && parent.previousElementSibling.classList.contains('tree-node-parent')) {
+                    parent.previousElementSibling.classList.add('expanded');
+                  }
+                }
+                parent = parent.parentElement;
+              }
             }
           });
         } else {
@@ -3328,6 +3366,24 @@
           subjectWraps.forEach(wrap => {
             wrap.style.display = 'block';
           });
+
+          // Restore diet accordion folders so only the active session (Diet May 2026) is expanded by default
+          const cafSublist = document.querySelector('.tree-group[data-category="caf"] > .tree-sublist');
+          if (cafSublist) {
+            const dietHeaders = cafSublist.querySelectorAll(':scope > .tree-node-parent');
+            const dietSublists = cafSublist.querySelectorAll(':scope > .tree-sublist');
+            dietSublists.forEach((sub, sIdx) => {
+              const header = dietHeaders[sIdx];
+              const isDefaultActive = (sIdx === 0 || (header && header.textContent.includes('May 2026')));
+              if (isDefaultActive) {
+                sub.classList.add('open');
+                if (header) header.classList.add('expanded');
+              } else {
+                sub.classList.remove('open');
+                if (header) header.classList.remove('expanded');
+              }
+            });
+          }
         }
       }
 
